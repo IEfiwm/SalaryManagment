@@ -1,0 +1,290 @@
+﻿using Domain.Entities.Base.Identity;
+using Domain.Entities.Basic;
+using Domain.Entities.Data;
+using Infrastructure.Repositories.Application;
+using Infrastructure.Repositories.Application.Basic;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Web.Controllers;
+
+namespace Web.Areas.Attendance.Controllers
+{
+    [Area("Attendance")]
+    public class ExcelController : BaseController<Imported>
+    {
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        private readonly IimportedRepository _repository;
+
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        private readonly IBankAccountRepository _bankAccountRepository;
+
+        public ExcelController(IHostingEnvironment hostingEnvironment,
+            IimportedRepository repository,
+            UserManager<ApplicationUser> userManager,
+            IBankAccountRepository bankAccountRepository)
+        {
+            _hostingEnvironment = hostingEnvironment;
+            _repository = repository;
+            _userManager = userManager;
+            _bankAccountRepository = bankAccountRepository;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public async Task<bool> ImportPersonnel()
+        {
+            try
+            {
+                IFormFile file = Request.Form.Files[0];
+
+                string folderName = "UploadExcel";
+
+                string webRootPath = _hostingEnvironment.WebRootPath;
+
+                string newPath = Path.Combine(webRootPath, folderName);
+
+                if (!Directory.Exists(newPath))
+                {
+                    Directory.CreateDirectory(newPath);
+                }
+
+                if (file.Length > 0)
+                {
+                    string sFileExtension = Path.GetExtension(file.FileName).ToLower();
+
+                    ISheet sheet;
+
+                    string fullPath = Path.Combine(newPath, file.FileName);
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+
+                        stream.Position = 0;
+
+                        if (sFileExtension == ".xls")
+                        {
+                            HSSFWorkbook hssfwb = new HSSFWorkbook(stream); //This will read the Excel 97-2000 formats  
+
+                            sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook  
+                        }
+
+                        else
+                        {
+                            XSSFWorkbook hssfwb = new XSSFWorkbook(stream); //This will read 2007 Excel format  
+
+                            sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook   
+                        }
+
+                        for (int j = 1; j < sheet.LastRowNum; j++)
+                        {
+                            var row = sheet.GetRow(j);
+
+                            //DateTime dt = new DateTime(1391, 4, 7, new PersianCalendar());
+                            var bankaccount = await _bankAccountRepository.InsertAndSaveAsync(new BankAccount
+                            {
+                                AccountNumber = row?.GetCell(14)?.ToString(),
+                                Title = row?.GetCell(15)?.ToString(),
+                                IsDeleted = false
+                            });
+
+                            var user = new ApplicationUser
+                            {
+                                PersonnelCode = row?.GetCell(1)?.ToString(),
+                                UserName = row?.GetCell(1)?.ToString(),
+                                NationalCode = row?.GetCell(2)?.ToString(),
+                                InsuranceCode = row?.GetCell(3)?.ToString(),
+                                FirstName = row?.GetCell(4)?.ToString(),
+                                LastName = row?.GetCell(5)?.ToString(),
+                                FatherName = row?.GetCell(6)?.ToString(),
+                                Birthday = Convert.ToDateTime(row?.GetCell(7)?.ToString()),
+                                BirthPlace = row?.GetCell(8)?.ToString(),
+                                IdentityNumber = row?.GetCell(9)?.ToString(),
+                                IdentitySerialNumber = row?.GetCell(10)?.ToString(),
+                                Nationality = row?.GetCell(11)?.ToString(),
+                                DegreeOfEducation = row?.GetCell(12)?.ToString(),
+                                JobTitle = row?.GetCell(13)?.ToString(),
+                                BankAccountRef = bankaccount,
+                                NumberOfChildren = Convert.ToByte(row?.GetCell(16)?.ToString()),
+                                DailySalary = Convert.ToInt32(row?.GetCell(17)?.ToString()),
+                                DailyBaseYear = Convert.ToInt32(row?.GetCell(18)?.ToString()),
+                                FoodAndHouseRight = Convert.ToInt32(row?.GetCell(19)?.ToString()),
+                                WorkerRight = Convert.ToInt32(row.GetCell(20)?.ToString()),
+                                ChildrenRight = Convert.ToInt32(row?.GetCell(21)?.ToString()),
+                                MonthlySalary = Convert.ToInt32(row?.GetCell(22)?.ToString()),
+                                MonthlyBaseYear = Convert.ToInt32(row?.GetCell(23)?.ToString()),
+                                Address = row?.GetCell(24)?.ToString(),
+                                IsDeleted = false,
+                                IsActive = true,
+                                IsProfileCompleted = true,
+                                IsBlocked = false
+                            };
+                            var result = await _userManager.CreateAsync(user, row?.GetCell(2)?.ToString());
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (System.Exception e)
+            {
+                _notify.Error("اضافه کردن فایل با خطا مواجعه شد.");
+
+                return false;
+            }
+        }
+
+        public async Task<bool> ImportAttendances()
+        {
+            try
+            {
+                IFormFile file = Request.Form.Files[0];
+
+                string folderName = "UploadExcel";
+
+                string webRootPath = _hostingEnvironment.WebRootPath;
+
+                string newPath = Path.Combine(webRootPath, folderName);
+
+                if (!Directory.Exists(newPath))
+                {
+                    Directory.CreateDirectory(newPath);
+                }
+
+                if (file.Length > 0)
+                {
+                    string sFileExtension = Path.GetExtension(file.FileName).ToLower();
+
+                    ISheet sheet;
+
+                    string fullPath = Path.Combine(newPath, file.FileName);
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+
+                        stream.Position = 0;
+
+                        if (sFileExtension == ".xls")
+                        {
+                            HSSFWorkbook hssfwb = new HSSFWorkbook(stream); //This will read the Excel 97-2000 formats  
+
+                            sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook  
+                        }
+
+                        else
+                        {
+                            XSSFWorkbook hssfwb = new XSSFWorkbook(stream); //This will read 2007 Excel format  
+
+                            sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook   
+                        }
+
+                        for (int j = 1; j < sheet.LastRowNum; j++)
+                        {
+                            var row = sheet.GetRow(j);
+
+                            var model = new Imported
+                            {
+                                PersonnelCode = row?.GetCell(0)?.ToString(),
+                                Name = row?.GetCell(1)?.ToString(),
+                                FamilyName = row?.GetCell(2)?.ToString(),
+                                JobTitle = row?.GetCell(3)?.ToString(),
+                                Province = row?.GetCell(4)?.ToString(),
+                                AccountNumber = row?.GetCell(5)?.ToString(),
+                                NationalCode = row?.GetCell(6)?.ToString(),
+                                InsuranceNumber = row?.GetCell(7)?.ToString(),
+                                ServiceLocation = row?.GetCell(8)?.ToString(),
+                                DegreeEducation = row?.GetCell(9)?.ToString(),
+                                DurationOperation = row?.GetCell(10)?.ToString(),
+                                OvertimeworkingTime = row?.GetCell(11)?.ToString(),
+                                NightworkingTime = row?.GetCell(12)?.ToString(),
+                                HolidayworkingTime = row?.GetCell(13)?.ToString(),
+                                MissionTime = row?.GetCell(14)?.ToString(),
+                                FoodTime = row?.GetCell(15)?.ToString(),
+                                NumberChildren = row?.GetCell(16)?.ToString(),
+                                Salary = row?.GetCell(17)?.ToString(),
+                                SeveranceDaily = row?.GetCell(18)?.ToString(),
+                                DailyPay = row?.GetCell(19)?.ToString(),
+                                FoodAndHousingRight = row?.GetCell(20)?.ToString(),
+                                WorkerRight = row?.GetCell(21)?.ToString(),
+                                OvertimePay = row?.GetCell(22)?.ToString(),
+                                MonthlyPay = row?.GetCell(23)?.ToString(),
+                                OvertimeworkingPay = row?.GetCell(24)?.ToString(),
+                                ChildrenRightPay = row?.GetCell(25)?.ToString(),
+                                HouseRightPay = row?.GetCell(26)?.ToString(),
+                                WorkerRightPay = row?.GetCell(27)?.ToString(),
+                                NightworkingPay = row?.GetCell(28)?.ToString(),
+                                HolidayworkingPay = row?.GetCell(29)?.ToString(),
+                                MissionPay = row?.GetCell(30)?.ToString(),
+                                FoodPay = row?.GetCell(31)?.ToString(),
+                                Other01 = row?.GetCell(32)?.ToString(),
+                                Other02 = row?.GetCell(33)?.ToString(),
+                                Disparity = row?.GetCell(34)?.ToString(),
+                                PreviousReceipt = row?.GetCell(35)?.ToString(),
+                                SumSalaryAndBenefit = row?.GetCell(36)?.ToString(),
+                                TaxationPay = row?.GetCell(37)?.ToString(),
+                                InsurancePay = row?.GetCell(38)?.ToString(),
+                                Insurance7Percent = row?.GetCell(39)?.ToString(),
+                                Taxation = row?.GetCell(40)?.ToString(),
+                                HelpPay = row?.GetCell(41)?.ToString(),
+                                Absence = row?.GetCell(42)?.ToString(),
+                                Debt = row?.GetCell(43)?.ToString(),
+                                OtherDeductions = row?.GetCell(44)?.ToString(),
+                                SumDeductions = row?.GetCell(45)?.ToString(),
+                                PureIncome = row?.GetCell(46)?.ToString(),
+                                Year = row?.GetCell(47)?.ToString(),
+                                Month = row?.GetCell(48)?.ToString(),
+                                SeveranceMonthly = row?.GetCell(49)?.ToString(),
+                                ShiftWorkTime = row?.GetCell(50)?.ToString(),
+                                ShiftWorkPay = row?.GetCell(51)?.ToString(),
+                                SupplementaryInsuranceDeduction = row?.GetCell(52)?.ToString(),
+                                RewardTime = row?.GetCell(53)?.ToString(),
+                                RewardPay = row?.GetCell(54)?.ToString(),
+                                YearsPay = row?.GetCell(55)?.ToString(),
+                                FestalPay = row?.GetCell(56)?.ToString(),
+                                BasicOverTimePay = row?.GetCell(57)?.ToString(),
+                                SupplementaryInsuranceSupervisor = row?.GetCell(58)?.ToString(),
+                                SupplementaryInsuranceForDependents = row?.GetCell(59)?.ToString(),
+                                NonDependentSupplementaryInsurance = row?.GetCell(60)?.ToString(),
+                                WelfareCostPay = row?.GetCell(61)?.ToString(),
+                                TransportationPay = row?.GetCell(62)?.ToString(),
+                                DelayedTime = row?.GetCell(63)?.ToString(),
+                                InstitutionaLoan = row?.GetCell(64)?.ToString(),
+                                SamanLoan = row?.GetCell(65)?.ToString(),
+                                DelayedTransportationPay = row?.GetCell(66)?.ToString(),
+                                DelayedSupplementaryInsuranceDeduction = row?.GetCell(67)?.ToString(),
+                                WelfareAllowancePay = row?.GetCell(68)?.ToString(),
+                                PerformancePay = row?.GetCell(69)?.ToString(),
+                            };
+
+                            await _repository.InsertAsync(model);
+                        }
+                        if (_repository.SaveChanges() > 0)
+                            _notify.Success("فایل با موفقیت در سیستم اضافه شد.");
+                        else
+                            _notify.Error("اضافه کردن فایل با خطا مواجعه شد.");
+                    }
+                }
+                return true;
+            }
+            catch (System.Exception e)
+            {
+                _notify.Error("اضافه کردن فایل با خطا مواجعه شد.");
+
+                return false;
+            }
+        }
+    }
+}

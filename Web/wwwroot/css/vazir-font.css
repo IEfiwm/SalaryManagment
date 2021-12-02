@@ -1,0 +1,22 @@
+﻿@font-face {
+    font-family: 'vazir';
+    src: url('/lib/vazir/Vazir.ttf');
+}
+
+@font-face {
+    font-family: 'vazir-bold';
+    src: url('/lib/vazir/Vazir-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'vazir-light';
+    src: url('/lib/vazir/Vazir-Light.ttf');
+}
+
+div, p {
+    font-family: vazir !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: vazir-bold !important;
+}

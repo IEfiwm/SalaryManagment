@@ -1,0 +1,95 @@
+﻿@*@page
+@model Web.Areas.Identity.Pages.Account.AuditLogModel
+
+@{
+    ViewData["Title"] = localizer["Audit Log"];
+    ViewData["Caption"] = localizer["View your Recent 250 Logs here"];
+}
+<div class="card">
+    <div id="viewAll" class="card-body table-responsive">
+        <table class="table table-striped" id="logTable">
+            <thead>
+                <tr>
+                    <th>
+                        @localizer["Id"]
+                    </th>
+                    <th>
+                        @localizer["Date"]
+                    </th>
+                    <th>
+                        @localizer["Action"]
+                    </th>
+                    <th>
+                        @localizer["Module"]
+                    </th>
+                    <th>
+                        @localizer["Key"]
+                    </th>
+                    <th>
+                        @localizer["Affected Columns"]
+                    </th>
+                    <th>
+                        @localizer["Old Values"]
+                    </th>
+                    <th>
+                        @localizer["New Values"]
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.AuditLogResponses)
+                {
+                <tr>
+                    <td>
+                        @user.Id
+                    </td>
+                    <td>
+                        <a>
+                            <small class="badge badge-warning"><i class="far fa-clock"></i> Universal</small> @user.DateTime.ToString("dd/MM/yyyy h:mm:ss tt")
+                        </a>
+                        <br>
+                        <small>
+
+                            @{
+                                DateTime runtimeKnowsThisIsUtc = DateTime.SpecifyKind(user.DateTime, DateTimeKind.Utc);
+                                DateTime localVersion = runtimeKnowsThisIsUtc.ToLocalTime();
+                            }
+                            <small class="badge badge-success"><i class="far fa-clock"></i> Local</small> @localVersion.ToString("dd/MM/yyyy h:mm:ss tt")
+                        </small>
+                    </td>
+                    <td>
+                        @user.Type
+                    </td>
+                    <td>
+                        @user.TableName
+                    </td>
+                    <td>
+                        @user.PrimaryKey
+                    </td>
+                    <td>
+                        @user.AffectedColumns
+                    </td>
+                    <td>
+                        @user.OldValues
+                    </td>
+                    <td>
+                        @user.NewValues
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#logTable").DataTable({
+
+                "order": [[0, "desc"]]
+            });
+        });
+    </script>
+}*@

@@ -1,0 +1,46 @@
+﻿@using Web.Views.Shared.Components.Footer;
+@using Web.Views.Shared.Components.Title;
+@using Web.Views.Shared.Components.Sidebar;
+@using Web.Views.Shared.Components.Header;
+@using Web.Views.Shared.Components.Logout;
+@using Web.Views.Shared.Components.FormModal;
+@using Web.Views.Shared.Components.ImageModal;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>کوشا @(ViewBag?.Title != null ? $" | {ViewBag?.Title}" : "")</title>
+    <partial name="_Styles" />
+</head>
+<body class="hold-transition sidebar-mini">
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section"></div>
+    </div>
+    <div class="wrapper">
+        @(await Component.InvokeAsync<HeaderViewComponent>())
+        @(await Component.InvokeAsync<SidebarViewComponent>())
+        <div class="content-wrapper" id="contentWrapper">
+            <div class="content">
+                <div class="container-fluid">
+                    @(await Component.InvokeAsync<TitleViewComponent>())
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+        @(await Component.InvokeAsync<FooterViewComponent>())
+        @(await Component.InvokeAsync<LogoutViewComponent>())
+        @(await Component.InvokeAsync<FormModalViewComponent>())
+        @(await Component.InvokeAsync<ImageModalViewComponent>())
+        @*<partial name="AdminLTE/_LogoutModal" />
+            <partial name="AdminLTE/Modals/_FormModal" />
+            <partial name="AdminLTE/_ImageModal" />*@
+    </div>
+    <partial name="_Scripts" />
+    @await Component.InvokeAsync("Notyf")
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
