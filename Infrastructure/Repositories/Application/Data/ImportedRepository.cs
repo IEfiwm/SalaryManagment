@@ -5,11 +5,11 @@ using Infrastructure.Repositories.Base;
 
 namespace Infrastructure.Repositories.Application
 {
-    public class ImportedRepository : BaseRepository<Imported, ApplicationDbContext>, IimportedRepository
+    public class ImportedRepository : BaseIdentityRepository<Imported, ApplicationDbContext>, IimportedRepository
     {
         public ImportedRepository(
             //IDistributedCache distributedCache,
-            IRepositoryAsync<Imported, ApplicationDbContext> repository
+            IIdentityRepositoryAsync<Imported, ApplicationDbContext> repository
             //BaseCacheKey<Imported> baseCacheKey
             ) :
             base(

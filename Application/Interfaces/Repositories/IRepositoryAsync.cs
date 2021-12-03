@@ -6,9 +6,33 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces.Repositories
 {
-    public interface IRepositoryAsync<T, TContext>
-        where T : IdentityBaseEntity
+    public interface IAuditRepositoryAsync<T, TContext>
+        where T : AuditBaseEntity
         where TContext : DbContext
+    {
+        IQueryable<T> Entities { get; }
+
+        Task<T> GetByIdAsync(int id);
+
+        Task<List<T>> GetAllAsync();
+
+        Task<List<T>> GetPagedReponseAsync(int pageNumber, int pageSize);
+
+        Task<T> AddAsync(T entity);
+
+        Task<T> AddAndSaveAsync(T entity);
+
+        Task UpdateAsync(T entity);
+
+        Task DeleteAsync(T entity);
+
+        public int SaveChanges();
+
+        Task<int> SaveChangesAsync();
+    }
+    public interface IIdentityRepositoryAsync<T, TContext>
+    where T : IdentityBaseEntity
+    where TContext : DbContext
     {
         IQueryable<T> Entities { get; }
 

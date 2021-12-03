@@ -11,7 +11,7 @@ using NetTopologySuite.Geometries;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20211202182956_Initialization")]
+    [Migration("20211203134523_Initialization")]
     partial class Initialization
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,21 @@ namespace Infrastructure.Migrations
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
+
+            modelBuilder.Entity("ApplicationUserApplicationUser", b =>
+                {
+                    b.Property<string>("CreatedByUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UpdatedByUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CreatedByUsersId", "UpdatedByUsersId");
+
+                    b.HasIndex("UpdatedByUsersId");
+
+                    b.ToTable("ApplicationUserApplicationUser");
+                });
 
             modelBuilder.Entity("Domain.Entities.Base.Geography.Address", b =>
                 {
@@ -42,16 +57,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("CityRef")
                         .HasColumnType("int");
 
-                    b.Property<string>("CreatedByRef")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedByUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -65,15 +70,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UpdatedByRef")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdatedByUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -85,10 +81,6 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .IsClustered();
-
-                    b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("UpdatedByUserId");
 
                     b.HasIndex("UserId");
 
@@ -109,16 +101,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedByRef")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedByUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -128,23 +110,10 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UpdatedByRef")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdatedByUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id")
                         .IsClustered();
 
-                    b.HasIndex("CreatedByUserId");
-
                     b.HasIndex("ProvinceRef");
-
-                    b.HasIndex("UpdatedByUserId");
 
                     b.ToTable("TbCity", "Geography");
                 });
@@ -158,16 +127,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<Geometry>("Area")
                         .HasColumnType("geography");
-
-                    b.Property<string>("CreatedByRef")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedByUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("EnglishTitle")
                         .IsRequired()
@@ -190,21 +149,8 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UpdatedByRef")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdatedByUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id")
                         .IsClustered();
-
-                    b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("UpdatedByUserId");
 
                     b.ToTable("TbCountry", "Geography");
                 });
@@ -225,16 +171,6 @@ namespace Infrastructure.Migrations
                     b.Property<long>("CountryRef")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("CreatedByRef")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedByUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsCapital")
                         .HasColumnType("bit");
 
@@ -245,23 +181,10 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UpdatedByRef")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdatedByUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id")
                         .IsClustered();
 
                     b.HasIndex("CountryRef");
-
-                    b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("UpdatedByUserId");
 
                     b.ToTable("TbProvince", "Geography");
                 });
@@ -305,9 +228,6 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatedByRef")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("DailyBaseYear")
                         .HasColumnType("int");
 
@@ -348,6 +268,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("InsuranceCode")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("InsuranceHistory")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -360,6 +283,9 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsProfileCompleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("JobCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("JobTitle")
                         .HasColumnType("nvarchar(max)");
 
@@ -371,6 +297,12 @@ namespace Infrastructure.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("MaritalStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MilitaryService")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -422,12 +354,12 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UpdatedByRef")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("WorkExperience")
+                        .HasColumnType("int");
 
                     b.Property<int>("WorkerRight")
                         .HasColumnType("int");
@@ -509,17 +441,34 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CardNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreatedByRef")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UpdatedByRef")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("iBan")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id")
                         .IsClustered();
+
+                    b.HasIndex("CreatedByRef");
+
+                    b.HasIndex("UpdatedByRef");
 
                     b.ToTable("TbBankAccount", "Basic");
                 });
@@ -686,63 +635,39 @@ namespace Infrastructure.Migrations
                     b.ToTable("UserTokens", "Identity");
                 });
 
+            modelBuilder.Entity("ApplicationUserApplicationUser", b =>
+                {
+                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("CreatedByUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UpdatedByUsersId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Entities.Base.Geography.Address", b =>
                 {
-                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId");
-
-                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedByUserId");
-
                     b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.Base.Geography.City", b =>
                 {
-                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId");
-
                     b.HasOne("Domain.Entities.Base.Geography.Province", "Province")
                         .WithMany()
                         .HasForeignKey("ProvinceRef")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedByUserId");
-
-                    b.Navigation("CreatedByUser");
-
                     b.Navigation("Province");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Base.Geography.Country", b =>
-                {
-                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId");
-
-                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedByUserId");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("Domain.Entities.Base.Geography.Province", b =>
@@ -753,19 +678,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId");
-
-                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedByUserId");
-
                     b.Navigation("Country");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationUser", b =>
@@ -787,6 +700,23 @@ namespace Infrastructure.Migrations
                     b.Navigation("Caller");
 
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Basic.BankAccount", b =>
+                {
+                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "CreatedByUser")
+                        .WithMany("BankCreatedByUsers")
+                        .HasForeignKey("CreatedByRef")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "UpdatedByUser")
+                        .WithMany("BankUpdatedByUsers")
+                        .HasForeignKey("UpdatedByRef");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -842,6 +772,10 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationUser", b =>
                 {
+                    b.Navigation("BankCreatedByUsers");
+
+                    b.Navigation("BankUpdatedByUsers");
+
                     b.Navigation("CallerUsers");
                 });
 

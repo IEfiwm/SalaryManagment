@@ -5,9 +5,9 @@ using Infrastructure.Repositories.Base;
 
 namespace Infrastructure.Repositories.Application.Basic
 {
-    public class BankAccountRepository : BaseRepository<BankAccount, IdentityContext>, IBankAccountRepository
+    public class BankAccountRepository : BaseAuditRepository<BankAccount, IdentityContext>, IBankAccountRepository
     {
-        public BankAccountRepository(IRepositoryAsync<BankAccount, IdentityContext> repository) : base(repository)
+        public BankAccountRepository(IAuditRepositoryAsync<BankAccount, IdentityContext> repository) : base(repository)
         {
         }
     }

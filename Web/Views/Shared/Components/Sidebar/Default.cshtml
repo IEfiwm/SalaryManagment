@@ -3,7 +3,7 @@
 <aside  id="sideBar" class="main-sidebar sidebar-dark-primary">
     <a href="/" class="brand-link">
         @*        <img src="~/images/logo-transparent.png" id="brand-logo" alt="logo" class="brand-image img-circle"
-            style="opacity: .8">*@
+                                style="opacity: .8">*@
         <span class="brand-text font-weight-light" style="font-size:0.8em!important;text-align:center">@localizer["ApplicationName"]</span>
     </a>
     <div class="sidebar">
@@ -20,30 +20,30 @@
                 </li>
                 @if (User.IsInRole("SuperAdmin"))
                 {
-                                                        <li class="nav-header">@localizer["Admin"]</li>
-                                                        <li is-active-route asp-area="Admin" class="nav-item has-treeview">
-                                                            <a is-active-route asp-area="Admin" class="nav-link">
-                                                                <i class="nav-icon fa fa-user"></i>
-                                                                <p>
+                                                                            <li class="nav-header">@localizer["Admin"]</li>
+                                                                            <li is-active-route asp-area="Admin" class="nav-item has-treeview">
+                                                                                <a is-active-route asp-area="Admin" class="nav-link">
+                                                                                    <i class="nav-icon fa fa-user"></i>
+                                                                                    <p>
                                 @localizer["Admin Settings"]
-                                                                    <i class="right fa fa-angle-left"></i>
-                                                                </p>
-                                                            </a>
-                                                            <ul class="nav nav-treeview">
-                                                                <li class="nav-item">
-                                                                    <a is-active-route asp-area="Admin" asp-controller="User" class="nav-link">
-                                                                        <i class="fa fa-user-circle nav-icon"></i>
-                                                                        <p>@localizer["Users"]</p>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="nav-item">
-                                                                    <a is-active-route asp-area="Admin" asp-controller="Role" class="nav-link">
-                                                                        <i class="fa fa-user-circle nav-icon"></i>
-                                                                        <p>@localizer["Roles"]</p>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
+                                                                                        <i class="right fa fa-angle-left"></i>
+                                                                                    </p>
+                                                                                </a>
+                                                                                <ul class="nav nav-treeview">
+                                                                                    <li class="nav-item">
+                                                                                        <a is-active-route asp-area="Admin" asp-controller="User" class="nav-link">
+                                                                                            <i class="fa fa-user-circle nav-icon"></i>
+                                                                                            <p>@localizer["Users"]</p>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a is-active-route asp-area="Admin" asp-controller="Role" class="nav-link">
+                                                                                            <i class="fa fa-user-circle nav-icon"></i>
+                                                                                            <p>@localizer["Roles"]</p>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </li>
                 }
                 @* <li class="nav-header">@localizer["Master"]</li>*@
                 @*                <li is-active-route asp-area="Utilities" class="nav-item has-treeview">
@@ -91,15 +91,21 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-user"></i>
                                 <p>
-                            @localizer["Attendance"]
+                            @localizer["Data"]
                                     <i class="right fa fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="Attendance" asp-controller="Excel" class="nav-link">
+                                    <a is-active-route asp-area="Data" asp-controller="Excel"  asp-action="Personnel" class="nav-link">
                                         <i class="fa fa-user-circle nav-icon"></i>
-                                        <p>@localizer["ImportDataFromExcel"]</p>
+                                        <p>@localizer["ImportDataFromExcelForPersonnel"]</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="Data" asp-controller="Excel"  asp-action="Attendances" class="nav-link">
+                                        <i class="fa fa-user-circle nav-icon"></i>
+                                        <p>@localizer["ImportDataFromExcelForAttendances"]</p>
                                     </a>
                                 </li>
                             </ul>

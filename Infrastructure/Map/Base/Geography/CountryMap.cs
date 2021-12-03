@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Infrastructure.Map.Base.Geography
 {
     [Base]
-    internal class CountryMap : AuditBaseEntityMap<Country>
+    internal class CountryMap : IdentityBaseEntityMap<Country>
     {
         public CountryMap() : base()
         {

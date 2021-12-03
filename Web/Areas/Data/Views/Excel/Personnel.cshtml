@@ -7,8 +7,6 @@
 <br/>
 <br/>
 <br/>
-<br/>
-<br/>
 <form asp-controller="Home" asp-action="Export">
 <div class="container">
     <div class="row">
@@ -43,7 +41,6 @@ $(function () {
             return false;
 
         }
-
         else {
 
             var extension = filename.replace(/^.*\./, '');
@@ -53,9 +50,7 @@ $(function () {
                 alert("Please select only excel files.");
 
                 return false;
-
             }
-
         }
 
         var fdata = new FormData();
@@ -70,7 +65,7 @@ $(function () {
 
             type: "POST",
 
-            url: "/Attendance/Excel/Import",
+            url: "/Data/Excel/ImportPersonnel",
 
             beforeSend: function (xhr) {
 

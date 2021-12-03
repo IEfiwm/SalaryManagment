@@ -153,6 +153,9 @@
   <data name="Dashboard" xml:space="preserve">
     <value>پیشخوان</value>
   </data>
+  <data name="Data" xml:space="preserve">
+    <value>اطلاعات</value>
+  </data>
   <data name="Default Credentials" xml:space="preserve">
     <value>اعتبارات پیش فرض</value>
   </data>
@@ -173,6 +176,12 @@
   </data>
   <data name="ImportDataFromExcel" xml:space="preserve">
     <value>بارگزاری از اکسل</value>
+  </data>
+  <data name="ImportDataFromExcelForAttendances" xml:space="preserve">
+    <value>کارکرذ</value>
+  </data>
+  <data name="ImportDataFromExcelForPersonnel" xml:space="preserve">
+    <value>پرسنل</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>نام خانوادگی</value>

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Domain.Entities.Basic
 {
-    public class BankAccount : IdentityBaseEntity
+    public class BankAccount : AuditBaseEntity
     {
         public string Title { get; set; }
 

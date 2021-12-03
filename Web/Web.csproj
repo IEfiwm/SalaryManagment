@@ -27,10 +27,14 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Attendance\Controllers\" />
     <Folder Include="Areas\Attendance\Data\" />
     <Folder Include="Areas\Attendance\Models\" />
+    <Folder Include="Areas\Attendance\Views\" />
     <Folder Include="Areas\Dashboard\Data\" />
     <Folder Include="Areas\Dashboard\Models\" />
+    <Folder Include="Areas\Data\Data\" />
+    <Folder Include="Areas\Data\Models\" />
     <Folder Include="Areas\Settings\Data\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Settings\Views\" />

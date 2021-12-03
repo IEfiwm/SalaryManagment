@@ -13,9 +13,6 @@ namespace Infrastructure.Map.Application.Basic
 
         public override void Map(EntityTypeBuilder<Project> builder)
         {
-            //builder.HasMany(m => m.ProjectUsers)
-            //    .WithOne(m => m.Project).HasForeignKey(m => m.ProjectRef);
-
             //builder.HasOne(e => e.CreatedByUser)
             //.WithMany(e => e.ProjectCreatedByUsers)
             //.HasForeignKey(e => e.CreatedByRef);

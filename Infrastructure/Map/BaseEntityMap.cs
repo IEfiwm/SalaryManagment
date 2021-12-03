@@ -61,6 +61,8 @@ namespace Infrastructure.Map
 
             builder.Property(e => e.IsDeleted).IsRequired();
 
+            builder.HasQueryFilter(u => u.IsDeleted == false);
+
             Map(builder);
         }
 

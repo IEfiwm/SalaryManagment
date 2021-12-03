@@ -1,4 +1,6 @@
-﻿using Domain.Entities.Base.Identity;
+﻿using Application.Extensions;
+using Common.Enums;
+using Domain.Entities.Base.Identity;
 using Domain.Entities.Basic;
 using Domain.Entities.Data;
 using Infrastructure.Repositories.Application;
@@ -11,13 +13,15 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Web.Controllers;
 
 namespace Web.Areas.Attendance.Controllers
 {
-    [Area("Attendance")]
+    [Area("Data")]
     public class ExcelController : BaseController<Imported>
     {
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -28,22 +32,34 @@ namespace Web.Areas.Attendance.Controllers
 
         private readonly IBankAccountRepository _bankAccountRepository;
 
+        private readonly IProjectRepository _projectRepository;
+
         public ExcelController(IHostingEnvironment hostingEnvironment,
             IimportedRepository repository,
             UserManager<ApplicationUser> userManager,
-            IBankAccountRepository bankAccountRepository)
+            IBankAccountRepository bankAccountRepository,
+            IProjectRepository projectRepository)
         {
             _hostingEnvironment = hostingEnvironment;
             _repository = repository;
             _userManager = userManager;
             _bankAccountRepository = bankAccountRepository;
+            _projectRepository = projectRepository;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Attendances()
         {
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Personnel()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public async Task<bool> ImportPersonnel()
         {
             try
@@ -93,16 +109,31 @@ namespace Web.Areas.Attendance.Controllers
                         {
                             var row = sheet.GetRow(j);
 
-                            //DateTime dt = new DateTime(1391, 4, 7, new PersianCalendar());
+                            var projectRef = (await _projectRepository.GetProjectByName(row?.GetCell(1)?.ToString()))?.Id;
+
+                            if (projectRef == null)
+                                projectRef = await _projectRepository.InsertAndSaveAsync(new Project
+                                {
+                                    Title = row?.GetCell(1)?.ToString(),
+                                    Code = Guid.NewGuid().ToString(),
+                                    ProjectStatus = ProjectStatus.NotStarted,
+                                    IsDeleted = false
+                                });
+
+                            var birth = row?.GetCell(7)?.ToString().Split("/");
+
                             var bankaccount = await _bankAccountRepository.InsertAndSaveAsync(new BankAccount
                             {
                                 AccountNumber = row?.GetCell(14)?.ToString(),
                                 Title = row?.GetCell(15)?.ToString(),
-                                IsDeleted = false
+                                IsDeleted = false,
+                                CreatedByRef = _userManager.Users.Where(m => m.UserName == "user").FirstOrDefault().Id,
+                                CreatedDate = DateTime.Now,
                             });
 
                             var user = new ApplicationUser
                             {
+                                ProjectRef = projectRef,
                                 PersonnelCode = row?.GetCell(1)?.ToString(),
                                 UserName = row?.GetCell(1)?.ToString(),
                                 NationalCode = row?.GetCell(2)?.ToString(),
@@ -110,7 +141,7 @@ namespace Web.Areas.Attendance.Controllers
                                 FirstName = row?.GetCell(4)?.ToString(),
                                 LastName = row?.GetCell(5)?.ToString(),
                                 FatherName = row?.GetCell(6)?.ToString(),
-                                Birthday = Convert.ToDateTime(row?.GetCell(7)?.ToString()),
+                                Birthday = row?.GetCell(7)?.ToString() == null ? null : new DateTime(Convert.ToInt32(birth[0]), Convert.ToInt32(birth[1]), Convert.ToInt32(birth[2]), new PersianCalendar()),
                                 BirthPlace = row?.GetCell(8)?.ToString(),
                                 IdentityNumber = row?.GetCell(9)?.ToString(),
                                 IdentitySerialNumber = row?.GetCell(10)?.ToString(),
@@ -127,11 +158,23 @@ namespace Web.Areas.Attendance.Controllers
                                 MonthlySalary = Convert.ToInt32(row?.GetCell(22)?.ToString()),
                                 MonthlyBaseYear = Convert.ToInt32(row?.GetCell(23)?.ToString()),
                                 Address = row?.GetCell(24)?.ToString(),
+                                ZipCode = row?.GetCell(25)?.ToString(),
+                                PhoneNumber = row?.GetCell(26)?.ToString(),
+                                InsuranceHistory = Convert.ToInt32(row?.GetCell(27)?.ToString()),
+                                WorkExperience = Convert.ToInt32(row?.GetCell(28)?.ToString()),
+                                MaritalStatus = EnumHelper<MaritalStatus>.Parse(row?.GetCell(29)?.ToString()),
+                                MilitaryService = EnumHelper<MilitaryService>.Parse(row?.GetCell(30)?.ToString()),
+                                JobCode = row?.GetCell(31)?.ToString(),
+                                Gender = EnumHelper<Gender>.Parse(row?.GetCell(32)?.ToString()),
                                 IsDeleted = false,
                                 IsActive = true,
                                 IsProfileCompleted = true,
-                                IsBlocked = false
+                                IsBlocked = false,
+                                EmailConfirmed = true,
+                                PhoneNumberConfirmed = true,
+                                TwoFactorEnabled = false
                             };
+
                             var result = await _userManager.CreateAsync(user, row?.GetCell(2)?.ToString());
                         }
                     }
@@ -146,6 +189,7 @@ namespace Web.Areas.Attendance.Controllers
             }
         }
 
+        [HttpPost]
         public async Task<bool> ImportAttendances()
         {
             try

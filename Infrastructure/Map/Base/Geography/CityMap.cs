@@ -6,7 +6,7 @@ using System.IO;
 namespace Infrastructure.Map.Base.Geography
 {
     [Base]
-    internal class CityMap : AuditBaseEntityMap<City>
+    internal class CityMap : IdentityBaseEntityMap<City>
     {
         public CityMap() : base()
         {

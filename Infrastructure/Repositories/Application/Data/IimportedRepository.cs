@@ -4,7 +4,7 @@ using Infrastructure.DbContexts;
 
 namespace Infrastructure.Repositories.Application
 {
-    public interface IimportedRepository : IBaseRepository<Imported, ApplicationDbContext>
+    public interface IimportedRepository : IBaseIdentityRepository<Imported, ApplicationDbContext>
     {
     }
 }

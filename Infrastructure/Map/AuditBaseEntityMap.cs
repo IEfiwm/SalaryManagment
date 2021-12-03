@@ -63,9 +63,13 @@ namespace Infrastructure.Map
 
             builder.Property(e => e.CreatedDate).IsRequired();
 
+            builder.Property(e => e.UpdatedByRef).IsRequired(false);
+
             builder.Property(e => e.CreatedByRef).IsRequired();
 
             builder.Property(e => e.IsDeleted).IsRequired();
+
+            builder.HasQueryFilter(u => u.IsDeleted == false);
 
             Map(builder);
         }

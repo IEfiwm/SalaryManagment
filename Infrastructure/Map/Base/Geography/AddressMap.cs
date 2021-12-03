@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Infrastructure.Map.Base.Geography
 {
     [Base]
-    internal class AddressMap : AuditBaseEntityMap<Address>
+    internal class AddressMap : IdentityBaseEntityMap<Address>
     {
         public AddressMap() : base()
         {

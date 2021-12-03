@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Base.Geography
 {
-    public class Address : AuditBaseEntity
+    public class Address : IdentityBaseEntity
     {
         public string UserRef { get; set; }
 

@@ -4,7 +4,7 @@ using NetTopologySuite.Geometries;
 
 namespace Domain.Entities.Base.Geography
 {
-    public class Country : AuditBaseEntity
+    public class Country : IdentityBaseEntity
     {
         public string EnglishTitle { get; set; }
 

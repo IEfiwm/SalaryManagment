@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Base.Geography
 {
-    public class City : AuditBaseEntity
+    public class City : IdentityBaseEntity
     {
         public string Title { get; set; }
 

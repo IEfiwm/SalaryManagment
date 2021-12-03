@@ -105,6 +105,7 @@ namespace Web.Extensions
         public static void AddDependencies(this IServiceCollection services)
         {
             services.AddTransient<IBankAccountRepository, BankAccountRepository>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
         }
     }
 }

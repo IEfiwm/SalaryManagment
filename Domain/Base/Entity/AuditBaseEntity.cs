@@ -11,14 +11,14 @@ namespace Domain.Base.Entity
 
         public DateTime? UpdatedDate { get; set; }
 
-        //[ForeignKey("CreatedByUser")]
         public string CreatedByRef { get; set; }
 
-        //[ForeignKey("UpdatedByUser")]
         public string UpdatedByRef { get; set; } = null;
 
+        [ForeignKey("UpdatedByRef")]
         public virtual ApplicationUser UpdatedByUser { get; set; }
 
+        [ForeignKey("CreatedByRef")]
         public virtual ApplicationUser CreatedByUser { get; set; }
     }
 

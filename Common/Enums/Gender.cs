@@ -4,9 +4,9 @@ namespace Common.Enums
 {
     public enum Gender
     {
-        [Display(Name = "خانم")]
+        [Display(Name = "زن")]
         Female = 0,
-        [Display(Name = "آقا")]
+        [Display(Name = "مرد")]
         Male = 1
     }
 }
