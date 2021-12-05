@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize("Administrators")]
     public class PermissionController : BaseController<PermissionController>
     {
         private readonly UserManager<ApplicationUser> _userManager;

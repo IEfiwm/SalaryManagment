@@ -159,6 +159,15 @@
   <data name="Default Credentials" xml:space="preserve">
     <value>اعتبارات پیش فرض</value>
   </data>
+  <data name="EditIdentityInformation" xml:space="preserve">
+    <value>اطلاعات شخصی</value>
+  </data>
+  <data name="EditInformation" xml:space="preserve">
+    <value>ویرایش اطلاعات</value>
+  </data>
+  <data name="EditMyFamilyInformation" xml:space="preserve">
+    <value>اطلاعات افراد تحت تکفل</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>ایمیل</value>
   </data>

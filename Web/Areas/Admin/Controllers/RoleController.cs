@@ -1,15 +1,17 @@
 ﻿using Domain.Entities.Base.Identity;
-using Web.Abstractions;
-using Web.Areas.Admin.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Web.Abstractions;
+using Web.Areas.Admin.Models;
 
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize("Administrators")]
     public class RoleController : BaseController<RoleController>
     {
         private readonly RoleManager<IdentityRole> _roleManager;

@@ -1,10 +1,12 @@
-﻿using Application.Extensions;
+﻿using Application.Enums;
+using Application.Extensions;
 using Common.Enums;
 using Domain.Entities.Base.Identity;
 using Domain.Entities.Basic;
 using Domain.Entities.Data;
 using Infrastructure.Repositories.Application;
 using Infrastructure.Repositories.Application.Basic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -22,6 +24,7 @@ using Web.Controllers;
 namespace Web.Areas.Attendance.Controllers
 {
     [Area("Data")]
+    [Authorize("Administrators")]
     public class ExcelController : BaseController<Imported>
     {
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -62,6 +65,10 @@ namespace Web.Areas.Attendance.Controllers
         [HttpPost]
         public async Task<bool> ImportPersonnel()
         {
+            var personnelCode = "";
+
+            int count = 0;
+
             try
             {
                 IFormFile file = Request.Form.Files[0];
@@ -105,9 +112,13 @@ namespace Web.Areas.Attendance.Controllers
                             sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook   
                         }
 
+                        _notify.Success("اطلاعات دریافت شدند، سامانه در حال وارد کردن اطلاعات است.");
+
                         for (int j = 1; j < sheet.LastRowNum; j++)
                         {
                             var row = sheet.GetRow(j);
+
+                            personnelCode = row?.GetCell(1)?.ToString();
 
                             var projectRef = (await _projectRepository.GetProjectByName(row?.GetCell(1)?.ToString()))?.Id;
 
@@ -131,6 +142,9 @@ namespace Web.Areas.Attendance.Controllers
                                 CreatedDate = DateTime.Now,
                             });
 
+                            if (personnelCode == "13429")
+                                personnelCode = "13429";
+
                             var user = new ApplicationUser
                             {
                                 ProjectRef = projectRef,
@@ -141,7 +155,7 @@ namespace Web.Areas.Attendance.Controllers
                                 FirstName = row?.GetCell(4)?.ToString(),
                                 LastName = row?.GetCell(5)?.ToString(),
                                 FatherName = row?.GetCell(6)?.ToString(),
-                                Birthday = row?.GetCell(7)?.ToString() == null ? null : new DateTime(Convert.ToInt32(birth[0]), Convert.ToInt32(birth[1]), Convert.ToInt32(birth[2]), new PersianCalendar()),
+                                Birthday = row?.GetCell(7)?.ToString() == null || row?.GetCell(7)?.ToString() == "" ? null : new DateTime(Convert.ToInt32(birth[0]), Convert.ToInt32(birth[1]), Convert.ToInt32(birth[2]), new PersianCalendar()),
                                 BirthPlace = row?.GetCell(8)?.ToString(),
                                 IdentityNumber = row?.GetCell(9)?.ToString(),
                                 IdentitySerialNumber = row?.GetCell(10)?.ToString(),
@@ -150,18 +164,18 @@ namespace Web.Areas.Attendance.Controllers
                                 JobTitle = row?.GetCell(13)?.ToString(),
                                 BankAccountRef = bankaccount,
                                 NumberOfChildren = Convert.ToByte(row?.GetCell(16)?.ToString()),
-                                DailySalary = Convert.ToInt32(row?.GetCell(17)?.ToString()),
-                                DailyBaseYear = Convert.ToInt32(row?.GetCell(18)?.ToString()),
-                                FoodAndHouseRight = Convert.ToInt32(row?.GetCell(19)?.ToString()),
-                                WorkerRight = Convert.ToInt32(row.GetCell(20)?.ToString()),
-                                ChildrenRight = Convert.ToInt32(row?.GetCell(21)?.ToString()),
-                                MonthlySalary = Convert.ToInt32(row?.GetCell(22)?.ToString()),
-                                MonthlyBaseYear = Convert.ToInt32(row?.GetCell(23)?.ToString()),
+                                DailySalary = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(17)?.ToString()))),
+                                DailyBaseYear = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(18)?.ToString()))),
+                                FoodAndHouseRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(19)?.ToString()))),
+                                WorkerRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(20)?.ToString()))),
+                                ChildrenRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(21)?.ToString()))),
+                                MonthlySalary = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(22)?.ToString()))),
+                                MonthlyBaseYear = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(23)?.ToString()))),
                                 Address = row?.GetCell(24)?.ToString(),
                                 ZipCode = row?.GetCell(25)?.ToString(),
                                 PhoneNumber = row?.GetCell(26)?.ToString(),
-                                InsuranceHistory = Convert.ToInt32(row?.GetCell(27)?.ToString()),
-                                WorkExperience = Convert.ToInt32(row?.GetCell(28)?.ToString()),
+                                InsuranceHistory = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(27)?.ToString()))),
+                                WorkExperience = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(28)?.ToString()))),
                                 MaritalStatus = EnumHelper<MaritalStatus>.Parse(row?.GetCell(29)?.ToString()),
                                 MilitaryService = EnumHelper<MilitaryService>.Parse(row?.GetCell(30)?.ToString()),
                                 JobCode = row?.GetCell(31)?.ToString(),
@@ -176,14 +190,45 @@ namespace Web.Areas.Attendance.Controllers
                             };
 
                             var result = await _userManager.CreateAsync(user, row?.GetCell(2)?.ToString());
+
+                            if (result.Succeeded)
+                            {
+                                user = _userManager.Users.Where(m => m.UserName == personnelCode).FirstOrDefault();
+
+                                await _userManager.AddToRoleAsync(user, Roles.User.ToString());
+
+                                count++;
+                            }
+                            else
+                            {
+                                _notify.Error("اضافه کردن فایل با خطا مواجعه شد.");
+
+                                if (personnelCode != "")
+                                    _notify.Error($@"سیستم در وارد کردن {personnelCode} به خطا خورد.");
+
+                                _notify.Error(@$"متن خطا سمت سیستم {result.Errors}");
+
+                                _notify.Success($@"{count} داده به سیستم اضافه شد.");
+
+                                break;
+                            }
                         }
+
+                        _notify.Success($@"{count} داده به سیستم اضافه شد.");
+
+                        _notify.Success("کاربران با موفقیت به سیستم اضافه شدند.");
                     }
                 }
                 return true;
             }
             catch (System.Exception e)
             {
+                _notify.Success($@"{count} داده به سیستم اضافه شد.");
+
                 _notify.Error("اضافه کردن فایل با خطا مواجعه شد.");
+
+                if (personnelCode != "")
+                    _notify.Error($@"سیستم در وارد کردن {personnelCode} به خطا خورد.");
 
                 return false;
             }

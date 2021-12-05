@@ -1,5 +1,4 @@
 ﻿using Domain.Entities.Base.Identity;
-using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -67,19 +65,28 @@ namespace Web.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var userName = Input.Email;
+                string userName = "";
 
-                if (IsValidEmail(Input.Email))
+                ApplicationUser user = null;
+
+                if (Input.Email != null && IsValidEmail(Input.Email))
                 {
-                    var userCheck = await _userManager.FindByEmailAsync(Input.Email);
+                    user = await _userManager.FindByEmailAsync(Input.Email);
 
-                    if (userCheck != null)
+                    if (user != null)
                     {
-                        userName = userCheck.UserName;
+                        userName = user.UserName;
                     }
                 }
+                else if (Input.Username != null)
+                {
+                    user = await _userManager.FindByNameAsync(Input.Username);
 
-                var user = await _userManager.FindByNameAsync(userName);
+                    if (user != null)
+                    {
+                        userName = user.UserName;
+                    }
+                }
 
                 if (user != null)
                 {

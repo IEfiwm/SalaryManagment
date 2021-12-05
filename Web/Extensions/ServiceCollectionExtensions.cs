@@ -66,6 +66,43 @@ namespace Web.Extensions
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 o.Filters.Add(new AuthorizeFilter(policy));
             });
+
+            services.AddAuthorization(options =>
+            {
+
+                options.AddPolicy("Admin",
+                    authBuilder =>
+                    {
+                        authBuilder.RequireRole("Admin");
+                    });
+
+                options.AddPolicy("Manager",
+                    authBuilder =>
+                    {
+                        authBuilder.RequireRole("Manager");
+                    });
+
+                options.AddPolicy("SuperAdmin",
+                    authBuilder =>
+                    {
+                        authBuilder.RequireRole("SuperAdmin");
+                    });
+
+                options.AddPolicy("User",
+                    authBuilder =>
+                    {
+                        authBuilder.RequireRole("User");
+                    });
+
+                options.AddPolicy("Adminstrators",
+                    authBuilder =>
+                    {
+                        authBuilder.RequireRole("SuperAdmin");
+                        authBuilder.RequireRole("Manager");
+                        authBuilder.RequireRole("Admin");
+                    });
+
+            });
         }
 
         private static void AddPersistenceContexts(this IServiceCollection services, IConfiguration configuration)

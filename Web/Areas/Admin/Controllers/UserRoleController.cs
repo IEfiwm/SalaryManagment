@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize("Administrators")]
     public class UserRoleController : BaseController<UserRoleController>
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
