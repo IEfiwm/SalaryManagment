@@ -3,6 +3,7 @@ using Application.Interfaces.Shared;
 using Domain.Entities.Base.Identity;
 using Infrastructure.DbContexts;
 using Infrastructure.Repositories.Application.Basic;
+using Infrastructure.Repositories.Application.Idenitity;
 using Infrastructure.Shared.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -143,6 +144,7 @@ namespace Web.Extensions
         {
             services.AddTransient<IBankAccountRepository, BankAccountRepository>();
             services.AddTransient<IProjectRepository, ProjectRepository>();
+            services.AddTransient<IAuthenticationCodeRepository, AuthenticationCodeRepository>();
         }
     }
 }
