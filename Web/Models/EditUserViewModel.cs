@@ -43,9 +43,12 @@ namespace Web.Models
         public byte NumberOfChildren { get; set; }
 
         [Required]
-        public MaritalStatus MaritalStatus { get; set; }
+        public string PhoneNumber { get; set; }
 
-        [Required]
-        public MilitaryService MilitaryService { get; set; }
+        //[Required]
+        //public MaritalStatus MaritalStatus { get; set; }
+
+        //[Required]
+        //public MilitaryService MilitaryService { get; set; }
     }
 }

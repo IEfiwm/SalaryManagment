@@ -68,9 +68,6 @@ namespace Domain.Entities.Base.Identity
 
         public virtual ICollection<BankAccount> BankCreatedByUsers { get; set; }
 
-
-
-
         public string FatherName { get; set; }
 
         public string IdentitySerialNumber { get; set; }
@@ -116,6 +113,12 @@ namespace Domain.Entities.Base.Identity
         public MilitaryService MilitaryService { get; set; }
 
         public string JobCode { get; set; }
+
+        public DateTime? HireDate { get; set; }
+
+        public DateTime? StartWorkingDate { get; set; }
+
+        public DateTime? EndWorkingDate { get; set; }
 
         //[ForeignKey("Bank")]
         public long? BankAccountRef { get; set; }

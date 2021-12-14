@@ -143,5 +143,15 @@ namespace Domain.Entities.Data
         public string WelfareAllowancePay { get; set; }
 
         public string PerformancePay { get; set; }
+
+        public string MonthlyBenefits { get; set; }
+
+        public string MonthlyWagesAndBenefitsIncluded { get; set; }
+
+        public string IncludedAndNotIncluded { get; set; }
+
+        public string EmployersInsuranceContribution { get; set; }
+
+        public string UnemploymentInsurance { get; set; }
     }
 }

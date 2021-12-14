@@ -11,7 +11,7 @@ using NetTopologySuite.Geometries;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20211203134523_Initialization")]
+    [Migration("20211209191154_Initialization")]
     partial class Initialization
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -247,6 +247,9 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("EndWorkingDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("FatherName")
                         .HasColumnType("nvarchar(max)");
 
@@ -258,6 +261,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("HireDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("IdentityNumber")
                         .HasColumnType("nvarchar(max)");
@@ -350,6 +356,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("StartWorkingDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211202182853_Initialization")]
+    [Migration("20211211052940_Initialization")]
     partial class Initialization
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,9 @@ namespace Infrastructure.Migrations.ApplicationDb
                     b.Property<string>("DurationOperation")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("EmployersInsuranceContribution")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FamilyName")
                         .HasColumnType("nvarchar(max)");
 
@@ -88,6 +91,9 @@ namespace Infrastructure.Migrations.ApplicationDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HouseRightPay")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IncludedAndNotIncluded")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InstitutionaLoan")
@@ -117,7 +123,13 @@ namespace Infrastructure.Migrations.ApplicationDb
                     b.Property<string>("Month")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("MonthlyBenefits")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MonthlyPay")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MonthlyWagesAndBenefitsIncluded")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -220,6 +232,9 @@ namespace Infrastructure.Migrations.ApplicationDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TransportationPay")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UnemploymentInsurance")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WelfareAllowancePay")

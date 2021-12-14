@@ -52,7 +52,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
         {
             var model = await Model.Where(m => m.Code == code && m.PhoneNumber == phone).FirstOrDefaultAsync();
 
-            return model.ExpireDate >= DateTime.Now;
+            return model?.ExpireDate >= DateTime.Now;
         }
     }
 }

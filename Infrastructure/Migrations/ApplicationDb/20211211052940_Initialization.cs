@@ -86,6 +86,11 @@ namespace Infrastructure.Migrations.ApplicationDb
                     DelayedSupplementaryInsuranceDeduction = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WelfareAllowancePay = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PerformancePay = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MonthlyBenefits = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MonthlyWagesAndBenefitsIncluded = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IncludedAndNotIncluded = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployersInsuranceContribution = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UnemploymentInsurance = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

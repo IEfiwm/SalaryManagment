@@ -42,6 +42,11 @@ namespace Web.Areas.Identity.Pages.Account
         {
             await _signInManager.SignOutAsync();
 
+            foreach (var cookie in Request.Cookies.Keys)
+            {
+                Response.Cookies.Delete(cookie);
+            }
+
             _notyf.Information("با موفقیت خارج شدید.");
 
             _logger.LogInformation("User logged out.");

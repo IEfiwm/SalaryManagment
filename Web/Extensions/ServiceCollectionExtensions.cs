@@ -95,12 +95,12 @@ namespace Web.Extensions
                         authBuilder.RequireRole("User");
                     });
 
-                options.AddPolicy("Adminstrators",
+                options.AddPolicy("Administrators",
                     authBuilder =>
                     {
                         authBuilder.RequireRole("SuperAdmin");
-                        authBuilder.RequireRole("Manager");
-                        authBuilder.RequireRole("Admin");
+                        //authBuilder.RequireRole("Manager");
+                        //authBuilder.RequireRole("Admin");
                     });
 
             });

@@ -159,6 +159,12 @@
   <data name="Default Credentials" xml:space="preserve">
     <value>اعتبارات پیش فرض</value>
   </data>
+  <data name="DeleteImportedAttendances" xml:space="preserve">
+    <value>حذف کارکرد ها</value>
+  </data>
+  <data name="DeletePersonnel" xml:space="preserve">
+    <value>حذف کاربران</value>
+  </data>
   <data name="EditIdentityInformation" xml:space="preserve">
     <value>اطلاعات شخصی</value>
   </data>
@@ -173,6 +179,18 @@
   </data>
   <data name="Email Address" xml:space="preserve">
     <value>آدرس ایمیل</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>خروجی ها</value>
+  </data>
+  <data name="ExportData" xml:space="preserve">
+    <value>اطلاعات</value>
+  </data>
+  <data name="ExportInsuranceListDBF" xml:space="preserve">
+    <value>لیست بیمه DBF</value>
+  </data>
+  <data name="ExportInsuranceListPDF" xml:space="preserve">
+    <value>لیست بیمه PDF</value>
   </data>
   <data name="First Name" xml:space="preserve">
     <value>نام</value>

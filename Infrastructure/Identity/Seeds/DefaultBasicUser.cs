@@ -21,13 +21,30 @@ namespace Infrastructure.Identity.Seeds
                 PhoneNumberConfirmed = true,
                 IsActive = true
             };
+            var tjUser = new ApplicationUser
+            {
+                UserName = "tjadmin",
+                Email = "tjadmin@gmail.com",
+                FirstName = "admin",
+                LastName = "admin",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                IsActive = true
+            };
             if (userManager.Users.All(u => u.Id != defaultUser.Id))
             {
                 var user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)
                 {
                     await userManager.CreateAsync(defaultUser, "123Pa$$word!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.User.ToString());
+                    await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
+                }                
+                
+                user = await userManager.FindByEmailAsync(tjUser.Email);
+                if (user == null)
+                {
+                    await userManager.CreateAsync(tjUser, "123Pa$$word!");
+                    await userManager.AddToRoleAsync(tjUser, Roles.Admin.ToString());
                 }
             }
         }

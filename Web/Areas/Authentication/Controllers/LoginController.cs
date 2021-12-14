@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Base.Identity;
+﻿using Application.Extensions;
+using Domain.Entities.Base.Identity;
 using Infrastructure.Repositories.Application.Idenitity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +14,6 @@ using Web.Areas.Authentication.Models;
 
 namespace Web.Areas.Authentication.Controllers
 {
-    [AllowAnonymous]
     [Area("Authentication")]
     public class LoginController : BaseController<LoginController>
     {
@@ -37,6 +37,7 @@ namespace Web.Areas.Authentication.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> RequestVerificationCode(RequestVerificationCodeViewModel model)
         {
             var user = _userManager.Users.Where(m => m.PhoneNumber == model.Phone).FirstOrDefault();
@@ -71,12 +72,17 @@ namespace Web.Areas.Authentication.Controllers
                 return View("Index");
             }
             else
+            {
+                SMSProvider.SendOTPCode(model.Phone, code);
+
                 _notify.Success($"کد ورود با موفقیت ارسال شد.");
+            }
 
             return View("VerifyPhoneNumber", new VerifyPhoneNumberViewModel { Phone = user.PhoneNumber });
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
         {
             if (await _authenticationCodeRepository.VerifyCode(model.Phone, model.Code))
@@ -87,7 +93,7 @@ namespace Web.Areas.Authentication.Controllers
                 {
                     _notify.Error($"کاربر با این شماره تلفن در سیستم یافت نشد.");
 
-                    return View("Index");
+                    return RedirectToAction("Index");
                 }
 
                 await _signInManager.SignInAsync(user, true);
@@ -101,10 +107,10 @@ namespace Web.Areas.Authentication.Controllers
             {
                 _notify.Error($"کد صحیح نمی باشد.");
 
-                return RedirectToAction("~/");
+                return View("VerifyPhoneNumber", new VerifyPhoneNumberViewModel { Phone = model.Phone });
             }
 
-            return View();
+            return Redirect("~/Dashboard/Home/Index");
         }
     }
 }

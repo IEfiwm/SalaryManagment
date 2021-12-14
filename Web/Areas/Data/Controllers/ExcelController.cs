@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -24,7 +25,7 @@ using Web.Controllers;
 namespace Web.Areas.Attendance.Controllers
 {
     [Area("Data")]
-    [Authorize("Administrators")]
+    //[Authorize("Admin")]
     public class ExcelController : BaseController<Imported>
     {
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -142,9 +143,6 @@ namespace Web.Areas.Attendance.Controllers
                                 CreatedDate = DateTime.Now,
                             });
 
-                            if (personnelCode == "13429")
-                                personnelCode = "13429";
-
                             var user = new ApplicationUser
                             {
                                 ProjectRef = projectRef,
@@ -180,6 +178,9 @@ namespace Web.Areas.Attendance.Controllers
                                 MilitaryService = EnumHelper<MilitaryService>.Parse(row?.GetCell(30)?.ToString()),
                                 JobCode = row?.GetCell(31)?.ToString(),
                                 Gender = EnumHelper<Gender>.Parse(row?.GetCell(32)?.ToString()),
+                                HireDate = row?.GetCell(33)?.ToString() == null || row?.GetCell(33)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(33)?.ToString()),
+                                StartWorkingDate = row?.GetCell(34)?.ToString() == null || row?.GetCell(34)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(34)?.ToString()),
+                                EndWorkingDate = row?.GetCell(35)?.ToString() == null || row?.GetCell(35)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(35)?.ToString()),
                                 IsDeleted = false,
                                 IsActive = true,
                                 IsProfileCompleted = true,
@@ -356,6 +357,11 @@ namespace Web.Areas.Attendance.Controllers
                                 DelayedSupplementaryInsuranceDeduction = row?.GetCell(67)?.ToString(),
                                 WelfareAllowancePay = row?.GetCell(68)?.ToString(),
                                 PerformancePay = row?.GetCell(69)?.ToString(),
+                                MonthlyBenefits = row?.GetCell(70)?.ToString(),
+                                MonthlyWagesAndBenefitsIncluded = row?.GetCell(71)?.ToString(),
+                                IncludedAndNotIncluded = row?.GetCell(72)?.ToString(),
+                                EmployersInsuranceContribution = row?.GetCell(73)?.ToString(),
+                                UnemploymentInsurance = row?.GetCell(74)?.ToString(),
                             };
 
                             await _repository.InsertAsync(model);
@@ -374,6 +380,38 @@ namespace Web.Areas.Attendance.Controllers
 
                 return false;
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteAttendances()
+        {
+            var listOfAttendances = await _repository.GetListAsync();
+
+            foreach (var item in listOfAttendances)
+            {
+                await _repository.DeleteAsync(item);
+            }
+
+            await _repository.SaveChangesAsync();
+
+            _notify.Success("کارکرد با موفقیت حذف شد .");
+
+            return Redirect("~/");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeletePersonnel()
+        {
+            var listOfAttendances = await _userManager.Users.ToListAsync();
+
+            foreach (var item in listOfAttendances)
+            {
+                await _userManager.DeleteAsync(item);
+            }
+
+            _notify.Success("کارکرد با موفقیت حذف شد .");
+
+            return Redirect("~/");
         }
     }
 }

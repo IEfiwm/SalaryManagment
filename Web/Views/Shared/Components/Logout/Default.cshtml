@@ -12,9 +12,20 @@
             <div class="modal-body">@localizer["Select Logout below if you are ready to end your current session."]</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">@localizer["Cancel"]</button>
-                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/account/login", new { area = "identity" })" method="post">
-                    <button type="submit" class="btn btn-primary">@localizer["Logout"]</button>
-                </form>
+                @if (User.IsInRole("User"))
+
+                {
+                                      <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="~/authentication/login" method="post">
+                                        <button type="submit" class="btn btn-primary">@localizer["Logout"]</button>
+                                    </form>
+                }
+                else
+                {
+                                                         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/account/login", new { area = "identity" })" method="post">
+                                        <button type="submit" class="btn btn-primary">@localizer["Logout"]</button>
+                                    </form>
+                }
+
             </div>
         </div>
     </div>
