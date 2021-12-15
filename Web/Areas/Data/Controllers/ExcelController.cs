@@ -25,7 +25,7 @@ using Web.Controllers;
 namespace Web.Areas.Attendance.Controllers
 {
     [Area("Data")]
-    //[Authorize("Admin")]
+    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
     public class ExcelController : BaseController<Imported>
     {
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -360,8 +360,9 @@ namespace Web.Areas.Attendance.Controllers
                                 MonthlyBenefits = row?.GetCell(70)?.ToString(),
                                 MonthlyWagesAndBenefitsIncluded = row?.GetCell(71)?.ToString(),
                                 IncludedAndNotIncluded = row?.GetCell(72)?.ToString(),
-                                EmployersInsuranceContribution = row?.GetCell(73)?.ToString(),
-                                UnemploymentInsurance = row?.GetCell(74)?.ToString(),
+                                UnemploymentInsurance = row?.GetCell(73)?.ToString(),
+                                Insurance30Percent = row?.GetCell(74)?.ToString(),
+                                EmployerShareInsurance = row?.GetCell(75)?.ToString(),
                             };
 
                             await _repository.InsertAsync(model);

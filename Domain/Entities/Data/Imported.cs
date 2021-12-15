@@ -150,8 +150,10 @@ namespace Domain.Entities.Data
 
         public string IncludedAndNotIncluded { get; set; }
 
-        public string EmployersInsuranceContribution { get; set; }
-
         public string UnemploymentInsurance { get; set; }
+
+        public string Insurance30Percent{ get; set; }
+
+        public string EmployerShareInsurance { get; set; }
     }
 }

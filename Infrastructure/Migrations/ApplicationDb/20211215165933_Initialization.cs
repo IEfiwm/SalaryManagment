@@ -89,8 +89,9 @@ namespace Infrastructure.Migrations.ApplicationDb
                     MonthlyBenefits = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MonthlyWagesAndBenefitsIncluded = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IncludedAndNotIncluded = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmployersInsuranceContribution = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UnemploymentInsurance = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Insurance30Percent = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployerShareInsurance = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

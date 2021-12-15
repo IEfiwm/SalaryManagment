@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize("Administrators")]
+    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
     public class UserRoleController : BaseController<UserRoleController>
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

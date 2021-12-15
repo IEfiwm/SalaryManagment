@@ -61,7 +61,7 @@ namespace Infrastructure.Migrations.ApplicationDb
                     b.Property<string>("DurationOperation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmployersInsuranceContribution")
+                    b.Property<string>("EmployerShareInsurance")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FamilyName")
@@ -95,6 +95,9 @@ namespace Infrastructure.Migrations.ApplicationDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InstitutionaLoan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Insurance30Percent")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Insurance7Percent")

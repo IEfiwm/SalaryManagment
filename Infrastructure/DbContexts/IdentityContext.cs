@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
-using Microsoft.Extensions.Options;
 
 namespace Infrastructure.DbContexts
 {

@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "لیست بیمه";
+}
+
+<form id="form" method="POST">
+        <div class="row">
+    <div class="mb-3 col-2">
+        <label class="form-label" for="inputEmail">سال</label>
+        <input type="text" name="year" class="form-control" placeholder="">
+    </div>
+    <div class="mb-3 col-2">
+        <label class="form-label" for="inputPassword">ماه</label>
+        <input type="text" name="month" class="form-control" placeholder="">
+    </div>
+     <div class="mt-5 col-4">
+    <button onclick="SubmitDBFForm()" class="btn btn-primary">تولید فایل DBF</button>
+    <button onclick="SubmitPDFForm()" class="btn btn-primary">تولید فایل PDF</button>
+    </div>
+    </div>
+</form>
+<script>
+    function SubmitDBFForm(){
+        $('#form').attr('action', "/Export/Insurance/DBF").submit();
+    }
+    function SubmitPDFForm(){
+        $('#form').attr('action', "/Export/Insurance/PDF").submit();
+    }
+</script>

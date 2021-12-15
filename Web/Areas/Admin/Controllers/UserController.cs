@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize("Administrators")]
+    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
     public class UserController : BaseController<UserController>
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

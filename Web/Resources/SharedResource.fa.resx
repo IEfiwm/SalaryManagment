@@ -186,11 +186,11 @@
   <data name="ExportData" xml:space="preserve">
     <value>اطلاعات</value>
   </data>
-  <data name="ExportInsuranceListDBF" xml:space="preserve">
-    <value>لیست بیمه DBF</value>
+  <data name="ExportInsuranceList" xml:space="preserve">
+    <value>لیست بیمه</value>
   </data>
-  <data name="ExportInsuranceListPDF" xml:space="preserve">
-    <value>لیست بیمه PDF</value>
+  <data name="ExportSummaryInsuranceList" xml:space="preserve">
+    <value>خلاصه لیست بیمه</value>
   </data>
   <data name="First Name" xml:space="preserve">
     <value>نام</value>
@@ -205,7 +205,7 @@
     <value>بارگزاری از اکسل</value>
   </data>
   <data name="ImportDataFromExcelForAttendances" xml:space="preserve">
-    <value>کارکرذ</value>
+    <value>کارکرد</value>
   </data>
   <data name="ImportDataFromExcelForPersonnel" xml:space="preserve">
     <value>پرسنل</value>

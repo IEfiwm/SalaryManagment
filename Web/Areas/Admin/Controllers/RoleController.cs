@@ -11,7 +11,7 @@ using Web.Areas.Admin.Models;
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize("Administrators")]
+    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
     public class RoleController : BaseController<RoleController>
     {
         private readonly RoleManager<IdentityRole> _roleManager;
