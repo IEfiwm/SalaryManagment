@@ -29,7 +29,7 @@ namespace Web.Areas.Admin.Controllers
             _roleManager = roleManager;
         }
 
-        [Authorize(Policy = Permissions.Users.View)]
+        //[Authorize(Policy = Permissions.Users.View)]
         public IActionResult Index()
         {
             return View();
@@ -38,8 +38,11 @@ namespace Web.Areas.Admin.Controllers
         public async Task<IActionResult> LoadAll()
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
             var allUsersExceptCurrentUser = await _userManager.Users.Where(a => a.Id != currentUser.Id).ToListAsync();
+
             var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser);
+
             return PartialView("_ViewAll", model);
         }
 
@@ -83,6 +86,82 @@ namespace Web.Areas.Admin.Controllers
                 return new JsonResult(new { isValid = false, html = html });
             }
             return default;
+        }
+
+        public async Task<IActionResult> Edit(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            return View("Edit", _mapper.Map<UserViewModel>(user));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(UserViewModel user)
+        {
+            var model = await _userManager.FindByIdAsync(user.Id);
+
+            model.IdentityNumber = user.IdentityNumber;
+
+            model.IdentitySerialNumber = user.IdentitySerialNumber;
+
+            model.InsuranceCode = user.InsuranceCode;
+
+            model.InsuranceHistory = user.InsuranceHistory;
+
+            model.JobCode = user.JobCode;
+
+            model.JobTitle = user.JobTitle;
+
+            model.FirstName = user.FirstName;
+
+            model.LastName = user.LastName;
+
+            model.ModifiedDate = System.DateTime.Now;
+
+            model.MonthlyBaseYear = user.MonthlyBaseYear;
+
+            model.MonthlySalary = user.MonthlySalary;
+
+            model.NationalCode = user.NationalCode;
+
+            model.Nationality = user.Nationality;
+
+            model.NumberOfChildren = user.NumberOfChildren;
+
+            model.PhoneNumber = user.PhoneNumber;
+
+            model.WorkerRight = user.WorkerRight;
+
+            model.WorkExperience = user.WorkExperience;
+
+            model.ZipCode = user.ZipCode;
+
+            var res = await _userManager.UpdateAsync(model);
+
+            if (res.Succeeded)
+                _notify.Success("ویرایش با موفقیت انجام شد.");
+            else
+            {
+                _notify.Error("ویرایش انجام نشد.");
+
+                return Redirect("/admin/user/edit?userId=" + user.Id);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Delete(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            var res = await _userManager.DeleteAsync(user);
+
+            if (res.Succeeded)
+                _notify.Success("حذف کاربر با موفقیت انجام شد.");
+            else
+                _notify.Error("حذف کاربر انجام نشد.");
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,16 +1,18 @@
-﻿@{
+﻿@inject IHtmlLocalizer<SharedResource> localizer
+@{
     ViewData["Title"] = localizer["Users"];
     ViewData["Caption"] = localizer["Manage Users here"];
+    ViewBag.Title = "مدیریت کاربران"; 
 }
 <div class="card">
     <div class="col-sm-12" style="padding:20px">
-        <a onclick="jQueryModalGet('/admin/user/OnGetCreate','Create User')" class="btn bg-success">
-            <i class="fa fa-plus-square"></i> Create
-        </a>
-        <a id="reload" class="btn btn-primary text-white">
+        @*        <a onclick="jQueryModalGet('/admin/user/OnGetCreate','Create User')" class="btn bg-success">
+            <i class="fa fa-plus-square"></i> @localizer["Create"]
+            </a>*@
+@*        <a id="reload" class="btn btn-primary text-white">
             <i class="fa fas fa-bolt"></i>
-            Reload
-        </a>
+            @localizer["Reload"]
+        </a>*@
     </div>
     <div id="viewAll" class="card-body table-responsive">
     </div>

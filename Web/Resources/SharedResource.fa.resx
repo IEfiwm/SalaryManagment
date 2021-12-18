@@ -118,7 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Actions" xml:space="preserve">
-    <value>اکشن ها</value>
+    <value>عملیات</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>فعال</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>آدرس</value>
   </data>
   <data name="Admin" xml:space="preserve">
     <value>مدیریت</value>
@@ -138,14 +144,29 @@
   <data name="Basic" xml:space="preserve">
     <value>اطلاعات پایه</value>
   </data>
+  <data name="BirthPlace" xml:space="preserve">
+    <value>محل تولد</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>لغو</value>
+  </data>
+  <data name="ChildrenRight" xml:space="preserve">
+    <value>حق اولاد</value>
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>تایید</value>
   </data>
+  <data name="Create" xml:space="preserve">
+    <value>ایجاد</value>
+  </data>
   <data name="Create an Account!" xml:space="preserve">
     <value>ایجاد حساب کاربری</value>
+  </data>
+  <data name="DailyBaseYear" xml:space="preserve">
+    <value>پایه سنوات روزانه</value>
+  </data>
+  <data name="DailySalary" xml:space="preserve">
+    <value>حقوق روزانه</value>
   </data>
   <data name="Dark Mode" xml:space="preserve">
     <value>تم تاریک</value>
@@ -156,14 +177,26 @@
   <data name="Data" xml:space="preserve">
     <value>اطلاعات</value>
   </data>
+  <data name="Deactivated" xml:space="preserve">
+    <value>غیرفعال</value>
+  </data>
   <data name="Default Credentials" xml:space="preserve">
     <value>اعتبارات پیش فرض</value>
+  </data>
+  <data name="DegreeOfEducation" xml:space="preserve">
+    <value>مدرک تحصیلی</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف</value>
   </data>
   <data name="DeleteImportedAttendances" xml:space="preserve">
     <value>حذف کارکرد ها</value>
   </data>
   <data name="DeletePersonnel" xml:space="preserve">
     <value>حذف کاربران</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>ویرایش</value>
   </data>
   <data name="EditIdentityInformation" xml:space="preserve">
     <value>اطلاعات شخصی</value>
@@ -198,8 +231,17 @@
   <data name="FirstName" xml:space="preserve">
     <value>نام</value>
   </data>
+  <data name="FoodAndHouseRight" xml:space="preserve">
+    <value>بن غذا و مسکن</value>
+  </data>
   <data name="Forgot Password?" xml:space="preserve">
     <value>رمز عبور را فراموش کرده اید؟</value>
+  </data>
+  <data name="IdentityNumber" xml:space="preserve">
+    <value>شماره شناسنامه</value>
+  </data>
+  <data name="IdentitySerialNumber" xml:space="preserve">
+    <value>سریال شناسنامه</value>
   </data>
   <data name="ImportDataFromExcel" xml:space="preserve">
     <value>بارگزاری از اکسل</value>
@@ -209,6 +251,18 @@
   </data>
   <data name="ImportDataFromExcelForPersonnel" xml:space="preserve">
     <value>پرسنل</value>
+  </data>
+  <data name="InsuranceCode" xml:space="preserve">
+    <value>شماره بیمه</value>
+  </data>
+  <data name="InsuranceHistory" xml:space="preserve">
+    <value>سابقه بیمه</value>
+  </data>
+  <data name="JobCode" xml:space="preserve">
+    <value>کد شغل</value>
+  </data>
+  <data name="JobTitle" xml:space="preserve">
+    <value>عنوان شغلی</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>نام خانوادگی</value>
@@ -222,14 +276,38 @@
   <data name="Logout" xml:space="preserve">
     <value>خروج</value>
   </data>
+  <data name="Manage Users here" xml:space="preserve">
+    <value>پرسنل را در اینجا مدیریت کنید</value>
+  </data>
+  <data name="MonthlyBaseYear" xml:space="preserve">
+    <value>پایه سنوات</value>
+  </data>
+  <data name="MonthlySalary" xml:space="preserve">
+    <value>حقوق ماهانه</value>
+  </data>
   <data name="MyTest" xml:space="preserve">
     <value>0101</value>
+  </data>
+  <data name="NationalCode" xml:space="preserve">
+    <value>کد ملی</value>
+  </data>
+  <data name="Nationality" xml:space="preserve">
+    <value>ملیت</value>
   </data>
   <data name="New" xml:space="preserve">
     <value>جدید</value>
   </data>
+  <data name="NumberOfChildren" xml:space="preserve">
+    <value>تعداد اولاد</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>رمز عبور</value>
+  </data>
+  <data name="PersonnelCode" xml:space="preserve">
+    <value>کد پرسنلی</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>شماره تماس</value>
   </data>
   <data name="Profile" xml:space="preserve">
     <value>پروفایل</value>
@@ -242,6 +320,9 @@
   </data>
   <data name="Register Account" xml:space="preserve">
     <value>ثبت حساب کاربری</value>
+  </data>
+  <data name="Reload" xml:space="preserve">
+    <value>بارگیری مجدد</value>
   </data>
   <data name="Remember Me" xml:space="preserve">
     <value>مرا به خاطر داشته باش</value>
@@ -261,7 +342,22 @@
   <data name="Settings" xml:space="preserve">
     <value>تنظیمات</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>وضعیت</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>کاربر</value>
+  </data>
   <data name="Users" xml:space="preserve">
     <value>کاربران</value>
+  </data>
+  <data name="WorkerRight" xml:space="preserve">
+    <value>بن کارگر</value>
+  </data>
+  <data name="WorkExperience" xml:space="preserve">
+    <value>سابقه کار</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>کدپستی</value>
   </data>
 </root>

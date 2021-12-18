@@ -1,0 +1,126 @@
+﻿@using Web.Areas.Admin.Models
+@inject IHtmlLocalizer<SharedResource> localizer
+@model UserViewModel
+@{
+    ViewBag.Title =  "ویرایش کاربر";
+}
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="EditUser">
+            <div class="form-row">  
+               <div class="form-group col-md-6">  
+                   <label for="FirstName" class="form-label col-lg-12">@localizer["FirstName"]</label>
+                   <input type="text" asp-for="FirstName" name="FirstName" class="form-control col-lg-12" placeholder="@localizer["FirstName"]">  
+               </div>
+               <div class="form-group col-md-6">  
+                   <label for="LastName" class="form-label col-lg-12">@localizer["LastName"]</label>
+                   <input type="text" asp-for="LastName" name="LastName" class="form-control col-lg-12" placeholder="@localizer["LastName"]">  
+               </div>
+               <div class="form-group col-md-6">  
+                   <label for="PersonnelCode" class="form-label col-lg-12">@localizer["PersonnelCode"]</label>
+                   <input type="text" asp-for="PersonnelCode" name="PersonnelCode" class="form-control col-lg-12" placeholder="@localizer["PersonnelCode"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="NationalCode" class="form-label col-lg-12">@localizer["NationalCode"]</label>
+                   <input type="text" asp-for="NationalCode" name="NationalCode" class="form-control col-lg-12" placeholder="@localizer["NationalCode"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="PhoneNumber" class="form-label col-lg-12">@localizer["PhoneNumber"]</label>
+                   <input type="text" asp-for="PhoneNumber" name="PhoneNumber" class="form-control col-lg-12" placeholder="@localizer["PhoneNumber"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="IdentitySerialNumber" class="form-label col-lg-12">@localizer["IdentitySerialNumber"]</label>
+                   <input type="text" asp-for="IdentitySerialNumber" name="FatherName" class="form-control col-lg-12" placeholder="@localizer["IdentitySerialNumber"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="IdentityNumber" class="form-label col-lg-12">@localizer["IdentityNumber"]</label>
+                   <input type="text" asp-for="IdentityNumber" name="IdentityNumber" class="form-control col-lg-12" placeholder="@localizer["IdentityNumber"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="Nationality" class="form-label col-lg-12">@localizer["Nationality"]</label>
+                   <input type="text" asp-for="Nationality" name="Nationality" class="form-control col-lg-12" placeholder="@localizer["Nationality"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="JobTitle" class="form-label col-lg-12">@localizer["JobTitle"]</label>
+                   <input type="text" asp-for="JobTitle" name="JobTitle" class="form-control col-lg-12" placeholder="@localizer["JobTitle"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="JobCode" class="form-label col-lg-12">@localizer["JobCode"]</label>
+                   <input type="text" asp-for="JobCode" name="JobCode" class="form-control col-lg-12" placeholder="@localizer["JobCode"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="BirthPlace" class="form-label col-lg-12">@localizer["BirthPlace"]</label>
+                   <input type="text" asp-for="BirthPlace" name="BirthPlace" class="form-control col-lg-12" placeholder="@localizer["BirthPlace"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="Address" class="form-label col-lg-12">@localizer["Address"]</label>
+                   <input type="text" asp-for="Address" name="Address" class="form-control col-lg-12" placeholder="@localizer["Address"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="ZipCode" class="form-label col-lg-12">@localizer["ZipCode"]</label>
+                   <input type="text" asp-for="ZipCode" name="ZipCode" class="form-control col-lg-12" placeholder="@localizer["ZipCode"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="DegreeOfEducation" class="form-label col-lg-12">@localizer["DegreeOfEducation"]</label>
+                   <input type="text" asp-for="DegreeOfEducation" name="DegreeOfEducation" class="form-control col-lg-12" placeholder="@localizer["DegreeOfEducation"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="InsuranceCode" class="form-label col-lg-12">@localizer["InsuranceCode"]</label>
+                   <input type="text" asp-for="InsuranceCode" name="InsuranceCode" class="form-control col-lg-12" placeholder="@localizer["InsuranceCode"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="NumberOfChildren" class="form-label col-lg-12">@localizer["NumberOfChildren"]</label>
+                   <input type="text" asp-for="NumberOfChildren" name="NumberOfChildren" class="form-control col-lg-12" placeholder="@localizer["NumberOfChildren"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="MonthlyBaseYear" class="form-label col-lg-12">@localizer["MonthlyBaseYear"]</label>
+                   <input type="text" asp-for="MonthlyBaseYear" name="MonthlyBaseYear" class="form-control col-lg-12" placeholder="@localizer["MonthlyBaseYear"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="MonthlySalary" class="form-label col-lg-12">@localizer["MonthlySalary"]</label>
+                   <input type="text" asp-for="MonthlySalary" name="MonthlySalary" class="form-control col-lg-12" placeholder="@localizer["MonthlySalary"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="ChildrenRight" class="form-label col-lg-12">@localizer["ChildrenRight"]</label>
+                   <input type="text" asp-for="ChildrenRight" name="ChildrenRight" class="form-control col-lg-12" placeholder="@localizer["ChildrenRight"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="WorkerRight" class="form-label col-lg-12">@localizer["WorkerRight"]</label>
+                   <input type="text" asp-for="WorkerRight" name="WorkerRight" class="form-control col-lg-12" placeholder="@localizer["WorkerRight"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="FoodAndHouseRight" class="form-label col-lg-12">@localizer["FoodAndHouseRight"]</label>
+                   <input type="text" asp-for="FoodAndHouseRight" name="FoodAndHouseRight" class="form-control col-lg-12" placeholder="@localizer["FoodAndHouseRight"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="DailyBaseYear" class="form-label col-lg-12">@localizer["DailyBaseYear"]</label>
+                   <input type="text" asp-for="DailyBaseYear" name="DailyBaseYear" class="form-control col-lg-12" placeholder="@localizer["DailyBaseYear"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="DailySalary" class="form-label col-lg-12">@localizer["DailySalary"]</label>
+                   <input type="text" asp-for="DailySalary" name="DailySalary" class="form-control col-lg-12" placeholder="@localizer["DailySalary"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="InsuranceHistory" class="form-label col-lg-12">@localizer["InsuranceHistory"]</label>
+                   <input type="text" asp-for="InsuranceHistory" name="InsuranceHistory" class="form-control col-lg-12" placeholder="@localizer["InsuranceHistory"]">  
+               </div>
+                <div class="form-group col-md-6">  
+                   <label for="WorkExperience" class="form-label col-lg-12">@localizer["WorkExperience"]</label>
+                   <input type="text" asp-for="WorkExperience" name="WorkExperience" class="form-control col-lg-12" placeholder="@localizer["WorkExperience"]">  
+               </div>
+                <div class="form-group col-md-6" hidden="true">  
+                   <label for="Id" class="form-label col-lg-12">@localizer["Id"]</label>
+                   <input type="text" asp-for="Id" name="Id" class="form-control col-lg-12" placeholder="@localizer["Id"]">  
+               </div>
+            <div class="form-group col-md-12">  
+            <button type="submit" class=" btn btn-success padding-top">ذخیره</button>  
+            </div>
+            </div>
+        </form>
+    </div>
+</div>  
+
+
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+</script>

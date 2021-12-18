@@ -18,6 +18,16 @@ namespace Domain.Entities.Basic
 
         public ProjectStatus ProjectStatus { get; set; }
 
+        public string WorkshopCode { get; set; }
+
+        public string WorkshopName { get; set; }
+
+        public string RowOfCovenant { get; set; }
+
+        public string TaxAuthorityName { get; set; }
+
+        public string TaxAuthorityCode { get; set; }
+
         public virtual ICollection<ApplicationUser> ProjectUsers { get; set; }
     }
 }
