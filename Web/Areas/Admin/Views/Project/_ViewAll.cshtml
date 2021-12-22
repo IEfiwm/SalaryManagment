@@ -1,23 +1,23 @@
-﻿@using Web.Areas.Admin.Models
-@model IEnumerable<UserViewModel>
+﻿@using MD.PersianDateTime
+@using Web.Areas.Admin.Models
+@using Application.Extensions
+@using Common.Enums
+@model IEnumerable<ProjectViewModel>
 @inject IHtmlLocalizer<SharedResource> localizer
-<table class="table table-striped" id="userTable">
+<table class="table table-striped display" id="projectTable">
     <thead>
         <tr>
             <th>
-                @localizer["User"]
+                پروژه
             </th>
             <th>
-                @localizer["PhoneNumber"]
+                کارگاه
             </th>
             <th>
-                @localizer["PersonnelCode"]
+                امور مالیات
             </th>
             <th>
-                @localizer["NationalCode"]
-            </th>
-            <th>
-                @localizer["Status"]
+                وضعیت پروژه
             </th>
             <th style="width:10%">
                 #
@@ -25,18 +25,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model)
+        @foreach (var project in Model)
         {
             <tr>
                 <td>
                     <div class="row">
                         <div class="col-sm">
                             <a>
-                                @user.FirstName @user.LastName
+                                @project.Title
                             </a>
                             <br>
                             <small>
-                                @user.Id
+                                @project.Code
                             </small>
                         </div>
                     </div>
@@ -44,33 +44,41 @@
                 <td>
                     <div class="row">
                         <div class="col-sm">
-                            @user.PhoneNumber
+                            <a>
+                                @project.WorkshopName
+                            </a>
+                            <br>
+                            <small>
+                                @project.WorkshopCode
+                            </small>
                         </div>
                     </div>
                 </td>
                 <td>
                     <div class="row">
                         <div class="col-sm">
-                            @user.PersonnelCode
+                            <a>
+                                @project.TaxAuthorityName
+                            </a>
+                            <br>
+                            <small>
+                                @project.TaxAuthorityName
+                            </small>
                         </div>
                     </div>
                 </td>
                 <td>
                     <div class="row">
                         <div class="col-sm">
-                            @user.NationalCode
+                            <a>
+                                @(EnumHelper<ProjectStatus>.GetDisplayValue(project.ProjectStatus))
+                            </a>
+                            <br>
+                            <small>
+                                @(new PersianDateTime(project?.EndDate).Year + "/" + new PersianDateTime(project?.EndDate).Month)
+                            </small>
                         </div>
                     </div>
-                </td>
-                <td>
-                    @if (user.IsActive)
-                    {
-                        <span class="badge badge-success">@localizer["Active"]</span>
-                    }
-                    else
-                    {
-                        <span class="badge badge-danger">@localizer["Deactivated"]</span>
-                    }
                 </td>
                 <td>
                     <div class="btn-group">
@@ -78,15 +86,12 @@
                             @localizer["Actions"]
                         </button>
                         <div class="dropdown-menu shadow animated--grow-in">
-                            <a asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-userId="@user.Id" class="dropdown-item">
+                            <a asp-area="Admin" asp-controller="Project" asp-action="Edit" asp-route-projectId="@project.Id" class="dropdown-item">
                                 <i class="fa fa-pencil"></i> @localizer["Edit"]
                             </a>
-                            <a asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-userId="@user.Id" class="dropdown-item">
+                            <a asp-area="Admin" asp-controller="Project" asp-action="Delete" asp-route-projectId="@project.Id" class="dropdown-item">
                                 <i class="fa fa-pencil"></i> @localizer["Delete"]
                             </a>
-                            @*                            <a style='margin-right:16px' asp-controller="UserRole" asp-action="Index" asp-route-userId="@user.Id" class="dropdown-item">
-                                <i class="fas fa-wrench"></i> @localizer["Manage Roles"]
-                                </a>*@
                         </div>
                     </div>
                 </td>
@@ -97,7 +102,7 @@
 <script>
     var test;
     $(document).ready(function () {
-        test = $("#userTable").DataTable({
+        test = $("#projectTable").DataTable({
                 searching: true,
                 ordering:  true,
                 select: true,

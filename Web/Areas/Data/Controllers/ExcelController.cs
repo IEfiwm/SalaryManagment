@@ -115,18 +115,18 @@ namespace Web.Areas.Attendance.Controllers
 
                         _notify.Success("اطلاعات دریافت شدند، سامانه در حال وارد کردن اطلاعات است.");
 
-                        for (int j = 1; j < sheet.LastRowNum; j++)
+                        for (int j = 1; j < sheet.LastRowNum + 1; j++)
                         {
                             var row = sheet.GetRow(j);
 
                             personnelCode = row?.GetCell(1)?.ToString();
 
-                            var projectRef = (await _projectRepository.GetProjectByName(row?.GetCell(1)?.ToString()))?.Id;
+                            var projectRef = (await _projectRepository.GetProjectByName(row?.GetCell(0)?.ToString()))?.Id;
 
                             if (projectRef == null)
                                 projectRef = await _projectRepository.InsertAndSaveAsync(new Project
                                 {
-                                    Title = row?.GetCell(1)?.ToString(),
+                                    Title = row?.GetCell(0)?.ToString(),
                                     Code = Guid.NewGuid().ToString(),
                                     ProjectStatus = ProjectStatus.NotStarted,
                                     IsDeleted = false
@@ -142,6 +142,9 @@ namespace Web.Areas.Attendance.Controllers
                                 CreatedByRef = _userManager.Users.Where(m => m.UserName == "user").FirstOrDefault().Id,
                                 CreatedDate = DateTime.Now,
                             });
+
+                            //if (personnelCode == "120110")
+                            //    personnelCode = "120110";
 
                             var user = new ApplicationUser
                             {
@@ -281,7 +284,7 @@ namespace Web.Areas.Attendance.Controllers
                             sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook   
                         }
 
-                        for (int j = 1; j < sheet.LastRowNum; j++)
+                        for (int j = 1; j < sheet.LastRowNum + 1; j++)
                         {
                             var row = sheet.GetRow(j);
 
@@ -363,6 +366,10 @@ namespace Web.Areas.Attendance.Controllers
                                 UnemploymentInsurance = row?.GetCell(73)?.ToString(),
                                 Insurance30Percent = row?.GetCell(74)?.ToString(),
                                 EmployerShareInsurance = row?.GetCell(75)?.ToString(),
+                                ContinuousBasicRightsToHousingAndChildrenRights = row?.GetCell(76)?.ToString(),
+                                ContinuousBaseSalaryAndBaseYears = row?.GetCell(77)?.ToString(),
+                                NonContinuousIncludedNotIncluded = row?.GetCell(78)?.ToString(),
+                                NonContinuousIncluded = row?.GetCell(79)?.ToString(),
                             };
 
                             await _repository.InsertAsync(model);
@@ -407,10 +414,22 @@ namespace Web.Areas.Attendance.Controllers
 
             foreach (var item in listOfAttendances)
             {
-                await _userManager.DeleteAsync(item);
+                var role = await _userManager.GetRolesAsync(item);
+
+                if (role.FirstOrDefault() == "User")
+                    await _userManager.DeleteAsync(item);
             }
 
-            _notify.Success("کارکرد با موفقیت حذف شد .");
+            var bankaccs = await _bankAccountRepository.GetListAsync();
+
+            foreach (var item in bankaccs)
+            {
+                await _bankAccountRepository.DeleteAsync(item);
+            }
+
+            await _bankAccountRepository.SaveChangesAsync();
+
+            _notify.Success("پرسنل با موفقیت حذف شد .");
 
             return Redirect("~/");
         }

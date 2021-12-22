@@ -1,21 +1,35 @@
 ﻿@{
-    ViewBag.Title = "لیست بیمه";
+    ViewBag.Title = " خروجی لیست بیمه";
 }
 
 <form id="form" method="POST">
-        <div class="row">
-    <div class="mb-3 col-2">
-        <label class="form-label" for="inputEmail">سال</label>
-        <input type="text" name="year" class="form-control" placeholder="">
-    </div>
-    <div class="mb-3 col-2">
-        <label class="form-label" for="inputPassword">ماه</label>
-        <input type="text" name="month" class="form-control" placeholder="">
-    </div>
-     <div class="mt-5 col-4">
-    <button onclick="SubmitDBFForm()" class="btn btn-primary">تولید فایل DBF</button>
-    <button onclick="SubmitPDFForm()" class="btn btn-primary">تولید فایل PDF</button>
-    </div>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label" for="inputEmail">سال</label>
+                            <input type="text" name="year" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" for="inputPassword">ماه</label>
+                            <input type="text" name="month" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="col-12 mt-1">
+                            <label class="form-label" for="inputPassword">پروژه</label>
+                            <select id="project" class="js-data-example-ajax form-control" required>
+                                <option selected>یک مورد را انتخاب کنید</option>
+                            </select>
+                        </div>
+                        <div class="mt-3 col-12">
+                            <button onclick="SubmitDBFForm()" class="btn btn-primary">تولید فایل DBF</button>
+                            <button onclick="SubmitPDFForm()" class="btn btn-primary">تولید فایل PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </form>
 <script>
@@ -25,4 +39,34 @@
     function SubmitPDFForm(){
         $('#form').attr('action', "/Export/Insurance/PDF").submit();
     }
+    //$.ajax({
+    //    url: "/admin/project/getlist",
+    //    method: "GET",
+    //    success: function (model){
+    //        console.log(model);
+    //        //$("#project").append($('<option>', {
+    //        //    value: 1,
+    //        //    text: 'My option'
+    //        //}));
+    //    }
+    //})
+
 </script>
+@section Scripts{
+<script>
+
+        $.ajax({
+        url: "/admin/project/getlist",
+        method: "GET",
+        success: function (model){
+            //console.log(parseJSON(model));
+            $.map( model, function( val, i ) {
+                console.log(val);
+                $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
+            });
+            //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');
+            //$("#project").select2();
+        }
+    })
+</script>
+}

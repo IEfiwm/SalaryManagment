@@ -152,8 +152,16 @@ namespace Domain.Entities.Data
 
         public string UnemploymentInsurance { get; set; }
 
-        public string Insurance30Percent{ get; set; }
+        public string Insurance30Percent { get; set; }
 
         public string EmployerShareInsurance { get; set; }
+
+        public string ContinuousBasicRightsToHousingAndChildrenRights { get; set; }
+
+        public string ContinuousBaseSalaryAndBaseYears { get; set; }
+
+        public string NonContinuousIncludedNotIncluded { get; set; }
+
+        public string NonContinuousIncluded { get; set; }
     }
 }
