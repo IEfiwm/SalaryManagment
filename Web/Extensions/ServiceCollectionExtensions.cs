@@ -145,6 +145,7 @@ namespace Web.Extensions
             services.AddTransient<IBankAccountRepository, BankAccountRepository>();
             services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddTransient<IAuthenticationCodeRepository, AuthenticationCodeRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
         }
     }
 }

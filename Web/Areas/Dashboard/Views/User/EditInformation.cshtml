@@ -2,56 +2,32 @@
 <form action="Edit" method="post">
     <div class="row">
         <div class="col-6 mb-2">
-            <label for="PersonnelCode">کد پرسنلی</label>
-            <input asp-for="PersonnelCode" name="PersonnelCode" class="form-control"/>
-        </div>
-        <div class="col-6 mb-2">
-            <label for="FirstName">نام</label>
-            <input asp-for="FirstName" name="FirstName" class="form-control"/>
-        </div>
-        <div class="col-6 mb-2">
-            <label for="LastName">نام خانوادگی</label>
-            <input asp-for="LastName" name="LastName" class="form-control"/>
-        </div>
-        <div class="col-6 mb-2">
             <label for="Birthday">تاریخ تولد</label>
-            <input name="Birthday" class="datepicker form-control" value="@Model.Birthday.ToString()"/>
-        </div>
-        <div class="col-6 mb-2">
-            <label for="NationalCode">کد ملی</label>
-            <input asp-for="NationalCode" name="NationalCode" class="form-control"/>
+            <input name="Birthday" class="datepicker form-control" value="@Model.Birthday.ToString()" />
         </div>
         <div class="col-6 mb-2">
             <label for="FatherName">نام پدر</label>
-            <input asp-for="FatherName" name="FatherName" class="form-control"/>
+            <input asp-for="FatherName" name="FatherName" class="form-control" />
         </div>
         <div class="col-6 mb-2">
             <label for="IdentitySerialNumber">سریال شناسنامه</label>
-            <input asp-for="IdentitySerialNumber" name="IdentitySerialNumber" class="form-control"/>
+            <input asp-for="IdentitySerialNumber" name="IdentitySerialNumber" class="form-control" />
         </div>
         <div class="col-6 mb-2">
             <label for="IdentityNumber">شماره شناسنامه</label>
-            <input asp-for="IdentityNumber" name="IdentityNumber" class="form-control"/>
+            <input asp-for="IdentityNumber" name="IdentityNumber" class="form-control" />
         </div>
         <div class="col-6 mb-2">
             <label for="BirthPlace">محل تولد</label>
-            <input asp-for="BirthPlace" name="BirthPlace" class="form-control"/>
+            <input asp-for="BirthPlace" name="BirthPlace" class="form-control" />
         </div>
         <div class="col-6 mb-2">
             <label for="Address">آدرس</label>
-            <input asp-for="Address" name="Address" class="form-control"/>
+            <input asp-for="Address" name="Address" class="form-control" />
         </div>
         <div class="col-6 mb-2">
             <label for="ZipCode">کد پستی</label>
-            <input asp-for="ZipCode" name="ZipCode" class="form-control"/>
-        </div>
-        <div class="col-6 mb-2">
-            <label for="InsuranceCode">کد بیمه</label>
-            <input asp-for="InsuranceCode" name="InsuranceCode" class="form-control"/>
-        </div>
-        <div class="col-6 mb-2">
-            <label for="NumberOfChildren">تعداد اولاد</label>
-            <input asp-for="NumberOfChildren" name="NumberOfChildren" class="form-control"/>
+            <input asp-for="ZipCode" name="ZipCode" class="form-control" />
         </div>
         <div class="col-6 mb-2">
             <label for="PhoneNumber">شماره همراه</label>

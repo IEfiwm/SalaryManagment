@@ -8,7 +8,12 @@ namespace Web.Areas.Admin.Mappings
     {
         public UserProfile()
         {
-            CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
+            CreateMap<ApplicationUser, UserViewModel>()
+                .ForMember(des => des.BankAccNumber, m => m.MapFrom(s => s.Bank.AccountNumber))
+                .ForMember(des => des.BankName, m => m.MapFrom(s => s.Bank.Title))
+                .ForMember(des => des.ProjectName, m => m.MapFrom(s => s.Project.Title));
+
+            CreateMap<UserViewModel, ApplicationUser>();
         }
     }
 }

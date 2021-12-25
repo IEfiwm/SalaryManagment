@@ -5,20 +5,53 @@
     <thead>
         <tr>
             <th>
+                کد پ
+            </th>
+            <th>
+                نام و نام خانوادگی
+            </th>
+            <th>
+                نام پدر
+            </th>
+            <th>
+                کد ملی
+            </th>
+            <th>
+                شماره بیمه
+            </th>
+            <th>
+                شماره تماس
+            </th>
+            <th>
+                شغل
+            </th>
+            <th>
+                شماره حساب
+            </th>
+            <th>
+                شروع کار
+            </th>
+            <th>
+                ترک کار
+            </th>
+            <th>
+                وضعیت
+            </th>
+            @*            <th>
                 @localizer["User"]
-            </th>
-            <th>
+                </th>
+                <th>
                 @localizer["PhoneNumber"]
-            </th>
-            <th>
+                </th>
+                <th>
                 @localizer["PersonnelCode"]
-            </th>
-            <th>
+                </th>
+                <th>
                 @localizer["NationalCode"]
-            </th>
-            <th>
+                </th>
+                <th>
                 @localizer["Status"]
-            </th>
+                </th>*@
             <th style="width:10%">
                 #
             </th>
@@ -32,12 +65,46 @@
                     <div class="row">
                         <div class="col-sm">
                             <a>
+                                @user.PersonnelCode
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a>
                                 @user.FirstName @user.LastName
                             </a>
                             <br>
                             <small>
-                                @user.Id
+                                @user.ProjectName
                             </small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a>
+                                @user.FatherName
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a>
+                                @user.NationalCode
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            @user.InsuranceCode
                         </div>
                     </div>
                 </td>
@@ -51,14 +118,28 @@
                 <td>
                     <div class="row">
                         <div class="col-sm">
-                            @user.PersonnelCode
+                            @user.JobTitle
                         </div>
                     </div>
                 </td>
                 <td>
                     <div class="row">
                         <div class="col-sm">
-                            @user.NationalCode
+                            @user.BankAccNumber
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            @(user.StartWorkingDate != null ? user.StartWorkingDate.Value.ToString("yyyy/mm/dd")  : "")
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            @(user.EndWorkingDate != null ? user.EndWorkingDate.Value.ToString("yyyy/mm/dd")  : "")
                         </div>
                     </div>
                 </td>
@@ -97,9 +178,10 @@
 <script>
     var test;
     $(document).ready(function () {
-        test = $("#userTable").DataTable({
+        $("#userTable").DataTable({
                 searching: true,
                 ordering:  true,
+                processing: true,
                 select: true,
                 responsive: true,
                 oLanguage : {
@@ -114,6 +196,9 @@
                         sNext: "بعدی",
                     }
                 },
+                initComplete: function(settings, json) {
+                  SetLoading(false,"#myT");
+                }
         });
     });
 </script>

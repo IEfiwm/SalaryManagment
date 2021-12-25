@@ -2,34 +2,36 @@
 @{
     ViewData["Title"] = localizer["Users"];
     ViewData["Caption"] = localizer["Manage Users here"];
-    ViewBag.Title = "مدیریت کاربران"; 
+    ViewBag.Title = "مدیریت کاربران";
 }
-<div class="card">
+<div class="card" id="myT">
     <div class="col-sm-12" style="padding:20px">
         @*        <a onclick="jQueryModalGet('/admin/user/OnGetCreate','Create User')" class="btn bg-success">
             <i class="fa fa-plus-square"></i> @localizer["Create"]
             </a>*@
-@*        <a id="reload" class="btn btn-primary text-white">
+        @*        <a id="reload" class="btn btn-primary text-white">
             <i class="fa fas fa-bolt"></i>
             @localizer["Reload"]
-        </a>*@
+            </a>*@
     </div>
     <div id="viewAll" class="card-body table-responsive">
     </div>
 </div>
 @section Scripts
 {
-    <script src="~/js/site.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#userTable").DataTable();
+<script src="~/js/site.js"></script>
+<script>
+    $(document).ready(function () {
+        //$("#userTable").DataTable();
+        loadData();
+        $('#reload').on('click', function () {
             loadData();
-            $('#reload').on('click', function () {
-                loadData();
-            });
         });
-        function loadData() {
-            $('#viewAll').load('/admin/user/loadall');
-        }
-    </script>
+    });
+    function loadData() {
+        $('#viewAll').load('/admin/user/loadall');
+
+        SetLoading(true,"#myT");
+    }
+</script>
 }

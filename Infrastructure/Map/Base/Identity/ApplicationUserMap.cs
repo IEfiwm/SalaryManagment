@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Base.Identity;
 using Infrastructure.Attribute;
+using Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,6 +9,8 @@ namespace Infrastructure.Map.Base.Identity
     [Base]
     public class ApplicationUserMap : IEntityTypeConfiguration<ApplicationUser>
     {
+        public IdentityContext _context { get; set; }
+
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
             builder.ToTable(name: "Users", "Identity");

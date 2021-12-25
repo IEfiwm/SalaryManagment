@@ -1,16 +1,19 @@
-﻿using Application.Constants;
-using Application.Enums;
+﻿using Application.Enums;
 using Domain.Entities.Base.Identity;
-using Web.Abstractions;
-using Web.Areas.Admin.Models;
+using Domain.Entities.Basic;
+using Infrastructure.Repositories.Application.Basic;
+using Infrastructure.Repositories.Application.Idenitity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Web.Abstractions;
+using Web.Areas.Admin.Models;
 
 namespace Web.Areas.Admin.Controllers
 {
@@ -21,12 +24,23 @@ namespace Web.Areas.Admin.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUserRepository _userRepository;
+        private readonly IBankAccountRepository _bankAccountRepository;
+        private readonly IProjectRepository _projectRepository;
 
-        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public UserController(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
+            IUserRepository userRepository,
+            IBankAccountRepository bankAccountRepository,
+            IProjectRepository projectRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _userRepository = userRepository;
+            _projectRepository = projectRepository;
+            _bankAccountRepository = bankAccountRepository;
         }
 
         //[Authorize(Policy = Permissions.Users.View)]
@@ -37,13 +51,15 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> LoadAll()
         {
-            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var currentUser = await _userRepository.GetUserAsync(HttpContext.User);
 
-            var allUsersExceptCurrentUser = await _userManager.Users.Where(a => a.Id != currentUser.Id).ToListAsync();
+            var role = await _roleManager.FindByNameAsync(Roles.User.ToString());
+
+            var allUsersExceptCurrentUser = await _userRepository.GetUserListAsync();
 
             var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser);
 
-            return PartialView("_ViewAll", model);
+            return PartialView("_ViewAll", model.Where(m => m.Email is null).ToList());
         }
 
         public async Task<IActionResult> OnGetCreate()
@@ -98,45 +114,59 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditUser(UserViewModel user)
         {
-            var model = await _userManager.FindByIdAsync(user.Id);
+            var ouser = await _userRepository.GetUserByIdAsync(user.Id);
 
-            model.IdentityNumber = user.IdentityNumber;
+            ouser = _mapper.Map<UserViewModel, ApplicationUser>(user, ouser);
 
-            model.IdentitySerialNumber = user.IdentitySerialNumber;
+            var res = await _userRepository.SaveChangesAsync();
 
-            model.InsuranceCode = user.InsuranceCode;
+            //var res = await _userManager.UpdateAsync(ouser);
 
-            model.InsuranceHistory = user.InsuranceHistory;
+            if (res > 0)
+                _notify.Success("ویرایش با موفقیت انجام شد.");
+            else
+            {
+                _notify.Error("ویرایش انجام نشد.");
 
-            model.JobCode = user.JobCode;
+                return Redirect("/admin/user/edit?userId=" + user.Id);
+            }
 
-            model.JobTitle = user.JobTitle;
+            return RedirectToAction("Index");
+        }
 
-            model.FirstName = user.FirstName;
+        public async Task<IActionResult> Create()
+        {
+            return View();
+        }
 
-            model.LastName = user.LastName;
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(UserViewModel user)
+        {
+            var bankRef = await _bankAccountRepository.InsertAndSaveAsync(new BankAccount
+            {
+                AccountNumber = user.BankAccNumber,
+                Title = user.BankName,
+                CreatedByRef = (await _userManager.GetUserAsync(HttpContext.User)).Id,
+                CreatedDate = System.DateTime.Now
+            });
 
-            model.ModifiedDate = System.DateTime.Now;
+            user.Id = Guid.NewGuid().ToString();
 
-            model.MonthlyBaseYear = user.MonthlyBaseYear;
+            user.UserName = user.PersonnelCode;
 
-            model.MonthlySalary = user.MonthlySalary;
+            ApplicationUser model = _mapper.Map<ApplicationUser>(user);
 
-            model.NationalCode = user.NationalCode;
+            model.BankAccountRef = bankRef;
 
-            model.Nationality = user.Nationality;
+            model.CreateDate = System.DateTime.Now;
 
-            model.NumberOfChildren = user.NumberOfChildren;
+            model.IsDeleted = false;
 
-            model.PhoneNumber = user.PhoneNumber;
+            model.IsProfileCompleted = true;
 
-            model.WorkerRight = user.WorkerRight;
+            model.IsInsurance = true;
 
-            model.WorkExperience = user.WorkExperience;
-
-            model.ZipCode = user.ZipCode;
-
-            var res = await _userManager.UpdateAsync(model);
+            var res = await _userManager.CreateAsync(model, model.PhoneNumber);
 
             if (res.Succeeded)
                 _notify.Success("ویرایش با موفقیت انجام شد.");

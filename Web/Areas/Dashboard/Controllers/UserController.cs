@@ -47,19 +47,15 @@ namespace Web.Areas.Dashboard.Controllers
 
             var pc = new GregorianCalendar();
 
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
             user.Address = model.Address;
             user.PhoneNumber = model.PhoneNumber;
             user.NumberOfChildren = model.NumberOfChildren;
             user.FatherName = model.FatherName;
-            user.NationalCode = model.NationalCode;
             user.Birthday = DateTime.Parse(string.Format("{0}/{1}/{2}", pc.GetYear(model.Birthday.Value), pc.GetMonth(model.Birthday.Value), pc.GetDayOfMonth(model.Birthday.Value)));
             user.IdentitySerialNumber = model.IdentitySerialNumber;
             user.IdentityNumber = model.IdentityNumber;
             user.BirthPlace = model.BirthPlace;
             user.ZipCode = model.ZipCode;
-            user.InsuranceCode = model.InsuranceCode;
 
             var res = await _userManager.UpdateAsync(user);
 

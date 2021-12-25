@@ -1,4 +1,7 @@
-﻿namespace Web.Areas.Admin.Models
+﻿using Common.Enums;
+using System;
+
+namespace Web.Areas.Admin.Models
 {
     public class UserViewModel
     {
@@ -68,6 +71,30 @@
 
         public int WorkExperience { get; set; }
 
+        public string BankName { get; set; }
+
+        public string BankAccNumber { get; set; }
+
+        public long BankRef { get; set; }
+
+        public string ProjectName { get; set; }
+
+        public long ProjectRef { get; set; }
+
         public string Id { get; set; }
+
+        public DateTime? HireDate { get; set; }
+
+        public DateTime? StartWorkingDate { get; set; }
+
+        public DateTime? EndWorkingDate { get; set; }
+
+        public DateTime? Birthday { get; set; }
+
+        public MaritalStatus MaritalStatus { get; set; }
+
+        public MilitaryService MilitaryService { get; set; }
+
+        public Gender Gender { get; set; }
     }
 }

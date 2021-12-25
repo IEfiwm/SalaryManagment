@@ -66,8 +66,8 @@ namespace Domain.Entities.Base.Identity
 
         public bool IsInsurance { get; set; } = true;
 
-        public virtual BankAccount Bank { get; set; }
+        public BankAccount Bank { get; set; }
 
-        public virtual Project Project { get; set; }
+        public Project Project { get; set; }
     }
 }
