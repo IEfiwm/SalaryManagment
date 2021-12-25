@@ -1,11 +1,13 @@
-﻿using Common.Enums;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Web.Models
+namespace Web.Areas.Dashboard.Models
 {
     public class EditUserViewModel
     {
+        public string Id { get; set; }
+
         [Required]
         public string FirstName { get; set; }
 
@@ -44,6 +46,8 @@ namespace Web.Models
 
         [Required]
         public string PhoneNumber { get; set; }
+
+        public List<AdditionalUserDataViewModel> AdditionalUserData { get; set; }
 
         //[Required]
         //public MaritalStatus MaritalStatus { get; set; }

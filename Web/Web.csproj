@@ -31,7 +31,6 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Authentication\Data\" />
     <Folder Include="Areas\Dashboard\Data\" />
-    <Folder Include="Areas\Dashboard\Models\" />
     <Folder Include="Areas\Data\Data\" />
     <Folder Include="Areas\Data\Models\" />
     <Folder Include="Areas\Export\Mappings\" />

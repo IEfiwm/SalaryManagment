@@ -114,6 +114,8 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditUser(UserViewModel user)
         {
+            user.UserName = user.PhoneNumber;
+
             var ouser = await _userRepository.GetUserByIdAsync(user.Id);
 
             ouser = _mapper.Map<UserViewModel, ApplicationUser>(user, ouser);
@@ -152,7 +154,7 @@ namespace Web.Areas.Admin.Controllers
 
             user.Id = Guid.NewGuid().ToString();
 
-            user.UserName = user.PersonnelCode;
+            user.UserName = user.PhoneNumber;
 
             ApplicationUser model = _mapper.Map<ApplicationUser>(user);
 
@@ -168,11 +170,17 @@ namespace Web.Areas.Admin.Controllers
 
             var res = await _userManager.CreateAsync(model, model.PhoneNumber);
 
+
+
             if (res.Succeeded)
-                _notify.Success("ویرایش با موفقیت انجام شد.");
+            {
+                await _userManager.AddToRoleAsync(model, Roles.User.ToString());
+
+                _notify.Success("افزودن کاربر با موفقیت انجام شد.");
+            }
             else
             {
-                _notify.Error("ویرایش انجام نشد.");
+                _notify.Error("افزودن کاربر انجام نشد.");
 
                 return Redirect("/admin/user/edit?userId=" + user.Id);
             }

@@ -3,6 +3,7 @@ using Domain.Entities.Basic;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Base.Identity
 {
@@ -38,7 +39,8 @@ namespace Domain.Entities.Base.Identity
 
         public bool IsDeleted { get; set; } = false;
 
-        public string CallerRef { get; set; }
+        [ForeignKey("Caller")]
+        public string CallerRef { get; set; } = null;
 
         public DateTime CreateDate { get; set; } = DateTime.Now;
 

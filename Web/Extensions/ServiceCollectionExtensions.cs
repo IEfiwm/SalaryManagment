@@ -146,6 +146,7 @@ namespace Web.Extensions
             services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddTransient<IAuthenticationCodeRepository, AuthenticationCodeRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IAdditionalUserDateRepository, AdditionalUserDateRepository>();
         }
     }
 }
