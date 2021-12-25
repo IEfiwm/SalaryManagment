@@ -170,8 +170,6 @@ namespace Web.Areas.Admin.Controllers
 
             var res = await _userManager.CreateAsync(model, model.PhoneNumber);
 
-
-
             if (res.Succeeded)
             {
                 await _userManager.AddToRoleAsync(model, Roles.User.ToString());
