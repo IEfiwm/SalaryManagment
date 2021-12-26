@@ -52,7 +52,7 @@
                                         <div class="text-center">
                                             <h1 class="h4 text-gray-900 mb-4">@localizer["Login"]</h1>
                                         </div>
-                                        <form class="user" id="account" method="post" action="RequestVerificationCode">
+                                        <form class="user" id="account" method="post" asp-controller="Login" asp-action="RequestVerificationCode">
                                             @*                                            <div class="form-group">
                                                 <input asp-for="Input.Email" type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
                                                 <small><span asp-validation-for="Input.Email" class="text-danger"></span></small>

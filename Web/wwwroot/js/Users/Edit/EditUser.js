@@ -5,7 +5,7 @@
         <div class="card-header" name="familyBox"><h6>#`+ (index + 1) + ` رابطه خویشاوندی</h6></div>
         <div class="card-body">
             <div class="row">
-                <input name="AdditionalUserData[`+ index + `].ParentRef" value="251def26-0015-461e-9f5a-f7afe88d2536" hidden="" type="text" id="AdditionalUserData_0__ParentRef">
+                <input name="AdditionalUserData[`+ index + `].ParentRef" value="` + $('#Id').val()+`" hidden="" type="text" id="AdditionalUserData_0__ParentRef">
                 <div class="col-6 mb-2">
                     <label for="AdditionalUserData[`+ index + `].FirstName">نام</label>
                     <input name="AdditionalUserData[`+ index + `].FirstName" class="form-control" type="text" id="AdditionalUserData_0__FirstName" value="" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da">
@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-6 mb-2">
                     <label for="AdditionalUserData[`+ index + `].Birthday">تاریخ تولد</label>
-                    <input name="AdditionalUserData[`+ index + `].Birthday" class="datepicker form-control pdp-el" pdp-id="pdp-537772" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da">
+                    <input name="AdditionalUserData[`+ index + `].Birthday" class="datepicker form-control">
                 </div>
                 <div class="col-6 mb-2">
                     <label class="form-label" for="WorkshopCode">جنسیت</label>
@@ -36,7 +36,6 @@
                 <div class="col-6 mb-2">
                     <label class="form-label" for="WorkshopCode">رابطه خویشاوندی</label>
                     <select class="form-control" data-val="true" data-val-required="The FamilyRole field is required." id="AdditionalUserData_0__FamilyRole" name="AdditionalUserData[`+ index + `].FamilyRole" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da">
-                        <option value="0">Me</option>
                         <option value="1">Wife</option>
                         <option value="2">Doughter</option>
                         <option value="3">Son</option>
@@ -45,14 +44,14 @@
                     </select>
                 </div>
             </div>
-            <div class="card-footer text-right">
-                <button type="button" onclick="RemoveBox('`+ index + `')" class="btn btn-danger">
-                    <i>حذف</i>
-                </button>
-            </div>
+        </div>
+        <div class="card-footer text-right">
+            <button type="button" onclick="RemoveBox('`+ index + `')" class="btn btn-danger">
+                <i>حذف</i>
+            </button>
         </div>
     </div>`
-    $('#add-new-familyRole-box').after(newBox);
+    $('#mainBox').after(newBox);
 });
 
 function RemoveBox(index) {

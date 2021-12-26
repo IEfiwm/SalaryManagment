@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Web.Abstractions;
 using Web.Areas.Dashboard.Models;
@@ -39,10 +40,18 @@ namespace Web.Areas.Dashboard.Controllers
 
             if (user.Birthday != null)
             {
-                var birth = user.Birthday.Value.Date.ToString("yyyy/MM/dd").Split("/");
-
-                user.Birthday = new DateTime(Convert.ToInt32(birth[0]), Convert.ToInt32(birth[1]), Convert.ToInt32(birth[2]), new PersianCalendar());
+                user.Birthday = new DateTime(pc.GetYear(user.Birthday.Value), pc.GetMonth(user.Birthday.Value), pc.GetDayOfMonth(user.Birthday.Value));
             }
+
+            user.AdditionalUserData = _mapper.Map<List<AdditionalUserDataViewModel>>
+                (_additionalUserDateRepository.Model.Where(x => x.ParentRef == user.Id))
+                .Where(x => x.FamilyRole != Common.Enums.FamilyRole.Me).ToList();
+
+            user.AdditionalUserData.ForEach(x =>
+            {
+                if (x.Birthday != null)
+                    x.Birthday = new DateTime(pc.GetYear(x.Birthday.Value), pc.GetMonth(x.Birthday.Value), pc.GetDayOfMonth(x.Birthday.Value));
+            });
 
 
             return View(user);
@@ -52,35 +61,23 @@ namespace Web.Areas.Dashboard.Controllers
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-
-            var pc = new GregorianCalendar();
-
-            user.Address = model.Address;
-            user.PhoneNumber = model.PhoneNumber;
-            user.NumberOfChildren = model.NumberOfChildren;
-            user.FatherName = model.FatherName;
-            user.Birthday = DateTime.Parse(string.Format("{0}/{1}/{2}", pc.GetYear(model.Birthday.Value), pc.GetMonth(model.Birthday.Value), pc.GetDayOfMonth(model.Birthday.Value)));
-            user.IdentitySerialNumber = model.IdentitySerialNumber;
-            user.IdentityNumber = model.IdentityNumber;
-            user.BirthPlace = model.BirthPlace;
-            user.ZipCode = model.ZipCode;
+            user = _mapper.Map<EditUserViewModel, ApplicationUser>(model, user);
+            var pc = new PersianCalendar();
+            if (model.Birthday != null)
+                user.Birthday = new DateTime(model.Birthday.Value.Year, model.Birthday.Value.Month, model.Birthday.Value.Day, pc);
 
             var res = await _userManager.UpdateAsync(user);
 
-            if (model.AdditionalUserData == null)
-                model.AdditionalUserData = new List<AdditionalUserDataViewModel>();
 
-            model.AdditionalUserData.Add(new AdditionalUserDataViewModel
-            {
-                FamilyRole = Common.Enums.FamilyRole.Me,
-            });
+            if (!model.AdditionalUserData.Any(x => x.FamilyRole == Common.Enums.FamilyRole.Me))
+                model.AdditionalUserData.Add(new AdditionalUserDataViewModel
+                {
+                    FamilyRole = Common.Enums.FamilyRole.Me,
+                    ParentRef = user.Id
+                });
 
-            foreach (var additionalUserModel in model.AdditionalUserData)
-            {
-                var userModel = _mapper.Map<AdditionalUserData>(additionalUserModel);
-
-                await _additionalUserDateRepository.InsertAndSaveAsync(userModel);
-            }
+            var additionaluserModel = _mapper.Map<List<AdditionalUserData>>(model.AdditionalUserData);
+            await _additionalUserDateRepository.UpdateByUserId(additionaluserModel, user.Id);
 
 
             if (res.Succeeded)

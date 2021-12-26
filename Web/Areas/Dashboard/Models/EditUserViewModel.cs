@@ -47,7 +47,7 @@ namespace Web.Areas.Dashboard.Models
         [Required]
         public string PhoneNumber { get; set; }
 
-        public List<AdditionalUserDataViewModel> AdditionalUserData { get; set; }
+        public List<AdditionalUserDataViewModel> AdditionalUserData { get; set; } = new List<AdditionalUserDataViewModel>();
 
         //[Required]
         //public MaritalStatus MaritalStatus { get; set; }
