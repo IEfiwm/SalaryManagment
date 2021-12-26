@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-6 mb-2">
                     <label for="AdditionalUserData[`+ index + `].Birthday">تاریخ تولد</label>
-                    <input name="AdditionalUserData[`+ index + `].Birthday" class="datepicker form-control">
+                    <input name="AdditionalUserData[`+ index + `].Birthday" id="AdditionalUserData_` + index + `__Birthday" class="datepicker form-control">
                 </div>
                 <div class="col-6 mb-2">
                     <label class="form-label" for="WorkshopCode">جنسیت</label>
@@ -51,7 +51,9 @@
             </button>
         </div>
     </div>`
+
     $('#mainBox').after(newBox);
+    $('#AdditionalUserData_' + index + '__Birthday').persianDatepicker();
 });
 
 function RemoveBox(index) {
