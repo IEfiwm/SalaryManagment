@@ -14,6 +14,7 @@ using Web.Areas.Authentication.Models;
 
 namespace Web.Areas.Authentication.Controllers
 {
+    [AllowAnonymous]
     [Area("Authentication")]
     public class LoginController : BaseController<LoginController>
     {
