@@ -15,12 +15,12 @@ namespace Web.Areas.Export.Controllers
 
         public IActionResult DBF(int year, int month)
         {
-            return Redirect(@$"https://kosha.tj.ngraapp.ir/Report/DBFSummary/{year}/{month}");
+            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/DBFSummary/{year}/{month}");
         }
 
         public IActionResult PDF(int year, int month)
         {
-            return Redirect(@$"https://kosha.tj.ngraapp.ir/Report/InsuranceSummary/{year}/{month}");
+            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/InsuranceSummary/{year}/{month}");
         }
     }
 }

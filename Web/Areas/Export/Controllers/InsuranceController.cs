@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Web.Abstractions;
 using Web.Controllers;
 
 namespace Web.Areas.Export.Controllers
@@ -14,15 +15,15 @@ namespace Web.Areas.Export.Controllers
         }
 
         [HttpPost]
-        public IActionResult DBF(int year, int month)
+        public IActionResult DBF(int year, int month, long projectId)
         {
-            return Redirect(@$"https://kosha.tj.ngraapp.ir/Report/DBFAll/{year}/{month}");
+            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/DBFAll/{year}/{month}/{projectId}");
         }
 
         [HttpPost]
-        public IActionResult PDF(int year, int month)
+        public IActionResult PDF(int year, int month, long projectId)
         {
-            return Redirect(@$"https://kosha.tj.ngraapp.ir/Report/InsuranceAll/{year}/{month}");
+            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/InsuranceAll/{year}/{month}/{projectId}");
         }
     }
 }
