@@ -60,9 +60,17 @@ namespace Web.Areas.Dashboard.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            user = _mapper.Map<EditUserViewModel, ApplicationUser>(model, user);
             var pc = new PersianCalendar();
+
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            user.Address = model.Address;
+            user.PhoneNumber = model.PhoneNumber;
+            user.FatherName = model.FatherName;
+            user.IdentitySerialNumber = model.IdentitySerialNumber;
+            user.IdentityNumber = model.IdentityNumber;
+            user.BirthPlace = model.BirthPlace;
+            user.ZipCode = model.ZipCode;
             if (model.Birthday != null)
                 user.Birthday = new DateTime(model.Birthday.Value.Year, model.Birthday.Value.Month, model.Birthday.Value.Day, pc);
 
