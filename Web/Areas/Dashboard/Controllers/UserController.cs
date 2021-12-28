@@ -49,7 +49,7 @@ namespace Web.Areas.Dashboard.Controllers
 
             user.AdditionalUserData.ForEach(x =>
             {
-                if (x.Birthday != null)
+                if (x.Birthday != null)                                                                                                                                                            
                     x.Birthday = new DateTime(pc.GetYear(x.Birthday.Value), pc.GetMonth(x.Birthday.Value), pc.GetDayOfMonth(x.Birthday.Value));
             });
 
