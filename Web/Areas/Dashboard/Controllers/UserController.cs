@@ -38,20 +38,20 @@ namespace Web.Areas.Dashboard.Controllers
             var pc = new PersianCalendar();
             //bug
 
-            if (user.Birthday != null)
-            {
-                user.Birthday = new DateTime(pc.GetYear(user.Birthday.Value), pc.GetMonth(user.Birthday.Value), pc.GetDayOfMonth(user.Birthday.Value));
-            }
+            //if (user.Birthday != null)
+            //{
+            //    user.Birthday = new DateTime(pc.GetYear(user.Birthday.Value), pc.GetMonth(user.Birthday.Value), pc.GetDayOfMonth(user.Birthday.Value));
+            //}
 
             user.AdditionalUserData = _mapper.Map<List<AdditionalUserDataViewModel>>
                 (_additionalUserDateRepository.Model.Where(x => x.ParentRef == user.Id))
                 .Where(x => x.FamilyRole != Common.Enums.FamilyRole.Me).ToList();
 
-            user.AdditionalUserData.ForEach(x =>
-            {
-                if (x.Birthday != null)                                                                                                                                                            
-                    x.Birthday = new DateTime(pc.GetYear(x.Birthday.Value), pc.GetMonth(x.Birthday.Value), pc.GetDayOfMonth(x.Birthday.Value));
-            });
+            //user.AdditionalUserData.ForEach(x =>
+            //{
+            //    if (x.Birthday != null)                                                                                                                                                            
+            //        x.Birthday = new DateTime(pc.GetYear(x.Birthday.Value), pc.GetMonth(x.Birthday.Value), pc.GetDayOfMonth(x.Birthday.Value));
+            //});
 
 
             return View(user);
@@ -71,8 +71,8 @@ namespace Web.Areas.Dashboard.Controllers
             user.IdentityNumber = model.IdentityNumber;
             user.BirthPlace = model.BirthPlace;
             user.ZipCode = model.ZipCode;
-            if (model.Birthday != null)
-                user.Birthday = new DateTime(model.Birthday.Value.Year, model.Birthday.Value.Month, model.Birthday.Value.Day, pc);
+            //if (model.Birthday != null)
+            //    user.Birthday = new DateTime(model.Birthday.Value.Year, model.Birthday.Value.Month, model.Birthday.Value.Day, pc);
 
             var res = await _userManager.UpdateAsync(user);
 
@@ -85,8 +85,8 @@ namespace Web.Areas.Dashboard.Controllers
                 });
 
             var additionaluserModel = _mapper.Map<List<AdditionalUserData>>(model.AdditionalUserData);
-            await _additionalUserDateRepository.UpdateByUserId(additionaluserModel, user.Id);
 
+            await _additionalUserDateRepository.UpdateByUserId(additionaluserModel, user.Id);
 
             if (res.Succeeded)
 
