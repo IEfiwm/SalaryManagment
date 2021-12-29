@@ -5,9 +5,10 @@
         <div class="card-header" name="familyBox"><h6>#`+ (index + 1) + ` رابطه خویشاوندی</h6></div>
         <div class="card-body">
             <div class="row">
-                <input name="AdditionalUserData[`+ index + `].ParentRef" value="` + $('#Id').val()+`" hidden="" type="text" id="AdditionalUserData_0__ParentRef">
+                <input name="AdditionalUserData[`+ index + `].ParentRef" value="` + $('#Id').val() + `" hidden="" type="text" id="AdditionalUserData_0__ParentRef">
                 <div class="col-6 mb-2">
                     <label for="AdditionalUserData[`+ index + `].FirstName">نام</label>
+                    <input type="hidden" maxlength="26" name="AdditionalUserData.index" value="`+ index + `" />
                     <input name="AdditionalUserData[`+ index + `].FirstName" class="form-control" type="text" id="AdditionalUserData_0__FirstName" value="" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da">
                 </div>
                 <div class="col-6 mb-2">
@@ -36,11 +37,11 @@
                 <div class="col-6 mb-2">
                     <label class="form-label" for="WorkshopCode">رابطه خویشاوندی</label>
                     <select class="form-control" data-val="true" data-val-required="The FamilyRole field is required." id="AdditionalUserData_0__FamilyRole" name="AdditionalUserData[`+ index + `].FamilyRole" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da">
-                        <option value="1">Wife</option>
-                        <option value="2">Doughter</option>
-                        <option value="3">Son</option>
-                        <option value="4">Mother</option>
-                        <option value="5">Father</option>
+                        <option value="1">همسر</option>
+                        <option value="2">دختر</option>
+                        <option value="3">پسر</option>
+                        <option value="4">مادر</option>
+                        <option value="5">پدر</option>
                     </select>
                 </div>
             </div>
