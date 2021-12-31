@@ -50,7 +50,10 @@ namespace Infrastructure.Repositories.Application.Idenitity
 
         public async Task<bool> VerifyCode(string phone, string code)
         {
-            var model = await Model.Where(m => m.Code == code && m.PhoneNumber == phone).FirstOrDefaultAsync();
+            var model = await Model.Where(m => m.Code == code && m.PhoneNumber == phone)?.FirstOrDefaultAsync();
+
+            if (model == null)
+                return false;
 
             return model?.ExpireDate >= DateTime.Now;
         }

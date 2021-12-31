@@ -88,7 +88,7 @@
             <div class="row" id="add-new-familyRole-box">
                 <div class="col-6 mb-2">
                     <button type="button" id="add-new-familyRole" class="btn btn-info">
-                        <i>+</i>
+                        افزودن تحت تکفل
                     </button>
                 </div>
             </div>
@@ -113,6 +113,7 @@
                         <input asp-for="AdditionalUserData[index].ParentRef" value="@Model.Id" hidden />
                         <div class="col-6 mb-2">
                             <label for="AdditionalUserData[index].FirstName">نام</label>
+                            <input type="hidden" maxlength="26" name="AdditionalUserData.index" value="@index" />
                             <input asp-for="AdditionalUserData[index].FirstName" class="form-control" />
                         </div>
                         <div class="col-6 mb-2">
@@ -134,15 +135,15 @@
                         <div class="col-6 mb-2">
                             <label class="form-label" for="AdditionalUserData[@index].Gender">جنسیت</label>
                             <select asp-for="AdditionalUserData[index].Gender"
-                                    class="form-control"
-                                    asp-items="Html.GetEnumSelectList<Gender>()">
+                            class="form-control"
+                            asp-items="Html.GetEnumSelectList<Gender>()">
                             </select>
                         </div>
                         <div class="col-6 mb-2">
                             <label class="form-label" for="AdditionalUserData[@index].FamilyRole">رابطه خویشاوندی</label>
                             <select asp-for="AdditionalUserData[index].FamilyRole"
-                                    class="form-control"
-                                    asp-items='Html.GetEnumSelectList<FamilyRole>().Where(x=>x.Value!="0")'>
+                            class="form-control"
+                            asp-items='Html.GetEnumSelectList<FamilyRole>().Where(x=>x.Value!="0")'>
                             </select>
                         </div>
                         <div class="col-6 mb-2">
@@ -196,5 +197,5 @@
 
 
 @section Scripts{
-    <script src="~/js/Users/Edit/EditUser.js" type="text/javascript"></script>
+<script src="~/js/Users/Edit/EditUser.js" type="text/javascript"></script>
 }

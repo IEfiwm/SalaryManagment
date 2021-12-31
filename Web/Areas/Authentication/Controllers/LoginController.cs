@@ -68,7 +68,7 @@ namespace Web.Areas.Authentication.Controllers
                 _notify.Warning($"کد ورود قبلی هنوز برای شما معتبر می باشد.");
             else if (code == "-1")
             {
-                _notify.Error($"ارسال کد ورود برای شما امکان پذیر نمی باشد.");
+                _notify.Error($"کد ورود بیش از حد برای شما ارسال شده ساعتی دیگر دوباره امتحان کنید.");
 
                 return View("Index");
             }
