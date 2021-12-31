@@ -69,6 +69,7 @@
                     </select>
                     <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].File"
                            onchange="SetFileData(this,@indexOfUserAdditional,@DocIndex)" />
+                    <input type="hidden" name="AdditionalUserData[@indexOfUserAdditional].Documents.index" value="@DocIndex" />
                     <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].FullPath" />
                     <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].FileName" />
                     <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].Id" />
@@ -101,15 +102,16 @@
     {
         foreach (var additionalUser in Model.AdditionalUserData.Where(x => x.FamilyRole != FamilyRole.Me))
         {
-            if (index == indexOfUserAdditional)
+            index = Model.AdditionalUserData.IndexOf(additionalUser);
+@*            if (index == indexOfUserAdditional)
                 index++;
-
+*@
             DocIndex = 0;
             <div class="card" id="Box_@index">
                 <div class="card-header" name="familyBox"><h6>#@index رابطه خویشاوندی</h6></div>
                 <div class="card-body">
                     <div class="row">
-                        <input name="AdditionalUserData.index" value="@index" hidden />
+                        @*<input name="AdditionalUserData.index" value="@index" hidden />*@
                         <input asp-for="AdditionalUserData[index].Id" hidden />
                         <input asp-for="AdditionalUserData[index].ParentRef" value="@Model.Id" hidden />
                         <div class="col-6 mb-2">
@@ -168,6 +170,7 @@
                             </select>
                             <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@index].Documents[@DocIndex].File"
                                    onchange="SetFileData(this,@index,@DocIndex)" />
+                            <input type="hidden" name="AdditionalUserData[@index].Documents.index" value="@DocIndex" />
                             <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].FullPath" />
                             <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].FileName" />
                             <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].Id" />
@@ -190,7 +193,7 @@
                     </button>
                 </div>
             </div>
-            index++;
+            @*index++;*@
         }
     }
     <button class="btn btn-primary mt-5" type="submit" value="Submit">ویرایش</button>

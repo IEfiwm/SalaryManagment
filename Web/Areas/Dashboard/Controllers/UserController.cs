@@ -43,10 +43,10 @@ namespace Web.Areas.Dashboard.Controllers
             var pc = new PersianCalendar();
             //bug
 
-            //if (user.Birthday != null)
-            //{
-            //    user.Birthday = new DateTime(pc.GetYear(user.Birthday.Value), pc.GetMonth(user.Birthday.Value), pc.GetDayOfMonth(user.Birthday.Value));
-            //}
+            if (user.Birthday != null)
+            {
+                user.Birthday = new DateTime(pc.GetYear(user.Birthday.Value), pc.GetMonth(user.Birthday.Value), pc.GetDayOfMonth(user.Birthday.Value));
+            }
 
             user.AdditionalUserData = _mapper.Map<List<AdditionalUserDataViewModel>>
                 (_additionalUserDateRepository.Model.Include(x=>x.Documents).Where(x => x.ParentRef == user.Id)).ToList();
