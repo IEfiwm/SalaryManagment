@@ -49,7 +49,7 @@
                     <input asp-for="AdditionalUserData[indexOfUserAdditional].Id"  hidden />
                     <input asp-for="AdditionalUserData[indexOfUserAdditional].ParentRef" value="@Model.Id" hidden />
                     <input asp-for="AdditionalUserData[indexOfUserAdditional].FamilyRole" value="0" hidden />
-                    <label class="form-label" for="AdditionalUserData[0].FamilyRole">آپلود اسناد</label>
+                    <label class="form-label">آپلود اسناد</label>
                     <br />
                     <button type="button" onclick="AddDocument(@indexOfUserAdditional)" class="btn btn-info float-right" title="سند جدید">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-plus" viewBox="0 0 16 16">
@@ -67,16 +67,17 @@
                             class="form-control ml-0 mr-0"
                             asp-items="Html.GetEnumSelectList<DocumentType>()">
                     </select>
-                    <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].File" 
-                           onchange="SetFileData(this,@indexOfUserAdditional,@DocIndex)"/>
-                    <input type="hidden" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].FileName" />
+                    <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].File"
+                           onchange="SetFileData(this,@indexOfUserAdditional,@DocIndex)" />
+                    <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].FullPath" />
+                    <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].FileName" />
                     <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].Id" />
                     <a href="@_fileRepository.GetFileFullPath(Doc.FullPath).ImagePath" target="_blank">
-                        <img class="form-control mr-3" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].Image" 
+                        <img class="form-control mr-3" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].Image"
                              src="@_fileRepository.GetFileFullPath(Doc.FullPath).ThumbPath" />
                     </a>
 
-                   <button type="button" onclick="RemoveDocument(@indexOfUserAdditional,@DocIndex)" class="btn btn-danger">
+                    <button type="button" onclick="RemoveDocument(@indexOfUserAdditional,@DocIndex)" class="btn btn-danger">
                         <i>-</i>
                     </button>
                 </div>
@@ -112,42 +113,42 @@
                         <input asp-for="AdditionalUserData[index].Id" hidden />
                         <input asp-for="AdditionalUserData[index].ParentRef" value="@Model.Id" hidden />
                         <div class="col-6 mb-2">
-                            <label for="AdditionalUserData[index].FirstName">نام</label>
+                            <label>نام</label>
                             <input type="hidden" maxlength="26" name="AdditionalUserData.index" value="@index" />
                             <input asp-for="AdditionalUserData[index].FirstName" class="form-control" />
                         </div>
                         <div class="col-6 mb-2">
-                            <label for="AdditionalUserData[index].LastName">نام خانوادگی</label>
+                            <label>نام خانوادگی</label>
                             <input asp-for="AdditionalUserData[index].LastName" class="form-control" />
                         </div>
                         <div class="col-6 mb-2">
-                            <label for="AdditionalUserData[index].NationalCode"> کد ملی</label>
+                            <label> کد ملی</label>
                             <input asp-for="AdditionalUserData[index].NationalCode" class="form-control" />
                         </div>
                         <div class="col-6 mb-2">
-                            <label for="AdditionalUserData[index].IdentityNumber"> شماره شناسنامه</label>
+                            <label> شماره شناسنامه</label>
                             <input asp-for="AdditionalUserData[index].IdentityNumber" class="form-control" />
                         </div>
                         <div class="col-6 mb-2">
-                            <label for="AdditionalUserData[@index].Birthday">تاریخ تولد</label>
+                            <label>تاریخ تولد</label>
                             <input name="AdditionalUserData[@index].Birthday" class="datepicker form-control" value="@Model.AdditionalUserData[index].Birthday?.ToString("yyyy/MM/dd")" />
                         </div>
                         <div class="col-6 mb-2">
-                            <label class="form-label" for="AdditionalUserData[@index].Gender">جنسیت</label>
+                            <label class="form-label">جنسیت</label>
                             <select asp-for="AdditionalUserData[index].Gender"
                             class="form-control"
                             asp-items="Html.GetEnumSelectList<Gender>()">
                             </select>
                         </div>
                         <div class="col-6 mb-2">
-                            <label class="form-label" for="AdditionalUserData[@index].FamilyRole">رابطه خویشاوندی</label>
+                            <label class="form-label">رابطه خویشاوندی</label>
                             <select asp-for="AdditionalUserData[index].FamilyRole"
                             class="form-control"
                             asp-items='Html.GetEnumSelectList<FamilyRole>().Where(x=>x.Value!="0")'>
                             </select>
                         </div>
                         <div class="col-6 mb-2">
-                            <label class="form-label" for="AdditionalUserData[@index].FamilyRole">آپلود اسناد</label>
+                            <label class="form-label">آپلود اسناد</label>
                             <br />
                             <button type="button" onclick="AddDocument(@index)" class="btn btn-info float-right" title="سند جدید">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-plus" viewBox="0 0 16 16">
@@ -167,7 +168,8 @@
                             </select>
                             <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@index].Documents[@DocIndex].File"
                                    onchange="SetFileData(this,@index,@DocIndex)" />
-                            <input type="hidden" name="AdditionalUserData[@index].Documents[@DocIndex].FileName" />
+                            <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].FullPath" />
+                            <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].FileName" />
                             <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].Id" />
                             <a href="@_fileRepository.GetFileFullPath(Doc.FullPath).ImagePath" target="_blank">
                                 <img class="form-control mr-3" name="AdditionalUserData[@index].Documents[@DocIndex].Image"

@@ -89,8 +89,9 @@ function AddDocument(familyBoxIndex) {
                     </select>
                     <input type="file" class="ml-2 mr-0" name="AdditionalUserData[` + familyBoxIndex + `].Documents[` + index + `].File"
                                    onchange="SetFileData(this,` + familyBoxIndex + `,` + index + `)" />
+                            <input type="hidden" name="AdditionalUserData[` + familyBoxIndex + `].Documents[` + index + `].FullPath" />
                             <input type="hidden" name="AdditionalUserData[` + familyBoxIndex + `].Documents[` + index + `].FileName" />
-                            <input type="hidden" name="AdditionalUserData[` + familyBoxIndex + `].Documents[` + index + `].Id" />
+                            <input type="hidden" name="AdditionalUserData[` + familyBoxIndex + `].Documents[` + index + `].Id" value="0" />
                             <a href="" target="_blank">
                                 <img class="form-control mr-3" name="AdditionalUserData[` + familyBoxIndex + `].Documents[` + index + `].Image"  src="" />
                             </a>

@@ -53,18 +53,18 @@ namespace Infrastructure.Repositories.Application.Basic
                     data.Id = 0;
                 }
 
-                //reCreate additional Users
-                var additionalId = (await InsertAndSaveAsync(data));
-
-
+                var docs = new List<Document>();
                 foreach (var doc in data.Documents)
                 {
-                    doc.AdditionalRef = additionalId;
                     doc.Id = 0;
                     //reCreate documetns
-                    if (doc.FullPath != null)
-                        await _documentRepository.InsertAndSaveAsync(doc);
+                    if (doc.FileName != null)
+                        docs.Add(doc);
                 }
+                data.Documents = docs;
+                //reCreate additional Users
+               await InsertAndSaveAsync(data);
+
             }
             return true;
 
