@@ -12,8 +12,13 @@ namespace Infrastructure.Repositories.Application.Basic
 {
     public class AdditionalUserDateRepository : BaseIdentityRepository<AdditionalUserData, IdentityContext>, IAdditionalUserDateRepository
     {
-        public AdditionalUserDateRepository(IIdentityRepositoryAsync<AdditionalUserData, IdentityContext> repository) : base(repository)
+        private readonly IDocumentRepository _documentRepository;
+
+        public AdditionalUserDateRepository(IIdentityRepositoryAsync<AdditionalUserData, IdentityContext> repository,
+            IDocumentRepository documentRepository) : base(repository)
         {
+            _documentRepository = documentRepository;
+
         }
 
         public async Task<bool> DeleteByUserId(string userId)
@@ -32,16 +37,35 @@ namespace Infrastructure.Repositories.Application.Basic
         {
             var pc = new PersianCalendar();
 
+            //Delete old additional Users
             await DeleteByUserId(userId);
 
             foreach (var data in additionalUserDatas)
             {
+
                 if (data.Birthday != null)
                     data.Birthday = new DateTime(data.Birthday.Value.Year, data.Birthday.Value.Month, data.Birthday.Value.Day, pc);
 
-                await InsertAsync(data);
+                //Delete Documents for old additional Users
+                if (data.Id != 0)
+                {
+                    await _documentRepository.DeleteByUserId(data.Id);
+                    data.Id = 0;
+                }
+
+                //reCreate additional Users
+                var additionalId = (await InsertAndSaveAsync(data));
+
+
+                foreach (var doc in data.Documents)
+                {
+                    doc.AdditionalRef = additionalId;
+                    doc.Id = 0;
+                    //reCreate documetns
+                    if (doc.FullPath != null)
+                        await _documentRepository.InsertAndSaveAsync(doc);
+                }
             }
-            await SaveChangesAsync();
             return true;
 
         }

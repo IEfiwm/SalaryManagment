@@ -1,10 +1,12 @@
 ﻿using Domain.Entities.Base.Identity;
 using Domain.Entities.Basic;
+using Infrastructure.Repositories;
 using Infrastructure.Repositories.Application.Basic;
 using MD.PersianDateTime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -21,12 +23,15 @@ namespace Web.Areas.Dashboard.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAdditionalUserDateRepository _additionalUserDateRepository;
+        private readonly IFileRepository _fileRepository;
 
         public UserController(UserManager<ApplicationUser> userManager,
-            IAdditionalUserDateRepository additionalUserDateRepository)
+            IAdditionalUserDateRepository additionalUserDateRepository,
+            IFileRepository fileRepository)
         {
             _userManager = userManager;
             _additionalUserDateRepository = additionalUserDateRepository;
+            _fileRepository = fileRepository;
         }
 
         public async Task<IActionResult> EditInformation()
@@ -44,11 +49,16 @@ namespace Web.Areas.Dashboard.Controllers
             }
 
             user.AdditionalUserData = _mapper.Map<List<AdditionalUserDataViewModel>>
-                (_additionalUserDateRepository.Model.Where(x => x.ParentRef == user.Id))
-                .Where(x => x.FamilyRole != Common.Enums.FamilyRole.Me).ToList();
+                (_additionalUserDateRepository.Model.Include(x=>x.Documents).Where(x => x.ParentRef == user.Id)).ToList();
+
+            if (!user.AdditionalUserData.Any(x => x.FamilyRole == Common.Enums.FamilyRole.Me))
+                user.AdditionalUserData.Add(new AdditionalUserDataViewModel { FamilyRole = Common.Enums.FamilyRole.Me, ParentRef = user.Id });
 
             user.AdditionalUserData.ForEach(x =>
             {
+                if (x.Documents == null)
+                    x.Documents = new List<DocumentViewModel>();
+
                 if (x.Birthday != null)
                     x.Birthday = new DateTime(pc.GetYear(x.Birthday.Value), pc.GetMonth(x.Birthday.Value), pc.GetDayOfMonth(x.Birthday.Value));
             });
@@ -77,12 +87,18 @@ namespace Web.Areas.Dashboard.Controllers
             var res = await _userManager.UpdateAsync(user);
 
 
-            if (!model.AdditionalUserData.Any(x => x.FamilyRole == Common.Enums.FamilyRole.Me))
-                model.AdditionalUserData.Add(new AdditionalUserDataViewModel
+            //save files
+            foreach (var data in model.AdditionalUserData)
+            {
+                foreach (var doc in data.Documents)
                 {
-                    FamilyRole = Common.Enums.FamilyRole.Me,
-                    ParentRef = user.Id
-                });
+                    if (doc.File != null)
+                    {
+                        doc.Id = 0;
+                        doc.FullPath = (await _fileRepository.SaveImageAsync(doc.File));
+                    }
+                }
+            }
 
             var additionaluserModel = _mapper.Map<List<AdditionalUserData>>(model.AdditionalUserData);
             await _additionalUserDateRepository.UpdateByUserId(additionaluserModel, user.Id);

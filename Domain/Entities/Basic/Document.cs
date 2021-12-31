@@ -9,9 +9,10 @@ namespace Domain.Entities.Basic
         public string FileName { get; set; }
 
         public string FullPath { get; set; }
+
         public DocumentType DocumentType { get; set; }
 
-        [ForeignKey("AdditionalUserData")]
+        [ForeignKey("User")]
         public long AdditionalRef { get; set; }
 
 

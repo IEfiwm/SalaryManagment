@@ -40,7 +40,13 @@
     <Folder Include="Areas\Settings\Views\" />
     <Folder Include="Log\" />
     <Folder Include="Views\Shared\Components\Menu\" />
+    <Folder Include="wwwroot\Files\Images\thumb\" />
+    <Folder Include="wwwroot\Files\Images\image\" />
     <Folder Include="wwwroot\lib\persianDatepicker\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
   <ItemGroup>

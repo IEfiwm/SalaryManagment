@@ -2,6 +2,7 @@
 using Domain.Base.Entity;
 using Domain.Entities.Base.Identity;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Basic
@@ -26,5 +27,6 @@ namespace Domain.Entities.Basic
         public string IdentityNumber { get; set; } = null;
 
         public virtual ApplicationUser Parent { get; set; }
+        public virtual List<Document> Documents { get; set; }
     }
 }

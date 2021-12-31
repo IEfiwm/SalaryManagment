@@ -1,12 +1,15 @@
 ﻿@using Common.Enums
+@inject Infrastructure.Repositories.IFileRepository _fileRepository;
 @model Web.Areas.Dashboard.Models.EditUserViewModel
 @{
-    int index = Model.AdditionalUserData.Count() - 1;
+    int index = 0;
+    int DocIndex = 0;
+    int indexOfUserAdditional = Model.AdditionalUserData.IndexOf(Model.AdditionalUserData.FirstOrDefault(x => x.FamilyRole == FamilyRole.Me));
 }
-<form action="Edit" method="post">
+<form action="Edit" method="post" enctype="multipart/form-data">
     <input asp-for="Id" hidden />
     <div class="card" id="mainBox">
-        <div class="card-header"><h6>اطلاعات کاربر</h6></div>
+        <div class="card-header" name="familyBox"><h6>اطلاعات کاربر</h6></div>
         <div class="card-body">
             <div class="row">
                 <div class="col-6 mb-2">
@@ -41,6 +44,44 @@
                     <label for="PhoneNumber">شماره همراه</label>
                     <input asp-for="PhoneNumber" name="PhoneNumber" class="form-control" />
                 </div>
+                <div class="col-6 mb-2">
+                    <input name="AdditionalUserData.index" value="@indexOfUserAdditional" hidden />
+                    <input asp-for="AdditionalUserData[indexOfUserAdditional].Id"  hidden />
+                    <input asp-for="AdditionalUserData[indexOfUserAdditional].ParentRef" value="@Model.Id" hidden />
+                    <input asp-for="AdditionalUserData[indexOfUserAdditional].FamilyRole" value="0" hidden />
+                    <label class="form-label" for="AdditionalUserData[0].FamilyRole">آپلود اسناد</label>
+                    <br />
+                    <button type="button" onclick="AddDocument(@indexOfUserAdditional)" class="btn btn-info float-right" title="سند جدید">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-plus" viewBox="0 0 16 16">
+                            <path d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z" />
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-2" id="AdditionalUserData[@indexOfUserAdditional]_DocumentsBox">
+                @foreach (var Doc in Model.AdditionalUserData[indexOfUserAdditional].Documents)
+                {
+                <div class="col-6 mb-2 form-inline" id="AdditionalUserData[@indexOfUserAdditional]_Documents[@DocIndex]_Files">
+                    <select asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].DocumentType"
+                            class="form-control ml-0 mr-0"
+                            asp-items="Html.GetEnumSelectList<DocumentType>()">
+                    </select>
+                    <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].File" 
+                           onchange="SetFileData(this,@indexOfUserAdditional,@DocIndex)"/>
+                    <input type="hidden" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].FileName" />
+                    <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].Id" />
+                    <a href="@_fileRepository.GetFileFullPath(Doc.FullPath).ImagePath" target="_blank">
+                        <img class="form-control mr-3" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].Image" 
+                             src="@_fileRepository.GetFileFullPath(Doc.FullPath).ThumbPath" />
+                    </a>
+
+                   <button type="button" onclick="RemoveDocument(@indexOfUserAdditional,@DocIndex)" class="btn btn-danger">
+                        <i>-</i>
+                    </button>
+                </div>
+                    DocIndex++;
+                }
             </div>
         </div>
         <div class="card-footer text-left">
@@ -57,12 +98,18 @@
 
     @if (Model.AdditionalUserData != null)
     {
-        foreach (var additionalUser in Model.AdditionalUserData)
+        foreach (var additionalUser in Model.AdditionalUserData.Where(x => x.FamilyRole != FamilyRole.Me))
         {
+            if (index == indexOfUserAdditional)
+                index++;
+
+            DocIndex = 0;
             <div class="card" id="Box_@index">
-                <div class="card-header" name="familyBox"><h6>#@(index+1) رابطه خویشاوندی</h6></div>
+                <div class="card-header" name="familyBox"><h6>#@index رابطه خویشاوندی</h6></div>
                 <div class="card-body">
                     <div class="row">
+                        <input name="AdditionalUserData.index" value="@index" hidden />
+                        <input asp-for="AdditionalUserData[index].Id" hidden />
                         <input asp-for="AdditionalUserData[index].ParentRef" value="@Model.Id" hidden />
                         <div class="col-6 mb-2">
                             <label for="AdditionalUserData[index].FirstName">نام</label>
@@ -82,31 +129,65 @@
                         </div>
                         <div class="col-6 mb-2">
                             <label for="AdditionalUserData[@index].Birthday">تاریخ تولد</label>
-                            <input name="AdditionalUserData[@index].Birthday" class="datepicker form-control" value="@Model.AdditionalUserData[index].Birthday?.ToString("yyyy/MM/dd")"/>
+                            <input name="AdditionalUserData[@index].Birthday" class="datepicker form-control" value="@Model.AdditionalUserData[index].Birthday?.ToString("yyyy/MM/dd")" />
                         </div>
                         <div class="col-6 mb-2">
-                            <label class="form-label" for="WorkshopCode">جنسیت</label>
+                            <label class="form-label" for="AdditionalUserData[@index].Gender">جنسیت</label>
                             <select asp-for="AdditionalUserData[index].Gender"
                                     class="form-control"
                                     asp-items="Html.GetEnumSelectList<Gender>()">
                             </select>
                         </div>
                         <div class="col-6 mb-2">
-                            <label class="form-label" for="WorkshopCode">رابطه خویشاوندی</label>
+                            <label class="form-label" for="AdditionalUserData[@index].FamilyRole">رابطه خویشاوندی</label>
                             <select asp-for="AdditionalUserData[index].FamilyRole"
                                     class="form-control"
                                     asp-items='Html.GetEnumSelectList<FamilyRole>().Where(x=>x.Value!="0")'>
                             </select>
                         </div>
+                        <div class="col-6 mb-2">
+                            <label class="form-label" for="AdditionalUserData[@index].FamilyRole">آپلود اسناد</label>
+                            <br />
+                            <button type="button" onclick="AddDocument(@index)" class="btn btn-info float-right" title="سند جدید">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-plus" viewBox="0 0 16 16">
+                                    <path d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z" />
+                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mt-2" id="AdditionalUserData[@index]_DocumentsBox">
+                        @foreach (var Doc in additionalUser.Documents)
+                        {
+                        <div class="col-6 mb-2 form-inline" id="AdditionalUserData[@index]_Documents[@DocIndex]_Files">
+                            <select asp-for="AdditionalUserData[index].Documents[DocIndex].DocumentType"
+                                    class="form-control ml-0 mr-0"
+                                    asp-items="Html.GetEnumSelectList<DocumentType>()">
+                            </select>
+                            <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@index].Documents[@DocIndex].File"
+                                   onchange="SetFileData(this,@index,@DocIndex)" />
+                            <input type="hidden" name="AdditionalUserData[@index].Documents[@DocIndex].FileName" />
+                            <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].Id" />
+                            <a href="@_fileRepository.GetFileFullPath(Doc.FullPath).ImagePath" target="_blank">
+                                <img class="form-control mr-3" name="AdditionalUserData[@index].Documents[@DocIndex].Image"
+                                     src="@_fileRepository.GetFileFullPath(Doc.FullPath).ThumbPath" />
+                            </a>
+                            <button type="button" onclick="RemoveDocument(@index,@DocIndex)" class="btn btn-danger">
+                                <i>-</i>
+                            </button>
+                        </div>
+                            DocIndex++;
+                        }
+
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <button type="button" onclick="RemoveBox('@index')" class="btn btn-danger">
+                    <button type="button" onclick="RemoveBox('@index','@DocIndex')" class="btn btn-danger">
                         <i>حذف</i>
                     </button>
                 </div>
             </div>
-            index--;
+            index++;
         }
     }
     <button class="btn btn-primary mt-5" type="submit" value="Submit">ویرایش</button>

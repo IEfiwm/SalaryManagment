@@ -12,6 +12,8 @@ namespace Web.Areas.Dashboard.Mapping
             CreateMap<AdditionalUserDataViewModel, AdditionalUserData>().ReverseMap();
 
             CreateMap<ApplicationUser, EditUserViewModel>().ReverseMap();
+
+            CreateMap<Document, DocumentViewModel>().ReverseMap();
         }
     }
 }

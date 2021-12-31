@@ -9,7 +9,7 @@ namespace Common.Enums
         Wife = 1,
         [Display(Name = "دختر")]
         Doughter = 2,
-        [Display(Name = "فرزند")]
+        [Display(Name = "پسر")]
         Son = 3,
         [Display(Name = "مادر")]
         Mother = 4,

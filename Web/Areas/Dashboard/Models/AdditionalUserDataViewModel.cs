@@ -1,5 +1,6 @@
 ﻿using Common.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace Web.Areas.Dashboard.Models
 {
@@ -22,5 +23,7 @@ namespace Web.Areas.Dashboard.Models
         public string NationalCode { get; set; } = null;
 
         public string IdentityNumber { get; set; } = null;
+
+        public List<DocumentViewModel> Documents { get; set; } = new List<DocumentViewModel>();
     }
 }

@@ -30,6 +30,7 @@ namespace Infrastructure.Extensions
             services.AddTransient(typeof(IBaseAuditRepository<,>), typeof(BaseAuditRepository<,>));
             services.AddScoped<IimportedRepository, ImportedRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IFileRepository, FileRepository>();
 
             #endregion Repositories
         }

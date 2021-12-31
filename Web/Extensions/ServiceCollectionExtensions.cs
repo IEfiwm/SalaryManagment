@@ -2,6 +2,7 @@
 using Application.Interfaces.Shared;
 using Domain.Entities.Base.Identity;
 using Infrastructure.DbContexts;
+using Infrastructure.Repositories;
 using Infrastructure.Repositories.Application.Basic;
 using Infrastructure.Repositories.Application.Idenitity;
 using Infrastructure.Shared.Services;
@@ -137,7 +138,8 @@ namespace Web.Extensions
             services.AddTransient<IDateTimeService, SystemDateTimeService>();
             services.AddTransient<IMailService, SMTPMailService>();
             services.AddTransient<IAuthenticatedUserService, AuthenticatedUserService>();
-            services.AddTransient<IAuthenticatedUserService, AuthenticatedUserService>();
+            services.AddTransient<IDocumentRepository, DocumentRepository>();
+            services.AddTransient<IFileRepository, FileRepository>();
         }
 
         public static void AddDependencies(this IServiceCollection services)
@@ -147,6 +149,8 @@ namespace Web.Extensions
             services.AddTransient<IAuthenticationCodeRepository, AuthenticationCodeRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAdditionalUserDateRepository, AdditionalUserDateRepository>();
+            services.AddTransient<IDocumentRepository, DocumentRepository>();
+            services.AddTransient<IFileRepository, FileRepository>();
         }
     }
 }

@@ -525,6 +525,36 @@ namespace Infrastructure.Migrations
                     b.ToTable("TbBankAccount", "Basic");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Basic.Document", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<long>("AdditionalRef")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id")
+                        .IsClustered();
+
+                    b.HasIndex("AdditionalRef");
+
+                    b.ToTable("TbDocument", "Basic");
+                });
+
             modelBuilder.Entity("Domain.Entities.Basic.Project", b =>
                 {
                     b.Property<long>("Id")
@@ -795,6 +825,17 @@ namespace Infrastructure.Migrations
                     b.Navigation("UpdatedByUser");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Basic.Document", b =>
+                {
+                    b.HasOne("Domain.Entities.Basic.AdditionalUserData", "User")
+                        .WithMany("Documents")
+                        .HasForeignKey("AdditionalRef")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -853,6 +894,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("BankUpdatedByUsers");
 
                     b.Navigation("CallerUsers");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Basic.AdditionalUserData", b =>
+                {
+                    b.Navigation("Documents");
                 });
 
             modelBuilder.Entity("Domain.Entities.Basic.BankAccount", b =>
