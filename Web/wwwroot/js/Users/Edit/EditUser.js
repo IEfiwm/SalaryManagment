@@ -2,7 +2,7 @@
     var index = document.getElementsByName('familyBox').length;
 
     var newBox = `<div class="card" id="Box_` + index + `" style="background-color: #ffffff">
-        <div class="card-header" name="familyBox"><h6>#`+ index  + ` رابطه خویشاوندی</h6></div>
+        <div class="card-header" name="familyBox"><h6>#`+ index + ` رابطه خویشاوندی</h6></div>
         <div class="card-body">
             <div class="row">
                 <input name="AdditionalUserData.index" value="` + index + `" hidden />
@@ -80,15 +80,20 @@ function AddDocument(familyBoxIndex) {
 
     var row = `<div class="col-6 mb-2 form-inline"  id="AdditionalUserData[` + familyBoxIndex + `]_Documents[` + index + `]_Files">
                     <select name="AdditionalUserData[`+ familyBoxIndex + `].Documents[` + index + `].DocumentType" class="form-control ml-0 mr-0 valid"  style="background-color: #ffffff!important;color:black;border:1px solid #ced4da">
-                        <option value="1">صفحه اول شناسنامه</option>
-                        <option value="2">صفحه دوم شناسنامه</option>
-                        <option value="3">صفحه ازدواج شناسنامه</option>
-                        <option value="4">صفحه فرزندان شناسنامه</option>
-                        <option value="5">جلو کارت ملی</option>
-                        <option value="6">پشت کارت ملی</option>
+                        <option value="1">عکس پرسنلی</option>
+                        <option value="2">کارت ملی</option>
+                        <option value="3">پشت کارت ملی</option>
+                        <option value="4">صفحه اول شناسنامه</option>
+                        <option value="5">صفحه دوم شناسنامه</option>
+                        <option selected="selected" value="6">صفحه سوم شناسنامه</option>
+                        <option value="7">کارت پایان خدمت</option>
+                        <option value="8">آخرین مدرک تحصیلی</option>
+                        <option value="9">تضامین 1</option>
+                        <option value="10">تضامین 2</option>
+                        <option value="11">سایر</option>
                     </select>
                     <input type="file" class="ml-2 mr-0" name="AdditionalUserData[` + familyBoxIndex + `].Documents[` + index + `].File"
-                                   onchange="SetFileData(this,` + familyBoxIndex + `,` + index + `)" />
+                                   onchange="SetFileData(this,` + familyBoxIndex + `,` + index + `)" accept="image/*" />
                             <input type="hidden" name="AdditionalUserData[` + familyBoxIndex + `].Documents.index" value="` + index + `" />
                             <input type="hidden" name="AdditionalUserData[` + familyBoxIndex + `].Documents[` + index + `].FullPath" />
                             <input type="hidden" name="AdditionalUserData[` + familyBoxIndex + `].Documents[` + index + `].FileName" />
@@ -109,11 +114,22 @@ function RemoveDocument(familyBoxIndex, index) {
 
 function SetFileData(File, familyBoxIndex, index) {
     if (File.files && File.files[0]) {
+        const allowedExtensions = ['jpg', 'png', 'jpeg','bmp'];
         var reader = new FileReader();
         var file = File.files[0];
         var filesize = ((file.size / 1024) / 1024).toFixed(4); // MB
-        console.log(filesize);
-        if (filesize <= 10) {
+        var fileExtension = file.name.split(".").pop();
+
+        if (!allowedExtensions.includes(fileExtension)) {
+            File.value = null;
+            alert("file type not allowed");
+            return false;
+        } else if (fileSize > 10) {
+            File.value = null;
+            alert("file size too large");
+            return false;
+        }
+        else {
             reader.onload = function (e) {
                 document.getElementsByName('AdditionalUserData[' + familyBoxIndex + '].Documents[' + index + '].FileName')[0].value = file.name;
                 document.getElementsByName('AdditionalUserData[' + familyBoxIndex + '].Documents[' + index + '].Image')[0].src = e.target.result;
@@ -122,9 +138,7 @@ function SetFileData(File, familyBoxIndex, index) {
 
             reader.readAsDataURL(file);
         }
-        else {
-            document.getElementsByName('AdditionalUserData[' + familyBoxIndex + '].Documents[' + index + '].FileName')[0].value = '';
-        }
+
     }
 
 

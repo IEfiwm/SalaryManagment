@@ -41,7 +41,6 @@ namespace Web.Areas.Dashboard.Controllers
             var user = _mapper.Map<EditUserViewModel>(await _userManager.GetUserAsync(HttpContext.User));
 
             var pc = new PersianCalendar();
-            //bug
 
             if (user.Birthday != null)
             {
@@ -59,8 +58,6 @@ namespace Web.Areas.Dashboard.Controllers
                 if (x.Documents == null)
                     x.Documents = new List<DocumentViewModel>();
 
-                if (x.Birthday != null)
-                    x.Birthday = new DateTime(pc.GetYear(x.Birthday.Value), pc.GetMonth(x.Birthday.Value), pc.GetDayOfMonth(x.Birthday.Value));
             });
 
 
@@ -81,8 +78,8 @@ namespace Web.Areas.Dashboard.Controllers
             user.IdentityNumber = model.IdentityNumber;
             user.BirthPlace = model.BirthPlace;
             user.ZipCode = model.ZipCode;
-            //if (model.Birthday != null)
-            //    user.Birthday = new DateTime(model.Birthday.Value.Year, model.Birthday.Value.Month, model.Birthday.Value.Day, pc);
+            if (model.Birthday != null)
+                user.Birthday = new DateTime(model.Birthday.Value.Year, model.Birthday.Value.Month, model.Birthday.Value.Day, pc);
 
             var res = await _userManager.UpdateAsync(user);
 

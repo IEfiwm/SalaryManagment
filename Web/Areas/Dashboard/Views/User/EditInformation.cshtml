@@ -68,7 +68,7 @@
                             asp-items="Html.GetEnumSelectList<DocumentType>()">
                     </select>
                     <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].File"
-                           onchange="SetFileData(this,@indexOfUserAdditional,@DocIndex)" />
+                           onchange="SetFileData(this,@indexOfUserAdditional,@DocIndex)" accept="image/*" />
                     <input type="hidden" name="AdditionalUserData[@indexOfUserAdditional].Documents.index" value="@DocIndex" />
                     <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].FullPath" />
                     <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].FileName" />
@@ -169,7 +169,7 @@
                                     asp-items="Html.GetEnumSelectList<DocumentType>()">
                             </select>
                             <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@index].Documents[@DocIndex].File"
-                                   onchange="SetFileData(this,@index,@DocIndex)" />
+                                   onchange="SetFileData(this,@index,@DocIndex)" accept="image/*"/>
                             <input type="hidden" name="AdditionalUserData[@index].Documents.index" value="@DocIndex" />
                             <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].FullPath" />
                             <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].FileName" />

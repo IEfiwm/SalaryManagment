@@ -43,9 +43,6 @@ namespace Infrastructure.Repositories.Application.Basic
             foreach (var data in additionalUserDatas)
             {
 
-                if (data.Birthday != null)
-                    data.Birthday = new DateTime(data.Birthday.Value.Year, data.Birthday.Value.Month, data.Birthday.Value.Day, pc);
-
                 //Delete Documents for old additional Users
                 if (data.Id != 0)
                 {
