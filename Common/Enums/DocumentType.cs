@@ -4,17 +4,27 @@ namespace Common.Enums
 {
     public enum DocumentType
     {
-        [Display(Name = "صفحه اول شناسنامه")]
-        IdentityPageOne = 1,
-        [Display(Name = "صفحه دوم شناسنامه")]
-        IdentityPageTwo = 2,
-        [Display(Name = "صفحه سوم شناسنامه")]
-        IdentityPageThree = 3,
-        [Display(Name = "صفحه چهارم شناسنامه")]
-        IdentityPageFour = 4,
-        [Display(Name = "جلو کارت ملی")]
-        NationalCartUp = 5,
+        [Display(Name = "عکس پرسنلی")]
+        Avatar = 1,
+        [Display(Name = "کارت ملی")]
+        NationalCart = 2,
         [Display(Name = "پشت کارت ملی")]
-        NationalCartDouwn = 6
+        NationalCartBack = 3,
+        [Display(Name = "صفحه اول شناسنامه")]
+        IdentityPageOne = 4,
+        [Display(Name = "صفحه دوم شناسنامه")]
+        IdentityPageTwo = 5,
+        [Display(Name = "صفحه سوم شناسنامه")]
+        IdentityPageThree = 6,
+        [Display(Name = "کارت پایان خدمت")]
+        MilitaryServiceCart  = 7,
+        [Display(Name = "آخرین مدرک تحصیلی")]
+        LatestEducation = 8,
+        [Display(Name = "تضامین 1")]
+        InsuranceFirst = 9,
+        [Display(Name = "تضامین 2")]
+        InsuranceSecond = 10,
+        [Display(Name = "سایر")]
+        other = 11,
     }
 }
