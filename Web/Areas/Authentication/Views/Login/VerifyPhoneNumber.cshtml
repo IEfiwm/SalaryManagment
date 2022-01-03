@@ -31,7 +31,7 @@
             <div class="custom-control custom-switch">
                 <input type="checkbox" class="custom-control-input" id="darkSwitch">
                 <label class="custom-control-label" style="font-weight:400" for="darkSwitch">@localizer["Dark Mode"]</label>
-            </divv>
+            </div>
         </ul>
     </nav>
     <div class="content-wrapper mrl-zero" id="contentWrapper">
@@ -57,12 +57,22 @@
                                                 <input asp-for="Input.Email" type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
                                                 <small><span asp-validation-for="Input.Email" class="text-danger"></span></small>
                                                 </div>*@
-                                            <div class="form-group" hidden="true">
-                                                <input hidden="true" asp-for="Phone" type="text" class="form-control form-control-user">
+                                            <div class="form-group" hidden>
+                                                <input hidden asp-for="Phone" type="text" class="form-control form-control-user">
                                             </div>
-                                             <div class="form-group">
+                                            <div class="form-group">
                                                 <input style="text-align:center" asp-for="Code" type="text" class="form-control form-control-user" placeholder="کد تایید">
                                                 <small><span asp-validation-for="Code" class="text-danger"></span></small>
+                                            </div>
+                                            <div class="row" dir="rtl">
+                                                <div class="col-sm-8">
+                                                    <a href="#" class="text-gray d-block mb-2 text-right" id="resendBtn">
+                                                        @localizer["Resend"]
+                                                    </a>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <span id="timer" class="text-info d-block mb-2 text-left">03:00</span>
+                                                </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary btn-user btn-block">
                                                 @localizer["Login"]
@@ -83,11 +93,66 @@
                     </div>
                 </div>
             </div>
-            </div>
         </div>
     </div>
 
     <partial name="_Scripts" />
+    <script>
+        function Timer() {
+            document.getElementById('resendBtn').classList.add("text-gray");
+            document.getElementById('resendBtn').classList.remove("text-info");
+            document.getElementById('resendBtn').onclick = null;
+
+            var Minutes = 60 * 3,
+            display = document.querySelector('#timer');
+            startTimer(Minutes, display);
+            function startTimer(duration, display) {
+                var timer = duration, minutes, seconds;
+                const myInterval = setInterval(function () {
+                    minutes = parseInt(timer / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
+
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    display.textContent = minutes + ":" + seconds;
+
+                    if (--timer < 0) {
+                        clearInterval(myInterval);
+                        document.getElementById('resendBtn').classList.remove("text-gray");
+                        document.getElementById('resendBtn').classList.add("text-info");
+                        document.getElementById('resendBtn').onclick = ResendMessage;
+                    }
+
+                }, 1000);
+            }
+        }
+        window.onload = function () {
+            
+            Timer();
+        };
+
+
+        function ResendMessage() {
+            if (document.querySelector('#timer').textContent == "00:00") {
+                $.ajax({
+                    type: 'GET',
+                    url: "/authentication/login/ReSendVerificationCode?Phone=@Model.Phone",
+                    success: function (result) {
+                        toastNotifySuccess(result);
+                        Timer();
+                    },
+                    error: function (e) {
+                        toastNotifyError(e.responseText);
+                        Timer();
+                    }
+                });
+            }
+            else {
+                toastNotifyError("لطفا تا اتمام زمان تایمر صبر کنید.");
+            }
+        }
+    </script>
 </body>
 </html>
 @await Component.InvokeAsync("Notyf")

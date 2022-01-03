@@ -82,6 +82,25 @@ namespace Web.Areas.Authentication.Controllers
             return View("VerifyPhoneNumber", new VerifyPhoneNumberViewModel { Phone = user.PhoneNumber });
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ReSendVerificationCode(string Phone)
+        {
+            var code = await _authenticationCodeRepository.GenerateNewCode(Phone);
+
+            if (code == "")
+                return BadRequest($"کد ورود بیش از حد برای شما ارسال شده ساعتی دیگر دوباره امتحان کنید.");
+            else if (code == "-1")
+                return Ok($"کد ورود قبلی هنوز برای شما معتبر می باشد.");
+            else if (code == "-2")
+                return BadRequest($"از زمان درخواست قبلی شما مدت زمان تعیین شده نگذشته است.");
+            else
+            {
+                SMSProvider.SendOTPCode(Phone, code);
+                return Ok($"کد ورود با موفقیت ارسال شد.");
+            }
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)

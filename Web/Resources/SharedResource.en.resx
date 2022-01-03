@@ -186,6 +186,9 @@
   <data name="Repeat Password" xml:space="preserve">
     <value>تکرار رمز عبور</value>
   </data>
+  <data name="Resend" xml:space="preserve">
+    <value>کد ارسال نشد؟ دوباره تلاش کنید</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>ذخیره</value>
   </data>

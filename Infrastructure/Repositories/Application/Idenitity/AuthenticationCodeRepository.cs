@@ -29,6 +29,8 @@ namespace Infrastructure.Repositories.Application.Idenitity
             {
                 return "-1";
             }
+            else if (model.Any(m => m.RequestedDate.AddMinutes(3) > DateTime.Now))
+                return "-2";
 
             string code = CommonHelper.GenerateRandomOTP(PublicSettings.OTPCodeLenght);
 
