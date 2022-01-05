@@ -98,12 +98,12 @@ namespace Web
 
             app.Use(async (context, next) =>
             {
-                //if (DateTime.Now.Date.Month != 12)
-                //    context.Response.StatusCode = 403;
-                //else
-                //{
+                if (DateTime.Now.Date.Month != 1)
+                    context.Response.StatusCode = 403;
+                else
+                {
                     await next();
-                //}
+                }
             });
 
             app.UseNotyf();
@@ -127,7 +127,7 @@ namespace Web
                 endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{area=Dashboard}/{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{area=Authentication}/{controller=Login}/{action=Index}/{id?}");
             });
         }
     }
