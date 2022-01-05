@@ -116,27 +116,11 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditUser(UserViewModel user)
         {
-            //var hiredate = PersianDateTime.Parse(user.HireDate == null ? null : user.HireDate.ToString()).ToDateTime();
-
-            //var startdate = PersianDateTime.Parse(user.StartWorkingDate == null ? null : user.StartWorkingDate.ToString()).ToDateTime();
-
-            //var enddate = PersianDateTime.Parse(user.EndWorkingDate == null ? null : user.EndWorkingDate.ToString()).ToDateTime();
-
-            //var birthday = PersianDateTime.Parse(user.Birthday == null ? null : user.Birthday.ToString()).ToDateTime();
-
             user.UserName = user.PhoneNumber;
 
             var ouser = await _userRepository.GetUserByIdAsync(user.Id);
 
             ouser = _mapper.Map<UserViewModel, ApplicationUser>(user, ouser);
-
-            //ouser.StartWorkingDate = startdate;
-
-            //ouser.EndWorkingDate = enddate; 
-
-            //ouser.Birthday = birthday;
-
-            //ouser.HireDate = hiredate;
 
             var res = await _userRepository.SaveChangesAsync();
 
@@ -222,7 +206,7 @@ namespace Web.Areas.Admin.Controllers
         {
             ViewData["projectId"] = projectId;
             var model = new List<UserViewModel>();
-         
+
             if (projectId != 0)
             {
                 var usersByprojectId = await _userRepository.GetUserListByProjectIdAsync(projectId);
