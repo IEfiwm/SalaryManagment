@@ -78,6 +78,7 @@ namespace Web.Areas.Dashboard.Controllers
             user.IdentityNumber = model.IdentityNumber;
             user.BirthPlace = model.BirthPlace;
             user.ZipCode = model.ZipCode;
+            user.Birthday = model.Birthday;
             //if (model.Birthday != null)
             //    user.Birthday = new DateTime(model.Birthday.Value.Year, model.Birthday.Value.Month, model.Birthday.Value.Day, pc);
 
