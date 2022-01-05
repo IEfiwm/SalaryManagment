@@ -1,0 +1,172 @@
+﻿@inject IHtmlLocalizer<SharedResource> localizer
+@{
+    ViewData["Title"] = localizer["Users"];
+    ViewData["Caption"] = localizer["Get Contracts here"];
+    var projectId =Convert.ToInt64(ViewData["projectId"]);
+    ViewBag.Title = "قرارداد ها";
+}
+<form id="form" method="POST">
+    <div class="row justify-content-center">
+        <div class="card col-sm-12">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6 mt-1">
+                        <label class="form-label">پروژه</label>
+                        <select id="projectId" name="projectId" class="js-data-example-ajax form-control" required>
+                            <option selected>یک مورد را انتخاب کنید</option>
+                        </select>
+                    </div>
+                    <div class="col-6 mt-4 w-100 text-right">
+                        <button onclick="Submit()" class="btn btn-primary w-25">تولید </button>
+                    </div>
+                    <div class="col-6 mt-1">
+                        <label class="form-label">از تاریخ</label>
+                        <input name="startDate" class="datepicker form-control" />
+                    </div>
+                    <div class="col-6 mt-1">
+                        <label class="form-label">تا تاریخ</label>
+                        <input name="endDate" class="datepicker form-control" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="card" id="myT">
+    <div class="card-body table-responsive">
+        <table class="table table-striped" id="userTable">
+            <thead>
+                <tr>
+                    <th>
+                        کد پ
+                    </th>
+                    <th>
+                        نام و نام خانوادگی
+                    </th>
+                    <th>
+                        کد ملی
+                    </th>
+                    <th>
+                        شغل
+                    </th>
+                    <th>
+                        وضعیت
+                    </th>
+                    <th style="width:10%">
+                        #
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                <tr>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                <a>
+                                    @user.PersonnelCode
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                <a>
+                                    @user.FirstName @user.LastName
+                                </a>
+                                <br>
+                                <small>
+                                    @user.ProjectName
+                                </small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                <a>
+                                    @user.NationalCode
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @user.JobTitle
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        @if (user.IsActive)
+                        {
+                            <span class="badge badge-success">@localizer["Active"]</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">@localizer["Deactivated"]</span>
+                        }
+                    </td>
+                    <td>
+                        <button asp-route-userId="@user.Id" class="btn btn-primary">
+                            <i class="fa fa-letter"></i> @localizer["Contract"]
+                        </button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+        function Submit() {
+            $('#form').attr('action', "/admin/user/ContractList").submit();
+        }
+        $.ajax({
+            url: "/admin/project/getlist",
+            method: "GET",
+            success: function (model) {
+                $.map(model, function (val, i) {
+                    if (val.id=='@projectId') {
+                        $("#projectId").append('<option value="' + val.id + '" selected>' + val.title + '</option>');
+                    }
+                    else {
+
+                        $("#projectId").append('<option value="' + val.id + '">' + val.title + '</option>');
+                    }
+                });
+            }
+        })
+
+        $(document).ready(function () {
+            $("#userTable").DataTable({
+                searching: true,
+                ordering: true,
+                processing: false,
+                select: true,
+                responsive: true,
+                oLanguage: {
+                    sSearch: "جستجو: ",
+                    sInfo: "نمایش _START_ تا _END_ از _TOTAL_ رکورد",
+                    sLengthMenu: "نمایش _MENU_ رکورد",
+                    sInfoFiltered: "فیلتر شده از _MAX_ رکورد",
+                    sInfoEmpty: "هیچ داده ای یافت نشد",
+                    sZeroRecords: "رکوردی یافت نشد",
+                    oPaginate: {
+                        sPrevious: "قبلی",
+                        sNext: "بعدی",
+                    }
+                }
+            });
+        });
+    </script>
+
+}

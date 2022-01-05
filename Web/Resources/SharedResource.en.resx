@@ -129,6 +129,9 @@
   <data name="ConfirmPassword" xml:space="preserve">
     <value>تایید</value>
   </data>
+  <data name="Contract" xml:space="preserve">
+    <value>قرارداد</value>
+  </data>
   <data name="Create an Account!" xml:space="preserve">
     <value>ایجاد حساب کاربری</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="Forgot Password?" xml:space="preserve">
     <value>رمز عبور را فراموش کرده اید؟</value>
+  </data>
+  <data name="Get Contracts here" xml:space="preserve">
+    <value>دریافت قرارداد</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>نام خانوادگی</value>

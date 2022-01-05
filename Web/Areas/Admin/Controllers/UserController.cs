@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -215,6 +216,21 @@ namespace Web.Areas.Admin.Controllers
                 _notify.Error("حذف کاربر انجام نشد.");
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> ContractList(long projectId = 0)
+        {
+            ViewData["projectId"] = projectId;
+            var model = new List<UserViewModel>();
+         
+            if (projectId != 0)
+            {
+                var usersByprojectId = await _userRepository.GetUserListByProjectIdAsync(projectId);
+                model = _mapper.Map<IEnumerable<UserViewModel>>(usersByprojectId).ToList();
+            }
+
+            return View(model);
+
         }
     }
 }

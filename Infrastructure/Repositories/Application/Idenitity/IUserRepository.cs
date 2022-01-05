@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Base.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -21,6 +22,8 @@ namespace Infrastructure.Repositories.Application.Idenitity
         List<ApplicationUser> GetUserList();
 
         Task<List<ApplicationUser>> GetUserListAsync();
+
+        Task<List<ApplicationUser>> GetUserListByProjectIdAsync(long projectId);
 
         Task<int> SaveChangesAsync();
     }

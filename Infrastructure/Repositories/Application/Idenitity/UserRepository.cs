@@ -2,6 +2,7 @@
 using Infrastructure.DbContexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -62,6 +63,13 @@ namespace Infrastructure.Repositories.Application.Idenitity
             return await _identityContext.Users
                 .Include(e => e.Project)
                 .Include(e => e.Bank)
+                .ToListAsync();
+        }
+        public async Task<List<ApplicationUser>> GetUserListByProjectIdAsync(long projectId)
+        {
+            return await _identityContext.Users
+                .Include(e => e.Project)
+                .Where(x => x.ProjectRef == projectId)
                 .ToListAsync();
         }
 
