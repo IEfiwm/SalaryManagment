@@ -32,7 +32,7 @@ namespace Infrastructure.Repositories.Application
 
         public async Task<bool> DeleteByIdAsync(long importedId)
         {
-            var model =await Model.FirstOrDefaultAsync(x => x.Id == importedId);
+            var model = Model.FirstOrDefault(x => x.Id == importedId);
             if (model is null)
                 return false;
             model.IsDeleted = true;
