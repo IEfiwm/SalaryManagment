@@ -40,15 +40,8 @@ namespace Web.Areas.Dashboard.Controllers
 
             var user = _mapper.Map<EditUserViewModel>(await _userManager.GetUserAsync(HttpContext.User));
 
-            var pc = new PersianCalendar();
-
-            //if (user.Birthday != null)
-            //{
-            //    user.Birthday = new DateTime(pc.GetYear(user.Birthday.Value), pc.GetMonth(user.Birthday.Value), pc.GetDayOfMonth(user.Birthday.Value));
-            //}
-
             user.AdditionalUserData = _mapper.Map<List<AdditionalUserDataViewModel>>
-                (_additionalUserDateRepository.Model.Include(x=>x.Documents).Where(x => x.ParentRef == user.Id)).ToList();
+                (_additionalUserDateRepository.Model.Include(x => x.Documents).Where(x => x.ParentRef == user.Id)).ToList();
 
             if (!user.AdditionalUserData.Any(x => x.FamilyRole == Common.Enums.FamilyRole.Me))
                 user.AdditionalUserData.Add(new AdditionalUserDataViewModel { FamilyRole = Common.Enums.FamilyRole.Me, ParentRef = user.Id });
@@ -67,8 +60,6 @@ namespace Web.Areas.Dashboard.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
-            var pc = new PersianCalendar();
-
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
             user.Address = model.Address;
@@ -79,8 +70,6 @@ namespace Web.Areas.Dashboard.Controllers
             user.BirthPlace = model.BirthPlace;
             user.ZipCode = model.ZipCode;
             user.Birthday = model.Birthday;
-            //if (model.Birthday != null)
-            //    user.Birthday = new DateTime(model.Birthday.Value.Year, model.Birthday.Value.Month, model.Birthday.Value.Day, pc);
 
             var res = await _userManager.UpdateAsync(user);
 

@@ -124,7 +124,7 @@ function SetFileData(File, familyBoxIndex, index) {
             File.value = null;
             alert("file type not allowed");
             return false;
-        } else if (fileSize > 10) {
+        } else if (filesize > 10) {
             File.value = null;
             alert("file size too large");
             return false;
