@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,5 +29,6 @@ namespace Application.Interfaces.Repositories
         /// <param name="parameters">The parameters.</param>
         /// <returns>An <see cref="IQueryable{T}"/> that contains elements that satisfy the condition specified by raw SQL.</returns>
         IQueryable<TEntity> FromSql<TEntity>(string sql, params object[] parameters) where TEntity : class;
+        List<T> ExecuteStoreProcedure<T>(string storedProcedure, List<SqlParameter> parameters = null);
     }
 }

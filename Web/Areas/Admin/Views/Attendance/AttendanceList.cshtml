@@ -1,0 +1,831 @@
+﻿@model List<Web.Areas.Admin.Models.AttendanceViewModel>;
+@inject IHtmlLocalizer<SharedResource> localizer
+@{
+    ViewData["Title"] = localizer["Users"];
+    ViewData["Caption"] = localizer["Get Attendances here"];
+    ViewBag.Title = "کارکردها";
+}
+
+<div class="card" id="myT">
+    <div class="card-body table-responsive">
+        <table class="table table-striped" id="attendanceTable">
+            <thead>
+                <tr>
+                    <th>
+                        کد پ
+                    </th>
+                    <th>
+                        نام و نام خانوادگی
+                    </th>
+                    <th>
+                        نام پدر
+                    </th>
+                    <th>
+                        کد ملی
+                    </th>
+                    <th>
+                        شماره بیمه
+                    </th>
+                    <th>
+                        شماره شناسنامه
+                    </th>
+                    <th>
+                        تاریخ تولد
+                    </th>
+                    <th>
+                        نام شعبه
+                    </th>
+                    <th>
+                        سال 
+                    </th>
+                    <th>
+                        ماه
+                    </th>
+                    <th>
+                        تعداد اولاد
+                    </th>
+                    <th>
+                        شماره حساب
+                    </th>
+                    <th>
+                        بیمه تامین اجتماعی
+                    </th>
+                    <th>
+                        جمع كسور
+                    </th>
+                    <th>
+                        كل حقوق و مزايا
+                    </th>
+                    <th>
+                        اضافه کاری
+                    </th>
+                    <th>
+                        بن کارگری
+                    </th>
+                    <th>
+                        پایه سنوات
+                    </th>
+                    <th>
+                        تعطیل کاری
+                    </th>
+                    <th>
+                        حق اولاد
+                    </th>
+                    <th>
+                        1حق ناهار
+                    </th>
+                    <th>
+                        حق مسکن
+                    </th>
+                    <th>
+                        حقوق پایه
+                    </th>
+                    <th>
+                        خالص پرداختی
+                    </th>
+                    <th>
+                        سایر کسور
+                    </th>
+                    <th>
+                        شبکاری
+                    </th>
+                    <th>
+                        کارکرد اضافه کاری
+                    </th>
+                    <th>
+                        کارکرد تعطیل کاری
+                    </th>
+                    <th>
+                        كاركرد حق غذا
+                    </th>
+                    <th>
+                        کارکرد موثر
+                    </th>
+                    <th>
+                        کارکرد شبکاری
+                    </th>
+                    <th>
+                        ماليات
+                    </th>
+                    <th>
+                        کارکرد ماموریت
+                    </th>
+                    <th>
+                        ماموریت
+                    </th>
+                    <th>
+                        کارکرد نوبت کاری
+                    </th>
+                    <th>
+                        نوبت کاری
+                    </th>
+                    <th>
+                        کسر بیمه تکمیلی
+                    </th>
+                    <th>
+                        کارکرد پاداش
+                    </th>
+                    <th>
+                        پاداش
+                    </th>
+                    <th>
+                        سنوات
+                    </th>
+                    <th>
+                        عیدی
+                    </th>
+                    <th>
+                        اضافه کاری ثابت
+                    </th>
+                    <th>
+                        کسر بیمه تکمیلی سرپرست
+                    </th>
+                    <th>
+                        کسر بیمه تکمیلی افراد تحت تکفل
+                    </th>
+                    <th>
+                        کسر بیمه تکمیلی افرادغیر تحت تکفل
+                    </th>
+                    <th>
+                        هزینه رفاهی
+                    </th>
+                    <th>
+                        ایاب و ذهاب
+                    </th>
+                    <th>
+                        کارکرد معوقه
+                    </th>
+                    <th>
+                        وام موسسه
+                    </th>
+                    <th>
+                        وام سامان
+                    </th>
+                    <th>
+                        معوقه ایاب و ذهاب
+                    </th>
+                    <th>
+                        کسر بیمه تکمیلی ماه معوقه
+                    </th>
+                    <th>
+                        کمک هزینه رفاهی
+                    </th>
+                    <th>
+                        کارایی
+                    </th>
+                    <th>
+                        رند حقوق
+                    </th>
+                    <th>
+                        حق شیر
+                    </th>
+                    <th>
+                        حق خواربار
+                    </th>
+                    <th>
+                        مانده مرخصی
+                    </th>
+                    <th>
+                        جمع اقساط وام
+                    </th>
+                    <th>
+                        جمع مزایا
+                    </th>
+                    <th>
+                        شغل
+                    </th>
+                    <th>
+                        مزد روزانه
+                    </th>
+                    <th>
+                        کدشغل
+                    </th>
+                    <th>
+                        جنسیت
+                    </th>
+                    <th>
+                        ملیت
+                    </th>
+                    <th>
+                        ماخذ بیمه
+                    </th>
+                    <th>
+                        مزایای مشمول
+                    </th>
+                    <th>
+                        شروع کار
+                    </th>
+                    <th>
+                        ترک کار
+                    </th>
+                    <th>
+                        دستمزد و مزایای مشمول ماهانه
+                    </th>
+                    <th>
+                        مشمول و غیر مشمول
+                    </th>
+                    <th>
+                        حق بیمه سهم کارفرما
+                    </th>
+                    <th>
+                        حق بیمه بیکاری
+                    </th>
+                    <th>
+                        محل تولد
+                    </th>
+                    <th>
+                        جمع کل حق بیمه اعم از حق بیمه و بیمه بیکاری
+                    </th>
+                    <th style="width:10%">
+                        #
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var attendance in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <a>
+                                        @attendance.PersonnelCode
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <a>
+                                        @attendance.FirstName @attendance.LastName
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <a>
+                                        @attendance.FatherName
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <a>
+                                        @attendance.NationalCode
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <a>
+                                        @attendance.InsuranceNumber
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.IdentityNumber
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.Birthday?.ToString("yyyy/MM/dd")
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.ServiceLocation
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.Year
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.Month
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.NumberChildren
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.AccountNumber
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.Insurance7Percent
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.SumDeductions
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.SumSalaryAndBenefit
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.OvertimeworkingPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.WorkerRightPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.SeveranceMonthly
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.HolidayworkingPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.ChildrenRightPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.FoodPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.HouseRightPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.MonthlyPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.PureIncome
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.OtherDeductions
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.NightworkingPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.OvertimeworkingTime
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.HolidayworkingTime
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.FoodTime
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.DurationOperation
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.NightworkingTime
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.Taxation
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.MissionTime
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.MissionPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.ShiftWorkTime
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.ShiftWorkPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.SupplementaryInsuranceDeduction
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.RewardTime
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.RewardPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.YearsPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.FestalPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.BasicOverTimePay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.SupplementaryInsuranceSupervisor
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.SupplementaryInsuranceForDependents
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.NonDependentSupplementaryInsurance
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.WelfareCostPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.TransportationPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.DelayedTime
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.InstitutionaLoan
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.SamanLoan
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.DelayedTransportationPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.DelayedSupplementaryInsuranceDeduction
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.WelfareAllowancePay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.PerformancePay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.RoundedSalary
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.FeedRightPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.FoodStuffRightPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.LeaveBalance
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.TotalLoanInstallments
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.SumSalaryAndBenefit
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.JobTitle
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.DailyPay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.JobCode
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @Common.Extentions.CommonExtention.GetEnumDisplayName(attendance.Gender)
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.Nationality
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.InsurancePay
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.MonthlyBenefits
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.StartWorkingDate?.ToString("yyyy/MM/dd")
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.EndWorkingDate?.ToString("yyyy/MM/dd")
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.MonthlyWagesAndBenefitsIncluded
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.IncludedAndNotIncluded
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.EmployerShareInsurance
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.UnemploymentInsurance
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @attendance.BirthPlace
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @(String.Format("{0:N10}", attendance.Insurance30Percent))
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @localizer["Actions"]
+                                </button>
+                                <div class="dropdown-menu shadow animated--grow-in">
+                                    <a asp-area="Admin" asp-controller="attendance" asp-action="Delete" asp-route-attendanceId="@attendance.ImportedId" class="dropdown-item">
+                                        <i class="fa fa-pencil"></i> @localizer["Delete"]
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+        
+
+        $(document).ready(function () {
+            $("#attendanceTable").DataTable({
+                searching: true,
+                ordering: true,
+                processing: false,
+                select: true,
+                responsive: true,
+                oLanguage: {
+                    sSearch: "جستجو: ",
+                    sInfo: "نمایش _START_ تا _END_ از _TOTAL_ رکورد",
+                    sLengthMenu: "نمایش _MENU_ رکورد",
+                    sInfoFiltered: "فیلتر شده از _MAX_ رکورد",
+                    sInfoEmpty: "هیچ داده ای یافت نشد",
+                    sZeroRecords: "رکوردی یافت نشد",
+                    oPaginate: {
+                        sPrevious: "قبلی",
+                        sNext: "بعدی",
+                    }
+                }
+            });
+        });
+    </script>
+
+}

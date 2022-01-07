@@ -3,7 +3,14 @@ using Application.Interfaces.Shared;
 using Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -81,10 +88,6 @@ namespace Infrastructure.Repositories
             using (var ts = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 var count = 0;
-                foreach (var unitOfWork in unitOfWorks)
-                {
-                    count += await unitOfWork.SaveChangesAsync(ensureAutoHistory).ConfigureAwait(false);
-                }
 
                 count += await SaveChangesAsync(ensureAutoHistory);
 
@@ -92,6 +95,59 @@ namespace Infrastructure.Repositories
 
                 return count;
             }
+        }
+
+        public List<T> ExecuteStoreProcedure<T>(string storedProcedure, List<SqlParameter> parameters = null) 
+        {
+            using (var cmd = _dbContext.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = storedProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 300;
+
+                // set some parameters of the stored procedure
+                if (parameters != null)
+                {
+
+                    foreach (var parameter in parameters)
+                    {
+                        parameter.Value = parameter.Value ?? DBNull.Value;
+                        cmd.Parameters.Add(parameter);
+                    }
+
+                }
+                if (cmd.Connection.State != ConnectionState.Open)
+                    cmd.Connection.Open();
+
+                using (var dataReader = cmd.ExecuteReader())
+                {
+                    var test = DataReaderMapToList<T>(dataReader);
+                    return test;
+                }
+            }
+        }
+
+        private static List<T> DataReaderMapToList<T>(DbDataReader dr)
+        {
+            List<T> list = new List<T>();
+
+            if (dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    var obj = Activator.CreateInstance<T>();
+                    foreach (PropertyInfo prop in obj.GetType().GetProperties())
+                    {
+                        if (!Equals(dr[prop.Name], DBNull.Value))
+                        {
+                            prop.SetValue(obj, dr[prop.Name], null);
+                        }
+                    }
+                    list.Add(obj);
+                }
+                return list;
+            }
+            return new List<T>();
         }
     }
 }
