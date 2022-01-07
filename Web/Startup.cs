@@ -17,6 +17,7 @@ using System;
 using System.Reflection;
 using Web.Abstractions;
 using Web.Extensions;
+using Web.Models;
 using Web.Permission;
 using Web.Services;
 
@@ -78,6 +79,8 @@ namespace Web
             services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
 
             services.AddScoped<IViewRenderService, ViewRenderService>();
+
+            ConfigurationStorage.Configuration = _configuration;
 
             //services.AddTransient<IBankAccountRepository, BankAccountRepository>();
         }

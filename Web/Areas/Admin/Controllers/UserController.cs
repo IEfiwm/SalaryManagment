@@ -202,19 +202,25 @@ namespace Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> ContractList(long projectId = 0)
+        public async Task<IActionResult> ContractList(string startDate, string endDate, long projectId = 0)
         {
             ViewData["projectId"] = projectId;
-            var model = new List<UserViewModel>();
+            var model = new ContractListViewModel();
 
             if (projectId != 0)
             {
                 var usersByprojectId = await _userRepository.GetUserListByProjectIdAsync(projectId);
-                model = _mapper.Map<IEnumerable<UserViewModel>>(usersByprojectId).ToList();
+
+                model.Users = _mapper.Map<IEnumerable<UserViewModel>>(usersByprojectId).ToList();
             }
 
-            return View(model);
+            model.StartDate = startDate;
 
+            model.EndDate = endDate;
+
+            model.ProjectId = projectId;
+
+            return View(model);
         }
     }
 }
