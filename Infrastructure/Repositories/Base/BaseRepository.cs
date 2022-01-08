@@ -84,7 +84,7 @@ namespace Infrastructure.Repositories.Base
 
             //await _distributedCache.RemoveAsync(_baseCacheKey.GetKey(entity.Id));
         }
-    }    
+    }
 
     public class BaseAuditRepository<T, TContext> : IBaseAuditRepository<T, TContext>
         where T : AuditBaseEntity
@@ -117,7 +117,24 @@ namespace Infrastructure.Repositories.Base
             //await _distributedCache.RemoveAsync(_baseCacheKey.GetKey(entity.Id));
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task SoftDeleteAsync(T entity)
+        {
+            entity.IsDeleted = true;
+
+            await _repository.UpdateAsync(entity);
+        }
+
+        public async Task SoftDeleteAsync(long id)
+        {
+            var entity = await GetByIdAsync(id);
+
+            if (entity == null)
+                return;
+
+            await _repository.UpdateAsync(entity);
+        }
+
+        public async Task<T> GetByIdAsync(long id)
         {
             return await _repository.Entities.Where(p => p.Id == id).FirstOrDefaultAsync();
         }

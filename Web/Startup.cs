@@ -88,7 +88,7 @@ namespace Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || true)
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -130,7 +130,7 @@ namespace Web
                 endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{area=Authentication}/{controller=Login}/{action=Index}/{id?}");
+                    pattern: "{area=Dashboard}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

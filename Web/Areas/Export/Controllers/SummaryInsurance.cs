@@ -13,14 +13,16 @@ namespace Web.Areas.Export.Controllers
             return View();
         }
 
-        public IActionResult DBF(int year, int month)
+        [HttpGet]
+        public IActionResult DBF(int year, int month, int projectId)
         {
-            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/DBFSummary/{year}/{month}");
+            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/DBFSummary/{year}/{month}/{projectId}");
         }
 
-        public IActionResult PDF(int year, int month)
+        [HttpGet]
+        public IActionResult PDF(int year, int month, int projectId)
         {
-            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/InsuranceSummary/{year}/{month}");
+            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/InsuranceSummary/{year}/{month}/{projectId}");
         }
     }
 }
