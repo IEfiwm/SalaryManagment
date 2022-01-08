@@ -1,6 +1,7 @@
-﻿@{ViewBag.Title = "خروجی خلاصه لیست بیمه";
+﻿@{
+    ViewBag.Title = "خروجی خلاصه لیست بیمه";
 }
-<form id="form" method="POST">
+<form id="form" method="GET">
     <div class="row justify-content-center">
         <div class="col-6">
             <div class="card">
@@ -16,7 +17,7 @@
                         </div>
                         <div class="col-12 mt-1">
                             <label class="form-label" for="inputPassword">پروژه</label>
-                            <select id="project" class="js-data-example-ajax form-control" required>
+                            <select id="project" class="js-data-example-ajax form-control"  name="projectId" required>
                                 <option selected>یک مورد را انتخاب کنید</option>
                             </select>
                         </div>
@@ -38,3 +39,21 @@
         $('#form').attr('action', "/Export/SummaryInsurance/PDF").submit();
     }
 </script>
+@section Scripts{
+<script>
+
+        $.ajax({
+        url: "/admin/project/getlist",
+        method: "GET",
+        success: function (model){
+            //console.log(parseJSON(model));
+            $.map( model, function( val, i ) {
+                console.log(val);
+                $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
+            });
+            //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');
+            //$("#project").select2();
+        }
+    })
+</script>
+}
