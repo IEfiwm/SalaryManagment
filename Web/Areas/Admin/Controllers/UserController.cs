@@ -109,16 +109,32 @@ namespace Web.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-
-            return View("Edit", _mapper.Map<UserViewModel>(user));
+            var model = _mapper.Map<UserViewModel>(user);
+            if (user.BankAccountRef != null)
+            {
+                var acc = await _bankAccountRepository.GetByIdAsync(user.BankAccountRef.Value);
+                model.BankAccNumber = acc.AccountNumber;
+                model.BankName = acc.Title;
+            }
+            return View("Edit", model);
         }
 
         [HttpPost]
         public async Task<IActionResult> EditUser(UserViewModel user)
         {
+            var bankRef = await _bankAccountRepository.InsertAndSaveAsync(new BankAccount
+            {
+                AccountNumber = user.BankAccNumber,
+                Title = user.BankName,
+                CreatedByRef = (await _userManager.GetUserAsync(HttpContext.User)).Id,
+                CreatedDate = System.DateTime.Now
+            });
+
             user.UserName = user.PhoneNumber;
 
             var ouser = await _userRepository.GetUserByIdAsync(user.Id);
+
+            ouser.BankAccountRef = bankRef;
 
             ouser = _mapper.Map<UserViewModel, ApplicationUser>(user, ouser);
 

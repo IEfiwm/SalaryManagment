@@ -34,12 +34,12 @@
                     <input type="text" asp-for="IdentitySerialNumber" name="IdentitySerialNumber" class="form-control col-lg-12" placeholder="@localizer["IdentitySerialNumber"]">
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="IdentitySerialNumber" class="form-label col-lg-12">نام پدر</label>
-                    <input type="text" asp-for="FatherName" name="FatherName" class="form-control col-lg-12" placeholder="نام پدر">
-                </div>
-                <div class="form-group col-md-4">
                     <label for="IdentityNumber" class="form-label col-lg-12">@localizer["IdentityNumber"]</label>
                     <input type="text" asp-for="IdentityNumber" name="IdentityNumber" class="form-control col-lg-12" placeholder="@localizer["IdentityNumber"]">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="IdentitySerialNumber" class="form-label col-lg-12">نام پدر</label>
+                    <input type="text" asp-for="FatherName" name="FatherName" class="form-control col-lg-12" placeholder="نام پدر">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="Nationality" class="form-label col-lg-12">@localizer["Nationality"]</label>
@@ -64,6 +64,14 @@
                 <div class="form-group col-md-4">
                     <label for="ZipCode" class="form-label col-lg-12">@localizer["ZipCode"]</label>
                     <input type="text" asp-for="ZipCode" name="ZipCode" class="form-control col-lg-12" placeholder="@localizer["ZipCode"]">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="BankAccNumber" class="form-label col-lg-12">شماره حساب</label>
+                    <input type="text" asp-for="BankAccNumber" class=" form-control col-lg-12" placeholder="شماره حساب">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="BankName" class="form-label col-lg-12">نام بانک</label>
+                    <input type="text" asp-for="BankName" class="form-control col-lg-12" placeholder="نام بانک">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="DegreeOfEducation" class="form-label col-lg-12">@localizer["DegreeOfEducation"]</label>
