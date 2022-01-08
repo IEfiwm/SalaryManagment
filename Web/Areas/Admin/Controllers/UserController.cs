@@ -59,9 +59,9 @@ namespace Web.Areas.Admin.Controllers
 
             var allUsersExceptCurrentUser = await _userRepository.GetUserListAsync();
 
-            var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser);
+            var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser.Where(m => m.Email is null && !m.IsDeleted));
 
-            return PartialView("_ViewAll", model.Where(m => m.Email is null).ToList());
+            return PartialView("_ViewAll", model.ToList());
         }
 
         public async Task<IActionResult> OnGetCreate()
