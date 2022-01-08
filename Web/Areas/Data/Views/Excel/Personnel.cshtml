@@ -4,108 +4,110 @@
 @{
     ViewBag.Title = "بارگزاری از اکسل";
 }
-<br/>
-<br/>
-<br/>
+<br />
+<br />
+<br />
 <form asp-controller="Home" asp-action="Export">
-<div class="container">
-    <div class="row">
-        <div class="col-md-10">
-            <input type="file" id="fileupload" name="files" class="form-control" />
-        </div>
-        <div class="col-md-2">
-            <input type="button" name="Upload" value="بارگزاری فایل" id="btnupload" class="btn btn-primary" />
+    <div class="card col-md-12">
+        <div class="container m-5">
+            <div class="row">
+                <div class="col-md-10">
+                    <input type="file" id="fileupload" name="files" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <input type="button" name="Upload" value="بارگزاری فایل" id="btnupload" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="clearfix">&nbsp;</div>
+            <div class="row">
+                <div id="divPrint"></div>
+            </div>
         </div>
     </div>
-    <div class="clearfix">&nbsp;</div>
-    <div class="row">
-        <div id="divPrint"></div>
-    </div>
-</div>
 </form>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
-$(function () {
-    $('#btnupload').on('click', function () {
+    $(function () {
+        $('#btnupload').on('click', function () {
 
-        var fileExtension = ['xls', 'xlsx'];
+            var fileExtension = ['xls', 'xlsx'];
 
-        var filename = $('#fileupload').val();
+            var filename = $('#fileupload').val();
 
-        if (filename.length == 0) {
+            if (filename.length == 0) {
 
-            alert("Please select a file.");
-
-            return false;
-
-        }
-        else {
-
-            var extension = filename.replace(/^.*\./, '');
-
-            if ($.inArray(extension, fileExtension) == -1) {
-
-                alert("Please select only excel files.");
+                alert("Please select a file.");
 
                 return false;
+
             }
-        }
+            else {
 
-        var fdata = new FormData();
+                var extension = filename.replace(/^.*\./, '');
 
-        var fileUpload = $("#fileupload").get(0);
+                if ($.inArray(extension, fileExtension) == -1) {
 
-        var files = fileUpload.files;
+                    alert("Please select only excel files.");
 
-        fdata.append(files[0].name, files[0]);
+                    return false;
+                }
+            }
 
-        $.ajax({
+            var fdata = new FormData();
 
-            type: "POST",
+            var fileUpload = $("#fileupload").get(0);
 
-            url: "/Data/Excel/ImportPersonnel",
+            var files = fileUpload.files;
 
-            beforeSend: function (xhr) {
+            fdata.append(files[0].name, files[0]);
 
-                xhr.setRequestHeader("XSRF-TOKEN",
+            $.ajax({
 
-                    $('input:hidden[name="__RequestVerificationToken"]').val());
+                type: "POST",
 
-            },
+                url: "/Data/Excel/ImportPersonnel",
 
-            data: fdata,
+                beforeSend: function (xhr) {
 
-            contentType: false,
+                    xhr.setRequestHeader("XSRF-TOKEN",
 
-            processData: false,
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
 
-            success: function (response) {
-                setTimeout(function(){
-                    location.reload();
-                },1000*5);
-            },
+                },
+
+                data: fdata,
+
+                contentType: false,
+
+                processData: false,
+
+                success: function (response) {
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000 * 5);
+                },
+            });
+
+        })
+
+        $('#btnExport').on('click', function () {
+
+            var fileExtension = ['xls', 'xlsx'];
+
+            var filename = $('#fileupload').val();
+
+            if (filename.length == 0) {
+
+                alert("Please select a file then Import");
+
+                return false;
+
+            }
+
         });
 
-    })
-
-    $('#btnExport').on('click', function () {
-
-        var fileExtension = ['xls', 'xlsx'];
-
-        var filename = $('#fileupload').val();
-
-        if (filename.length == 0) {
-
-            alert("Please select a file then Import");
-
-            return false;
-
-        }
-
     });
-
-});
 
 </script>
