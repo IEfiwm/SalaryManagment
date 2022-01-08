@@ -10,7 +10,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager"))
+                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager") || User.IsInRole("Admin"))
                 {
                     <li class="nav-item">
                         <a href="/Dashboard/Managment" class="nav-link">
@@ -25,7 +25,7 @@
                 else
                 {
                     <li class="nav-item">
-                        <a href="/Dashboard/User" class="nav-link">
+                        <a href="/Dashboard/User/EditInformation" class="nav-link">
                             <i class="nav-icon fa fa-th"></i>
                             <p>
                                 @localizer["Dashboard"]
