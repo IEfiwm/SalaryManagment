@@ -405,7 +405,7 @@ namespace Web.Areas.Attendance.Controllers
 
             _notify.Success("کارکرد با موفقیت حذف شد .");
 
-            return Redirect("~/");
+            return Redirect("~/dashboard/managment");
         }
 
         [HttpGet]

@@ -192,10 +192,16 @@ namespace Web.Areas.Admin.Controllers
         {
             var user = await _userManager.FindByIdAsync(userId);
 
-            var res = await _userManager.DeleteAsync(user);
+            user.IsDeleted = true;
+
+            var res = await _userManager.UpdateAsync(user);
 
             if (res.Succeeded)
-                _notify.Success("حذف کاربر با موفقیت انجام شد.");
+            {
+                await _bankAccountRepository.SoftDeleteAsync(user.BankAccountRef.Value);
+
+                await _bankAccountRepository.SaveChangesAsync();
+            }
             else
                 _notify.Error("حذف کاربر انجام نشد.");
 

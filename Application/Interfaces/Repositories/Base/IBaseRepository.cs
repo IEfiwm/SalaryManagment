@@ -14,7 +14,7 @@ namespace Application.Interfaces.Repositories.Base
 
         Task<List<T>> GetListAsync();
 
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(long id);
 
         Task<long> InsertAsync(T entity);
 
@@ -23,6 +23,10 @@ namespace Application.Interfaces.Repositories.Base
         Task UpdateAsync(T entity);
 
         Task DeleteAsync(T entity);
+
+        Task SoftDeleteAsync(T entity);
+
+        Task SoftDeleteAsync(long id);
 
         public int SaveChanges();
 
