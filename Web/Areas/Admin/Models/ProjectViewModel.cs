@@ -26,5 +26,8 @@ namespace Web.Areas.Admin.Models
         public string TaxAuthorityName { get; set; }
 
         public string TaxAuthorityCode { get; set; }
+
+        public string BranchName { get; set; }
+
     }
 }
