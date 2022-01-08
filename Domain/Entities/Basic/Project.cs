@@ -28,6 +28,8 @@ namespace Domain.Entities.Basic
 
         public string TaxAuthorityCode { get; set; }
 
+        public string BranchName { get; set; }
+
         public virtual ICollection<ApplicationUser> ProjectUsers { get; set; }
     }
 }

@@ -55,7 +55,11 @@
                                     class="form-control"
                                     asp-items="Html.GetEnumSelectList<ProjectStatus>()"></select>
                         </div>
-                        <div class="mt-3 col-12">
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="WorkshopCode">شعبه بیمه</label>
+                            <input asp-for="BranchName" class="form-control" placeholder="">
+                        </div>
+                        <div class="mt-6 col-12 text-right">
                             <button type="submit" class="btn btn-primary">ذخیره</button>
                         </div>
                     </div>
