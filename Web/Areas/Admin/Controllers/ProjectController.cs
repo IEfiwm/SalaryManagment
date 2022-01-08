@@ -68,13 +68,6 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Save(ProjectViewModel model)
         {
-            var start = new PersianDateTime(model.StartDate).ToDateTime();
-
-            var end = new PersianDateTime(model.EndDate).ToDateTime();
-
-            model.StartDate = DateTime.Parse(start.Year.ToString() + "/" + start.Month.ToString() + "/" + start.Day.ToString());
-
-            model.EndDate = DateTime.Parse(end.Year.ToString() + "/" + end.Month.ToString() + "/" + end.Day.ToString());
 
             if (model.Id == 0)
             {

@@ -39,11 +39,11 @@
                         </div>
                         <div class="col-6 mt-3">
                             <label class="form-label" for="WorkshopCode">تاریخ شروع</label>
-                            <input name="StartDate" type="text" class="datepicker form-control" value="@(Model.StartDate == default(DateTime)? null:Model.StartDate )">
+                            <input name="StartDate" type="text" class="datepicker form-control" value="@(Model.StartDate == default(DateTime)? null:Model.StartDate.ToString("yyyy/MM/dd") )">
                         </div>
                         <div class="col-6 mt-3">
                             <label class="form-label" for="WorkshopCode">تاریخ پایان</label>
-                            <input asp-for="EndDate" type="text" class="datepicker form-control" placeholder="">
+                            <input asp-for="EndDate" type="text" class="datepicker form-control" placeholder=""  value="@(Model.EndDate == default(DateTime)? null:Model.EndDate?.ToString("yyyy/MM/dd") )">
                         </div>
                         <div class="col-6 mt-3">
                             <label class="form-label" for="WorkshopCode">ردیف پیمان</label>
