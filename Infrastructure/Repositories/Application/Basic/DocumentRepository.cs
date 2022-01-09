@@ -4,6 +4,7 @@ using Infrastructure.DbContexts;
 using Infrastructure.Repositories.Base;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Infrastructure.Repositories.Application.Basic
     {
         public DocumentRepository(IIdentityRepositoryAsync<Document, IdentityContext> repository) : base(repository)
         {
-            
+
         }
         public async Task<bool> DeleteByUserId(long userId)
         {
@@ -28,5 +29,10 @@ namespace Infrastructure.Repositories.Application.Basic
             return true;
         }
 
+        public IEnumerable<Document> GetByUserId(long userId)
+        {
+            return Model.Where(x => x.AdditionalRef == userId).ToList();
+
+        }
     }
 }

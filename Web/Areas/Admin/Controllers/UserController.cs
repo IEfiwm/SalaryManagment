@@ -28,21 +28,22 @@ namespace Web.Areas.Admin.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserRepository _userRepository;
         private readonly IBankAccountRepository _bankAccountRepository;
-        private readonly IProjectRepository _projectRepository;
+        private readonly IAdditionalUserDateRepository _additionalUserDateRepository;
+
 
         public UserController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IUserRepository userRepository,
             IBankAccountRepository bankAccountRepository,
-            IProjectRepository projectRepository)
+            IAdditionalUserDateRepository additionalUserDateRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _userRepository = userRepository;
-            _projectRepository = projectRepository;
             _bankAccountRepository = bankAccountRepository;
+            _additionalUserDateRepository = additionalUserDateRepository;
         }
 
         //[Authorize(Policy = Permissions.Users.View)]
@@ -60,6 +61,24 @@ namespace Web.Areas.Admin.Controllers
             var allUsersExceptCurrentUser = await _userRepository.GetUserListAsync();
 
             var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser);
+
+            foreach (var user in model)
+            {
+                try
+                {
+
+                    user.HasAdditionalUser =  _additionalUserDateRepository.HasAdditionalUsers(user.Id);
+                    user.HasAdditionalUserDocument =  _additionalUserDateRepository.HasAdditionalUserDocument(user.Id);
+                    user.HasDocument =  _additionalUserDateRepository.HasDocuments(user.Id);
+
+                }
+                catch (Exception x)
+                {
+
+                    throw;
+                }
+            }
+
 
             return PartialView("_ViewAll", model.Where(m => m.Email is null).ToList());
         }

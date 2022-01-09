@@ -3,6 +3,7 @@ using Domain.Entities.Basic;
 using Infrastructure.DbContexts;
 using Infrastructure.Repositories.Base;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,5 +66,37 @@ namespace Infrastructure.Repositories.Application.Basic
             return true;
 
         }
+
+
+        public bool HasDocuments(string userId)
+        {
+            var additional = Model.FirstOrDefault(x => x.ParentRef == userId && x.FamilyRole == Common.Enums.FamilyRole.Me);
+            if (additional is null)
+                return false;
+            var docs =  _documentRepository.GetByUserId(additional.Id);
+            if (docs != null && docs.Count() > 0)
+                return true;
+            return false;
+
+        }
+        public bool HasAdditionalUsers(string userId)
+        {
+            return  Model.Any(x => x.ParentRef == userId && x.FamilyRole != Common.Enums.FamilyRole.Me);
+
+        }
+        public bool HasAdditionalUserDocument(string userId)
+        {
+            var additionalList = Model.Where(x => x.ParentRef == userId && x.FamilyRole != Common.Enums.FamilyRole.Me);
+            if (additionalList is null)
+                return false;
+            foreach (var additional in additionalList)
+            {
+                var docs =  _documentRepository.GetByUserId(additional.Id);
+                if (docs != null && docs.Count() > 0)
+                    return true;
+            }
+            return false;
+        }
+
     }
 }

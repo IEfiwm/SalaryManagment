@@ -35,6 +35,15 @@
                 ترک کار
             </th>
             <th>
+                مدارک
+            </th>
+            <th>
+                اطلاعات تحت تکفل
+            </th>
+            <th>
+                مدارک تحت تکفل
+            </th>
+            <th>
                 وضعیت
             </th>
             @*            <th>
@@ -144,6 +153,33 @@
                     </div>
                 </td>
                 <td>
+                    @if (user.HasDocument)
+                    {
+                    <span class="badge badge-success">&#10004;</span>
+                    }
+                    else
+                    {
+                <span class="badge badge-danger">&#10008;</span>
+                    }
+                </td> <td>
+                    @if (user.HasAdditionalUser)
+                    {
+                          <span class="badge badge-success">&#10004;</span>
+                    }
+                    else
+                    {
+                      <span class="badge badge-danger">&#10008;</span>
+                    }
+                </td> <td>
+                    @if (user.HasAdditionalUserDocument)
+                    {
+                          <span class="badge badge-success">&#10004;</span>
+                    }
+                    else
+                    {
+                      <span class="badge badge-danger">&#10008;</span>
+                    }
+                </td> <td>
                     @if (user.IsActive)
                     {
                         <span class="badge badge-success">@localizer["Active"]</span>

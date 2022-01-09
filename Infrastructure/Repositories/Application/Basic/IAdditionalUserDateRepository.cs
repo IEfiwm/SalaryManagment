@@ -10,5 +10,8 @@ namespace Infrastructure.Repositories.Application.Basic
     {
         Task<bool> DeleteByUserId(string userId);
         Task<bool> UpdateByUserId(List<AdditionalUserData> additionalUserDatas, string userId);
+        bool HasDocuments(string userId);
+        bool HasAdditionalUsers(string userId);
+        bool HasAdditionalUserDocument(string userId);
     }
 }

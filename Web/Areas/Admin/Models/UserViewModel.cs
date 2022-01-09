@@ -96,5 +96,12 @@ namespace Web.Areas.Admin.Models
         public MilitaryService MilitaryService { get; set; }
 
         public Gender Gender { get; set; }
+
+        public bool HasDocument { get; set; } = false;
+
+        public bool HasAdditionalUser { get; set; } = false;
+
+        public bool HasAdditionalUserDocument { get; set; } = false;
+
     }
 }
