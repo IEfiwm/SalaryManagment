@@ -228,6 +228,12 @@
   <data name="ExportSummaryInsuranceList" xml:space="preserve">
     <value>خلاصه لیست بیمه</value>
   </data>
+  <data name="ExportTaxList" xml:space="preserve">
+    <value>لیست مالیات</value>
+  </data>
+  <data name="ExportSummaryTaxList" xml:space="preserve">
+    <value>خلاصه لیست مالیات</value>
+  </data>
   <data name="First Name" xml:space="preserve">
     <value>نام</value>
   </data>
