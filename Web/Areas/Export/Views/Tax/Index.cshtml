@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-12 mt-1">
                             <label class="form-label" for="inputPassword">پروژه</label>
-                            <select id="project" class="js-data-example-ajax form-control"  name="projectList" required multiple>
+                            <select id="project" class="js-data-example-ajax form-control" name="projectList" required multiple>
                                 <option selected>یک مورد را انتخاب کنید</option>
                             </select>
                         </div>
@@ -33,26 +33,26 @@
     </div>
 </form>
 <script>
-    function SubmitTXTForm(){
+    function SubmitTXTForm() {
         $('#form').attr('action', "/Export/tax/TXT").submit();
     }
-    function SubmitPDFForm(){
+    function SubmitPDFForm() {
         $('#form').attr('action', "/Export/tax/PDF").submit();
     }
 
 </script>
 @section Scripts{
-<script>
+    <script>
 
         $.ajax({
-        url: "/admin/project/getlist",
-        method: "GET",
-        success: function (model){
-            $.map( model, function( val, i ) {
-                console.log(val);
-                $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
-            });
-        }
-    })
-</script>
+            url: "/admin/project/getlist",
+            method: "GET",
+            success: function (model) {
+                $.map(model, function (val, i) {
+                    console.log(val);
+                    $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
+                });
+            }
+        })
+    </script>
 }

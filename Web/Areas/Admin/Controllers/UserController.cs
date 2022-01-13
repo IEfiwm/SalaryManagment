@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Net.Mail;
@@ -67,9 +68,9 @@ namespace Web.Areas.Admin.Controllers
                 try
                 {
 
-                    user.HasAdditionalUser =  _additionalUserDateRepository.HasAdditionalUsers(user.Id);
-                    user.HasAdditionalUserDocument =  _additionalUserDateRepository.HasAdditionalUserDocument(user.Id);
-                    user.HasDocument =  _additionalUserDateRepository.HasDocuments(user.Id);
+                    user.HasAdditionalUser = _additionalUserDateRepository.HasAdditionalUsers(user.Id);
+                    user.HasAdditionalUserDocument = _additionalUserDateRepository.HasAdditionalUserDocument(user.Id);
+                    user.HasDocument = _additionalUserDateRepository.HasDocuments(user.Id);
 
                 }
                 catch (Exception x)
@@ -191,7 +192,16 @@ namespace Web.Areas.Admin.Controllers
 
             user.Id = Guid.NewGuid().ToString();
 
-            user.UserName = user.PhoneNumber;
+            user.UserName = user.PersonnelCode ?? user.NationalCode;
+
+            if (await _userRepository.Model.Where(m => m.UserName == user.UserName || m.PersonnelCode == user.PersonnelCode || m.NationalCode == user.NationalCode || m.PhoneNumber == user.PhoneNumber).FirstOrDefaultAsync() != null)
+            {
+                _notify.Error("افزودن کاربر انجام نشد.");
+
+                _notify.Error("کاربر با این مشخصات در سیستم موجود می باشد.");
+
+                return RedirectToAction("Index");
+            }
 
             ApplicationUser model = _mapper.Map<ApplicationUser>(user);
 
@@ -205,7 +215,7 @@ namespace Web.Areas.Admin.Controllers
 
             model.IsInsurance = true;
 
-            var res = await _userManager.CreateAsync(model, model.PhoneNumber);
+            var res = await _userManager.CreateAsync(model, model.PersonnelCode);
 
             if (res.Succeeded)
             {
@@ -216,6 +226,11 @@ namespace Web.Areas.Admin.Controllers
             else
             {
                 _notify.Error("افزودن کاربر انجام نشد.");
+
+                if (user.Id is null)
+                {
+                    RedirectToAction("Index");
+                }
 
                 return Redirect("/admin/user/edit?userId=" + user.Id);
             }

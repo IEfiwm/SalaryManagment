@@ -6,7 +6,7 @@ namespace Web.Areas.Export.Controllers
 {
     [Area("Export")]
     [Authorize(Roles = "SuperAdmin,Admin,Manager")]
-    public class SummaryInsurance : BaseController<InsuranceController>
+    public class SummaryInsuranceController : BaseController<InsuranceController>
     {
         public IActionResult Index()
         {

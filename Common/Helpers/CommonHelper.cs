@@ -25,5 +25,13 @@ namespace Common.Helpers
 
             return sOTP;
         }
+
+        public static string GetTowDigits(int digit)
+        {
+            if (digit < 10)
+                return "0" + digit;
+            else
+                return digit.ToString();
+        }
     }
 }
