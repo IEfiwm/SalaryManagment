@@ -1,4 +1,6 @@
-﻿using Common.Helpers;
+﻿using Application.Extensions;
+using Common.Enums;
+using Common.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,7 +16,7 @@ namespace Web.Areas.Export.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return View(new MKViewModel());
         }
 
         [HttpPost]
@@ -40,6 +42,12 @@ namespace Web.Areas.Export.Controllers
         [HttpPost]
         public IActionResult PDF(MKViewModel model)
         {
+            
+            model.PaymentMethodStr = EnumHelper<PaymentType>.GetDisplayValue((PaymentType) model.PaymentMethod);
+
+            model.BankName = EnumHelper<BankType>.GetDisplayValue((BankType) model.BankIndex);
+
+
             var client = new RestClient("https://localhost:44384/Report/TaxSummary");
 
             client.Timeout = -1;

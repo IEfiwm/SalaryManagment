@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Web.Areas.Admin.Models.MKViewModel;
+@{
     ViewBag.Title = "خروجی خلاصه مالیات";
 }
 <style>
@@ -40,10 +41,11 @@
 </style>
 <form id="form" method="Post">
     <div class="row justify-content-center">
-        <div class="col-6">
+        <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
+
                         <div class="col-4">
                             <label class="form-label" for="year">سال</label>
                             <input type="text" name="Year" class="form-control" placeholder="" required>
@@ -56,7 +58,12 @@
                             <label class="form-label" for="day">روز</label>
                             <input type="text" name="Day" class="form-control" placeholder="" required>
                         </div>
-
+                        <div class="col-12 mt-1">
+                            <label class="form-label" for="projectList">پروژه</label>
+                            <select id="project" class="js-data-example-ajax form-control" name="projectList" required multiple>
+                                <option selected>یک مورد را انتخاب کنید</option>
+                            </select>
+                        </div>
                         <div class="col-12">
                             <hr class="hr-text" data-content="مشخصات">
                         </div>
@@ -68,6 +75,14 @@
                         <div class="col-6">
                             <label class="form-label" for="PreviousDebt">بدهی مالیاتی ماه قبلی</label>
                             <input type="text" name="PreviousDebt" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" for="Non_surrender_penalty">جریمه عدم تسلیم به موقع خلاصه لیست 2% - موضوع ماه 197</label>
+                            <input type="text" asp-for="Non_surrender_penalty" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" for="Failure_to_pay">جریمه عدم پرداخت به موقع مالیات 20% - موضوع ماه 199</label>
+                            <input type="text" asp-for="Failure_to_pay" class="form-control" placeholder="" required>
                         </div>
 
                         <div class="col-4">
@@ -89,17 +104,8 @@
 
                         <div class="col-6">
                             <label class="form-label" for="PaymentMethod">نحوه پرداخت</label>
-                            <select name="PaymentMethod" class="js-data-example-ajax form-control" required>
-                                <option selected>یک مورد را انتخاب کنید</option>
-
-                                <option value="1">واریز نقدی</option>
-                                <option value="2">ارائه لیست بدون پرداخت مالبات</option>
-                                <option value="3">پرداخت خزانه</option>
-                                <option value="4">چک شخصی</option>
-                                <option value="5">پرداخت با کارت اعتباری</option>
-                                <option value="6">انتقال بانکی</option>
-                                <option value="7">سفته</option>
-                                <option value="8">چک تضمین شده</option>
+                            <select name="PaymentMethod" class="js-data-example-ajax form-control" asp-for="PaymentMethod"
+                                    asp-items="Html.GetEnumSelectList<Common.Enums.PaymentType>()" required>
                             </select>
                         </div>
 
@@ -123,39 +129,9 @@
 
                         <div class="col-6">
                             <label class="form-label" for="BankIndex">نام بانک</label>
-                            <select name="BankIndex" class="js-data-example-ajax form-control" required>
-                                <option selected>یک مورد را انتخاب کنید</option>
-
-                                <option value="1">انصار</option>
-                                <option value="2">توسعه تعاون</option>
-                                <option value="3">مرکزی</option>
-                                <option value="4">شهر</option>
-                                <option value="5">دی</option>
-                                <option value="6">توسعه صادرات ایران</option>
-                                <option value="7">اقتصاد نوین</option>
-                                <option value="8">قرض الحسنه مهر ایران</option>
-                                <option value="9">حکمت ایرانیان</option>
-                                <option value="10">توسعه صادرات ایران</option>
-                                <option value="11">صنعت و معدن</option>
-                                <option value="12">کارآفرین</option>
-                                <option value="13">کشاورزی</option>
-                                <option value="14">مسکن</option>
-                                <option value="15">ملت</option>
-                                <option value="16">ملی ایران</option>
-                                <option value="17">پارسیان</option>
-                                <option value="18">پاسارگاد</option>
-                                <option value="19">پست بانک</option>
-                                <option value="20">رفاه کارگران</option>
-                                <option value="21">صادرات</option>
-                                <option value="22">سامان</option>
-                                <option value="23">سرمایه</option>
-                                <option value="24">سپه</option>
-                                <option value="25">سینا</option>
-                                <option value="26">تات</option>
-                                <option value="27">تجارت</option>
-                                <option value="28">گردشگری</option>
-                                <option value="29">رسالت</option>
-
+                            <select asp-for="BankIndex"
+                                    asp-items="Html.GetEnumSelectList<Common.Enums.BankType>()"
+                                    class="js-data-example-ajax form-control" required>
                             </select>
                         </div>
 
@@ -214,20 +190,34 @@
     }
 </script>
 @section Scripts{
-    <script>
+<script>
 
-        $.ajax({
-            url: "/admin/project/getlist",
-            method: "GET",
-            success: function (model) {
-                //console.log(parseJSON(model));
-                $.map(model, function (val, i) {
-                    console.log(val);
-                    $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
-                });
-                //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');
-                //$("#project").select2();
-            }
-        })
-    </script>
+    $.ajax({
+        url: "/admin/project/getlist",
+        method: "GET",
+        success: function (model) {
+            //console.log(parseJSON(model));
+            $.map(model, function (val, i) {
+                console.log(val);
+                $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
+            });
+            //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');
+            //$("#project").select2();
+        }
+    })
+</script>
+<script>
+
+    $.ajax({
+        url: "/admin/project/getlist",
+        method: "GET",
+        success: function (model) {
+            $.map(model, function (val, i) {
+                console.log(val);
+                $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
+            });
+        }
+    })
+</script>
 }
+

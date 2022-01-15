@@ -1,7 +1,11 @@
-﻿namespace Web.Areas.Admin.Models
+﻿using System.Collections.Generic;
+
+namespace Web.Areas.Admin.Models
 {
     public class MKViewModel
     {
+        public List<string> projectList { get; set; }
+
         public int Year { get; set; }
 
         public int Month { get; set; }
@@ -28,11 +32,15 @@
 
         public string BranchName { get; set; }
 
-        public string BankIndex { get; set; }
+        public int BankIndex { get; set; }
+
+        public string BankName { get; set; }
 
         public string AccountNo { get; set; }
 
         public int PaymentMethod { get; set; } = 0;
+
+        public string PaymentMethodStr { get; set; }
 
         public string PaymentAmount { get; set; }
 
@@ -43,5 +51,9 @@
         public int PaymentDay { get; set; }
 
         public int PaymentAmountOfTreasury { get; set; }
+
+        public int Non_surrender_penalty { get; set; }
+
+        public int Failure_to_pay { get; set; }
     }
 }
