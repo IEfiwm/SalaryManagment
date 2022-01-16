@@ -35,8 +35,10 @@
         </div>
     </div>
 </form>
-
-<div class="card" id="myT">
+@*<a href="@(@$"https://localhost:44384/Contract/GetAll/{Model.Users.Select(x=>x.NationalCode).ToList()}/{Model.ProjectId}/{Model.StartDate.Replace("/","-")}/{Model.EndDate.Replace("/","-")}")" class="btn btn-primary">
+    <i class="fa fa-letter"></i> @localizer["Contract"]
+</a>
+*@<div class="card" id="myT">
     <div class="card-body table-responsive">
         <table class="table table-striped" id="userTable">
             <thead>
