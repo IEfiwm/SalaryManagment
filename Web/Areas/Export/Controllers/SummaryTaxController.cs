@@ -22,7 +22,7 @@ namespace Web.Areas.Export.Controllers
         [HttpPost]
         public IActionResult TXT(MKViewModel model)
         {
-            var client = new RestClient("https://localhost:44384/Report/TXTTaxSummary");
+            var client = new RestClient($@"{ _configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/TXTTaxSummary");
 
             client.Timeout = -1;
 
@@ -42,13 +42,12 @@ namespace Web.Areas.Export.Controllers
         [HttpPost]
         public IActionResult PDF(MKViewModel model)
         {
-            
-            model.PaymentMethodStr = EnumHelper<PaymentType>.GetDisplayValue((PaymentType) model.PaymentMethod);
 
-            model.BankName = EnumHelper<BankType>.GetDisplayValue((BankType) model.BankIndex);
+            model.PaymentMethodStr = EnumHelper<PaymentType>.GetDisplayValue((PaymentType)model.PaymentMethod);
 
+            model.BankName = EnumHelper<BankType>.GetDisplayValue((BankType)model.BankIndex);
 
-            var client = new RestClient("https://localhost:44384/Report/TaxSummary");
+            var client = new RestClient($@"{ _configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/TaxSummary");
 
             client.Timeout = -1;
 
