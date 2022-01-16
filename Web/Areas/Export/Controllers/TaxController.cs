@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Common.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using Web.Abstractions;
 using Web.Controllers;
@@ -16,10 +18,17 @@ namespace Web.Areas.Export.Controllers
         }
 
         [HttpPost]
-        public IActionResult TXT(int year, int month, List<string> projectList)
+        public IActionResult TXTWP(int year, int month, PaymentType paymentMethod, List<string> projectList)
         {
             var projectId = string.Join(',', projectList);
-            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/TXTTaxAll/{year}/{month}/{projectId}");
+            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/TXTTaxWPAll/{year}/{month}/{projectId}");
+        }
+
+        [HttpPost]
+        public IActionResult TXTWH(int year, int month, PaymentType paymentMethod, List<string> projectList)
+        {
+            var projectId = string.Join(',', projectList);
+            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/TXTTaxWHAll/{year}/{month}/{Convert.ToInt32(paymentMethod)}/{projectId}");
         }
 
         [HttpPost]
