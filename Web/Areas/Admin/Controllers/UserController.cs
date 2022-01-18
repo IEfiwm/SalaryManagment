@@ -1,4 +1,5 @@
 ﻿using Application.Enums;
+using Common.Helpers;
 using Domain.Entities.Base.Identity;
 using Domain.Entities.Basic;
 using Infrastructure.Repositories.Application.Basic;
@@ -8,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -277,6 +280,38 @@ namespace Web.Areas.Admin.Controllers
             model.ProjectId = projectId;
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetAllContractsFile(ContractListParameters model)
+        {
+
+            var usersByprojectId = await _userRepository.GetUserListByProjectIdAsync(model.projectId);
+
+            if (usersByprojectId.Count == 0)
+            {
+                _notify.Error("کاربری یافت نشد.");
+                return RedirectToAction("ContractList");
+            }
+
+            model.usernameList = usersByprojectId.Select(X => X.NationalCode).ToList();
+
+            var client = new RestClient("https://localhost:44384/Contract/GetAll");
+
+            client.Timeout = -1;
+
+            var request = new RestRequest(Method.POST);
+
+            request.AddHeader("Content-Type", "application/json");
+
+            request.AddParameter("application/json", JsonConvert.SerializeObject(model), ParameterType.RequestBody);
+
+            IRestResponse response = client.Execute(request);
+
+            var fileName = "AllContracts_" + DateTime.Now.Year + CommonHelper.GetTowDigits(DateTime.Now.Month) + ".zip";
+
+            return File(response.RawBytes, "application/octet-stream", fileName);
+
         }
     }
 }

@@ -35,10 +35,17 @@
         </div>
     </div>
 </form>
-@*<a href="@(@$"https://localhost:44384/Contract/GetAll/{Model.Users.Select(x=>x.NationalCode).ToList()}/{Model.ProjectId}/{Model.StartDate.Replace("/","-")}/{Model.EndDate.Replace("/","-")}")" class="btn btn-primary">
-    <i class="fa fa-letter"></i> @localizer["Contract"]
-</a>
-*@<div class="card" id="myT">
+@if (Model.StartDate != null)
+{
+    <form id="formAll" method="Post" class="text-right">
+        <input type="hidden" name="startdate" value="@Model.StartDate.Replace("/","-")">
+        <input type="hidden" name="enddate" value="@Model.EndDate.Replace("/","-")">
+        <input type="hidden" name="projectId" value="@Model.ProjectId">
+        <input type="hidden" name="usernameList">
+        <button onclick="SubmitAllForm()" class="btn btn-primary m-2">دانلود همه</button>
+    </form>
+}
+<div class="card" id="myT">
     <div class="card-body table-responsive">
         <table class="table table-striped" id="userTable">
             <thead>
@@ -149,7 +156,9 @@
             });
         }
     })
-
+     function SubmitAllForm() {
+        $('#formAll').attr('action', "/admin/user/GetAllContractsFile").submit();
+    }
     $(document).ready(function () {
         $("#userTable").DataTable({
             searching: true,

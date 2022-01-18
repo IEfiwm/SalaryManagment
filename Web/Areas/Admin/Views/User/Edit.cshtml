@@ -23,11 +23,11 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="NationalCode" class="form-label col-lg-12">@localizer["NationalCode"]</label>
-                    <input type="text" asp-for="NationalCode" name="NationalCode" class="form-control col-lg-12" placeholder="@localizer["NationalCode"]">
+                    <input type="text" asp-for="NationalCode" name="NationalCode" class="form-control col-lg-12 intTextBox" placeholder="@localizer["NationalCode"]">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="PhoneNumber" class="form-label col-lg-12">@localizer["PhoneNumber"]</label>
-                    <input type="text" asp-for="PhoneNumber" name="PhoneNumber" class="form-control col-lg-12" placeholder="@localizer["PhoneNumber"]">
+                    <input type="text" asp-for="PhoneNumber" name="PhoneNumber" class="form-control col-lg-12 intTextBox" placeholder="@localizer["PhoneNumber"]">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="IdentitySerialNumber" class="form-label col-lg-12">@localizer["IdentitySerialNumber"]</label>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="IdentityNumber" class="form-label col-lg-12">@localizer["IdentityNumber"]</label>
-                    <input type="text" asp-for="IdentityNumber" name="IdentityNumber" class="form-control col-lg-12" placeholder="@localizer["IdentityNumber"]">
+                    <input type="text" asp-for="IdentityNumber" name="IdentityNumber" class="form-control col-lg-12 intTextBox" placeholder="@localizer["IdentityNumber"]">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="IdentitySerialNumber" class="form-label col-lg-12">نام پدر</label>
@@ -67,7 +67,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="BankAccNumber" class="form-label col-lg-12">شماره حساب</label>
-                    <input type="text" asp-for="BankAccNumber" class=" form-control col-lg-12" placeholder="شماره حساب">
+                    <input type="text" asp-for="BankAccNumber" class=" form-control col-lg-12 intTextBox"  placeholder="شماره حساب">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="BankName" class="form-label col-lg-12">نام بانک</label>
@@ -79,47 +79,47 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="InsuranceCode" class="form-label col-lg-12">@localizer["InsuranceCode"]</label>
-                    <input type="text" asp-for="InsuranceCode" name="InsuranceCode" class="form-control col-lg-12" placeholder="@localizer["InsuranceCode"]">
+                    <input type="text" asp-for="InsuranceCode" name="InsuranceCode" class="form-control col-lg-12 intTextBox" placeholder="@localizer["InsuranceCode"]">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="NumberOfChildren" class="form-label col-lg-12">@localizer["NumberOfChildren"]</label>
-                    <input type="text" asp-for="NumberOfChildren" name="NumberOfChildren" class="form-control col-lg-12" placeholder="@localizer["NumberOfChildren"]">
+                    <input type="text" asp-for="NumberOfChildren" name="NumberOfChildren" class="form-control col-lg-12 intTextBox" placeholder="@localizer["NumberOfChildren"]">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="MonthlyBaseYear" class="form-label col-lg-12">@localizer["MonthlyBaseYear"]</label>
-                    <input type="text" asp-for="MonthlyBaseYear" name="MonthlyBaseYear" class="form-control col-lg-12" placeholder="@localizer["MonthlyBaseYear"]">
+                    <input type="text" asp-for="MonthlyBaseYear" name="MonthlyBaseYear" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["MonthlyBaseYear"]">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="MonthlySalary" class="form-label col-lg-12">@localizer["MonthlySalary"]</label>
-                    <input type="text" asp-for="MonthlySalary" name="MonthlySalary" class="form-control col-lg-12" placeholder="@localizer["MonthlySalary"]">
+                    <input type="text" asp-for="MonthlySalary" name="MonthlySalary" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["MonthlySalary"]">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="ChildrenRight" class="form-label col-lg-12">@localizer["ChildrenRight"]</label>
-                    <input type="text" asp-for="ChildrenRight" name="ChildrenRight" class="form-control col-lg-12" placeholder="@localizer["ChildrenRight"]">
+                    <input type="text" asp-for="ChildrenRight" name="ChildrenRight" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["ChildrenRight"]">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="WorkerRight" class="form-label col-lg-12">@localizer["WorkerRight"]</label>
-                    <input type="text" asp-for="WorkerRight" name="WorkerRight" class="form-control col-lg-12" placeholder="@localizer["WorkerRight"]">
+                    <input type="text" asp-for="WorkerRight" name="WorkerRight" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["WorkerRight"]">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="FoodAndHouseRight" class="form-label col-lg-12">@localizer["FoodAndHouseRight"]</label>
-                    <input type="text" asp-for="FoodAndHouseRight" name="FoodAndHouseRight" class="form-control col-lg-12" placeholder="@localizer["FoodAndHouseRight"]">
+                    <input type="text" asp-for="FoodAndHouseRight" name="FoodAndHouseRight" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["FoodAndHouseRight"]">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="DailyBaseYear" class="form-label col-lg-12">@localizer["DailyBaseYear"]</label>
-                    <input type="text" asp-for="DailyBaseYear" name="DailyBaseYear" class="form-control col-lg-12" placeholder="@localizer["DailyBaseYear"]">
+                    <input type="text" asp-for="DailyBaseYear" name="DailyBaseYear" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["DailyBaseYear"]">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="DailySalary" class="form-label col-lg-12">@localizer["DailySalary"]</label>
-                    <input type="text" asp-for="DailySalary" name="DailySalary" class="form-control col-lg-12" placeholder="@localizer["DailySalary"]">
+                    <input type="text" asp-for="DailySalary" name="DailySalary" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["DailySalary"]">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="InsuranceHistory" class="form-label col-lg-12">@localizer["InsuranceHistory"]</label>
-                    <input type="text" asp-for="InsuranceHistory" name="InsuranceHistory" class="form-control col-lg-12" placeholder="@localizer["InsuranceHistory"]">
+                    <input type="text" asp-for="InsuranceHistory" name="InsuranceHistory" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["InsuranceHistory"]">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="WorkExperience" class="form-label col-lg-12">@localizer["WorkExperience"]</label>
-                    <input type="text" asp-for="WorkExperience" name="WorkExperience" class="form-control col-lg-12" placeholder="@localizer["WorkExperience"]">
+                    <input type="text" asp-for="WorkExperience" name="WorkExperience" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["WorkExperience"]">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="Birthday" class="form-label col-lg-12">تاریخ تولد</label>

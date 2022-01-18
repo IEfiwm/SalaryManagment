@@ -1,5 +1,6 @@
 ﻿using Common.Enums;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Web.Areas.Admin.Models
 {
@@ -13,10 +14,12 @@ namespace Web.Areas.Admin.Models
 
         public string JobCode { get; set; }
 
+        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string PhoneNumber { get; set; }
 
         public string PersonnelCode { get; set; }
 
+        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string NationalCode { get; set; }
 
         public string UserName { get; set; }
@@ -35,6 +38,7 @@ namespace Web.Areas.Admin.Models
 
         public string IdentitySerialNumber { get; set; }
 
+        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string IdentityNumber { get; set; }
 
         public string Nationality { get; set; }
@@ -49,30 +53,42 @@ namespace Web.Areas.Admin.Models
 
         public string DegreeOfEducation { get; set; }
 
+        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string InsuranceCode { get; set; }
-
+      
+        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public byte NumberOfChildren { get; set; }
 
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{1,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int MonthlyBaseYear { get; set; }
 
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{1,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int MonthlySalary { get; set; }
 
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{1,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int ChildrenRight { get; set; }
-
+      
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{1,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int WorkerRight { get; set; }
 
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{1,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int FoodAndHouseRight { get; set; }
 
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{1,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int DailyBaseYear { get; set; }
 
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{1,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int DailySalary { get; set; }
 
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{1,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int InsuranceHistory { get; set; }
 
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{1,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int WorkExperience { get; set; }
 
         public string BankName { get; set; }
 
+        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string BankAccNumber { get; set; }
 
         public long BankRef { get; set; }
