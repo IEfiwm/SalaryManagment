@@ -18,7 +18,7 @@ namespace Web.Areas.Dashboard.Models
         public DateTime? Birthday { get; set; }
 
         [Required]
-        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string NationalCode { get; set; }
 
         [Required]
@@ -28,7 +28,7 @@ namespace Web.Areas.Dashboard.Models
         public string IdentitySerialNumber { get; set; }
 
         [Required]
-        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string IdentityNumber { get; set; }
 
         [Required]
@@ -41,15 +41,15 @@ namespace Web.Areas.Dashboard.Models
         public string ZipCode { get; set; }
 
         [Required]
-        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string InsuranceCode { get; set; }
 
         [Required]
-        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public byte NumberOfChildren { get; set; }
 
         [Required]
-        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string PhoneNumber { get; set; }
 
         public List<AdditionalUserDataViewModel> AdditionalUserData

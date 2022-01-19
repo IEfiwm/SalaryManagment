@@ -10,7 +10,7 @@ namespace Web.Areas.Admin.Models
 
         public string Title { get; set; }
 
-        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string Code { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -19,17 +19,17 @@ namespace Web.Areas.Admin.Models
 
         public ProjectStatus ProjectStatus { get; set; }
 
-        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string WorkshopCode { get; set; }
 
         public string WorkshopName { get; set; }
 
-        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string RowOfCovenant { get; set; }
 
         public string TaxAuthorityName { get; set; }
 
-        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string TaxAuthorityCode { get; set; }
 
         public string BranchName { get; set; }
