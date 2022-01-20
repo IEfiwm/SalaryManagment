@@ -15,8 +15,11 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 using Web.Abstractions;
 using Web.Areas.Admin.Models;
@@ -285,33 +288,47 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetAllContractsFile(ContractListParameters model)
         {
-
             var usersByprojectId = await _userRepository.GetUserListByProjectIdAsync(model.projectId);
 
             if (usersByprojectId.Count == 0)
             {
                 _notify.Error("کاربری یافت نشد.");
-                return RedirectToAction("ContractList");
+                return RedirectToAction("contractlist");
             }
 
             model.usernameList = usersByprojectId.Select(X => X.NationalCode).ToList();
 
-            var client = new RestClient("https://localhost:44384/Contract/GetAll");
+            var path = Path.Combine(
+    Directory.GetCurrentDirectory(),
+    "wwwroot", "AllContracts_" + DateTime.Now.Year + CommonHelper.GetTowDigits(DateTime.Now.Month) + ".zip");
 
-            client.Timeout = -1;
+            var memory = new MemoryStream();
 
-            var request = new RestRequest(Method.POST);
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.Timeout = TimeSpan.FromHours(6);
 
-            request.AddHeader("Content-Type", "application/json");
+                var json = JsonConvert.SerializeObject(model);
 
-            request.AddParameter("application/json", JsonConvert.SerializeObject(model), ParameterType.RequestBody);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            IRestResponse response = client.Execute(request);
+                using (var response = await httpClient.PostAsync($@"{ _configuration["Base:KoshaCore:APIAddress"].ToString()}/Contract/GetAll", data))
+                {
+                    var test = await response.Content.ReadAsByteArrayAsync();
 
-            var fileName = "AllContracts_" + DateTime.Now.Year + CommonHelper.GetTowDigits(DateTime.Now.Month) + ".zip";
+                    await System.IO.File.WriteAllBytesAsync(path, test);
 
-            return File(response.RawBytes, "application/octet-stream", fileName);
+                    using (var stream = new FileStream(path, FileMode.Open))
+                    {
+                        await stream.CopyToAsync(memory);
+                    }
 
+                    memory.Position = 0;
+
+                    System.IO.File.Delete(path);
+                }
+            }
+            return File(memory, "application/zip", Path.GetFileName(path));
         }
     }
 }
