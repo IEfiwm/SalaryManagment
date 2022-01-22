@@ -1,4 +1,5 @@
 ﻿using Application.Extensions;
+using Application.Providers;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using AutoMapper;
@@ -28,6 +29,8 @@ namespace Web
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
+
+            SMSIRProvider.Initialization(configuration["Base:SMSIR:ApiKey"], configuration["Base:SMSIR:SecretKey"]);
         }
 
         public IConfiguration _configuration { get; }

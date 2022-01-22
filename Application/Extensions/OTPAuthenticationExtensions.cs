@@ -1,6 +1,9 @@
-﻿using Common.Helpers;
+﻿using Application.Providers;
+using Common.Helpers;
 using RestSharp;
+using SmsIrRestful;
 using System;
+using System.Collections.Generic;
 
 namespace Application.Extensions
 {
@@ -10,17 +13,27 @@ namespace Application.Extensions
         {
             bool result = false;
 
-            var message = PublicSettings.OTPTemplate.Replace("#CODE#", code);
+            var parameters = new List<UltraFastParameters>();
 
-            var client = new RestClient($@"https://smspanel.trez.ir/SendMessageWithCode.ashx?Username=iefiwm&Password=235421402246&Mobile={recipient}&Message={message}");
+            parameters.Add(new UltraFastParameters
+            {
+                Parameter = "Code",
+                ParameterValue = code
+            });
 
-            client.Timeout = -1;
+            SMSIRProvider.SendMessage(recipient, 61243, parameters);
 
-            var request = new RestRequest(Method.GET);
+            //var message = PublicSettings.OTPTemplate.Replace("#CODE#", code);
 
-            IRestResponse response = client.Execute(request);
+            //var client = new RestClient($@"https://smspanel.trez.ir/SendMessageWithCode.ashx?Username=iefiwm&Password=235421402246&Mobile={recipient}&Message={message}");
 
-            if (Convert.ToInt32(response.Content.ToString()) != 8) result = true;
+            //client.Timeout = -1;
+
+            //var request = new RestRequest(Method.GET);
+
+            //IRestResponse response = client.Execute(request);
+
+            //if (Convert.ToInt32(response.Content.ToString()) != 8) result = true;
 
             return result;
         }
