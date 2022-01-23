@@ -50,9 +50,11 @@ namespace Web
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+
             .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    //webBuilder.UseKestrel(o => { o.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(60); });
                     webBuilder.UseStartup<Startup>();
                 });
     }
