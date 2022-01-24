@@ -26,14 +26,14 @@ namespace Application.Providers
             if (parameters is not null)
                 ultraFastSend = new UltraFastSend()
                 {
-                    Mobile = Convert.ToInt32(mobile),
+                    Mobile = Convert.ToInt64(mobile),
                     TemplateId = templateId,
                     ParameterArray = parameters.ToArray()
                 };
             else
                 ultraFastSend = new UltraFastSend()
                 {
-                    Mobile = Convert.ToInt32(mobile),
+                    Mobile = Convert.ToInt64(mobile),
                     TemplateId = templateId,
                     ParameterArray = parameters.ToArray()
                 };
