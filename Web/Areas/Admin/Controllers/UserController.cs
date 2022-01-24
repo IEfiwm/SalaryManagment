@@ -23,6 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Web.Abstractions;
 using Web.Areas.Admin.Models;
+using Web.Areas.Dashboard.Models;
 
 namespace Web.Areas.Admin.Controllers
 {
@@ -36,6 +37,7 @@ namespace Web.Areas.Admin.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IBankAccountRepository _bankAccountRepository;
         private readonly IAdditionalUserDateRepository _additionalUserDateRepository;
+        private readonly IDocumentRepository _documentRepository;
 
 
         public UserController(UserManager<ApplicationUser> userManager,
@@ -43,7 +45,8 @@ namespace Web.Areas.Admin.Controllers
             RoleManager<IdentityRole> roleManager,
             IUserRepository userRepository,
             IBankAccountRepository bankAccountRepository,
-            IAdditionalUserDateRepository additionalUserDateRepository)
+            IAdditionalUserDateRepository additionalUserDateRepository,
+            IDocumentRepository documentRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -51,6 +54,7 @@ namespace Web.Areas.Admin.Controllers
             _userRepository = userRepository;
             _bankAccountRepository = bankAccountRepository;
             _additionalUserDateRepository = additionalUserDateRepository;
+            _documentRepository = documentRepository;
         }
 
         //[Authorize(Policy = Permissions.Users.View)]
@@ -330,5 +334,23 @@ namespace Web.Areas.Admin.Controllers
             }
             return File(memory, "application/zip", Path.GetFileName(path));
         }
+
+
+        public async Task<IActionResult> GetDocuments(long userId)
+        {
+            var userAdditional = await _additionalUserDateRepository.GetUserAdditionalById(userId.ToString());
+            if (userAdditional != null)
+            {
+                var docs = _mapper.Map<List<DocumentViewModel>>(_documentRepository.GetByUserId(userAdditional.Id));
+                return new JsonResult(docs);
+            }
+            return new JsonResult(null);
+        }
+        public IActionResult GetAdditionalUsers(long userId)
+        {
+            var docs = _mapper.Map<List<AdditionalUserDataViewModel>>(_additionalUserDateRepository.GetByUserId(userId.ToString()));
+            return new JsonResult(docs);
+        }
+
     }
 }

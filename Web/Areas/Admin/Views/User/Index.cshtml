@@ -17,6 +17,18 @@
     <div id="viewAll" class="card-body table-responsive">
     </div>
 </div>
+<div class="modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" id="modal-user-docs">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts
 {
 <script src="~/js/site.js"></script>
@@ -32,6 +44,31 @@
         $('#viewAll').load('/admin/user/loadall');
 
         SetLoading(true,"#myT");
+    }
+
+    function GetDocuments(id)
+    {
+        $.ajax({
+        url: "/admin/user/getdocuments?userId="+id,
+        method: "GET",
+        success: function (model) {
+             console.log(model);
+
+             $('#modal-user-docs').modal('show')
+        }
+    });
+    }
+    function GetAdditionalUsers(id)
+    {
+        $.ajax({
+        url: "/admin/user/GetAdditionalUsers?userId="+id,
+        method: "GET",
+        success: function (model) {
+             console.log(model);
+
+             $('#modal-user-docs').modal('show')
+        }
+    });
     }
 </script>
 }

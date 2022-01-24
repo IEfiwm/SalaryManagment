@@ -73,7 +73,7 @@ namespace Infrastructure.Repositories.Application.Basic
             var additional = Model.FirstOrDefault(x => x.ParentRef == userId && x.FamilyRole == Common.Enums.FamilyRole.Me);
             if (additional is null)
                 return false;
-            var docs =  _documentRepository.GetByUserId(additional.Id);
+            var docs = _documentRepository.GetByUserId(additional.Id);
             if (docs != null && docs.Count() > 0)
                 return true;
             return false;
@@ -81,7 +81,7 @@ namespace Infrastructure.Repositories.Application.Basic
         }
         public bool HasAdditionalUsers(string userId)
         {
-            return  Model.Any(x => x.ParentRef == userId && x.FamilyRole != Common.Enums.FamilyRole.Me);
+            return Model.Any(x => x.ParentRef == userId && x.FamilyRole != Common.Enums.FamilyRole.Me);
 
         }
         public bool HasAdditionalUserDocument(string userId)
@@ -91,11 +91,20 @@ namespace Infrastructure.Repositories.Application.Basic
                 return false;
             foreach (var additional in additionalList)
             {
-                var docs =  _documentRepository.GetByUserId(additional.Id);
+                var docs = _documentRepository.GetByUserId(additional.Id);
                 if (docs != null && docs.Count() > 0)
                     return true;
             }
             return false;
+        }
+
+        public async Task<List<AdditionalUserData>> GetByUserId(string userId)
+        {
+            return await Model.Where(x => x.ParentRef == userId).ToListAsync();
+        }
+        public async Task<AdditionalUserData> GetUserAdditionalById(string userId)
+        {
+            return await Model.FirstOrDefaultAsync(x => x.ParentRef == userId && x.FamilyRole == Common.Enums.FamilyRole.Me);
         }
 
     }

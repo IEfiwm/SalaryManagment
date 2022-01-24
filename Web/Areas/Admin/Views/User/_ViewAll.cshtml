@@ -155,31 +155,34 @@
                 <td>
                     @if (user.HasDocument)
                     {
-                    <span class="badge badge-success">&#10004;</span>
+                        <span class="badge badge-success">&#10004;</span>
                     }
                     else
                     {
-                <span class="badge badge-danger">&#10008;</span>
+                        <span class="badge badge-danger">&#10008;</span>
                     }
-                </td> <td>
+                </td>
+                <td>
                     @if (user.HasAdditionalUser)
                     {
-                          <span class="badge badge-success">&#10004;</span>
+                        <span class="badge badge-success">&#10004;</span>
                     }
                     else
                     {
-                      <span class="badge badge-danger">&#10008;</span>
+                        <span class="badge badge-danger">&#10008;</span>
                     }
-                </td> <td>
+                </td>
+                <td>
                     @if (user.HasAdditionalUserDocument)
                     {
-                          <span class="badge badge-success">&#10004;</span>
+                        <span class="badge badge-success">&#10004;</span>
                     }
                     else
                     {
-                      <span class="badge badge-danger">&#10008;</span>
+                        <span class="badge badge-danger">&#10008;</span>
                     }
-                </td> <td>
+                </td>
+                <td>
                     @if (user.IsActive)
                     {
                         <span class="badge badge-success">@localizer["Active"]</span>
@@ -201,6 +204,30 @@
                             <a asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-userId="@user.Id" class="dropdown-item">
                                 <i class="fa fa-pencil"></i> @localizer["Delete"]
                             </a>
+                            @*@if (user.HasDocument)
+                            {
+                                <a class="dropdown-item" onclick="GetDocuments(@user.Id)">
+                                    <i class="fa fa-list"></i> مدارک
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="dropdown-item disabled" disabled>
+                                    <i class="fa fa-list"></i> مدارک
+                                </a>
+                            }
+                            @if (user.HasAdditionalUser)
+                            {
+                                <a class="dropdown-item" onclick="GetAdditionalUsers(@user.Id)">
+                                    <i class="fa fa-user"></i> تحت تکفل
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="dropdown-item disabled" disabled>
+                                    <i class="fa fa-user"></i> تحت تکفل
+                                </a>
+                            }*@
                             @*                            <a style='margin-right:16px' asp-controller="UserRole" asp-action="Index" asp-route-userId="@user.Id" class="dropdown-item">
                                 <i class="fas fa-wrench"></i> @localizer["Manage Roles"]
                                 </a>*@
