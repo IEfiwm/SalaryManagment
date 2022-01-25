@@ -63,7 +63,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
             return await _identityContext.Users
                 .Include(e => e.Project)
                 .Include(e => e.Bank)
-                .Where(e=>e.PersonnelCode.Contains("777777"))
+                //.Where(e=>e.PersonnelCode.Contains("777777"))
                 .ToListAsync();
         }
         public async Task<List<ApplicationUser>> GetUserListByProjectIdAsync(long projectId)
