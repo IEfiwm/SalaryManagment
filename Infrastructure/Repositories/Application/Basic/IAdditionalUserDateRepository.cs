@@ -13,7 +13,7 @@ namespace Infrastructure.Repositories.Application.Basic
         bool HasDocuments(string userId);
         bool HasAdditionalUsers(string userId);
         bool HasAdditionalUserDocument(string userId);
-        Task<List<AdditionalUserData>> GetByUserId(string userId);
-        Task<AdditionalUserData> GetUserAdditionalById(string userId);
+        List<AdditionalUserData> GetByUserId(string userId);
+        AdditionalUserData GetUserAdditionalById(string userId);
     }
 }

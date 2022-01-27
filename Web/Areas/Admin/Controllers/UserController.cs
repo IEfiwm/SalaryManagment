@@ -336,9 +336,9 @@ namespace Web.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> GetDocuments(long userId)
+        public IActionResult GetDocuments(string userId)
         {
-            var userAdditional = await _additionalUserDateRepository.GetUserAdditionalById(userId.ToString());
+            var userAdditional = _additionalUserDateRepository.GetUserAdditionalById(userId);
             if (userAdditional != null)
             {
                 var docs = _mapper.Map<List<DocumentViewModel>>(_documentRepository.GetByUserId(userAdditional.Id));
@@ -346,9 +346,9 @@ namespace Web.Areas.Admin.Controllers
             }
             return new JsonResult(null);
         }
-        public IActionResult GetAdditionalUsers(long userId)
+        public IActionResult GetAdditionalUsers(string userId)
         {
-            var docs = _mapper.Map<List<AdditionalUserDataViewModel>>(_additionalUserDateRepository.GetByUserId(userId.ToString()));
+            var docs = _mapper.Map<List<AdditionalUserDataViewModel>>(_additionalUserDateRepository.GetByUserId(userId));
             return new JsonResult(docs);
         }
 

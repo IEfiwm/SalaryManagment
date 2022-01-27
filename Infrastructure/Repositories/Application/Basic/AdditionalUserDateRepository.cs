@@ -98,13 +98,13 @@ namespace Infrastructure.Repositories.Application.Basic
             return false;
         }
 
-        public async Task<List<AdditionalUserData>> GetByUserId(string userId)
+        public List<AdditionalUserData> GetByUserId(string userId)
         {
-            return await Model.Where(x => x.ParentRef == userId).ToListAsync();
+            return  Model.Where(x => x.ParentRef == userId && x.FamilyRole != Common.Enums.FamilyRole.Me).ToList();
         }
-        public async Task<AdditionalUserData> GetUserAdditionalById(string userId)
+        public AdditionalUserData GetUserAdditionalById(string userId)
         {
-            return await Model.FirstOrDefaultAsync(x => x.ParentRef == userId && x.FamilyRole == Common.Enums.FamilyRole.Me);
+            return  Model.FirstOrDefault(x => x.ParentRef == userId && x.FamilyRole == Common.Enums.FamilyRole.Me);
         }
 
     }
