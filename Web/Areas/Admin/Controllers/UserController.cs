@@ -63,33 +63,31 @@ namespace Web.Areas.Admin.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LoadAll()
+        public async Task<IActionResult> LoadAll(long pageSize, long page, long count)
         {
             var currentUser = await _userRepository.GetUserAsync(HttpContext.User);
 
             var role = await _roleManager.FindByNameAsync(Roles.User.ToString());
 
-            var allUsersExceptCurrentUser = await _userRepository.GetUserListAsync();
+            var allUsersExceptCurrentUser = _userRepository.Model.Where(m => m.Email != String.Empty && !m.IsDeleted).ToList();
 
-            var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser.Where(m => m.Email is null && !m.IsDeleted));
+            var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser);
 
             foreach (var user in model)
             {
                 try
                 {
-
                     user.HasAdditionalUser = _additionalUserDateRepository.HasAdditionalUsers(user.Id);
-                    user.HasAdditionalUserDocument = _additionalUserDateRepository.HasAdditionalUserDocument(user.Id);
-                    user.HasDocument = _additionalUserDateRepository.HasDocuments(user.Id);
 
+                    user.HasAdditionalUserDocument = _additionalUserDateRepository.HasAdditionalUserDocument(user.Id);
+
+                    user.HasDocument = _additionalUserDateRepository.HasDocuments(user.Id);
                 }
                 catch (Exception x)
                 {
-
                     throw;
                 }
             }
-
 
             return PartialView("_ViewAll", model.ToList());
         }
@@ -204,7 +202,8 @@ namespace Web.Areas.Admin.Controllers
 
             user.UserName = user.PersonnelCode ?? user.NationalCode;
 
-            if (await _userRepository.Model.Where(m => m.UserName == user.UserName || m.PersonnelCode == user.PersonnelCode || m.NationalCode == user.NationalCode || m.PhoneNumber == user.PhoneNumber).FirstOrDefaultAsync() != null)
+            if (_userRepository
+                .Users.Where(m => m.UserName == user.UserName || m.PersonnelCode == user.PersonnelCode || m.NationalCode == user.NationalCode || m.PhoneNumber == user.PhoneNumber).FirstOrDefault() != null)
             {
                 _notify.Error("افزودن کاربر انجام نشد.");
 
