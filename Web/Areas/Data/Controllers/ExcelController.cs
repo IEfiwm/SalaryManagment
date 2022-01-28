@@ -18,6 +18,7 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -1227,7 +1228,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.MonthlyWagesAndBenefitsIncluded = "0";
                             }
-            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(67)?.ToString()))
                             {
                                 if (!DataConversion.Convert<decimal>(row?.GetCell(67)?.ToString(), out decimal includedAndNotIncluded))
@@ -1311,7 +1312,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.ContinuousBaseSalaryAndBaseYears = "0";
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(73)?.ToString()))
                             {
                                 if (!DataConversion.Convert<decimal>(row?.GetCell(73)?.ToString(), out decimal nonContinuousIncludedNotIncluded))
@@ -1325,7 +1326,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.NonContinuousIncludedNotIncluded = "0";
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(74)?.ToString()))
                             {
                                 if (!DataConversion.Convert<decimal>(row?.GetCell(74)?.ToString(), out decimal nonContinuousIncluded))
@@ -1364,18 +1365,29 @@ namespace Web.Areas.Attendance.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> DeleteAttendances(int year, int month, long projectId)
         {
             var userList = await _userRepository.GetUserListByProjectIdAsync(projectId);
+
             var userNationalCodeList = userList.Where(x => x.NationalCode != null).Select(x => x.NationalCode).ToList();
+
             var listOfAttendances = _repository.GetUserAttendanceListByUserList(year.ToString(), month.ToString(), userNationalCodeList);
 
-            foreach (var item in listOfAttendances)
+            if (listOfAttendances == null)
             {
-                await _repository.DeleteAsync(item);
+                _notify.Error("کارکردی در این تاریخ یافت نشد .");
+
+                return Redirect("~/dashboard/managment");
             }
+
+            List<Task> tasks = new List<Task>();
+
+            listOfAttendances.ForEach(m =>
+            {
+                   m.IsDeleted = true;
+            });
 
             await _repository.SaveChangesAsync();
 
