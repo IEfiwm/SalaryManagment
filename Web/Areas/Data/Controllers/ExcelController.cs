@@ -1382,8 +1382,6 @@ namespace Web.Areas.Attendance.Controllers
                 return Redirect("~/dashboard/managment");
             }
 
-            List<Task> tasks = new List<Task>();
-
             listOfAttendances.ForEach(m =>
             {
                    m.IsDeleted = true;
