@@ -4,25 +4,11 @@ namespace Domain.Entities.Data
 {
     public class Imported : IdentityBaseEntity
     {
-        public string PersonnelCode { get; set; }
-
         public string Name { get; set; }
 
         public string FamilyName { get; set; }
 
-        public string JobTitle { get; set; }
-
-        public string Province { get; set; }
-
-        public string AccountNumber { get; set; }
-
         public string NationalCode { get; set; }
-
-        public string InsuranceNumber { get; set; }
-
-        public string ServiceLocation { get; set; }
-
-        public string DegreeEducation { get; set; }
 
         public string DurationOperation { get; set; }
 
@@ -143,6 +129,10 @@ namespace Domain.Entities.Data
         public string WelfareAllowancePay { get; set; }
 
         public string PerformancePay { get; set; }
+
+        public string Daily { get; set; }
+
+        public string Monthly { get; set; }
 
         public string MonthlyBenefits { get; set; }
 

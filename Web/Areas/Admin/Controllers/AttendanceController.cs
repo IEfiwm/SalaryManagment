@@ -31,7 +31,6 @@ namespace Web.Areas.Admin.Controllers
             _importedRepository = iimportedRepository;
         }
 
-
         public async Task<IActionResult> Delete(long attendanceId)
         {
             var res = await _importedRepository.DeleteByIdAsync(attendanceId);
@@ -54,6 +53,5 @@ namespace Web.Areas.Admin.Controllers
             return View(model);
 
         }
-
     }
 }
