@@ -36,12 +36,16 @@ namespace Infrastructure.Repositories.Application
             if (model is null)
                 return false;
             model.IsDeleted = true;
-           await  SaveChangesAsync();
+            await SaveChangesAsync();
             return true;
         }
         public List<Attendance> GetUserAttendanceList()
         {
             return _unitOfWork.ExecuteStoreProcedure<Attendance>("[Basic].[SP_GetAttendances]");
+        }
+        public List<Imported> GetUserAttendanceListByUserList(string year, string month, List<string> userlist)
+        {
+            return  Model.Where(x => x.Year == year && x.Month == month && userlist.Contains(x.NationalCode)).ToList();
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Infrastructure.Repositories.Application
     public interface IimportedRepository : IBaseIdentityRepository<Imported, ApplicationDbContext>
     {
         List<Attendance> GetUserAttendanceList();
+        List<Imported> GetUserAttendanceListByUserList(string year, string month, List<string> userlist);
         Task<bool> DeleteByIdAsync(long importedId);
     }
 }

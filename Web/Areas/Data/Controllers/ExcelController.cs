@@ -7,6 +7,7 @@ using Domain.Entities.Basic;
 using Domain.Entities.Data;
 using Infrastructure.Repositories.Application;
 using Infrastructure.Repositories.Application.Basic;
+using Infrastructure.Repositories.Application.Idenitity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,18 +40,21 @@ namespace Web.Areas.Attendance.Controllers
         private readonly IBankAccountRepository _bankAccountRepository;
 
         private readonly IProjectRepository _projectRepository;
+        private readonly IUserRepository _userRepository;
 
         public ExcelController(IHostingEnvironment hostingEnvironment,
             IimportedRepository repository,
             UserManager<ApplicationUser> userManager,
             IBankAccountRepository bankAccountRepository,
-            IProjectRepository projectRepository)
+            IProjectRepository projectRepository,
+            IUserRepository userRepository)
         {
             _hostingEnvironment = hostingEnvironment;
             _repository = repository;
             _userManager = userManager;
             _bankAccountRepository = bankAccountRepository;
             _projectRepository = projectRepository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -1373,9 +1377,17 @@ namespace Web.Areas.Attendance.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteAttendances()
+        public IActionResult DeleteAttendances()
         {
-            var listOfAttendances = await _repository.GetListAsync();
+            return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> DeleteAttendances(int year, int month, long projectId)
+        {
+            var userList = await _userRepository.GetUserListByProjectIdAsync(projectId);
+            var userNationalCodeList = userList.Where(x => x.NationalCode != null).Select(x => x.NationalCode).ToList();
+            var listOfAttendances = _repository.GetUserAttendanceListByUserList(year.ToString(), month.ToString(), userNationalCodeList);
 
             foreach (var item in listOfAttendances)
             {

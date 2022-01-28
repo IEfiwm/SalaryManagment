@@ -109,10 +109,10 @@ namespace Infrastructure.Repositories
             return res.Entity;
         }
 
-        public Task DeleteAsync(T entity)
+        public async Task DeleteAsync(T entity)
         {
-            _dbContext.Set<T>().Remove(entity);
-            return Task.CompletedTask;
+            entity.IsDeleted = true;
+            await SaveChangesAsync();
         }
 
         public async Task<List<T>> GetAllAsync()
