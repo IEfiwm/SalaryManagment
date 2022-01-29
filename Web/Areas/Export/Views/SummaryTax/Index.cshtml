@@ -71,11 +71,11 @@
                         @*<div class="col-6">
                             <label class="form-label" for="Debt">بدهی مالیاتی ماه جاری</label>
                             <input type="text" name="Debt" class="form-control" placeholder="" required>
-                        </div>
-                        <div class="col-6">
+                            </div>
+                            <div class="col-6">
                             <label class="form-label" for="PreviousDebt">بدهی مالیاتی ماه قبلی</label>
                             <input type="text" name="PreviousDebt" class="form-control" placeholder="" required>
-                        </div>*@
+                            </div>*@
                         <div class="col-6">
                             <label class="form-label" for="Non_surrender_penalty">جریمه عدم تسلیم به موقع خلاصه لیست 2% - موضوع ماه 197</label>
                             <input type="text" asp-for="Non_surrender_penalty" class="form-control" placeholder="" required>
@@ -191,29 +191,11 @@
 </script>
 @section Scripts{
 <script>
-
-    $.ajax({
-        url: "/admin/project/getlist",
-        method: "GET",
-        success: function (model) {
-            //console.log(parseJSON(model));
-            $.map(model, function (val, i) {
-                console.log(val);
-                $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
-            });
-            //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');
-            //$("#project").select2();
-        }
-    })
-</script>
-<script>
-
     $.ajax({
         url: "/admin/project/getlist",
         method: "GET",
         success: function (model) {
             $.map(model, function (val, i) {
-                console.log(val);
                 $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
             });
         }

@@ -1354,7 +1354,7 @@ namespace Web.Areas.Attendance.Controllers
             }
             catch (System.Exception e)
             {
-                _notify.Error("اضافه کردن فایل با خطا مواجعه شد.");
+                _notify.Error("اضافه کردن فایل با خطا مواجعه شد.\n" + e.Message);
 
                 return false;
             }
@@ -1384,7 +1384,7 @@ namespace Web.Areas.Attendance.Controllers
 
             listOfAttendances.ForEach(m =>
             {
-                   m.IsDeleted = true;
+                m.IsDeleted = true;
             });
 
             await _repository.SaveChangesAsync();
