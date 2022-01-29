@@ -63,7 +63,7 @@ namespace Web.Areas.Admin.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LoadAll(long pageSize, long page, long count)
+        public async Task<IActionResult> LoadAll()
         {
             var currentUser = await _userRepository.GetUserAsync(HttpContext.User);
 
