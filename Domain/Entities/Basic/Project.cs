@@ -30,6 +30,12 @@ namespace Domain.Entities.Basic
 
         public string BranchName { get; set; }
 
+        public string Address { get; set; }
+
+        public string OwnerName { get; set; }
+
+        public string InsurancesName { get; set; }
+
         public virtual ICollection<ApplicationUser> ProjectUsers { get; set; }
     }
 }

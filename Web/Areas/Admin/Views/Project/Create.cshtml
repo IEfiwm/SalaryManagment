@@ -50,6 +50,14 @@
                             <input asp-for="RowOfCovenant" class="form-control intTextBox" placeholder="">
                         </div>
                         <div class="col-6 mt-3">
+                            <label class="form-label" for="InsurancesName">نام سازمان مالیاتی</label>
+                            <input asp-for="InsurancesName" class="form-control" placeholder="">
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="InsurancesName">نام کارفرما</label>
+                            <input asp-for="OwnerName" class="form-control" placeholder="">
+                        </div>
+                        <div class="col-6 mt-3">
                             <label class="form-label" for="WorkshopCode">وضعیت پروژه</label>
                             <select asp-for="ProjectStatus"
                                     class="form-control"
@@ -58,6 +66,10 @@
                         <div class="col-6 mt-3">
                             <label class="form-label" for="WorkshopCode">شعبه بیمه</label>
                             <input asp-for="BranchName" class="form-control" placeholder="">
+                        </div>
+                        <div class="col-12 mt-3">
+                            <label class="form-label" for="Address">آدرس</label>
+                            <input asp-for="Address" class="form-control intTextBox" placeholder="">
                         </div>
                         <div class="mt-6 col-12 text-right">
                             <button type="submit" class="btn btn-primary">ذخیره</button>

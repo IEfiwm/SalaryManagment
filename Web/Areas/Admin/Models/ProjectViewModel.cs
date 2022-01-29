@@ -34,5 +34,11 @@ namespace Web.Areas.Admin.Models
 
         public string BranchName { get; set; }
 
+        public string Address { get; set; }
+
+        public string OwnerName { get; set; }
+
+        public string InsurancesName { get; set; }
+
     }
 }
