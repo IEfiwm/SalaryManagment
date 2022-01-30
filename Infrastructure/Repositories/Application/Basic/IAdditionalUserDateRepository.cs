@@ -15,5 +15,6 @@ namespace Infrastructure.Repositories.Application.Basic
         bool HasAdditionalUserDocument(string userId);
         List<AdditionalUserData> GetByUserId(string userId);
         AdditionalUserData GetUserAdditionalById(string userId);
+        Task<bool> CreateByUserId(List<AdditionalUserData> additionalUserDatas, string userId);
     }
 }

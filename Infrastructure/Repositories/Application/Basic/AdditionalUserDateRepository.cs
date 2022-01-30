@@ -35,8 +35,6 @@ namespace Infrastructure.Repositories.Application.Basic
 
         public async Task<bool> UpdateByUserId(List<AdditionalUserData> additionalUserDatas, string userId)
         {
-            var pc = new PersianCalendar();
-
             //Delete old additional Users
             await DeleteByUserId(userId);
 
@@ -107,5 +105,25 @@ namespace Infrastructure.Repositories.Application.Basic
             return  Model.FirstOrDefault(x => x.ParentRef == userId && x.FamilyRole == Common.Enums.FamilyRole.Me);
         }
 
+        public async Task<bool> CreateByUserId(List<AdditionalUserData> additionalUserDatas, string userId)
+        {
+            foreach (var data in additionalUserDatas)
+            {
+
+                var docs = new List<Document>();
+                foreach (var doc in data.Documents)
+                {
+                    doc.Id = 0;
+                    //Create documetns
+                    if (doc.FileName != null)
+                        docs.Add(doc);
+                }
+                data.Documents = docs;
+                //reCreate additional Users
+                await InsertAndSaveAsync(data);
+
+            }
+            return true;
+        }
     }
 }

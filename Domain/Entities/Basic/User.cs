@@ -50,6 +50,8 @@ namespace Domain.Entities.Base.Identity
 
         public MilitaryService MilitaryService { get; set; }
 
+        public EmployeeStatus EmployeeStatus { get; set; }
+
         public string JobCode { get; set; }
 
         public DateTime? HireDate { get; set; }
