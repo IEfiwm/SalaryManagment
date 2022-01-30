@@ -115,6 +115,8 @@ namespace Web.Areas.Admin.Models
 
         public Gender Gender { get; set; }
 
+        public EmployeeStatus EmployeeStatus { get; set; }
+
         public bool HasDocument { get; set; } = false;
 
         public bool HasAdditionalUser { get; set; } = false;

@@ -258,6 +258,27 @@ namespace Web.Areas.Admin.Controllers
 
             var res = await _userManager.CreateAsync(model, model.PersonnelCode);
 
+
+            //save files
+            foreach (var data in user.AdditionalUserData)
+            {
+                data.ParentRef = user.Id;
+                foreach (var doc in data.Documents)
+                {
+                    if (doc.File != null)
+                    {
+                        doc.Id = 0;
+                        doc.FullPath = (await _fileRepository.SaveImageAsync(doc.File));
+                    }
+                }
+            }
+
+            var additionaluserModel = _mapper.Map<List<AdditionalUserData>>(user.AdditionalUserData);
+
+            await _additionalUserDateRepository.CreateByUserId(additionaluserModel, user.Id);
+
+
+
             if (res.Succeeded)
             {
                 await _userManager.AddToRoleAsync(model, Roles.User.ToString());

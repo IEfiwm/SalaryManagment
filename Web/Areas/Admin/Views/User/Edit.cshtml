@@ -148,34 +148,37 @@
                         <option selected>یک مورد را انتخاب کنید</option>
                     </select>
                 </div>
-                <div class="col-2 mt-3">
+                <div class="col-3 mt-3">
                     <label class="form-label" for="WorkshopCode">وضعیت تاهل</label>
                     <select asp-for="MaritalStatus"
                             class="form-control"
                             asp-items="Html.GetEnumSelectList<MaritalStatus>()"></select>
                 </div>
-                <div class="col-2 mt-3">
+                <div class="col-3 mt-3">
                     <label class="form-label" for="WorkshopCode">وضعیت سربازی</label>
                     <select asp-for="MilitaryService"
                             class="form-control"
                             asp-items="Html.GetEnumSelectList<MilitaryService>()"></select>
                 </div>
-                <div class="col-2 mt-3 mb-3">
+                <div class="col-3 mt-3 mb-3">
                     <label class="form-label" for="WorkshopCode">جنسیت</label>
                     <select asp-for="Gender"
                             class="form-control"
                             asp-items="Html.GetEnumSelectList<Gender>()"></select>
                 </div>
+                <div class="col-3 mt-3">
+                    <label class="form-label" for="WorkshopCode">وضعیت کارمند</label>
+                    <select asp-for="EmployeeStatus"
+                            class="form-control"
+                            asp-items="Html.GetEnumSelectList<EmployeeStatus>()"></select>
+                </div>
+
                 <div class="form-group col-md-4" hidden>
                     <input type="text" asp-for="Id" name="Id" class="form-control col-lg-12">
                 </div>
                 <div class="form-group col-md-4" hidden>
                     <input type="text" asp-for="BankRef" name="Id" class="form-control col-lg-12">
                 </div>
-                @*                <div class="form-group col-md-12">
-                    <button type="submit" class=" btn btn-success padding-top">ذخیره</button>
-                    </div>
-                *@
                 <div class="col-12 mb-2">
                     <input name="AdditionalUserData.index" value="@indexOfUserAdditional" hidden />
                     <input asp-for="AdditionalUserData[indexOfUserAdditional].Id" hidden />
