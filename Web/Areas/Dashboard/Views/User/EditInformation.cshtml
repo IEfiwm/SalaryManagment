@@ -103,15 +103,11 @@
         foreach (var additionalUser in Model.AdditionalUserData.Where(x => x.FamilyRole != FamilyRole.Me))
         {
             index = Model.AdditionalUserData.IndexOf(additionalUser);
-@*            if (index == indexOfUserAdditional)
-                index++;
-*@
             DocIndex = 0;
             <div class="card" id="Box_@index">
                 <div class="card-header" name="familyBox"><h6>#@index رابطه خویشاوندی</h6></div>
                 <div class="card-body">
                     <div class="row">
-                        @*<input name="AdditionalUserData.index" value="@index" hidden />*@
                         <input asp-for="AdditionalUserData[index].Id" hidden />
                         <input asp-for="AdditionalUserData[index].ParentRef" value="@Model.Id" hidden />
                         <div class="col-6 mb-2">
@@ -179,7 +175,7 @@
                                      src="@_fileRepository.GetFileFullPath(Doc.FullPath).ThumbPath" />
                             </a>
                             <button type="button" onclick="RemoveDocument(@index,@DocIndex)" class="btn btn-danger">
-                                <i>-</i>
+                                <i>حذف مدرک</i>
                             </button>
                         </div>
                             DocIndex++;

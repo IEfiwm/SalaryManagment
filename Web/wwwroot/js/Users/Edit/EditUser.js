@@ -102,7 +102,7 @@ function AddDocument(familyBoxIndex) {
                                 <img class="form-control mr-3" name="AdditionalUserData[` + familyBoxIndex + `].Documents[` + index + `].Image"  src="" />
                             </a>
                     <button type="button" onclick="RemoveDocument(` + familyBoxIndex + `,` + index + `)" class="btn btn-danger">
-                        <i>حذف سند</i>
+                        <i>حذف مدرک</i>
                     </button>
                 </div>`;
     document.getElementById('AdditionalUserData[' + familyBoxIndex + ']_DocumentsBox').insertAdjacentHTML("beforeend", row)

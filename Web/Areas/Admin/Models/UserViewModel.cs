@@ -1,6 +1,8 @@
 ﻿using Common.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Web.Areas.Dashboard.Models;
 
 namespace Web.Areas.Admin.Models
 {
@@ -118,6 +120,12 @@ namespace Web.Areas.Admin.Models
         public bool HasAdditionalUser { get; set; } = false;
 
         public bool HasAdditionalUserDocument { get; set; } = false;
+        public List<AdditionalUserDataViewModel> AdditionalUserData
+        {
+            get;
+            set;
+        } = new List<AdditionalUserDataViewModel>();
+
 
     }
 }

@@ -2,6 +2,7 @@
 using Common.Helpers;
 using Domain.Entities.Base.Identity;
 using Domain.Entities.Basic;
+using Infrastructure.Repositories;
 using Infrastructure.Repositories.Application.Basic;
 using Infrastructure.Repositories.Application.Idenitity;
 using MD.PersianDateTime;
@@ -13,8 +14,6 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -38,6 +37,7 @@ namespace Web.Areas.Admin.Controllers
         private readonly IBankAccountRepository _bankAccountRepository;
         private readonly IAdditionalUserDateRepository _additionalUserDateRepository;
         private readonly IDocumentRepository _documentRepository;
+        private readonly IFileRepository _fileRepository;
 
 
         public UserController(UserManager<ApplicationUser> userManager,
@@ -46,7 +46,8 @@ namespace Web.Areas.Admin.Controllers
             IUserRepository userRepository,
             IBankAccountRepository bankAccountRepository,
             IAdditionalUserDateRepository additionalUserDateRepository,
-            IDocumentRepository documentRepository)
+            IDocumentRepository documentRepository,
+            IFileRepository fileRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -55,6 +56,7 @@ namespace Web.Areas.Admin.Controllers
             _bankAccountRepository = bankAccountRepository;
             _additionalUserDateRepository = additionalUserDateRepository;
             _documentRepository = documentRepository;
+            _fileRepository = fileRepository;
         }
 
         //[Authorize(Policy = Permissions.Users.View)]
@@ -144,6 +146,18 @@ namespace Web.Areas.Admin.Controllers
                 model.BankAccNumber = acc.AccountNumber;
                 model.BankName = acc.Title;
             }
+            model.AdditionalUserData = _mapper.Map<List<AdditionalUserDataViewModel>>
+               (_additionalUserDateRepository.Model.Include(x => x.Documents).Where(x => x.ParentRef == user.Id)).ToList();
+
+            if (!model.AdditionalUserData.Any(x => x.FamilyRole == Common.Enums.FamilyRole.Me))
+                model.AdditionalUserData.Add(new AdditionalUserDataViewModel { FamilyRole = Common.Enums.FamilyRole.Me, ParentRef = user.Id });
+
+            model.AdditionalUserData.ForEach(x =>
+            {
+                if (x.Documents == null)
+                    x.Documents = new List<DocumentViewModel>();
+
+            });
             return View("Edit", model);
         }
 
@@ -169,6 +183,24 @@ namespace Web.Areas.Admin.Controllers
             var res = await _userRepository.SaveChangesAsync();
 
             //var res = await _userManager.UpdateAsync(ouser);
+
+            //save files
+            foreach (var data in user.AdditionalUserData)
+            {
+                foreach (var doc in data.Documents)
+                {
+                    if (doc.File != null)
+                    {
+                        doc.Id = 0;
+                        doc.FullPath = (await _fileRepository.SaveImageAsync(doc.File));
+                    }
+                }
+            }
+
+            var additionaluserModel = _mapper.Map<List<AdditionalUserData>>(user.AdditionalUserData);
+
+            await _additionalUserDateRepository.UpdateByUserId(additionaluserModel, user.Id);
+
 
             if (res > 0)
                 _notify.Success("ویرایش با موفقیت انجام شد.");
