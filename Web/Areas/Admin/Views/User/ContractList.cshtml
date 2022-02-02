@@ -65,8 +65,9 @@
                     <th>
                         وضعیت
                     </th>
-                    <th style="width:10%">
+                    <th style="width:10%" >
                         #
+                    </th><th style="width:15%">
                     </th>
                 </tr>
             </thead>
@@ -127,11 +128,46 @@
                                 <i class="fa fa-letter"></i> @localizer["Contract"]
                             </a>
                         </td>
+                        <td>
+                            <a href="#" onclick="OpenCustome('@user.NationalCode','@Model.ProjectId')" data-toggle="modal" class="btn btn-secondary">
+                                <i class="fa fa-letter"></i> قرارداد سفارشی
+                            </a>
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
 
+    </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="modal-new-cotract">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="direction:ltr!important;">
+                <h5 class="modal-title">قراداد سفارشی</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6 mt-1">
+                        <label class="form-label">از تاریخ</label>
+                        <input id="Custome_StartDate" class="datepicker form-control" value="@Model.StartDate" />
+                    </div>
+                    <div class="col-6 mt-1">
+                        <label class="form-label">تا تاریخ</label>
+                        <input id="Custome_EndDate" class="datepicker form-control" value="@Model.EndDate" />
+                    </div>
+                    <div class="col-12 mt-4 w-100 text-center">
+                        <input type="hidden" id="Custome_NationalCode" />
+                        <input type="hidden" id="Custome_ProjectId" />
+                        <button onclick="SubmitNew()" class="btn btn-primary w-25">تولید </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @section Scripts
@@ -140,6 +176,24 @@
 <script>
     function Submit() {
         $('#form').attr('action', "/admin/user/ContractList").submit();
+    }
+    function OpenCustome(nationalCode,projectId)
+    {
+        document.getElementById('Custome_NationalCode').value=nationalCode;
+        document.getElementById('Custome_ProjectId').value=projectId;
+        document.getElementById('Custome_StartDate').value='@Model.StartDate';
+        document.getElementById('Custome_EndDate').value='@Model.EndDate';
+        $('#modal-new-cotract').modal('show');
+    }
+    function SubmitNew(nationalCode,projectId,startDate,endDate) {
+
+        var url='@(ConfigurationStorage.GetValue("Base:KoshaCore:APIAddress"))/Contract/Get/';
+        var nationalCode = document.getElementById('Custome_NationalCode').value;
+        var projectId = document.getElementById('Custome_ProjectId').value;
+        var startDate= document.getElementById('Custome_StartDate').value.replaceAll('/','-');
+        var endDate= document.getElementById('Custome_EndDate').value.replaceAll('/','-');
+
+        location.href=url+nationalCode+"/"+projectId+"/"+startDate+"/"+endDate;
     }
     $.ajax({
         url: "/admin/project/getlist",
