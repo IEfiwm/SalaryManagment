@@ -2,10 +2,8 @@
 using Domain.Entities.Basic;
 using Infrastructure.DbContexts;
 using Infrastructure.Repositories.Base;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,7 +30,11 @@ namespace Infrastructure.Repositories.Application.Basic
         public IEnumerable<Document> GetByUserId(long userId)
         {
             return Model.Where(x => x.AdditionalRef == userId).ToList();
+        }
 
+        public async Task<IEnumerable<Document>> GetByUserIdAsync(long userId)
+        {
+            return await Model.Where(x => x.AdditionalRef == userId).ToListAsync();
         }
     }
 }

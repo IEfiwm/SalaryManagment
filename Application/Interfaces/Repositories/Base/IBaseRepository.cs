@@ -40,7 +40,7 @@ namespace Application.Interfaces.Repositories.Base
 
         Task<List<T>> GetListAsync();
 
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(long id);
 
         Task<long> InsertAsync(T entity);
 

@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Base.Identity;
+﻿using Common.Models.DataTable;
+using Domain.Entities.Base.Identity;
 using Infrastructure.DbContexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -66,12 +67,49 @@ namespace Infrastructure.Repositories.Application.Idenitity
                 //.Where(e=>e.PersonnelCode.Contains("777777"))
                 .ToListAsync();
         }
+
         public async Task<List<ApplicationUser>> GetUserListByProjectIdAsync(long projectId)
         {
             return await _identityContext.Users
                 .Include(e => e.Project)
-                .Where(x => x.ProjectRef == projectId)
+                .Where(x => x.ProjectRef == projectId && x.Email == null && !x.IsDeleted)
                 .ToListAsync();
+        }
+
+        public async Task<List<ApplicationUser>> GetUserListByProjectIdAsync(long projectId, int take, int page)
+        {
+            return await _identityContext.Users
+                .Include(e => e.Project)
+                .Where(x => x.ProjectRef == projectId && x.Email == null && !x.IsDeleted)
+                .Skip(take * page)
+                .Take(take)
+                .ToListAsync();
+        }
+
+        public async Task<DataTableViewModel<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(long projectId, int pageSize, int pageNumber)
+        {
+            var result = new DataTableViewModel<IEnumerable<ApplicationUser>>();
+
+            var data = await _identityContext.Users
+                .Include(e => e.Project)
+                .Where(x => x.ProjectRef == projectId && x.Email == null && !x.IsDeleted)
+                .OrderByDescending(m => m.PersonnelCode)
+                .ToListAsync();
+
+            result.DataCount = data.Count;
+
+            result.PageSize = pageSize;
+
+            result.PageNumber = pageNumber;
+
+            result.PageCount = data.Count / pageSize;
+
+            result.ViewModel = data
+                .Skip(pageSize * pageNumber)
+                .Take(pageSize)
+                .ToList();
+
+            return result;
         }
 
         public async Task<int> SaveChangesAsync()

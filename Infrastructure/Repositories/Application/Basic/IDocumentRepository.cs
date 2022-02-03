@@ -9,6 +9,9 @@ namespace Infrastructure.Repositories.Application.Basic
     public interface IDocumentRepository : IBaseIdentityRepository<Document, IdentityContext>
     {
         Task<bool> DeleteByUserId(long userId);
+
         IEnumerable<Document> GetByUserId(long userId);
+
+        Task<IEnumerable<Document>> GetByUserIdAsync(long userId);
     }
 }

@@ -41,7 +41,7 @@ namespace Infrastructure.Repositories.Base
             //await _distributedCache.RemoveAsync(_baseCacheKey.GetKey(entity.Id));
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(long id)
         {
             return await _repository.Entities.Where(p => p.Id == id).FirstOrDefaultAsync();
         }

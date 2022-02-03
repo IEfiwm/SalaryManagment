@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Base.Identity;
+﻿using Common.Models.DataTable;
+using Domain.Entities.Base.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,10 @@ namespace Infrastructure.Repositories.Application.Idenitity
         Task<List<ApplicationUser>> GetUserListAsync();
 
         Task<List<ApplicationUser>> GetUserListByProjectIdAsync(long projectId);
+
+        Task<List<ApplicationUser>> GetUserListByProjectIdAsync(long projectId, int take, int page);
+
+        Task<DataTableViewModel<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(long projectId, int pageSize, int pageNumber);
 
         Task<int> SaveChangesAsync();
     }

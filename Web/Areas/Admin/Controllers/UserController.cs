@@ -1,5 +1,6 @@
 ﻿using Application.Enums;
 using Common.Helpers;
+using Common.Models.DataTable;
 using Domain.Entities.Base.Identity;
 using Domain.Entities.Basic;
 using Infrastructure.Repositories;
@@ -65,33 +66,25 @@ namespace Web.Areas.Admin.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LoadAll()
+        public async Task<IActionResult> LoadAll(long projectId, byte pageSize, byte pageNumber)
         {
-            var currentUser = await _userRepository.GetUserAsync(HttpContext.User);
+            var allUsersExceptCurrentUser = await _userRepository.GetUserListByProjectIdDataTableAsync(projectId, pageSize, pageNumber);
 
-            var role = await _roleManager.FindByNameAsync(Roles.User.ToString());
+            var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser);
 
-            var allUsersExceptCurrentUser = await _userRepository.GetUserListAsync();
-
-            var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser.Where(m => m.Email is null && !m.IsDeleted));
-
-            foreach (var user in model)
+            foreach (var user in model.ViewModel)
             {
-                try
+                await Task.Run(async () =>
                 {
-                    user.HasAdditionalUser = _additionalUserDateRepository.HasAdditionalUsers(user.Id);
+                    user.HasAdditionalUser = await _additionalUserDateRepository.HasAdditionalUsersAsync(user.Id);
 
-                    user.HasAdditionalUserDocument = _additionalUserDateRepository.HasAdditionalUserDocument(user.Id);
+                    user.HasAdditionalUserDocument = await _additionalUserDateRepository.HasAdditionalUserDocumentAsync(user.Id);
 
-                    user.HasDocument = _additionalUserDateRepository.HasDocuments(user.Id);
-                }
-                catch (Exception x)
-                {
-                    throw;
-                }
+                    user.HasDocument = await _additionalUserDateRepository.HasDocumentsAsync(user.Id);
+                });
             }
 
-            return PartialView("_ViewAll", model.ToList());
+            return PartialView("_ViewAll", model);
         }
 
         public async Task<IActionResult> OnGetCreate()

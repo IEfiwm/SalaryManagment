@@ -1,6 +1,8 @@
 ﻿using Domain.Entities.Base.Identity;
 using Web.Areas.Admin.Models;
 using AutoMapper;
+using System.Collections.Generic;
+using Common.Models.DataTable;
 
 namespace Web.Areas.Admin.Mappings
 {
@@ -14,6 +16,8 @@ namespace Web.Areas.Admin.Mappings
                 .ForMember(des => des.ProjectName, m => m.MapFrom(s => s.Project.Title));
 
             CreateMap<UserViewModel, ApplicationUser>();
+
+            CreateMap<DataTableViewModel<IEnumerable<UserViewModel>>, DataTableViewModel<IEnumerable<ApplicationUser>>>().ReverseMap();
         }
     }
 }
