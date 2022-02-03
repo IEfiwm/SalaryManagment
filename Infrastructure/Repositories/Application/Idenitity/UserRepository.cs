@@ -86,9 +86,9 @@ namespace Infrastructure.Repositories.Application.Idenitity
                 .ToListAsync();
         }
 
-        public async Task<DataTableViewModel<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(long projectId, int pageSize, int pageNumber)
+        public async Task<DataTableDTO<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(long projectId, int pageSize, int pageNumber)
         {
-            var result = new DataTableViewModel<IEnumerable<ApplicationUser>>();
+            var result = new DataTableDTO<IEnumerable<ApplicationUser>>();
 
             var data = await _identityContext.Users
                 .Include(e => e.Project)
@@ -104,7 +104,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
 
             result.PageCount = data.Count / pageSize;
 
-            result.ViewModel = data
+            result.Model = data
                 .Skip(pageSize * pageNumber)
                 .Take(pageSize)
                 .ToList();

@@ -17,7 +17,11 @@ namespace Web.Areas.Admin.Mappings
 
             CreateMap<UserViewModel, ApplicationUser>();
 
-            CreateMap<DataTableViewModel<IEnumerable<UserViewModel>>, DataTableViewModel<IEnumerable<ApplicationUser>>>().ReverseMap();
+            CreateMap<DataTableDTO<IEnumerable<ApplicationUser>>, DataTableViewModel<IEnumerable<UserViewModel>>>()
+                .ForMember(model => model.ViewModel, m => m.MapFrom(s => s.Model));
+
+            //CreateMap<DataTableViewModel<IEnumerable<UserViewModel>>, DataTableDTO<IEnumerable<ApplicationUser>>>()
+            //    .ForMember(model => model.Model, m => m.MapFrom(s => s.ViewModel));
         }
     }
 }
