@@ -45,21 +45,6 @@
                 <th>
                     وضعیت
                 </th>
-                @*            <th>
-                    @localizer["User"]
-                    </th>
-                    <th>
-                    @localizer["PhoneNumber"]
-                    </th>
-                    <th>
-                    @localizer["PersonnelCode"]
-                    </th>
-                    <th>
-                    @localizer["NationalCode"]
-                    </th>
-                    <th>
-                    @localizer["Status"]
-                    </th>*@
                 <th style="width:10%">
                     #
                 </th>
@@ -224,6 +209,7 @@
 </div>
 <script>
     page = @(Model.PageNumber);
+
     $("#data-card").removeClass("d-none");
     $(document).ready(function () {
         $("#userTable").DataTable({
