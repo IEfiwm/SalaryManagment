@@ -86,13 +86,25 @@ namespace Infrastructure.Repositories.Application.Idenitity
                 .ToListAsync();
         }
 
-        public async Task<DataTableDTO<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(long projectId, int pageSize, int pageNumber)
+        public async Task<DataTableDTO<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(long projectId, string key, int pageSize, int pageNumber)
         {
             var result = new DataTableDTO<IEnumerable<ApplicationUser>>();
 
             var data = await _identityContext.Users
                 .Include(e => e.Project)
-                .Where(x => x.ProjectRef == projectId && x.Email == null && !x.IsDeleted)
+                .Where(x => string.IsNullOrEmpty(key)
+                || EF.Functions.Like(x.PhoneNumber, $"%{key}%")
+                || EF.Functions.Like(x.LastName, $"%{key}%")
+                || EF.Functions.Like(x.FirstName, $"%{key}%")
+                || EF.Functions.Like(x.FatherName, $"%{key}%")
+                || EF.Functions.Like(x.PersonnelCode, $"%{key}%")
+                || EF.Functions.Like(x.NationalCode, $"%{key}%")
+                || EF.Functions.Like(x.InsuranceCode, $"%{key}%")
+                || EF.Functions.Like(x.JobTitle, $"%{key}%"))
+                .Where(x => (projectId == 0 || x.ProjectRef == projectId)
+                //&& (string.IsNullOrEmpty(key) || x.PhoneNumber.Contains(key) || x.FullName.Contains(key) || x.PersonnelCode.Contains(key) || x.NationalCode.Contains(key))
+                && x.Email == null
+                && !x.IsDeleted)
                 .OrderByDescending(m => m.PersonnelCode)
                 .ToListAsync();
 

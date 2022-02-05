@@ -9,13 +9,16 @@
 <div class="card">
     <div class="card-body">
         <div class="row">
-            <div class="col-10 mt-1">
+            <div class="col-8 mt-1">
                 <select id="project" class="js-data-example-ajax form-control" name="projectId" required>
-                    <option selected>یک مورد را انتخاب کنید</option>
+                    <option selected value=0>یک مورد را انتخاب کنید</option>
                 </select>
             </div>
+            <div class="col-2 mt-1">
+                <input class="form-control" name="key" id="key" placeholder="جست و جو" />
+            </div>
             <div class="mt-1 col-2">
-                <button onclick="loadData($('#project').val())" class="btn btn-primary">جستجو</button>
+                <button onclick="loadData($('#project').val(),$('#key').val())" class="btn btn-primary">نمایش نتیجه</button>
             </div>
         </div>
     </div>
@@ -57,8 +60,8 @@
 <script>
     var page = 0;
 
-    function loadData(projectId) {
-        $('#data-card').load('/admin/user/loadall?projectId=' + projectId + '&pageSize=10&pageNumber=' + page);
+    function loadData(projectId,key) {
+        $('#data-card').load('/admin/user/loadall?projectId=' + projectId + '&key=' + key + '&pageSize=10&pageNumber=' + page);
     }
 
     function GetDocuments(id)
@@ -143,7 +146,7 @@
         method: "GET",
         success: function (model){
             $.map( model, function( val, i ) {
-  
+
                 $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
             });
         }

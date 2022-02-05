@@ -66,9 +66,9 @@ namespace Web.Areas.Admin.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LoadAll(long projectId, byte pageSize, byte pageNumber)
+        public async Task<IActionResult> LoadAll(long projectId, string key, byte pageSize, byte pageNumber)
         {
-            var allUsersExceptCurrentUser = await _userRepository.GetUserListByProjectIdDataTableAsync(projectId, pageSize, pageNumber);
+            var allUsersExceptCurrentUser = await _userRepository.GetUserListByProjectIdDataTableAsync(projectId, key, pageSize, pageNumber);
 
             var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser);
 
