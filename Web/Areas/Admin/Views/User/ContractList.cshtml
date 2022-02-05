@@ -194,6 +194,8 @@
         var endDate= document.getElementById('Custome_EndDate').value.replaceAll('/','-');
 
         location.href=url+nationalCode+"/"+projectId+"/"+startDate+"/"+endDate;
+                $('#modal-new-cotract').modal('hide');
+
     }
     $.ajax({
         url: "/admin/project/getlist",
