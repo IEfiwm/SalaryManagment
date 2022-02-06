@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Shared;
+﻿using Application.Interfaces.Contexts;
+using Application.Interfaces.Shared;
 using Infrastructure.Attribute;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +9,7 @@ using System.Reflection;
 
 namespace Infrastructure.DbContexts
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     //: AuditableContext, IApplicationDbContext
     {
         private readonly IDateTimeService _dateTime;
@@ -19,6 +20,8 @@ namespace Infrastructure.DbContexts
             _dateTime = dateTime;
             _authenticatedUser = authenticatedUser;
         }
+
+        public IDbConnection Connection => Database.GetDbConnection();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

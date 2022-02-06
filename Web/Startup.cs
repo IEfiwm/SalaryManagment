@@ -107,9 +107,7 @@ namespace Web
                 if (!(DateTime.Now < new DateTime(2022, 2, 13)))
                     context.Response.StatusCode = 403;
                 else
-                {
                     await next();
-                }
             });
 
             app.UseNotyf();

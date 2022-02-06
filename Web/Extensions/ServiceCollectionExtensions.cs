@@ -1,6 +1,8 @@
 ﻿using Application.DTOs.Settings;
+using Application.Interfaces.Contexts;
 using Application.Interfaces.Shared;
 using Domain.Entities.Base.Identity;
+using Infrastructure.Dapper;
 using Infrastructure.DbContexts;
 using Infrastructure.Repositories;
 using Infrastructure.Repositories.Application;
@@ -142,6 +144,9 @@ namespace Web.Extensions
             services.AddTransient<IDocumentRepository, DocumentRepository>();
             services.AddTransient<IFileRepository, FileRepository>();
             services.AddTransient<IimportedRepository, ImportedRepository>();
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddScoped<IApplicationWriteDbConnection, ApplicationWriteDbConnection>();
+            services.AddScoped<IApplicationReadDbConnection, ApplicationReadDbConnection>();
         }
 
         public static void AddDependencies(this IServiceCollection services)

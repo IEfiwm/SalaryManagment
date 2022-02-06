@@ -1,0 +1,37 @@
+﻿@inject IHtmlLocalizer<SharedResource> localizer
+@{
+    ViewData["Title"] = localizer["Users"];
+    ViewData["Caption"] = localizer["Get Attendances here"];
+    ViewBag.Title = "کارکردها";
+}
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-2 mt-1">
+                <input class="form-control" name="year" id="year" placeholder="سال" />
+            </div>
+            <div class="col-2 mt-1">
+                <input class="form-control" name="month" id="month" placeholder="ماه" />
+            </div>
+            <div class="col-5 mt-1">
+                <input class="form-control" name="key" id="key" placeholder="جستجو" />
+            </div>
+            <div class="mt-1 col-3">
+                <button onclick="loadData($('#year').val(),$('#month').val(),$('#key').val())" class="btn btn-primary">نمایش نتیجه</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card" id="data-card">
+</div>
+@section Scripts
+{
+<script src="~/js/site.js"></script>
+<script>
+    var page = 0;
+
+    function loadData(year,month,key) {
+        $('#data-card').load('/admin/attendance/loadall?year=' + year + '&month=' + month + '&key=' + key + '&pageSize=10&pageNumber=' + page);
+    }
+</script>
+}

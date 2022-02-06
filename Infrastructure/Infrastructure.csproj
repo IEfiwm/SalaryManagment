@@ -7,6 +7,7 @@
     <PackageReference Include="AspNetCoreHero.EntityFrameworkCore.AuditTrail" Version="1.0.0" />
     <PackageReference Include="AspNetCoreHero.Extensions.Caching" Version="1.1.0" />
     <PackageReference Include="AspNetCoreHero.ThrowR" Version="1.0.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" Version="5.0.1" />
     <PackageReference Include="NetTopologySuite" Version="2.3.0" />

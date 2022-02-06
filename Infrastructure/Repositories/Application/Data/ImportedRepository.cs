@@ -1,10 +1,11 @@
 ﻿using Application.Interfaces.Repositories;
+using Common.Models.DataTable;
 using Domain.Entities.Data;
 using Domain.Entities.Porc;
+using Infrastructure.Dapper;
 using Infrastructure.DbContexts;
 using Infrastructure.Repositories.Base;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,10 +15,11 @@ namespace Infrastructure.Repositories.Application
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly IApplicationReadDbConnection _readDbConnection;
+
         public ImportedRepository(
-            //IDistributedCache distributedCache,
             IIdentityRepositoryAsync<Imported, ApplicationDbContext> repository,
-            //BaseCacheKey<Imported> baseCacheKey
+            IApplicationReadDbConnection readDbConnection,
             IUnitOfWork unitOfWork
             ) :
             base(
@@ -27,7 +29,7 @@ namespace Infrastructure.Repositories.Application
                 )
         {
             _unitOfWork = unitOfWork;
-
+            _readDbConnection = readDbConnection;
         }
 
         public async Task<bool> DeleteByIdAsync(long importedId)
@@ -39,13 +41,31 @@ namespace Infrastructure.Repositories.Application
             await SaveChangesAsync();
             return true;
         }
-        public List<Attendance> GetUserAttendanceList()
+
+        public async Task<DataTableDTO<IEnumerable<Attendance>>> GetUserAttendanceListAsync(int year, int month, string key, int pageSize, int pageNumber)
         {
-            return _unitOfWork.ExecuteStoreProcedure<Attendance>("[Basic].[SP_GetAttendances]");
+            var result = new DataTableDTO<IEnumerable<Attendance>>();
+
+            var data = await _readDbConnection.QueryAsync<Attendance>($"EXEC  [Basic].[SP_GetAttendancesSearch]  {year},{month},'{key}',{pageSize},{pageNumber}");
+
+            var count = await _readDbConnection.QueryFirstOrDefaultAsync<long>($"EXEC  [Basic].[SP_GetAttendancesCount]  {year},{month},'{key}'");
+
+            result.Model = data;
+
+            result.DataCount = count;
+
+            result.PageSize = pageSize;
+
+            result.PageNumber = pageNumber;
+
+            result.PageCount = count / pageSize;
+
+            return result;
         }
+
         public List<Imported> GetUserAttendanceListByUserList(string year, string month, List<string> userlist)
         {
-            return  Model.Where(x => x.Year == year && x.Month == month && userlist.Contains(x.NationalCode)).ToList();
+            return Model.Where(x => x.Year == year && x.Month == month && userlist.Contains(x.NationalCode)).ToList();
         }
     }
 }

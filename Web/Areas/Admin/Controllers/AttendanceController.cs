@@ -1,4 +1,5 @@
 ﻿using Application.Enums;
+using Common.Models.DataTable;
 using Domain.Entities.Base.Identity;
 using Domain.Entities.Basic;
 using Infrastructure.Repositories.Application;
@@ -43,15 +44,18 @@ namespace Web.Areas.Admin.Controllers
             return RedirectToAction("attendanceList");
         }
 
-        public IActionResult AttendanceList()
+        public IActionResult Index()
         {
-            var model = new List<AttendanceViewModel>();
+            return View();
+        }
 
-            var usersattendance = _importedRepository.GetUserAttendanceList();
-            model = _mapper.Map<IEnumerable<AttendanceViewModel>>(usersattendance).ToList();
-            
-            return View(model);
+        public async Task<IActionResult> LoadAll(int year, int month, string key, byte pageSize, byte pageNumber)
+        {
+            var usersattendance = await _importedRepository.GetUserAttendanceListAsync(year, month, key, pageSize, pageNumber);
 
+            var res = _mapper.Map<DataTableViewModel<IEnumerable<AttendanceViewModel>>>(usersattendance);
+
+            return PartialView("_ViewAll", res);
         }
     }
 }
