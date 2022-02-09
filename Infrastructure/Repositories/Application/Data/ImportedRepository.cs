@@ -5,6 +5,7 @@ using Domain.Entities.Porc;
 using Infrastructure.Dapper;
 using Infrastructure.DbContexts;
 using Infrastructure.Repositories.Base;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,6 +31,16 @@ namespace Infrastructure.Repositories.Application
         {
             _unitOfWork = unitOfWork;
             _readDbConnection = readDbConnection;
+        }
+
+        public async Task<bool> CheckDuplicateAttendance(string nationalCode, string year, string month)
+        {
+            var model =await Model.FirstOrDefaultAsync(x => 
+            x.NationalCode == nationalCode  &&
+            x.Year == year && x.Month == month);
+            if (model is not null)
+                return true;
+            return false;
         }
 
         public async Task<bool> DeleteByIdAsync(long importedId)
