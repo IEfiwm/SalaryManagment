@@ -9,8 +9,8 @@
                 <th>
                     کد پ
                 </th>
-                <th>
-                    نام کامل
+                <th data-toggle="tooltip" data-placement="top" title="نام و نام خانوادگی" style="width:80px">
+                    نام
                 </th>
                 <th>
                     نام پدر
@@ -22,25 +22,28 @@
                     شماره بیمه
                 </th>
                 <th>
+                    شماره حساب
+                </th>
+                <th>
                     شماره تماس
                 </th>
                 <th>
                     شغل
                 </th>
-                <th>
+                @*                <th>
                     شروع کار
-                </th>
-                <th>
+                    </th>
+                    <th>
                     ترک کار
-                </th>
+                    </th>*@
                 <th>
-                    مدارک
+                    وضعیت مدارک
                 </th>
-                <th>
-                    اطلاعات تحت تکفل
+                <th data-toggle="tooltip" data-placement="top" title="وضعیت اطلاعات تحت تکفل">
+                    وضعیت اطل...
                 </th>
-                <th>
-                    مدارک تحت تکفل
+                <th data-toggle="tooltip" data-placement="top" title="وضعیت مدارک تحت تکفل">
+                    وضعیت مد...
                 </th>
                 <th>
                     وضعیت
@@ -63,7 +66,7 @@
                             </div>
                         </div>
                     </td>
-                    <td>
+                    <td style="width:50px">
                         <div class="row">
                             <div class="col-sm">
                                 <a>
@@ -104,6 +107,13 @@
                     <td>
                         <div class="row">
                             <div class="col-sm">
+                                @user.BankAccNumber
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
                                 @user.PhoneNumber
                             </div>
                         </div>
@@ -115,20 +125,20 @@
                             </div>
                         </div>
                     </td>
-                    <td>
+                    @*                    <td>
                         <div class="row">
-                            <div class="col-sm">
-                                @(user.StartWorkingDate != null ? user.StartWorkingDate.Value.ToString("yyyy/MM/dd")  : "")
-                            </div>
+                        <div class="col-sm">
+                        @(user.StartWorkingDate != null ? user.StartWorkingDate.Value.ToString("yyyy/MM/dd")  : "")
                         </div>
-                    </td>
-                    <td>
+                        </div>
+                        </td>
+                        <td>
                         <div class="row">
-                            <div class="col-sm">
-                                @(user.EndWorkingDate != null ? user.EndWorkingDate.Value.ToString("yyyy/MM/dd")  : "")
-                            </div>
+                        <div class="col-sm">
+                        @(user.EndWorkingDate != null ? user.EndWorkingDate.Value.ToString("yyyy/MM/dd")  : "")
                         </div>
-                    </td>
+                        </div>
+                        </td>*@
                     <td>
                         @if (user.HasDocument)
                         {
@@ -210,57 +220,63 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 
-function DeleteUser(userId)
-{
-    swal({
-        title: "آیا از حذف این کاربر اطمینان دارید؟",
-        text: "در صورت حذف، امکان بازگردانی اطلاعات وجود ندارد!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    })
-    .then((willDelete) => {
-        if (willDelete) {
-                $.ajax({
-            url: "/admin/user/Delete?userId="+userId,
-            method: "GET",
-            success: function (model) {
-            swal("حذف با موفقیت انجام شد", {
-                icon: "success",
-                });
-                loadData($('#project').val(),$('#key').val());
-                }
-        });
-        } else {
-        swal("عملیات حذف لغو شد.");
-        }
-    });
+      function DeleteUser(userId)
+      {
+          swal({
+              title: "آیا از حذف این کاربر اطمینان دارید؟",
+              text: "در صورت حذف، امکان بازگردانی اطلاعات وجود ندارد!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+          })
+          .then((willDelete) => {
+              if (willDelete) {
+                      $.ajax({
+                  url: "/admin/user/Delete?userId="+userId,
+                  method: "GET",
+                  success: function (model) {
+                  swal("حذف با موفقیت انجام شد", {
+                      icon: "success",
+                      });
+                      loadData($('#project').val(),$('#key').val());
+                      }
+              });
+              } else {
+              swal("عملیات حذف لغو شد.");
+              }
+          });
 
-}
-        page = @(Model.PageNumber);
+      }
+              page = @(Model.PageNumber);
 
-        $("#data-card").removeClass("d-none");
-        $(document).ready(function () {
-            $("#userTable").DataTable({
-                    searching: false,
-                    ordering:  true,
-                    processing: true,
-                    select: true,
-                    responsive: true,
-                    bPaginate: false,
-                    aaSorting: [[ 0, "desc" ]],
-                    oLanguage : {
-                        sSearch: "جستجو: ",
-                        sInfo: "نمایش _START_ تا _END_ از @Model.DataCount رکورد |  @(Model.PageNumber + 1) از @(Model.PageCount + 1) صفحه",
-                        sLengthMenu: "نمایش _MENU_ رکورد",
-                        sInfoFiltered: "فیلتر شده از _MAX_ رکورد",
-                        sInfoEmpty  : "هیچ داده ای یافت نشد",
-                        sZeroRecords: "رکوردی یافت نشد",
-                        oPaginate:{
-                            sPrevious: "قبلی",
-                            sNext: "بعدی",
-                        }
-                    }
-            });
-        });
+              $("#data-card").removeClass("d-none");
+              $(document).ready(function () {
+                  $("#userTable").DataTable({
+                          searching: false,
+                          ordering:  true,
+                          processing: true,
+                          select: true,
+                          responsive: true,
+                          bPaginate: false,
+                          fixedColumns: true,
+                          fixedHeader: {header: true,footer: false},
+                          columnDefs: [{ width: "200px" }],
+                          aaSorting: [[ 0, "desc" ]],
+                          oLanguage : {
+                              sSearch: "جستجو: ",
+                              sInfo: "نمایش _START_ تا _END_ از @Model.DataCount رکورد |  @(Model.PageNumber + 1) از @(Model.PageCount + 1) صفحه",
+                              sLengthMenu: "نمایش _MENU_ رکورد",
+                              sInfoFiltered: "فیلتر شده از _MAX_ رکورد",
+                              sInfoEmpty  : "هیچ داده ای یافت نشد",
+                              sZeroRecords: "رکوردی یافت نشد",
+                              oPaginate:{
+                                  sPrevious: "قبلی",
+                                  sNext: "بعدی",
+                              }
+                          }
+                  });
+              });
+              $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
 </script>

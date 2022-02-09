@@ -92,6 +92,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
 
             var data = await _identityContext.Users
                 .Include(e => e.Project)
+                .Include(e => e.Bank)
                 .Where(x => string.IsNullOrEmpty(key)
                 || EF.Functions.Like(x.PhoneNumber, $"%{key}%")
                 || EF.Functions.Like(x.LastName, $"%{key}%")
