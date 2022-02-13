@@ -9,8 +9,8 @@
                 <th>
                     کد پ
                 </th>
-                <th data-toggle="tooltip" data-placement="top" title="نام و نام خانوادگی" style="width:80px">
-                    نام
+                <th >
+                    نام‌و‌نام‌خانوادگی
                 </th>
                 <th>
                     نام پدر
@@ -37,13 +37,13 @@
                     ترک کار
                     </th>*@
                 <th>
-                    وضعیت مدارک
+                    وضعیت‌مدارک
                 </th>
                 <th data-toggle="tooltip" data-placement="top" title="وضعیت اطلاعات تحت تکفل">
-                    وضعیت اطل...
+                    وضعیت‌اطل...
                 </th>
                 <th data-toggle="tooltip" data-placement="top" title="وضعیت مدارک تحت تکفل">
-                    وضعیت مد...
+                    وضعیت‌مد...
                 </th>
                 <th>
                     وضعیت
@@ -212,9 +212,9 @@
     </table>
 </div>
 <div class="row mr-2">
-    <button class="btn btn-outline-success m-1" @(Model.PageNumber != 0 ? "" : "disabled") onclick="page = page - 1;loadData($('#project').val())">قبلی</button>
+    <button class="btn btn-outline-success m-1" @(Model.PageNumber != 0 ? "" : "disabled") onclick="page = page - 1;loadData($('#project').val(),$('#key').val())">قبلی</button>
 
-    <button class="btn btn-outline-success m-1" @(Model.PageCount != Model.PageNumber? "": "disabled") onclick="page = page + 1;loadData($('#project').val())">بعدی</button>
+    <button class="btn btn-outline-success m-1" @(Model.PageCount != Model.PageNumber? "": "disabled") onclick="page = page + 1;loadData($('#project').val(),$('#key').val())">بعدی</button>
 
 </div>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

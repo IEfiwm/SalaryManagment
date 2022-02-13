@@ -1,5 +1,6 @@
 ﻿@using Common.Models.DataTable
 @model DataTableViewModel<IEnumerable<Web.Areas.Admin.Models.AttendanceViewModel>>
+@inject IHtmlLocalizer<SharedResource> localizer
 <div class="card-body table-responsive">
     <table class="table table-striped" id="attendanceTable">
         <thead>
@@ -8,25 +9,25 @@
                     کد پ
                 </th>
                 <th>
-                    نام و نام خانوادگی
+                    نام‌و‌نام‌خانوادگی
                 </th>
                 <th>
-                    نام پدر
+                    نام‌پدر
                 </th>
                 <th>
                     کد ملی
                 </th>
                 <th>
-                    شماره بیمه
+                    شماره‌بیمه
                 </th>
                 <th>
-                    شماره شناسنامه
+                    شماره‌شناسنامه
                 </th>
                 <th>
                     تاریخ تولد
                 </th>
                 <th>
-                    نام شعبه
+                    نام‌شعبه
                 </th>
                 <th>
                     سال
@@ -35,89 +36,88 @@
                     ماه
                 </th>
                 <th>
-                    تعداد اولاد
+                    تعداد‌اولاد
                 </th>
-
                 <th>
                     شماره حساب
                 </th>
-                <th>
-                    بیمه تامین اجتماعی
+                <th data-toggle="tooltip" data-placement="top" title="بیمه تامین اجتماعی">
+                    بیمه‌...
                 </th>
                 <th>
-                    جمع كسور
+                    جمع‌كسور
                 </th>
                 <th>
-                    كل حقوق و مزايا
+                    كل‌حقوق‌و‌مزايا
                 </th>
                 <th>
-                    اضافه کاری
+                    اضافه‌کاری
                 </th>
                 <th>
-                    بن کارگری
+                    بن‌کارگری
                 </th>
                 <th>
-                    پایه سنوات
+                    پایه‌سنوات
                 </th>
                 <th>
-                    تعطیل کاری
+                    تعطیل‌کاری
                 </th>
                 <th>
-                    حق اولاد
+                    حق‌اولاد
                 </th>
                 <th>
-                    1حق ناهار
+                    1حق‌ناهار
                 </th>
                 <th>
-                    حق مسکن
+                    حق‌مسکن
                 </th>
                 <th>
-                    حقوق پایه
+                    حقوق‌پایه
                 </th>
                 <th>
-                    خالص پرداختی
+                    خالص‌پرداختی
                 </th>
                 <th>
-                    سایر کسور
+                    سایر‌کسور
                 </th>
                 <th>
                     شبکاری
                 </th>
-                <th>
-                    کارکرد اضافه کاری
+                <th data-toggle="tooltip" data-placement="top" title="کارکرد اضافه کاری">
+                    کارکرد اض...
+                </th>
+                <th data-toggle="tooltip" data-placement="top" title="کارکرد تعطیل کاری">
+                    کارکرد تع...
+                </th>
+                <th data-toggle="tooltip" data-placement="top" title="كاركرد حق‌غذا">
+                    کارکرد ح...
                 </th>
                 <th>
-                    کارکرد تعطیل کاری
+                    کارکرد‌موثر
                 </th>
                 <th>
-                    كاركرد حق غذا
-                </th>
-                <th>
-                    کارکرد موثر
-                </th>
-                <th>
-                    کارکرد شبکاری
+                    کارکرد‌شبکاری
                 </th>
                 <th>
                     ماليات
                 </th>
                 <th>
-                    کارکرد ماموریت
+                    کارکرد‌ماموریت
                 </th>
                 <th>
                     ماموریت
                 </th>
-                <th>
-                    کارکرد نوبت کاری
+                <th data-toggle="tooltip" data-placement="top" title="کارکرد نوبت کاری">
+                    کارکرد نو...
                 </th>
                 <th>
-                    نوبت کاری
+                    نوبت‌کاری
                 </th>
                 <th>
-                    کسر بیمه تکمیلی
+                    کسر‌بیمه‌تکمیلی
                 </th>
                 <th>
-                    کارکرد پاداش
+                    کارکرد‌پاداش
                 </th>
                 <th>
                     پاداش
@@ -128,68 +128,68 @@
                 <th>
                     عیدی
                 </th>
-                <th>
-                    اضافه کاری ثابت
+                <th data-toggle="tooltip" data-placement="top" title="اضافه کاری ثابت">
+                    اضافه کا...
+                </th>
+                <th data-toggle="tooltip" data-placement="top" title="کسر بیمه تکمیلی سرپرست">
+                    کسر‌...
+                </th>
+                <th data-toggle="tooltip" data-placement="top" title="کسر بیمه تکمیلی افراد تحت تکفل">
+                    کسر‌...
+                </th>
+                <th data-toggle="tooltip" data-placement="top" title="کسر بیمه تکمیلی افرادغیر تحت تکفل">
+                    کسر‌...
                 </th>
                 <th>
-                    کسر بیمه تکمیلی سرپرست
+                    هزینه‌رفاهی
                 </th>
                 <th>
-                    کسر بیمه تکمیلی افراد تحت تکفل
+                    ایاب‌و‌ذهاب
                 </th>
                 <th>
-                    کسر بیمه تکمیلی افرادغیر تحت تکفل
+                    کارکرد‌معوقه
                 </th>
                 <th>
-                    هزینه رفاهی
+                    وام‌موسسه
                 </th>
                 <th>
-                    ایاب و ذهاب
+                    وام‌سامان
                 </th>
                 <th>
-                    کارکرد معوقه
+                    معوقه‌ایاب‌و‌ذهاب
                 </th>
-                <th>
-                    وام موسسه
+                <th data-toggle="tooltip" data-placement="top" title="کسر بیمه تکمیلی ماه معوقه">
+                    کسر‌...
                 </th>
-                <th>
-                    وام سامان
-                </th>
-                <th>
-                    معوقه ایاب و ذهاب
-                </th>
-                <th>
-                    کسر بیمه تکمیلی ماه معوقه
-                </th>
-                <th>
-                    کمک هزینه رفاهی
+                <th data-toggle="tooltip" data-placement="top" title=" کمک هزینه رفاهی">
+                    کمک‌...
                 </th>
                 <th>
                     کارایی
                 </th>
                 <th>
-                    رند حقوق
+                    رند‌حقوق
                 </th>
                 <th>
-                    حق شیر
+                    حق‌شیر
                 </th>
                 <th>
-                    حق خواربار
+                    حق‌خواربار
                 </th>
                 <th>
-                    مانده مرخصی
+                    مانده‌مرخصی
                 </th>
                 <th>
-                    جمع اقساط وام
+                    جمع‌اقساط‌وام
                 </th>
                 <th>
-                    جمع مزایا
+                    جمع‌مزایا
                 </th>
                 <th>
                     شغل
                 </th>
                 <th>
-                    مزد روزانه
+                    مزد‌روزانه
                 </th>
                 <th>
                     کدشغل
@@ -201,34 +201,34 @@
                     ملیت
                 </th>
                 <th>
-                    ماخذ بیمه
+                    ماخذ‌بیمه
                 </th>
                 <th>
-                    مزایای مشمول
+                    مزایای‌مشمول
                 </th>
                 <th>
-                    شروع کار
+                    شروع‌کار
                 </th>
                 <th>
-                    ترک کار
+                    ترک‌کار
+                </th>
+                <th data-toggle="tooltip" data-placement="top" title="دستمزد و مزایای مشمول ماهانه">
+                    دستمزد
                 </th>
                 <th>
-                    دستمزد و مزایای مشمول ماهانه
+                    مشمول‌و‌غیرمشمول
                 </th>
                 <th>
-                    مشمول و غیر مشمول
+                    حق‌بیمه‌سهم‌کارفرما
                 </th>
                 <th>
-                    حق بیمه سهم کارفرما
+                    حق‌بیمه‌بیکاری
                 </th>
                 <th>
-                    حق بیمه بیکاری
+                    محل‌تولد
                 </th>
-                <th>
-                    محل تولد
-                </th>
-                <th style="width:540px !important">
-                    جمع کل حق بیمه اعم از حق بیمه و بیمه بیکاری
+                <th data-toggle="tooltip" data-placement="top" title=" جمع کل حق‌بیمه اعم از حق‌بیمه و بیمه بیکاری">
+                    جمع‌کل...
                 </th>
                 <th style="width:10%">
                     #
@@ -792,9 +792,9 @@
     </table>
 </div>
 <div class="row mr-2">
-    <button class="btn btn-outline-success m-1" @(Model.PageNumber != 0 ? "" : "disabled") onclick="page = page - 1;loadData($('#project').val())">قبلی</button>
+    <button class="btn btn-outline-success m-1" @(Model.PageNumber != 0 ? "" : "disabled") onclick="page = page - 1;loadData($('#year').val(),$('#month').val(),$('#key').val())">قبلی</button>
 
-    <button class="btn btn-outline-success m-1" @(Model.PageCount != Model.PageNumber? "": "disabled") onclick="page = page + 1;loadData($('#project').val())">بعدی</button>
+    <button class="btn btn-outline-success m-1" @(Model.PageCount != Model.PageNumber? "": "disabled") onclick="page = page + 1;loadData($('#year').val(),$('#month').val(),$('#key').val())">بعدی</button>
 
 </div>
 <script>
@@ -824,4 +824,5 @@
         //],
         fixedColumns: false
     });
+    $('[data-toggle="tooltip"]').tooltip()
 </script>

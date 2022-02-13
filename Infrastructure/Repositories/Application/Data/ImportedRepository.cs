@@ -46,9 +46,9 @@ namespace Infrastructure.Repositories.Application
         {
             var result = new DataTableDTO<IEnumerable<Attendance>>();
 
-            var data = await _readDbConnection.QueryAsync<Attendance>($"EXEC  [Basic].[SP_GetAttendancesSearch]  {year},{month},'{key}',{pageSize},{pageNumber}");
+            var data = await _readDbConnection.QueryAsync<Attendance>($"EXEC  [Basic].[SP_GetAttendancesSearch]  {year},{month},N'{key}',{pageSize},{pageNumber}");
 
-            var count = await _readDbConnection.QueryFirstOrDefaultAsync<long>($"EXEC  [Basic].[SP_GetAttendancesCount]  {year},{month},'{key}'");
+            var count = await _readDbConnection.QueryFirstOrDefaultAsync<long>($"EXEC  [Basic].[SP_GetAttendancesCount]  {year},{month},N'{key}'");
 
             result.Model = data;
 

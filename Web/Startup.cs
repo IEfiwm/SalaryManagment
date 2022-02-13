@@ -104,7 +104,7 @@ namespace Web
 
             app.Use(async (context, next) =>
             {
-                if (!(DateTime.Now < new DateTime(2022, 2, 13)))
+                if (!(DateTime.Now < new DateTime(2022, 3, 1)))
                     context.Response.StatusCode = 403;
                 else
                     await next();
