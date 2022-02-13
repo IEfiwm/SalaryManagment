@@ -12,6 +12,8 @@ namespace Infrastructure.Repositories.Application
     {
         List<Imported> GetUserAttendanceListByUserList(string year, string month, List<string> userlist);
 
+        Task<bool> CheckDuplicateAttendance(string nationalCode, string year, string month);
+
         Task<DataTableDTO<IEnumerable<Attendance>>> GetUserAttendanceListAsync(int year, int month, string key, int pageSize, int pageNumber);
 
         Task<bool> DeleteByIdAsync(long importedId);

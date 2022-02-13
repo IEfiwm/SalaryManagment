@@ -305,33 +305,46 @@ namespace Web.Areas.Attendance.Controllers
                                 _notify.Error("قالب داده صحیح نیست : کد ملی ردیف: " + j);
                                 return false;
                             }
-                            //string Name;
-                            //if (!DataConversion.Convert<string>(row?.GetCell(1)?.ToString(), out Name))
-                            //{
-                            //    _notify.Error("قالب داده صحیح نیست : نام ردیف: " + j);
-                            //    return false;
-                            //}
+
                             model.Name = row?.GetCell(0)?.ToString();
-                            //string FamilyName;
-                            //if (!DataConversion.Convert<string>(row?.GetCell(2)?.ToString(), out FamilyName))
-                            //{
-                            //    _notify.Error("قالب داده صحیح نیست : نام خانوادگی ردیف: " + j);
-                            //    return false;
-                            //}
                             model.FamilyName = row?.GetCell(1)?.ToString();
-                            //string JobTitle;
-                            //if (!DataConversion.Convert<string>(row?.GetCell(3)?.ToString(), out JobTitle))
-                            //{
-                            //    _notify.Error("قالب داده صحیح نیست : شغل ردیف: " + j);
-                            //    return false;
-                            //}
                             model.NationalCode = row?.GetCell(2)?.ToString();
-                            //string InsuranceNumber;
-                            //if (!DataConversion.Convert<string>(row?.GetCell(7)?.ToString(), out InsuranceNumber))
-                            //{
-                            //    _notify.Error("قالب داده صحیح نیست : شماره بیمه ردیف: " + j);
-                            //    return false;
-                            //}
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(40)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(40)?.ToString(), out int year))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سال ردیف: " + j);
+                                    return false;
+                                }
+                                model.Year = row?.GetCell(40)?.ToString();
+                            }
+                            else
+                            {
+                                model.Year = "0";
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(41)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(41)?.ToString(), out int month))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : ماه ردیف: " + j);
+                                    return false;
+                                }
+                                model.Month = row?.GetCell(41)?.ToString();
+                            }
+                            else
+                            {
+                                model.Month = "0";
+                            }
+
+                            var dup = await _repository.CheckDuplicateAttendance(model.NationalCode, model.Year, model.Month);
+                            if (dup)
+                            {
+                                _notify.Error("اطلاعات کارمند تکراری است ردیف: " + j);
+                                return false;
+                            }
+
                             if (!string.IsNullOrEmpty(row?.GetCell(3)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(3)?.ToString(), out int durationOperation))
@@ -851,34 +864,7 @@ namespace Web.Areas.Attendance.Controllers
                                 model.PureIncome = "0";
                             }
 
-                            if (!string.IsNullOrEmpty(row?.GetCell(40)?.ToString()))
-                            {
-                                if (!DataConversion.Convert<int>(row?.GetCell(40)?.ToString(), out int year))
-                                {
-                                    _notify.Error("قالب داده صحیح نیست : سال ردیف: " + j);
-                                    return false;
-                                }
-                                model.Year = row?.GetCell(40)?.ToString();
-                            }
-                            else
-                            {
-                                model.Year = "0";
-                            }
-
-                            if (!string.IsNullOrEmpty(row?.GetCell(41)?.ToString()))
-                            {
-                                if (!DataConversion.Convert<int>(row?.GetCell(41)?.ToString(), out int month))
-                                {
-                                    _notify.Error("قالب داده صحیح نیست : ماه ردیف: " + j);
-                                    return false;
-                                }
-                                model.Month = row?.GetCell(41)?.ToString();
-                            }
-                            else
-                            {
-                                model.Month = "0";
-                            }
-
+                            
                             if (!string.IsNullOrEmpty(row?.GetCell(42)?.ToString()))
                             {
                                 if (!DataConversion.Convert<decimal>(row?.GetCell(42)?.ToString(), out decimal severanceMonthly))
