@@ -1,0 +1,67 @@
+﻿@using Web.Areas.Admin.Models
+@using Common.Enums
+@model Bank_AccountViewModel
+@{
+    ViewBag.Title = "ویرایش شماره حساب";
+    var banks = ViewData["banks"] as List<BankViewModel>;
+}
+
+<form id="form" method="POST" action="Edit">
+    <div class="row justify-content-center">
+        <div class="col-12 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <input hidden asp-for="Id">
+
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="BankId">بانک</label>
+                            <select id="bank" class="js-data-example-ajax form-control" name="BankId" required>
+                                @foreach (var bank in banks)
+                                {
+                                    if (bank.Id == Model.BankId)
+                                    {
+                                        <option value="@bank.Id" selected>@bank.Title</option>
+                                    }
+                                    else
+                                    {
+                                        
+                                    <option value="@bank.Id">@bank.Title</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="AccountNumber">شماره حساب</label>
+                            <input asp-for="AccountNumber" class="form-control intTextBox" placeholder="">
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="TaxAuthorityCode">نام شعبه</label>
+                            <input asp-for="BranchName" class="form-control intTextBox" placeholder="">
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="WorkshopCode">کد شعبه</label>
+                            <input asp-for="BranchCode" class="form-control intTextBox" placeholder="">
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="WorkshopCode">شماره شبا</label>
+                            <input asp-for="iBan" class="form-control" placeholder="">
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="InsurancesName">شماره کارت</label>
+                            <input asp-for="CardNumber" class="form-control" placeholder="">
+                        </div>
+                        <div class="col-2 mt-3">
+                            <label class="form-label" for="InsurancesName">فعال</label>
+                            <input asp-for="Active" class="form-control" placeholder="">
+                        </div>
+
+                        <div class="mt-6 col-12 text-right">
+                            <button type="submit" class="btn btn-primary">ذخیره</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

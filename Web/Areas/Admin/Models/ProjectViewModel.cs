@@ -40,5 +40,17 @@ namespace Web.Areas.Admin.Models
 
         public string InsurancesName { get; set; }
 
+        public string DisplayName { get; set; }
+    
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        public string DisplayPhoneNumber { get; set; }
+
+        public string DisplayEmail { get; set; }
+
+        public string DisplayPostalCode { get; set; }
+
+        public string DisplayAddress { get; set; }
+
+
     }
 }

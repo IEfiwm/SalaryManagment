@@ -71,10 +71,39 @@
                             <label class="form-label" for="Address">آدرس</label>
                             <input asp-for="Address" class="form-control" placeholder="">
                         </div>
-                        <div class="mt-6 col-12 text-right">
-                            <button type="submit" class="btn btn-primary">ذخیره</button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="DisplayName">نام پروژه نمایشی</label>
+                            <input asp-for="DisplayName" class="form-control">
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="DisplayPhoneNumber">شماره تلفن نمایشی</label>
+                            <input asp-for="DisplayPhoneNumber" class="form-control intTextBox" placeholder="">
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="DisplayEmail">ایمیل نمایشی</label>
+                            <input asp-for="DisplayEmail" class="form-control">
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="DisplayPostalCode">کد پستی نمایشی</label>
+                            <input asp-for="DisplayPostalCode" class="form-control intTextBox" placeholder="">
+                        </div>
+                        <div class="col-12 mt-3">
+                            <label class="form-label" for="DisplayAddress">آدرس نمایشی</label>
+                            <input asp-for="DisplayAddress" class="form-control" >
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="col-12 mt-3 mb-5">
+                <div class="mt-6 col-12 text-right">
+                    <button type="submit" class="btn btn-primary">ذخیره</button>
                 </div>
             </div>
         </div>

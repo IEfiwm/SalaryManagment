@@ -4,15 +4,17 @@ using Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    partial class IdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20220213180945_bankTablesWithBrothers")]
+    partial class bankTablesWithBrothers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -509,9 +511,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("AccountNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("BankId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("BranchCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -545,8 +544,6 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .IsClustered();
-
-                    b.HasIndex("BankId");
 
                     b.HasIndex("CreatedByRef");
 
@@ -634,25 +631,13 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("BankId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("BranchName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DisplayAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DisplayEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DisplayPhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DisplayPostalCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("EndDate")
@@ -693,6 +678,8 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .IsClustered();
+
+                    b.HasIndex("BankId");
 
                     b.ToTable("TbProject", "Basic");
                 });
@@ -932,10 +919,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Basic.BankAccount", b =>
                 {
-                    b.HasOne("Domain.Entities.Basic.Bank", "Bank")
-                        .WithMany("BankAccounts")
-                        .HasForeignKey("BankId");
-
                     b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "CreatedByUser")
                         .WithMany("BankCreatedByUsers")
                         .HasForeignKey("CreatedByRef")
@@ -945,8 +928,6 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "UpdatedByUser")
                         .WithMany("BankUpdatedByUsers")
                         .HasForeignKey("UpdatedByRef");
-
-                    b.Navigation("Bank");
 
                     b.Navigation("CreatedByUser");
 
@@ -973,6 +954,15 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Basic.Project", b =>
+                {
+                    b.HasOne("Domain.Entities.Basic.Bank", "Bank")
+                        .WithMany()
+                        .HasForeignKey("BankId");
+
+                    b.Navigation("Bank");
                 });
 
             modelBuilder.Entity("Domain.Entities.Basic.ProjectBankAccount", b =>
@@ -1062,8 +1052,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Basic.Bank", b =>
                 {
                     b.Navigation("Bank_Accounts");
-
-                    b.Navigation("BankAccounts");
                 });
 
             modelBuilder.Entity("Domain.Entities.Basic.BankAccount", b =>

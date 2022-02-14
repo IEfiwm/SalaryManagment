@@ -1,0 +1,28 @@
+﻿@inject IHtmlLocalizer<SharedResource> localizer
+@{
+    ViewData["Title"] = localizer["Users"];
+    ViewData["Caption"] = localizer["Manage Users here"];
+    ViewBag.Title = "مدیریت حساب ها";
+}
+<div class="card">
+    <div class="col-sm-12" style="padding:20px">
+    </div>
+    <div id="viewAll" class="card-body table-responsive">
+    </div>
+</div>
+@section Scripts
+{
+<script src="~/js/site.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#bankAccountTable").DataTable();
+        loadData();
+        $('#reload').on('click', function () {
+            loadData();
+        });
+    });
+    function loadData() {
+        $('#viewAll').load('/admin/bank/loadall');
+    }
+</script>
+}

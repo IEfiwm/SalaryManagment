@@ -159,6 +159,9 @@ namespace Web.Extensions
             services.AddTransient<IDocumentRepository, DocumentRepository>();
             services.AddTransient<IFileRepository, FileRepository>();
             services.AddTransient<IimportedRepository, ImportedRepository>();
+            services.AddTransient<IBank_AccountRepository, Bank_AccountRepository>();
+            services.AddTransient<IProjectBankAccountRepository, ProjectBankAccountRepository>();
+            services.AddTransient<IBankRepository, BankRepository>();
         }
     }
 }

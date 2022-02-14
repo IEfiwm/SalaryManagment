@@ -3,6 +3,7 @@ using Domain.Base.Entity;
 using Domain.Entities.Base.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Basic
 {
@@ -36,6 +37,18 @@ namespace Domain.Entities.Basic
 
         public string InsurancesName { get; set; }
 
+        public string DisplayName { get; set; }
+
+        public string DisplayPhoneNumber { get; set; }
+
+        public string DisplayEmail { get; set; }
+
+        public string DisplayPostalCode { get; set; }
+
+        public string DisplayAddress { get; set; }
+        
         public virtual ICollection<ApplicationUser> ProjectUsers { get; set; }
+
+        public virtual ICollection<ProjectBankAccount>  ProjectBankAccounts { get; set; }
     }
 }

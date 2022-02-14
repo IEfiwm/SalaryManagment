@@ -1,0 +1,162 @@
+﻿@using MD.PersianDateTime
+@using Web.Areas.Admin.Models
+@using Application.Extensions
+@using Common.Enums
+@model IEnumerable<Bank_AccountViewModel>
+@inject IHtmlLocalizer<SharedResource> localizer
+@{
+    var banks = ViewData["banks"] as List<BankViewModel>;
+
+}
+
+<table class="table table-striped display" id="bankAccountTable">
+    <thead>
+        <tr>
+            <th>
+                بانک
+            </th>
+            <th>
+                شماره حساب
+            </th>
+            <th>
+                شعبه
+            </th>
+            <th>
+                شماره شبا
+            </th>
+            <th>
+                شماره کارت
+            </th>
+            <th>
+                وضعیت
+            </th>
+            <th style="width:10%">
+                #
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bank_Account in Model)
+        {
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a>
+                                @banks.Find(x=>x.Id==bank_Account.BankId).Title
+                            </a>
+                            <br>
+                            <small>
+
+                            </small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a>
+                                @bank_Account.AccountNumber
+                            </a>
+                            <br>
+                            <small>
+
+                            </small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a>
+                                @bank_Account.BranchName
+                            </a>
+                            <br>
+                            <small>
+                                @bank_Account.BranchCode
+                            </small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a>
+                                @bank_Account.iBan
+                            </a>
+                            <br>
+                            <small>
+
+                            </small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a>
+                                @bank_Account.CardNumber
+                            </a>
+                            <br>
+                            <small>
+
+                            </small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            @if (bank_Account.Active)
+                        {
+                            <span class="badge badge-success">@localizer["Active"]</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">@localizer["Deactivated"]</span>
+                        }
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @localizer["Actions"]
+                        </button>
+                        <div class="dropdown-menu shadow animated--grow-in">
+                            <a asp-area="Admin" asp-controller="Bank" asp-action="Edit" asp-route-bankAccountId="@bank_Account.Id" class="dropdown-item">
+                                <i class="fa fa-pencil"></i> @localizer["Edit"]
+                            </a>
+                            <a asp-area="Admin" asp-controller="Bank" asp-action="Delete" asp-route-bankAccountId="@bank_Account.Id" class="dropdown-item">
+                                <i class="fa fa-pencil"></i> @localizer["Delete"]
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    var test;
+    $(document).ready(function () {
+        test = $("#bankAccountTable").DataTable({
+                searching: true,
+                ordering:  true,
+                select: true,
+                responsive: true,
+                oLanguage : {
+                    sSearch: "جستجو: ",
+                    sInfo: "نمایش _START_ تا _END_ از _TOTAL_ رکورد",
+                    sLengthMenu: "نمایش _MENU_ رکورد",
+                    sInfoFiltered: "فیلتر شده از _MAX_ رکورد",
+                    sInfoEmpty  : "هیچ داده ای یافت نشد",
+                    sZeroRecords: "رکوردی یافت نشد",
+                    oPaginate:{
+                        sPrevious: "قبلی",
+                        sNext: "بعدی",
+                    }
+                },
+        });
+    });
+</script>
