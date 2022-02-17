@@ -396,6 +396,27 @@ namespace Web.Areas.Admin.Controllers
             var docs = _mapper.Map<List<AdditionalUserDataViewModel>>(_additionalUserDateRepository.GetByUserId(userId));
             return new JsonResult(docs);
         }
+        public async Task<IActionResult> PayRollTipList(int year, int month, long projectId = 0)
+        {
+            ViewData["projectId"] = projectId;
+            var model = new PayRollListViewModel();
+
+            if (projectId != 0)
+            {
+                var usersByprojectId = await _userRepository.GetUserListByProjectIdAsync(projectId);
+
+                model.Users = _mapper.Map<IEnumerable<UserViewModel>>(usersByprojectId).ToList();
+                
+            }
+
+            model.Year = year;
+
+            model.Month = month;
+
+            model.ProjectId = projectId;
+
+            return View(model);
+        }
 
     }
 }

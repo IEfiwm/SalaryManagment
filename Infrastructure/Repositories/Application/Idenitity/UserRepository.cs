@@ -72,6 +72,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
         {
             return await _identityContext.Users
                 .Include(e => e.Project)
+                .Include(e => e.Bank)
                 .Where(x => x.ProjectRef == projectId && x.Email == null && !x.IsDeleted)
                 .ToListAsync();
         }
