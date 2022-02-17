@@ -14,9 +14,16 @@ namespace Infrastructure.Repositories.Application.Basic
         {
         }
 
-        public Task<Project> GetProjectByName(string name)
+        public async Task<Project> GetProjectByName(string name)
         {
-            return Model.Where(m => m.Title == name).FirstOrDefaultAsync();
+            return await Model.Where(m => m.Title == name).FirstOrDefaultAsync();
+        }
+
+        public async Task<Project> GetWithBankAccountsById(int projectId)
+        {
+            return await Model
+                .Include(x=>x.ProjectBankAccounts).ThenInclude(x=>x.Bank_Account)
+                .FirstOrDefaultAsync(m => m.Id == projectId);
         }
     }
 }

@@ -106,5 +106,18 @@ namespace Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAccountlist(long bankId)
+        {
+            var model = await _bank_AccountRepository.GetAllByBankId(bankId);
+             return Json(_mapper.Map<List<Bank_AccountViewModel>>(model));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetBanksList()
+        {
+            var model = await _bankRepository.GetListAsync();
+             return Json(_mapper.Map<List<BankViewModel>>(model));
+        }
     }
 }

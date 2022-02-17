@@ -3,67 +3,71 @@
 @model ProjectViewModel
 @{
     ViewBag.Title = "ویرایش پروژه";
+    var banks = ViewData["banks"] as List<BankViewModel>;
+    var bankAccounts = ViewData["bankAccounts"] as List<Bank_AccountViewModel>;
+    var index = 0;
+
 }
 
 <form id="form" method="POST" action="Save">
     <div class="row justify-content-center">
-        <div class="col-6 mt-3">
+        <div class="col-12 mt-3">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <input hidden asp-for="Id">
 
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="Title">نام پروژه</label>
                             <input asp-for="Title" class="form-control">
                         </div>
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="Code">کد پروژه</label>
                             <input asp-for="Code" class="form-control intTextBox" placeholder="">
                         </div>
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="TaxAuthorityName">نام سازمان مالیاتی</label>
                             <input asp-for="TaxAuthorityName" class="form-control">
                         </div>
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="TaxAuthorityCode">کد سازمان مالیاتی</label>
                             <input asp-for="TaxAuthorityCode" class="form-control intTextBox" placeholder="">
                         </div>
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="WorkshopName">نام کارگاهی</label>
                             <input asp-for="WorkshopName" class="form-control">
                         </div>
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="WorkshopCode">کد کارگاهی</label>
                             <input asp-for="WorkshopCode" class="form-control intTextBox" placeholder="">
                         </div>
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="WorkshopCode">تاریخ شروع</label>
                             <input name="StartDate" type="text" class="datepicker form-control" value="@(Model.StartDate == default(DateTime)? null:Model.StartDate.ToString("yyyy/MM/dd") )">
                         </div>
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="WorkshopCode">تاریخ پایان</label>
                             <input asp-for="EndDate" type="text" class="datepicker form-control" placeholder="" value="@(Model.EndDate == default(DateTime)? null:Model.EndDate?.ToString("yyyy/MM/dd") )">
                         </div>
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="WorkshopCode">ردیف پیمان</label>
                             <input asp-for="RowOfCovenant" class="form-control intTextBox" placeholder="">
                         </div>
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="InsurancesName">نام سازمان مالیاتی</label>
                             <input asp-for="InsurancesName" class="form-control" placeholder="">
                         </div>
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="InsurancesName">نام کارفرما</label>
                             <input asp-for="OwnerName" class="form-control" placeholder="">
                         </div>
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="WorkshopCode">وضعیت پروژه</label>
                             <select asp-for="ProjectStatus"
                                     class="form-control"
                                     asp-items="Html.GetEnumSelectList<ProjectStatus>()"></select>
                         </div>
-                        <div class="col-6 mt-3">
+                        <div class="col-4 mt-3">
                             <label class="form-label" for="WorkshopCode">شعبه بیمه</label>
                             <input asp-for="BranchName" class="form-control" placeholder="">
                         </div>
@@ -74,7 +78,7 @@
                     </div>
                 </div>
             </div>
-                        <div class="card">
+            <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6 mt-3">
@@ -95,11 +99,89 @@
                         </div>
                         <div class="col-12 mt-3">
                             <label class="form-label" for="DisplayAddress">آدرس نمایشی</label>
-                            <input asp-for="DisplayAddress" class="form-control" >
+                            <input asp-for="DisplayAddress" class="form-control">
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" id="mainBox">
+                        <div class="col-12">
+                            <button type="button" onclick="AddBankBox()" class="btn btn-info">
+                                <i>افزودن حساب بانکی </i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row" name="BankBox" id="Box_0">
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="DisplayName">بانک</label>
+                            <select id="bank" class="js-data-example-ajax form-control" name="BankId" onchange="changeBank(this,0)">
+                                <option selected>یک مورد را انتخاب کنید</option>
+                                @foreach (var bank in banks)
+                                {
+                                    <option value="@bank.Id">@bank.Title</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-5 mt-3">
+                            <label class="form-label" for="BankAccounts">شماره حساب</label>
+                            <select id="BankAccounts_0" class="js-data-example-ajax form-control" name="BankAccounts">
+                            </select>
+                        </div>
+                        <div class="col-1 mt-5">
+                            <button type="button" onclick="RemoveBox(0)" class="btn btn-danger">
+                                <i>حذف </i>
+                            </button>
+                        </div>
+                    </div>
+                    @foreach (var projectBankAccount in Model.projectBanks)
+                    {
+                        index++;
+                        <div class="row" name="BankBox" id="Box_@index">
+                            <div class="col-6 mt-3">
+                                <label class="form-label" for="DisplayName">بانک</label>
+                                <select id="bank" class="js-data-example-ajax form-control" name="BankId" onchange="changeBank(this,@index)">
+                                    <option selected>یک مورد را انتخاب کنید</option>
+                                    @foreach (var bank in banks)
+                                    {
+                                        if (projectBankAccount.BankId == bank.Id)
+                                        {
+                                            <option value="@bank.Id" selected>@bank.Title</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@bank.Id">@bank.Title</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-5 mt-3">
+                                <label class="form-label" for="BankAccounts">شماره حساب</label>
+                                <select id="BankAccounts_0" class="js-data-example-ajax form-control" name="BankAccounts">
+                                    @foreach (var bankAccount in bankAccounts.Where(x=>x.BankId==projectBankAccount.BankId))
+                                    {
+                                        if (projectBankAccount.Bank_AccountId == bankAccount.Id)
+                                        {
+                                            <option value="@bankAccount.Id" selected>@bankAccount.AccountNumber (@bankAccount.BranchName)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@bankAccount.Id">@bankAccount.AccountNumber (@bankAccount.BranchName)</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-1 mt-5">
+                                <button type="button" onclick="RemoveBox(@index)" class="btn btn-danger">
+                                    <i>حذف </i>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
             <div class="col-12 mt-3 mb-5">
                 <div class="mt-6 col-12 text-right">
                     <button type="submit" class="btn btn-primary">ذخیره</button>
@@ -108,3 +190,24 @@
         </div>
     </div>
 </form>
+@section Scripts
+{
+<script src="~/js/site.js"></script>
+<script src="~/js/Project/BankAccountProject.js"></script>
+<script>
+    function changeBank(This,index)
+    {
+        $("#BankAccounts").html('');
+        $.ajax({
+            url: "/admin/bank/getAccountlist?bankId="+$(This).val(),
+            method: "GET",
+            success: function (model){
+                $.map( model, function( val, i ) {
+
+                    $("#BankAccounts_"+index).append('<option value="' + val.id + '">' + val.accountNumber + ' ('+ val.branchName +')</option>');
+                });
+            }
+        });
+    }
+</script>
+}
