@@ -323,6 +323,8 @@ namespace Web.Areas.Admin.Controllers
             var user = await _userManager.FindByIdAsync(userId);
 
             user.IsDeleted = true;
+            user.UserName = user.UserName+"_Deleted";
+            user.NormalizedUserName = user.NormalizedUserName+"_DELETED";
 
             var res = await _userManager.UpdateAsync(user);
 
