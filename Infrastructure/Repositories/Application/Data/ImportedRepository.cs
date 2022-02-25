@@ -35,9 +35,9 @@ namespace Infrastructure.Repositories.Application
 
         public async Task<bool> CheckDuplicateAttendance(string nationalCode, string year, string month)
         {
-            var model =await Model.FirstOrDefaultAsync(x => 
-            x.NationalCode == nationalCode  &&
-            x.Year == year && x.Month == month);
+            var model = await Model.FirstOrDefaultAsync(x =>
+             x.NationalCode == nationalCode &&
+             x.Year == year && x.Month == month);
             if (model is not null)
                 return true;
             return false;
@@ -53,13 +53,17 @@ namespace Infrastructure.Repositories.Application
             return true;
         }
 
-        public async Task<DataTableDTO<IEnumerable<Attendance>>> GetUserAttendanceListAsync(int year, int month, string key, int pageSize, int pageNumber)
+        public async Task<DataTableDTO<IEnumerable<Attendance>>> GetUserAttendanceListAsync(int year, int month, long projectId, string key, int pageSize, int pageNumber)
         {
             var result = new DataTableDTO<IEnumerable<Attendance>>();
 
-            var data = await _readDbConnection.QueryAsync<Attendance>($"EXEC  [Basic].[SP_GetAttendancesSearch]  {year},{month},N'{key}',{pageSize},{pageNumber}");
+            var count = await _readDbConnection.QueryFirstOrDefaultAsync<long>($"EXEC  [Basic].[SP_GetAttendancesCount]  {year},{month},N'{key}',{projectId}");
 
-            var count = await _readDbConnection.QueryFirstOrDefaultAsync<long>($"EXEC  [Basic].[SP_GetAttendancesCount]  {year},{month},N'{key}'");
+            if (count <= pageSize)
+                pageNumber = 0;
+
+            var data = await _readDbConnection.QueryAsync<Attendance>($"EXEC  [Basic].[SP_GetAttendancesSearch]  {year},{month},N'{key}',{pageSize},{pageNumber},{projectId}");
+
 
             result.Model = data;
 
@@ -70,6 +74,7 @@ namespace Infrastructure.Repositories.Application
             result.PageNumber = pageNumber;
 
             result.PageCount = count / pageSize;
+
 
             return result;
         }

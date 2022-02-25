@@ -49,9 +49,9 @@ namespace Web.Areas.Admin.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LoadAll(int year, int month, string key, byte pageSize, byte pageNumber)
+        public async Task<IActionResult> LoadAll(int year, int month, long projectId, string key, byte pageSize, byte pageNumber)
         {
-            var usersattendance = await _importedRepository.GetUserAttendanceListAsync(year, month, key, pageSize, pageNumber);
+            var usersattendance = await _importedRepository.GetUserAttendanceListAsync(year, month, projectId, key, pageSize, pageNumber);
 
             var res = _mapper.Map<DataTableViewModel<IEnumerable<AttendanceViewModel>>>(usersattendance);
 
