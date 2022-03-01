@@ -14,6 +14,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>کوشا @(ViewBag?.Title != null ? $" | {ViewBag?.Title}" : "")</title>
     <partial name="_Styles" />
+
 </head>
 <body class="hold-transition sidebar-mini">
     <div id="loader-wrapper">
@@ -26,6 +27,11 @@
         <div class="content-wrapper" id="contentWrapper">
             <div class="content">
                 <div class="container-fluid">
+                    <div class="text-center" id="CustomSpinner" style="display:none">
+                        <div class="spinner-grow CustomSpinner" role="status">
+                            <span class="sr-only text-info">Loading...</span>
+                        </div>
+                    </div>
                     @(await Component.InvokeAsync<TitleViewComponent>())
                     @RenderBody()
                 </div>

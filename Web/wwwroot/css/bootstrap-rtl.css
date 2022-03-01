@@ -9979,3 +9979,12 @@ a.text-dark:focus, a.text-dark:hover {
     }
 }
 /*# sourceMappingURL=bootstrap.min.css.map */
+
+.CustomSpinner {
+    width: 3rem;
+    height: 3rem;
+    top: 50%;
+    left: 40%;
+    z-index: 9999;
+    position: absolute !important;
+}

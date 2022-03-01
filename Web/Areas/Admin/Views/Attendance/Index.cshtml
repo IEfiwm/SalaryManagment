@@ -50,7 +50,9 @@
     var page = 0;
 
     function loadData(year,month,key,projectId) {
+        $('#CustomSpinner').css('display','block')
         $('#data-card').load('/admin/attendance/loadall?year=' + year + '&month=' + month + '&key=' + key+ '&projectId=' + projectId + '&pageSize=10&pageNumber=' + page);
+        
     }
 </script>
 }

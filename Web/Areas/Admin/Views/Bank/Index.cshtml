@@ -21,7 +21,8 @@
             loadData();
         });
     });
-    function loadData() {
+    function loadData() {        
+        $('#CustomSpinner').css('display','block')
         $('#viewAll').load('/admin/bank/loadall');
     }
 </script>
