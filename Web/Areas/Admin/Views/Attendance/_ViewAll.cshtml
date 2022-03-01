@@ -792,12 +792,13 @@
     </table>
 </div>
 <div class="row mr-2">
-    <button class="btn btn-outline-success m-1" @(Model.PageNumber != 0 ? "" : "disabled") onclick="page = page - 1;loadData($('#year').val(),$('#month').val(),$('#key').val())">قبلی</button>
+    <button class="btn btn-outline-success m-1" @(Model.PageNumber != 0 ? "" : "disabled") onclick="page = page - 1;loadData($('#year').val(),$('#month').val(),$('#key').val(),$('#project').val())">قبلی</button>
 
-    <button class="btn btn-outline-success m-1" @(Model.PageCount != Model.PageNumber? "": "disabled") onclick="page = page + 1;loadData($('#year').val(),$('#month').val(),$('#key').val())">بعدی</button>
+    <button class="btn btn-outline-success m-1" @(Model.PageCount != Model.PageNumber? "": "disabled") onclick="page = page + 1;loadData($('#year').val(),$('#month').val(),$('#key').val(),$('#project').val())">بعدی</button>
 
 </div>
 <script>
+    $('#CustomSpinner').css('display','none')
     //$("#attendanceTable").DataTable();
       $("#attendanceTable").DataTable({
         searching: false,

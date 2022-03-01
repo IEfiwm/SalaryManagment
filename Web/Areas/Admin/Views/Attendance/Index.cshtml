@@ -10,14 +10,19 @@
             <div class="col-2 mt-1">
                 <input class="form-control" name="year" id="year" placeholder="سال" />
             </div>
-            <div class="col-2 mt-1">
+            <div class="col-1 mt-1">
                 <input class="form-control" name="month" id="month" placeholder="ماه" />
             </div>
-            <div class="col-5 mt-1">
+            <div class="col-4 mt-1">
+                <select id="project" class="js-data-example-ajax form-control" name="project" required>
+                    <option selected>یک پروژه را انتخاب کنید</option>
+                </select>
+            </div>
+            <div class="col-3 mt-1">
                 <input class="form-control" name="key" id="key" placeholder="جستجو" />
             </div>
-            <div class="mt-1 col-3">
-                <button onclick="loadData($('#year').val(),$('#month').val(),$('#key').val())" class="btn btn-primary">نمایش نتیجه</button>
+            <div class="mt-1 col-2">
+                <button onclick="loadData($('#year').val(),$('#month').val(),$('#key').val(),$('#project').val());page=0" class="btn btn-primary">نمایش نتیجه</button>
             </div>
         </div>
     </div>
@@ -28,10 +33,26 @@
 {
 <script src="~/js/site.js"></script>
 <script>
+     $.ajax({
+        url: "/admin/project/getlist",
+        method: "GET",
+        success: function (model){
+            //console.log(parseJSON(model));
+            $.map( model, function( val, i ) {
+                console.log(val);
+                $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
+            });
+            //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');
+            //$("#project").select2();
+        }
+    })
+
     var page = 0;
 
-    function loadData(year,month,key) {
-        $('#data-card').load('/admin/attendance/loadall?year=' + year + '&month=' + month + '&key=' + key + '&pageSize=10&pageNumber=' + page);
+    function loadData(year,month,key,projectId) {
+        $('#CustomSpinner').css('display','block')
+        $('#data-card').load('/admin/attendance/loadall?year=' + year + '&month=' + month + '&key=' + key+ '&projectId=' + projectId + '&pageSize=10&pageNumber=' + page);
+        
     }
 </script>
 }

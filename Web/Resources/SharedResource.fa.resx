@@ -378,4 +378,8 @@
   <data name="ZipCode" xml:space="preserve">
     <value>کدپستی</value>
   </data>
+	<data name="ExportBankPay" xml:space="preserve">
+    <value>فایل پرداخت بانک</value>
+  </data>
+
 </root>

@@ -61,6 +61,7 @@
     var page = 0;
 
     function loadData(projectId,key) {
+         $('#CustomSpinner').css('display','block')
         $('#data-card').load('/admin/user/loadall?projectId=' + projectId + '&key=' + key + '&pageSize=10&pageNumber=' + page);
     }
 

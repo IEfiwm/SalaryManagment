@@ -60,6 +60,8 @@ namespace Common.Enums
         Gardeshgari = 27,
         [Display(Name = "رسالت")]
         Resalat = 28,
+        [Display(Name = "قوامین")]
+        Ghavamin = 29,
 
 
 

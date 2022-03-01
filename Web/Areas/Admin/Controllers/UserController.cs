@@ -39,6 +39,7 @@ namespace Web.Areas.Admin.Controllers
         private readonly IAdditionalUserDateRepository _additionalUserDateRepository;
         private readonly IDocumentRepository _documentRepository;
         private readonly IFileRepository _fileRepository;
+        private readonly IBankRepository _bankRepository;
 
 
         public UserController(UserManager<ApplicationUser> userManager,
@@ -48,7 +49,8 @@ namespace Web.Areas.Admin.Controllers
             IBankAccountRepository bankAccountRepository,
             IAdditionalUserDateRepository additionalUserDateRepository,
             IDocumentRepository documentRepository,
-            IFileRepository fileRepository)
+            IFileRepository fileRepository,
+            IBankRepository bankRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -58,6 +60,7 @@ namespace Web.Areas.Admin.Controllers
             _additionalUserDateRepository = additionalUserDateRepository;
             _documentRepository = documentRepository;
             _fileRepository = fileRepository;
+            _bankRepository = bankRepository;
         }
 
         //[Authorize(Policy = Permissions.Users.View)]
@@ -89,6 +92,7 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> OnGetCreate()
         {
+
             return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_Create", new UserViewModel()) });
         }
 
@@ -138,6 +142,7 @@ namespace Web.Areas.Admin.Controllers
                 var acc = await _bankAccountRepository.GetByIdAsync(user.BankAccountRef.Value);
                 model.BankAccNumber = acc.AccountNumber;
                 model.BankName = acc.Title;
+                model.BankId = acc.BankId;
             }
             model.AdditionalUserData = _mapper.Map<List<AdditionalUserDataViewModel>>
                (_additionalUserDateRepository.Model.Include(x => x.Documents).Where(x => x.ParentRef == user.Id)).ToList();
@@ -151,20 +156,30 @@ namespace Web.Areas.Admin.Controllers
                     x.Documents = new List<DocumentViewModel>();
 
             });
+
+            var banks = await _bankRepository.GetListAsync();
+            ViewData["banks"] = _mapper.Map<List<BankViewModel>>(banks.Where(x => x.Active).ToList());
+
             return View("Edit", model);
         }
 
         [HttpPost]
         public async Task<IActionResult> EditUser(UserViewModel user)
         {
-            var bankRef = await _bankAccountRepository.InsertAndSaveAsync(new BankAccount
+            long? bankRef = null;
+            if (user.BankId != 0 &&user.BankId is not null && user.BankAccNumber is not null)
             {
-                AccountNumber = user.BankAccNumber,
-                Title = user.BankName,
-                CreatedByRef = (await _userManager.GetUserAsync(HttpContext.User)).Id,
-                CreatedDate = System.DateTime.Now
-            });
+                var bank = await _bankRepository.GetByIdAsync(user.BankId.Value);
 
+                bankRef = await _bankAccountRepository.InsertAndSaveAsync(new BankAccount
+                {
+                    AccountNumber = user.BankAccNumber,
+                    Title = bank.Title,
+                    BankId = bank.Id,
+                    CreatedByRef = (await _userManager.GetUserAsync(HttpContext.User)).Id,
+                    CreatedDate = System.DateTime.Now
+                });
+            }
             user.UserName = user.PhoneNumber;
 
             var ouser = await _userRepository.GetUserByIdAsync(user.Id);
@@ -209,19 +224,29 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Create()
         {
+            var banks = await _bankRepository.GetListAsync();
+            ViewData["banks"] = _mapper.Map<List<BankViewModel>>(banks.Where(x => x.Active).ToList());
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateUser(UserViewModel user)
         {
-            var bankRef = await _bankAccountRepository.InsertAndSaveAsync(new BankAccount
+            long? bankRef = null;
+            if (user.BankId != 0 && user.BankId is not null && user.BankAccNumber is not null)
             {
-                AccountNumber = user.BankAccNumber,
-                Title = user.BankName,
-                CreatedByRef = (await _userManager.GetUserAsync(HttpContext.User)).Id,
-                CreatedDate = System.DateTime.Now
-            });
+                var bank = await _bankRepository.GetByIdAsync(user.BankId.Value);
+
+                bankRef = await _bankAccountRepository.InsertAndSaveAsync(new BankAccount
+                {
+                    AccountNumber = user.BankAccNumber,
+                    Title = bank.Title,
+                    BankId = bank.Id,
+                    CreatedByRef = (await _userManager.GetUserAsync(HttpContext.User)).Id,
+                    CreatedDate = System.DateTime.Now
+                });
+            }
 
             user.Id = Guid.NewGuid().ToString();
 
@@ -298,6 +323,8 @@ namespace Web.Areas.Admin.Controllers
             var user = await _userManager.FindByIdAsync(userId);
 
             user.IsDeleted = true;
+            user.UserName = user.UserName+"_Deleted";
+            user.NormalizedUserName = user.NormalizedUserName+"_DELETED";
 
             var res = await _userManager.UpdateAsync(user);
 
@@ -406,7 +433,7 @@ namespace Web.Areas.Admin.Controllers
                 var usersByprojectId = await _userRepository.GetUserListByProjectIdAsync(projectId);
 
                 model.Users = _mapper.Map<IEnumerable<UserViewModel>>(usersByprojectId).ToList();
-                
+
             }
 
             model.Year = year;

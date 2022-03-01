@@ -129,5 +129,7 @@ namespace Web.Areas.Admin.Models
         } = new List<AdditionalUserDataViewModel>();
 
 
+        public long? BankId { get; set; }
+
     }
 }
