@@ -82,7 +82,7 @@
                             <li class="nav-item">
                                 <a is-active-route asp-area="Admin" asp-controller="User" asp-action="PayRollTipList" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>فیش های حقوقی</p>
+                                    <p>فیش حقوقی</p>
                                 </a>
                             </li>
                         </ul>
@@ -132,17 +132,6 @@
                                     <p>پروژه جدید</p>
                                 </a>
                             </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a class="nav-link">
-                            <i class="nav-icon fa fa-bandcamp"></i>
-                            <p>
-                                مدیریت حساب ها
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="/admin/bank" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
@@ -157,6 +146,29 @@
                             </li>
                         </ul>
                     </li>
+                    @*                    <li class="nav-item has-treeview">
+                        <a class="nav-link">
+                        <i class="nav-icon fa fa-bandcamp"></i>
+                        <p>
+                        مدیریت حساب ها
+                        <i class="right fa fa-angle-left"></i>
+                        </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                        <a href="/admin/bank" class="nav-link">
+                        <i class="fa fa-bullseye nav-icon"></i>
+                        <p>لیست حساب ها</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="/admin/bank/create" class="nav-link">
+                        <i class="fa fa-bullseye nav-icon"></i>
+                        <p>حساب بانکی جدید</p>
+                        </a>
+                        </li>
+                        </ul>
+                        </li>*@
                 }
 
                 @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
@@ -206,7 +218,7 @@
                             <li class="nav-item">
                                 <a is-active-route asp-area="Admin" asp-controller="User" asp-action="PayRollTipList" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>فیش های حقوقی</p>
+                                    <p>فیش حقوقی</p>
                                 </a>
                             </li>
                         </ul>
@@ -256,17 +268,6 @@
                                     <p>پروژه جدید</p>
                                 </a>
                             </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a class="nav-link">
-                            <i class="nav-icon fa fa-bandcamp"></i>
-                            <p>
-                                مدیریت حساب ها
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="/admin/bank" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
@@ -281,6 +282,29 @@
                             </li>
                         </ul>
                     </li>
+                    @*<li class="nav-item has-treeview">
+                        <a class="nav-link">
+                        <i class="nav-icon fa fa-bandcamp"></i>
+                        <p>
+                        مدیریت حساب ها
+                        <i class="right fa fa-angle-left"></i>
+                        </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                        <a href="/admin/bank" class="nav-link">
+                        <i class="fa fa-bullseye nav-icon"></i>
+                        <p>لیست حساب ها</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="/admin/bank/create" class="nav-link">
+                        <i class="fa fa-bullseye nav-icon"></i>
+                        <p>حساب بانکی جدید</p>
+                        </a>
+                        </li>
+                        </ul>
+                        </li>*@
 
                 }
 
