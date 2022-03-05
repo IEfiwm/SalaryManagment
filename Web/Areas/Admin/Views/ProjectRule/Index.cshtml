@@ -1,0 +1,28 @@
+﻿@inject IHtmlLocalizer<SharedResource> localizer
+@{
+    ViewData["Title"] = "مدیریت قوانین";
+    ViewBag.Title = "لیست قوانین";
+}
+<div class="card">
+    <div class="col-sm-12" style="padding:20px">
+    </div>
+    <div id="viewAll" class="card-body table-responsive">
+    </div>
+</div>
+@section Scripts
+{
+<script src="~/js/site.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#projectTable").DataTable();
+        loadData();
+        $('#reload').on('click', function () {
+            loadData();
+        });
+    });
+    function loadData() {
+        $('#CustomSpinner').css('display','block')
+        $('#viewAll').load('/admin/projectRule/loadall');
+    }
+</script>
+}

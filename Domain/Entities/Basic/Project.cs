@@ -50,5 +50,7 @@ namespace Domain.Entities.Basic
         public virtual ICollection<ApplicationUser> ProjectUsers { get; set; }
 
         public virtual ICollection<ProjectBankAccount>  ProjectBankAccounts { get; set; }
+
+        public virtual ICollection<ProjectRule>  ProjectRules { get; set; }
     }
 }

@@ -65,6 +65,12 @@ namespace Web.Areas.Attendance.Controllers
         }
 
         [HttpGet]
+        public IActionResult MonthlyAttendances()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult Personnel()
         {
             return View();
@@ -1348,6 +1354,12 @@ namespace Web.Areas.Attendance.Controllers
 
         [HttpGet]
         public IActionResult DeleteAttendances()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult DeleteMonthlyAttendances()
         {
             return View();
         }

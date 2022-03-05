@@ -147,6 +147,9 @@ namespace Web.Extensions
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddScoped<IApplicationWriteDbConnection, ApplicationWriteDbConnection>();
             services.AddScoped<IApplicationReadDbConnection, ApplicationReadDbConnection>();
+            services.AddScoped<ITaxRepository, TaxRepository>();
+            services.AddScoped<IProjectRuleRepository, ProjectRuleRepository>();
+            services.AddScoped<IAttendanceRepository, AttendanceRepository>();
         }
 
         public static void AddDependencies(this IServiceCollection services)
@@ -162,6 +165,9 @@ namespace Web.Extensions
             services.AddTransient<IBank_AccountRepository, Bank_AccountRepository>();
             services.AddTransient<IProjectBankAccountRepository, ProjectBankAccountRepository>();
             services.AddTransient<IBankRepository, BankRepository>();
+            services.AddTransient<ITaxRepository, TaxRepository>();
+            services.AddTransient<IProjectRuleRepository, ProjectRuleRepository>();
+            services.AddTransient<IAttendanceRepository, AttendanceRepository>();
         }
     }
 }

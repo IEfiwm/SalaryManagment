@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Attendance = Domain.Entities.Porc.Attendance;
 
 namespace Infrastructure.Repositories.Application
 {

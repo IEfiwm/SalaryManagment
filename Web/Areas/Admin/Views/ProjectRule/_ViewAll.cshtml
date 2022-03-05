@@ -1,0 +1,100 @@
+﻿@using MD.PersianDateTime
+@using Web.Areas.Admin.Models
+@using Application.Extensions
+@using Common.Enums
+@model IEnumerable<ProjectRuleViewModel>
+@inject IHtmlLocalizer<SharedResource> localizer
+@{
+    var projects = ViewData["projects"] as List<ProjectViewModel>;
+}
+<table class="table table-striped display" id="projectTable">
+    <thead>
+        <tr>
+            <th>
+                نام
+            </th>
+            <th>
+                قانون
+            </th>
+            <th>
+                پروژه
+            </th>
+            <th style="width:10%">
+                #
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rule in Model)
+        {
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a>
+                                @rule.Name
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a>
+                                @rule.Rule?.Replace("&","").Replace("[","").Replace("]","")
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a>
+                                @projects.FirstOrDefault(x=>x.Id==rule.ProjectId).Title
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @localizer["Actions"]
+                        </button>
+                        <div class="dropdown-menu shadow animated--grow-in">
+                            <a asp-area="Admin" asp-controller="ProjectRule" asp-action="Edit" asp-route-projectRuleId="@rule.Id" class="dropdown-item">
+                                <i class="fa fa-pencil"></i> @localizer["Edit"]
+                            </a>
+                            <a asp-area="Admin" asp-controller="ProjectRule" asp-action="Delete" asp-route-projectRuleId="@rule.Id" class="dropdown-item">
+                                <i class="fa fa-pencil"></i> @localizer["Delete"]
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    var test;
+    $(document).ready(function () {
+           $('#CustomSpinner').css('display','none')
+     test = $("#projectTable").DataTable({
+                searching: true,
+                ordering:  true,
+                select: true,
+                responsive: true,
+                oLanguage : {
+                    sSearch: "جستجو: ",
+                    sInfo: "نمایش _START_ تا _END_ از _TOTAL_ رکورد",
+                    sLengthMenu: "نمایش _MENU_ رکورد",
+                    sInfoFiltered: "فیلتر شده از _MAX_ رکورد",
+                    sInfoEmpty  : "هیچ داده ای یافت نشد",
+                    sZeroRecords: "رکوردی یافت نشد",
+                    oPaginate:{
+                        sPrevious: "قبلی",
+                        sNext: "بعدی",
+                    }
+                },
+        });
+    });
+</script>

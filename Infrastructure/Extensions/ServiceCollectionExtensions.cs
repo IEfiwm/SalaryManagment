@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Base.Entity;
 using Infrastructure.Repositories;
 using Infrastructure.Repositories.Application;
+using Infrastructure.Repositories.Application.Basic;
 using Infrastructure.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

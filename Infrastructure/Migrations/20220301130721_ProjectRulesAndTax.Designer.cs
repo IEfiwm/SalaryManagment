@@ -4,15 +4,17 @@ using Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    partial class IdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20220301130721_ProjectRulesAndTax")]
+    partial class ProjectRulesAndTax
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -785,41 +787,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .UseIdentityColumn();
 
-                    b.Property<int>("AbsenceTime")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FoodTime")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HolidayWorkingTime")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<int>("MissionTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NationalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NightWorkingTime")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OvertimeWorkingTime")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RightLeaveTime")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShiftWork")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SickLeaveTime")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WorkingDays")
-                        .HasColumnType("int");
 
                     b.HasKey("Id")
                         .IsClustered();

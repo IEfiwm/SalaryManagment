@@ -1,0 +1,145 @@
+﻿@using Web.Areas.Admin.Models
+@using Common.Enums
+@model ProjectRuleViewModel
+@{
+    ViewBag.Title = "ویرایش قانون";
+    var projects = ViewData["projects"] as List<ProjectViewModel>;
+    var props = ViewData["CalculatedProps"] as List<string>;
+    var propsBy = ViewData["CalculatedByProps"] as List<string>;
+    var index = 1;
+}
+<link href="~/css/DraggerProjectRule.css" rel="stylesheet" />
+
+
+<form id="form" method="POST" action="Save">
+    <div class="row justify-content-center">
+        <div class="col-12 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <input hidden asp-for="Id">
+
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="Title">نام فیلد</label>
+                            <select id="Name" class="js-data-example-ajax form-control" name="Name" required>
+                                @foreach (var prop in props)
+                                {
+                                    <option value="@prop">@prop</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="BankId">پروژه</label>
+                            <select id="ProjectId" class="js-data-example-ajax form-control" name="ProjectId" required>
+                                @foreach (var project in projects)
+                                {
+                                    <option value="@project.Id">@project.Title</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="containter">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div id="CalcProp">
+                                    <div class="modules">
+                                        <p class="drag" id="dynamicNumber">
+                                            <a class="btn btn-light w-100">
+                                                <input type="text" maxlength="4" class="form-control floatTextBox w-100" />
+                                            </a>
+                                        </p>
+                                    </div>
+                                    <div class="modules">
+                                        @foreach (var prop in propsBy)
+                                        {
+                                            <p class="drag" id="@prop"><a class="btn btn-light">@prop</a></p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="modules" id="Calc">
+                                    @foreach (var prop in (Calculate[])Enum.GetValues(typeof(Calculate)))
+                                    {
+                                        <p class="drag" id="@Html.DisplayFor(e => prop)"><a class="btn btn-light">@Html.DisplayFor(e => prop)</a></p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+
+                        <div class="card">
+                            <div class="card-title text-left pr-3 pt-3">
+                                <label class="form-label">فرمول</label>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="dropzone" class="row">
+                                            @foreach (var prop in Model.Rule?.Split("&").ToList())
+                                            {
+                                                if (index % 2 != 0)
+                                                {
+                                                    <div class="col-md-2" name="CalcProp">
+                                                        <div class="drop-item row">
+                                                            <div class="col-md-9 pr-1">
+                                                                <label class="pt-2">@prop.Replace("[","").Replace("]","")</label>
+                                                            </div>
+                                                            <div class="col-md-3 pl-0">
+                                                                <input type="hidden" value="@prop" name="RuleList">
+                                                                <button type="button" title="حذف" class="btn btn-default btn-xs remove">
+                                                                    <small class="fa fa-times text-danger"></small>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-md-1" name="Calc">
+                                                        <div class="drop-item row">
+                                                            <div class="col-md-3 pr-3">
+                                                                <h5 class="pt-2">@prop</h5>
+                                                            </div>
+                                                            <div class="col-md-3 pl-0">
+                                                                <input type="hidden" value="@prop" name="RuleList">
+                                                                <button type="button" title="حذف" class="btn btn-default btn-xs remove">
+                                                                    <small class="fa fa-times text-danger"></small>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                index++;
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-3 mb-5">
+                <div class="mt-6 col-12 text-right">
+                    <button type="submit" class="btn btn-primary">ذخیره</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+<script src="~/js/site.js"></script>
+<script src="~/lib/jquery/jquery-ui.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="~/js/ProjectRule/ProjectRule.js"></script>
+}

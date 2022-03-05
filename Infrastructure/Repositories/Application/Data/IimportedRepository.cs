@@ -14,7 +14,7 @@ namespace Infrastructure.Repositories.Application
 
         Task<bool> CheckDuplicateAttendance(string nationalCode, string year, string month);
 
-        Task<DataTableDTO<IEnumerable<Attendance>>> GetUserAttendanceListAsync(int year, int month, long projectId, string key, int pageSize, int pageNumber);
+        Task<DataTableDTO<IEnumerable<Domain.Entities.Porc.Attendance>>> GetUserAttendanceListAsync(int year, int month, long projectId, string key, int pageSize, int pageNumber);
 
         Task<bool> DeleteByIdAsync(long importedId);
     }
