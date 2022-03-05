@@ -41,14 +41,18 @@ namespace Web.Areas.Attendance.Controllers
         private readonly IBankAccountRepository _bankAccountRepository;
 
         private readonly IProjectRepository _projectRepository;
+
         private readonly IUserRepository _userRepository;
+
+        private readonly IAttendanceRepository _attendanceRepository;
 
         public ExcelController(IHostingEnvironment hostingEnvironment,
             IimportedRepository repository,
             UserManager<ApplicationUser> userManager,
             IBankAccountRepository bankAccountRepository,
             IProjectRepository projectRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IAttendanceRepository attendanceRepository)
         {
             _hostingEnvironment = hostingEnvironment;
             _repository = repository;
@@ -56,6 +60,7 @@ namespace Web.Areas.Attendance.Controllers
             _bankAccountRepository = bankAccountRepository;
             _projectRepository = projectRepository;
             _userRepository = userRepository;
+            _attendanceRepository = attendanceRepository;
         }
 
         [HttpGet]
@@ -315,7 +320,7 @@ namespace Web.Areas.Attendance.Controllers
                             model.Name = row?.GetCell(0)?.ToString();
                             model.FamilyName = row?.GetCell(1)?.ToString();
                             model.NationalCode = row?.GetCell(2)?.ToString();
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(40)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(40)?.ToString(), out int year))
@@ -870,7 +875,7 @@ namespace Web.Areas.Attendance.Controllers
                                 model.PureIncome = "0";
                             }
 
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(42)?.ToString()))
                             {
                                 if (!DataConversion.Convert<decimal>(row?.GetCell(42)?.ToString(), out decimal severanceMonthly))
@@ -1352,6 +1357,246 @@ namespace Web.Areas.Attendance.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<bool> ImportMonthlyAttendances(int year, int month, long projectRef)
+        {
+            try
+            {
+                IFormFile file = Request.Form.Files[0];
+
+                string folderName = "UploadExcel";
+
+                string webRootPath = _hostingEnvironment.WebRootPath;
+
+                string newPath = Path.Combine(webRootPath, folderName);
+
+                if (!Directory.Exists(newPath))
+                {
+                    Directory.CreateDirectory(newPath);
+                }
+
+                if (file.Length > 0)
+                {
+                    string sFileExtension = Path.GetExtension(file.FileName).ToLower();
+
+                    ISheet sheet;
+
+                    string fullPath = Path.Combine(newPath, file.FileName);
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+
+                        stream.Position = 0;
+
+                        if (sFileExtension == ".xls")
+                        {
+                            HSSFWorkbook hssfwb = new HSSFWorkbook(stream); //This will read the Excel 97-2000 formats  
+
+                            sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook  
+                        }
+
+                        else
+                        {
+                            XSSFWorkbook hssfwb = new XSSFWorkbook(stream); //This will read 2007 Excel format  
+
+                            sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook   
+                        }
+
+                        for (int j = 1; j < sheet.LastRowNum + 1; j++)
+                        {
+                            var row = sheet.GetRow(j);
+
+                            var model = new Domain.Entities.Data.Attendance();
+
+                            #region Validaition
+
+                            if (string.IsNullOrEmpty(row?.GetCell(1)?.ToString()))
+                                continue;
+
+
+                            model.Year = year;
+                            model.Month = month;
+                            model.ProjectRef = projectRef;
+
+                            if (!DataConversion.Convert<decimal>(row?.GetCell(1)?.ToString(), out decimal nationalCode))
+                            {
+                                _notify.Error("قالب داده صحیح نیست : کد ملی ردیف: " + j);
+                                return false;
+                            }
+
+                            model.NationalCode = row?.GetCell(1)?.ToString();
+
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(4)?.ToString()))
+                            {
+
+                                if (!DataConversion.Convert<int>(row?.GetCell(4)?.ToString(), out int overtimeworkingTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : کارکرد ردیف: " + j);
+                                    return false;
+                                }
+                                model.WorkingDays = Convert.ToInt32(row?.GetCell(4)?.ToString());
+                            }
+                            else
+                            {
+                                model.WorkingDays = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(5)?.ToString()))
+                            {
+
+                                if (!DataConversion.Convert<int>(row?.GetCell(5)?.ToString(), out int overtimeworkingTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : اضافه کاری ردیف: " + j);
+                                    return false;
+                                }
+                                model.OvertimeWorkingTime = Convert.ToInt32(row?.GetCell(5)?.ToString());
+                            }
+                            else
+                            {
+                                model.OvertimeWorkingTime = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(6)?.ToString()))
+                            {
+
+                                if (!DataConversion.Convert<int>(row?.GetCell(6)?.ToString(), out int holidayworkingTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : تعطیل کاری ردیف: " + j);
+                                    return false;
+                                }
+                                model.HolidayWorkingTime = Convert.ToInt32(row?.GetCell(6)?.ToString());
+                            }
+                            else
+                            {
+                                model.HolidayWorkingTime = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(7)?.ToString()))
+                            {
+
+                                if (!DataConversion.Convert<int>(row?.GetCell(7)?.ToString(), out int nightworkingTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : کارکرد شبکاری ردیف: " + j);
+                                    return false;
+                                }
+                                model.NightWorkingTime = Convert.ToInt32(row?.GetCell(7)?.ToString());
+                            }
+                            else
+                            {
+                                model.NightWorkingTime = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(8)?.ToString()))
+                            {
+
+                                if (!DataConversion.Convert<decimal>(row?.GetCell(8)?.ToString(), out decimal nightworkingTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : کارکرد نوبت کاری ردیف: " + j);
+                                    return false;
+                                }
+                                model.ShiftWork = Convert.ToDecimal(row?.GetCell(8)?.ToString()?.Replace("%", ""));
+                            }
+                            else
+                            {
+                                model.ShiftWork = 0;
+                            }
+
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(9)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(9)?.ToString(), out int missionTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : کارکرد ماموریت ردیف: " + j);
+                                    return false;
+                                }
+                                model.MissionTime = Convert.ToInt32(row?.GetCell(9)?.ToString());
+                            }
+                            else
+                            {
+                                model.MissionTime = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(10)?.ToString()))
+                            {
+
+                                if (!DataConversion.Convert<int>(row?.GetCell(10)?.ToString(), out int foodTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : كاركرد غذا ردیف: " + j);
+                                    return false;
+                                }
+                                model.FoodTime = Convert.ToInt32(row?.GetCell(10)?.ToString());
+                            }
+                            else
+                            {
+                                model.FoodTime = 0;
+                            }
+
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(11)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<decimal>(row?.GetCell(11)?.ToString(), out decimal workerRightPay))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : مرخصی استحقاقی ردیف: " + j);
+                                    return false;
+                                }
+                                model.RightLeaveTime = Convert.ToInt32(row?.GetCell(11)?.ToString());
+                            }
+                            else
+                            {
+                                model.RightLeaveTime = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(12)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<decimal>(row?.GetCell(12)?.ToString(), out decimal nightworkingPay))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : مرخصی استعلاجی ردیف: " + j);
+                                    return false;
+                                }
+                                model.SickLeaveTime = Convert.ToInt32(row?.GetCell(12)?.ToString());
+                            }
+                            else
+                            {
+                                model.SickLeaveTime = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(13)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<decimal>(row?.GetCell(13)?.ToString(), out decimal nightworkingPay))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : غیبت ردیف: " + j);
+                                    return false;
+                                }
+                                model.AbsenceTime = Convert.ToInt32(row?.GetCell(13)?.ToString());
+                            }
+                            else
+                            {
+                                model.AbsenceTime = 0;
+                            }
+
+
+                            #endregion
+
+                            await _attendanceRepository.InsertAsync(model);
+                        }
+                        if (_attendanceRepository.SaveChanges() > 0)
+                            _notify.Success("فایل با موفقیت در سیستم اضافه شد.");
+                        else
+                            _notify.Error("اضافه کردن فایل با خطا مواجعه شد.");
+                    }
+                }
+                return true;
+            }
+            catch (System.Exception e)
+            {
+                _notify.Error("اضافه کردن فایل با خطا مواجعه شد.\n" + e.Message);
+
+                return false;
+            }
+        }
+
         [HttpGet]
         public IActionResult DeleteAttendances()
         {
@@ -1386,6 +1631,31 @@ namespace Web.Areas.Attendance.Controllers
             });
 
             await _repository.SaveChangesAsync();
+
+            _notify.Success("کارکرد با موفقیت حذف شد .");
+
+            return Redirect("~/dashboard/managment");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteMonthlyAttendances(int year, int month, long projectId)
+        {
+
+            var listOfAttendances = await _attendanceRepository.GetByProjectId(year, month, projectId);
+
+            if (listOfAttendances == null)
+            {
+                _notify.Error("کارکردی در این تاریخ یافت نشد .");
+
+                return Redirect("~/dashboard/managment");
+            }
+
+            listOfAttendances.ForEach(m =>
+            {
+                m.IsDeleted = true;
+            });
+
+            await _attendanceRepository.SaveChangesAsync();
 
             _notify.Success("کارکرد با موفقیت حذف شد .");
 

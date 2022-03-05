@@ -1,14 +1,15 @@
 ﻿using Domain.Base.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Entities.Data
 {
     public class Attendance : IdentityBaseEntity
     {
+        public long ProjectRef { get; set; }
+
+        public int Month { get; set; }
+      
+        public int Year { get; set; }
+
         public string NationalCode { get; set; }
 
         public int WorkingDays { get; set; }
@@ -19,7 +20,7 @@ namespace Domain.Entities.Data
 
         public int NightWorkingTime { get; set; }
    
-        public int ShiftWork { get; set; }
+        public decimal ShiftWork { get; set; }
 
         public int MissionTime { get; set; }
 

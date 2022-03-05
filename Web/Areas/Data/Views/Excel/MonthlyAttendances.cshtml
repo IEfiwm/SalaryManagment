@@ -4,17 +4,32 @@
 @{
     ViewBag.Title = "بارگزاری کارکرد ماهیانه از اکسل";
 }
-<br/>
-<br/>
-<br/>
+<br />
+<br />
+<br />
 <form asp-controller="Home" asp-action="Export">
     <div class="card col-md-12">
         <div class="container m-5">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-3">
+                    <label class="form-label" for="inputEmail">سال</label>
+                    <input type="text" id="year" class="form-control" placeholder="" required>
+                </div>
+                <div class="col-3">
+                    <label class="form-label" for="inputPassword">ماه</label>
+                    <input type="text" id="month" class="form-control" placeholder="" required>
+                </div>
+                <div class="col-6">
+                    <label class="form-label" for="inputPassword">پروژه</label>
+                    <select id="project" class="js-data-example-ajax form-control" name="projectId" required>
+                        <option selected>یک مورد را انتخاب کنید</option>
+                    </select>
+                </div>
+                <div class="col-md-10 mt-3">
+                    <label class="form-label" for="inputPassword">فایل</label>
                     <input type="file" id="fileupload" name="files" class="form-control" />
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2" style="margin-top: 2.98rem !important;">
                     <input type="button" name="Upload" value="بارگزاری فایل" id="btnupload" class="btn btn-primary" />
                 </div>
             </div>
@@ -29,85 +44,101 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
-$(function () {
-    $('#btnupload').on('click', function () {
+    $(function () {
+        $('#btnupload').on('click', function () {
 
-        var fileExtension = ['xls', 'xlsx'];
+            var fileExtension = ['xls', 'xlsx'];
 
-        var filename = $('#fileupload').val();
+            var filename = $('#fileupload').val();
 
-        if (filename.length == 0) {
+            if (filename.length == 0) {
 
-            alert("Please select a file.");
-
-            return false;
-
-        }
-        else {
-
-            var extension = filename.replace(/^.*\./, '');
-
-            if ($.inArray(extension, fileExtension) == -1) {
-
-                alert("Please select only excel files.");
+                alert("Please select a file.");
 
                 return false;
+
             }
-        }
+            else {
 
-        var fdata = new FormData();
+                var extension = filename.replace(/^.*\./, '');
 
-        var fileUpload = $("#fileupload").get(0);
+                if ($.inArray(extension, fileExtension) == -1) {
 
-        var files = fileUpload.files;
+                    alert("Please select only excel files.");
 
-        fdata.append(files[0].name, files[0]);
+                    return false;
+                }
+            }
 
-        $.ajax({
+            var fdata = new FormData();
 
-            type: "POST",
+            var fileUpload = $("#fileupload").get(0);
 
-            url: "/Data/Excel/ImportMonthlyAttendances",
+            var files = fileUpload.files;
 
-            beforeSend: function (xhr) {
+            fdata.append(files[0].name, files[0]);
 
-                xhr.setRequestHeader("XSRF-TOKEN",
+            $.ajax({
 
-                    $('input:hidden[name="__RequestVerificationToken"]').val());
+                type: "POST",
 
-            },
+                url: `/Data/Excel/ImportMonthlyAttendances?year=${$('#year').val()}&month=${$('#month').val()}&projectRef=${$('#project').val()}`,
 
-            data: fdata,
+                beforeSend: function (xhr) {
 
-            contentType: false,
+                    xhr.setRequestHeader("XSRF-TOKEN",
 
-            processData: false,
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
 
-            success: function (response) {
-                setTimeout(function(){
-                    location.reload();
-                },2000*2);
-            },
+                },
+
+                data: fdata,
+
+                contentType: false,
+
+                processData: false,
+
+                success: function (response) {
+                    setTimeout(function(){
+                        location.reload();
+                    },2000*2);
+                },
+            });
+
+        })
+
+        $('#btnExport').on('click', function () {
+
+            var fileExtension = ['xls', 'xlsx'];
+
+            var filename = $('#fileupload').val();
+
+            if (filename.length == 0) {
+
+                alert("Please select a file then Import");
+
+                return false;
+
+            }
+
         });
-
-    })
-
-    $('#btnExport').on('click', function () {
-
-        var fileExtension = ['xls', 'xlsx'];
-
-        var filename = $('#fileupload').val();
-
-        if (filename.length == 0) {
-
-            alert("Please select a file then Import");
-
-            return false;
-
-        }
 
     });
 
-});
+    $(document).ready(function(){
+    $.ajax({
+        url: "/admin/project/getlist",
+        method: "GET",
+        success: function (model){
+            //console.log(parseJSON(model));
+            $.map( model, function( val, i ) {
+                console.log(val);
+                $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
+            });
+            //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');
+            //$("#project").select2();
+        }
+    });
+    });
 
 </script>
