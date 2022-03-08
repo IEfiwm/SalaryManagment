@@ -1,8 +1,10 @@
 ﻿using Common.Enums;
+using Common.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Web.Abstractions;
 using Web.Controllers;
 
@@ -18,24 +20,33 @@ namespace Web.Areas.Export.Controllers
         }
 
         [HttpPost]
-        public IActionResult TXTWP(int year, int month, PaymentType paymentMethod, List<string> projectList)
+        public async Task<IActionResult> TXTWPAsync(int year, int month, PaymentType paymentMethod, List<string> projectList)
         {
             var projectId = string.Join(',', projectList);
-            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/TXTTaxWPAll/{year}/{month}/{projectId}");
+
+            var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(Guid.NewGuid() + ".txt", @$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/TXTTaxWPAll/{year}/{month}/{projectId}");
+
+            return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName);
         }
 
         [HttpPost]
-        public IActionResult TXTWH(int year, int month, PaymentType paymentMethod, List<string> projectList)
+        public async Task<IActionResult> TXTWHAsync(int year, int month, PaymentType paymentMethod, List<string> projectList)
         {
             var projectId = string.Join(',', projectList);
-            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/TXTTaxWHAll/{year}/{month}/{Convert.ToInt32(paymentMethod)}/{projectId}");
+
+            var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(Guid.NewGuid() + ".txt", @$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/TXTTaxWHAll/{year}/{month}/{Convert.ToInt32(paymentMethod)}/{projectId}");
+
+            return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName);
         }
 
         [HttpPost]
-        public IActionResult PDF(int year, int month, List<string> projectList)
+        public async Task<IActionResult> PDFAsync(int year, int month, List<string> projectList)
         {
             var projectId = string.Join(',', projectList);
-            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/TaxAll/{year}/{month}/{projectId}");
+
+            var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(Guid.NewGuid() + ".txt", @$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/TaxAll/{year}/{month}/{projectId}");
+
+            return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName);
         }
     }
 }

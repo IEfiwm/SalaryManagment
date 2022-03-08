@@ -112,7 +112,7 @@
                             }
                         </td>
                         <td>
-                            <a href="@(@$"{ConfigurationStorage.GetValue("Base:KoshaCore:APIAddress")}/PayRoll/GetPayRoll/{user.NationalCode}/{user.BankAccNumber}/{Model.Year}/{Model.Month}")" class="btn btn-primary">
+                            <a href="@(@$"/Export/PayRoll/Download/{user.NationalCode}/{user.BankAccNumber}/{Model.Year}/{Model.Month}")" class="btn btn-primary">
                                 <i class="fa fa-letter"></i> فیش حقوقی
                             </a>
                         </td>

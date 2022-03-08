@@ -182,7 +182,7 @@ namespace Web.Areas.Attendance.Controllers
                                 DegreeOfEducation = row?.GetCell(12)?.ToString(),
                                 JobTitle = row?.GetCell(13)?.ToString(),
                                 BankAccountRef = bankaccount,
-                                NumberOfChildren = Convert.ToByte(row?.GetCell(16)?.ToString()),
+                                IncludedNumberOfChildren = Convert.ToByte(row?.GetCell(16)?.ToString()),
                                 DailySalary = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(17)?.ToString()))),
                                 DailyBaseYear = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(18)?.ToString()))),
                                 FoodAndHouseRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(19)?.ToString()))),
@@ -1618,7 +1618,7 @@ namespace Web.Areas.Attendance.Controllers
 
             var listOfAttendances = _repository.GetUserAttendanceListByUserList(year.ToString(), month.ToString(), userNationalCodeList);
 
-            if (listOfAttendances == null)
+            if (listOfAttendances.Count == 0)
             {
                 _notify.Error("کارکردی در این تاریخ یافت نشد .");
 

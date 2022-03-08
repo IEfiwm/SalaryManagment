@@ -91,8 +91,12 @@
                     <input type="text" asp-for="InsuranceCode" name="InsuranceCode" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["InsuranceCode"]">
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="NumberOfChildren" class="form-label col-lg-12">@localizer["NumberOfChildren"]</label>
-                    <input type="text" asp-for="NumberOfChildren" name="NumberOfChildren" class="form-control col-lg-12 intTextBox" placeholder="@localizer["NumberOfChildren"]">
+                    <label for="IncludedNumberOfChildren" class="form-label col-lg-12">@localizer["IncludedNumberOfChildren"]</label>
+                    <input type="text" asp-for="IncludedNumberOfChildren" name="IncludedNumberOfChildren" class="form-control col-lg-12 intTextBox" placeholder="@localizer["IncludedNumberOfChildren"]">
+                </div>                
+                <div class="form-group col-md-4">
+                    <label for="NotIncludedNumberOfChildren" class="form-label col-lg-12">@localizer["NotIncludedNumberOfChildren"]</label>
+                    <input type="text" asp-for="NotIncludedNumberOfChildren" name="NotIncludedNumberOfChildren" class="form-control col-lg-12 intTextBox" placeholder="@localizer["NotIncludedNumberOfChildren"]">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="MonthlyBaseYear" class="form-label col-lg-12">@localizer["MonthlyBaseYear"]</label>

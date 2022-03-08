@@ -6,13 +6,11 @@ using Domain.Entities.Basic;
 using Infrastructure.Repositories;
 using Infrastructure.Repositories.Application.Basic;
 using Infrastructure.Repositories.Application.Idenitity;
-using MD.PersianDateTime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,7 +38,6 @@ namespace Web.Areas.Admin.Controllers
         private readonly IDocumentRepository _documentRepository;
         private readonly IFileRepository _fileRepository;
         private readonly IBankRepository _bankRepository;
-
 
         public UserController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -92,7 +89,6 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> OnGetCreate()
         {
-
             return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_Create", new UserViewModel()) });
         }
 
@@ -167,7 +163,7 @@ namespace Web.Areas.Admin.Controllers
         public async Task<IActionResult> EditUser(UserViewModel user)
         {
             long? bankRef = null;
-            if (user.BankId != 0 &&user.BankId is not null && user.BankAccNumber is not null)
+            if (user.BankId != 0 && user.BankId is not null && user.BankAccNumber is not null)
             {
                 var bank = await _bankRepository.GetByIdAsync(user.BankId.Value);
 
@@ -323,8 +319,8 @@ namespace Web.Areas.Admin.Controllers
             var user = await _userManager.FindByIdAsync(userId);
 
             user.IsDeleted = true;
-            user.UserName = user.UserName+"_Deleted";
-            user.NormalizedUserName = user.NormalizedUserName+"_DELETED";
+            user.UserName = user.UserName + "_Deleted";
+            user.NormalizedUserName = user.NormalizedUserName + "_DELETED";
 
             var res = await _userManager.UpdateAsync(user);
 
@@ -407,7 +403,6 @@ namespace Web.Areas.Admin.Controllers
             return File(memory, "application/zip", Path.GetFileName(path));
         }
 
-
         public IActionResult GetDocuments(string userId)
         {
             var userAdditional = _additionalUserDateRepository.GetUserAdditionalById(userId);
@@ -418,11 +413,13 @@ namespace Web.Areas.Admin.Controllers
             }
             return new JsonResult(null);
         }
+
         public IActionResult GetAdditionalUsers(string userId)
         {
             var docs = _mapper.Map<List<AdditionalUserDataViewModel>>(_additionalUserDateRepository.GetByUserId(userId));
             return new JsonResult(docs);
         }
+
         public async Task<IActionResult> PayRollTipList(int year, int month, long projectId = 0)
         {
             ViewData["projectId"] = projectId;
@@ -444,6 +441,5 @@ namespace Web.Areas.Admin.Controllers
 
             return View(model);
         }
-
     }
 }

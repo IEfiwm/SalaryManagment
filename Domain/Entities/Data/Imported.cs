@@ -1,4 +1,5 @@
 ﻿using Domain.Base.Entity;
+using System;
 
 namespace Domain.Entities.Data
 {
@@ -153,5 +154,7 @@ namespace Domain.Entities.Data
         public string NonContinuousIncludedNotIncluded { get; set; }
 
         public string NonContinuousIncluded { get; set; }
+
+        public DateTime CreateDate { get; set; } = DateTime.Now;
     }
 }

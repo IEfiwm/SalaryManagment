@@ -9,7 +9,7 @@
                 <th>
                     کد پ
                 </th>
-                <th >
+                <th>
                     نام‌و‌نام‌خانوادگی
                 </th>
                 <th>
@@ -229,6 +229,10 @@
               icon: "warning",
               buttons: true,
               dangerMode: true,
+              buttons: {
+                  confirm : {text:'حذف',className:'sweet-warning'},
+                  cancel : 'لغو'
+              }
           })
           .then((willDelete) => {
               if (willDelete) {
@@ -236,14 +240,16 @@
                   url: "/admin/user/Delete?userId="+userId,
                   method: "GET",
                   success: function (model) {
-                  swal("حذف با موفقیت انجام شد", {
-                      icon: "success",
-                      });
+                      notyf.success("حذف با موفقیت انجام شد.")
                       loadData($('#project').val(),$('#key').val());
-                      }
+                  //swal("حذف با موفقیت انجام شد", {
+                  //    icon: "success",
+                  //    });
+                  //    loadData($('#project').val(),$('#key').val());
+                  //    }
               });
               } else {
-              swal("عملیات حذف لغو شد.");
+                  notyf.warning("عملیات لغو شد.");
               }
           });
 

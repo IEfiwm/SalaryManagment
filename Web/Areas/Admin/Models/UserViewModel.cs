@@ -63,7 +63,10 @@ namespace Web.Areas.Admin.Models
         public string InsuranceCode { get; set; }
       
         [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
-        public byte NumberOfChildren { get; set; }
+        public byte NotIncludedNumberOfChildren { get; set; }        
+        
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        public byte IncludedNumberOfChildren { get; set; }
 
         [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int MonthlyBaseYear { get; set; }
@@ -127,14 +130,13 @@ namespace Web.Areas.Admin.Models
         public bool HasAdditionalUser { get; set; } = false;
 
         public bool HasAdditionalUserDocument { get; set; } = false;
+
         public List<AdditionalUserDataViewModel> AdditionalUserData
         {
             get;
             set;
         } = new List<AdditionalUserDataViewModel>();
 
-
         public long? BankId { get; set; }
-
     }
 }

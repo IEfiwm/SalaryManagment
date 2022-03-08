@@ -38,7 +38,7 @@ namespace Infrastructure.Repositories.Application
         {
             var model = await Model.FirstOrDefaultAsync(x =>
              x.NationalCode == nationalCode &&
-             x.Year == year && x.Month == month);
+             x.Year == year && x.Month == month && !x.IsDeleted);
             if (model is not null)
                 return true;
             return false;
@@ -58,13 +58,12 @@ namespace Infrastructure.Repositories.Application
         {
             var result = new DataTableDTO<IEnumerable<Attendance>>();
 
-            var count = await _readDbConnection.QueryFirstOrDefaultAsync<long>($"EXEC  [Basic].[SP_GetAttendancesCount]  {year},{month},N'{key}',{projectId}");
+            var count = await _readDbConnection.QueryFirstOrDefaultAsync<long>($"EXEC  [Basic].[SP_GetAttendancesCount]  {year},{month},N'{key?.ToString()}',{projectId}");
 
             if (count <= pageSize)
                 pageNumber = 0;
 
             var data = await _readDbConnection.QueryAsync<Attendance>($"EXEC  [Basic].[SP_GetAttendancesSearch]  {year},{month},N'{key}',{pageSize},{pageNumber},{projectId}");
-
 
             result.Model = data;
 

@@ -26,7 +26,9 @@ namespace Domain.Entities.Base.Identity
 
         public string InsuranceCode { get; set; }
 
-        public byte NumberOfChildren { get; set; }
+        public byte IncludedNumberOfChildren { get; set; }
+
+        public byte NotIncludedNumberOfChildern { get; set; }
 
         public int MonthlyBaseYear { get; set; }
 

@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Common.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 using Web.Abstractions;
 using Web.Controllers;
 
@@ -15,15 +18,19 @@ namespace Web.Areas.Export.Controllers
         }
 
         [HttpPost]
-        public IActionResult DBF(int year, int month, long projectId)
+        public async Task<IActionResult> DBFAsync(int year, int month, long projectId)
         {
-            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/DBFAll/{year}/{month}/{projectId}");
+            var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(Guid.NewGuid() + ".txt", @$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/DBFAll/{year}/{month}/{projectId}");
+
+            return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName);
         }
 
         [HttpPost]
-        public IActionResult PDF(int year, int month, long projectId)
+        public async Task<IActionResult> PDFAsync(int year, int month, long projectId)
         {
-            return Redirect(@$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/InsuranceAll/{year}/{month}/{projectId}");
+            var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(Guid.NewGuid() + ".txt", @$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/InsuranceAll/{year}/{month}/{projectId}");
+
+            return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName);
         }
     }
 }

@@ -312,8 +312,8 @@
   <data name="New" xml:space="preserve">
     <value>جدید</value>
   </data>
-  <data name="NumberOfChildren" xml:space="preserve">
-    <value>تعداد اولاد</value>
+  <data name="IncludedNumberOfChildren" xml:space="preserve">
+    <value>تعداد اولاد مشمول</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>رمز عبور</value>
@@ -378,8 +378,10 @@
   <data name="ZipCode" xml:space="preserve">
     <value>کدپستی</value>
   </data>
-	<data name="ExportBankPay" xml:space="preserve">
+  <data name="ExportBankPay" xml:space="preserve">
     <value>فایل پرداخت بانک</value>
   </data>
-
+  <data name="NotIncludedNumberOfChildren" xml:space="preserve">
+    <value>تعداد اولاد</value>
+  </data>
 </root>

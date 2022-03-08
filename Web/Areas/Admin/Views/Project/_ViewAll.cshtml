@@ -89,7 +89,10 @@
                             <a asp-area="Admin" asp-controller="Project" asp-action="Edit" asp-route-projectId="@project.Id" class="dropdown-item">
                                 <i class="fa fa-pencil"></i> @localizer["Edit"]
                             </a>
-                            <a asp-area="Admin" asp-controller="Project" asp-action="Delete" asp-route-projectId="@project.Id" class="dropdown-item">
+                            @*                            <a asp-area="Admin" asp-controller="Project" asp-action="Delete" asp-route-projectId="@project.Id" class="dropdown-item">
+                                <i class="fa fa-pencil"></i> @localizer["Delete"]
+                                </a>*@
+                            <a onclick="DeleteProject('@project.Id')" class="dropdown-item">
                                 <i class="fa fa-pencil"></i> @localizer["Delete"]
                             </a>
                         </div>
@@ -99,6 +102,7 @@
         }
     </tbody>
 </table>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     var test;
     $(document).ready(function () {
@@ -122,4 +126,32 @@
                 },
         });
     });
+
+    function DeleteProject(id)
+      {
+          swal({
+              title: "آیا از حذف این پروژه اطمینان دارید؟",
+              text: "در صورت حذف، امکان بازگردانی اطلاعات وجود ندارد!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+              buttons: {
+                  confirm : {text:'حذف',className:'sweet-warning'},
+                  cancel : 'لغو'
+              }
+          })
+          .then((willDelete) => {
+              if (willDelete) {
+                                        $.ajax({
+                  url: "/admin/project/delete?projectId="+id,
+                  method: "GET",
+                  success: function (model) {
+                      notyf.success("حذف با موفقیت انجام شد.");
+                      loadData();
+              }});
+              } else {
+                  notyf.warning("عملیات لغو شد.");
+              }
+          });
+          }
 </script>

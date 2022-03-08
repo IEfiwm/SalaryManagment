@@ -124,7 +124,7 @@
                             }
                         </td>
                         <td>
-                            <a href="@(@$"{ConfigurationStorage.GetValue("Base:KoshaCore:APIAddress")}/Contract/Get/{user.NationalCode}/{Model.ProjectId}/{Model.StartDate.Replace("/","-")}/{Model.EndDate.Replace("/","-")}")" class="btn btn-primary">
+                            <a href="@(@$"/Export/Contract/Get/{user.NationalCode}/{Model.ProjectId}/{Model.StartDate.Replace("/","-")}/{Model.EndDate.Replace("/","-")}")" class="btn btn-primary">
                                 <i class="fa fa-letter"></i> @localizer["Contract"]
                             </a>
                         </td>
@@ -187,7 +187,7 @@
     }
     function SubmitNew(nationalCode,projectId,startDate,endDate) {
 
-        var url='@(ConfigurationStorage.GetValue("Base:KoshaCore:APIAddress"))/Contract/Get/';
+        var url='/Export/Contract/Download/';
         var nationalCode = document.getElementById('Custome_NationalCode').value;
         var projectId = document.getElementById('Custome_ProjectId').value;
         var startDate= document.getElementById('Custome_StartDate').value.replaceAll('/','-');

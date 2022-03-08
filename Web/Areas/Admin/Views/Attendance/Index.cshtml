@@ -15,7 +15,7 @@
             </div>
             <div class="col-4 mt-1">
                 <select id="project" class="js-data-example-ajax form-control" name="project" required>
-                    <option selected>یک پروژه را انتخاب کنید</option>
+                    <option selected value='0'>یک پروژه را انتخاب کنید</option>
                 </select>
             </div>
             <div class="col-3 mt-1">
@@ -51,8 +51,8 @@
 
     function loadData(year,month,key,projectId) {
         $('#CustomSpinner').css('display','block')
-        $('#data-card').load('/admin/attendance/loadall?year=' + year + '&month=' + month + '&key=' + key+ '&projectId=' + projectId + '&pageSize=10&pageNumber=' + page);
-        
+        $('#data-card').load('/admin/attendance/loadall?year=' + year + '&month=' + month + '&key=' + key+ "&projectId=" + projectId + "&pageSize=10&pageNumber=" + page);
+
     }
 </script>
 }
