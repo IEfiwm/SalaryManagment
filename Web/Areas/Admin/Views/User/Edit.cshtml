@@ -393,5 +393,14 @@
     })
     $(":input").prop("disabled", true);
     $('#alert-editmode').attr('style', 'display: none !important');
+
+
+    $(document).ready(function(){
+    $(".form-control").each(function(i) {
+        if( $(this).data("val-required") !== undefined && $(this).siblings('label').length >0 )
+        $($(this).siblings('label')[0]).html($($(this).siblings('label')[0]).html()+'<span class="requiredSpan">*</span>');
+    });
+
+});
 </script>
 }

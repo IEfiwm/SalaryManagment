@@ -8,20 +8,24 @@ namespace Web.Areas.Admin.Models
 {
     public class UserViewModel
     {
+        [Required]
         public string FirstName { get; set; }
 
+        [Required]
         public string LastName { get; set; }
 
         public string Email { get; set; }
 
         public string JobCode { get; set; }
 
-        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [Required]
+        [RegularExpression("^09[0-3][0-9]-?[0-9]{3}-?[0-9]{4}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string PhoneNumber { get; set; }
 
         public string PersonnelCode { get; set; }
 
-        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [Required]
+        [RegularExpression(@"^(?!(\d)\1{9})\d{10}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string NationalCode { get; set; }
 
         public string UserName { get; set; }
@@ -40,7 +44,7 @@ namespace Web.Areas.Admin.Models
 
         public string IdentitySerialNumber { get; set; }
 
-        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression("^[0-9]{2,}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string IdentityNumber { get; set; }
 
         public string Nationality { get; set; }
@@ -55,7 +59,7 @@ namespace Web.Areas.Admin.Models
 
         public string DegreeOfEducation { get; set; }
 
-        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression(@"^(?!(\d)\1{9})\d{5,}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string InsuranceCode { get; set; }
       
         [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
@@ -90,7 +94,8 @@ namespace Web.Areas.Admin.Models
 
         public string BankName { get; set; }
 
-        [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [Required]
+        [RegularExpression(@"^(?!(\d)\1{9})\d{5,}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string BankAccNumber { get; set; }
 
         public long BankRef { get; set; }

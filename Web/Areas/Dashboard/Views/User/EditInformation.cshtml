@@ -6,6 +6,7 @@
     int DocIndex = 0;
     int indexOfUserAdditional = Model.AdditionalUserData.IndexOf(Model.AdditionalUserData.FirstOrDefault(x => x.FamilyRole == FamilyRole.Me));
 }
+
 <form action="Edit" method="post" enctype="multipart/form-data">
     <input asp-for="Id" hidden />
     <div class="card" id="mainBox">
@@ -14,39 +15,39 @@
             <div class="row">
                 <div class="col-6 mb-2">
                     <label for="Birthday">تاریخ تولد</label>
-                    <input name="Birthday" class="datepicker form-control" value="@Model.Birthday?.ToString("yyyy/MM/dd")" />
+                    <input name="Birthday" class="form-control datepicker" value="@Model.Birthday?.ToString("yyyy/MM/dd")" data-val-required="The BirthDay field is required." required />
                 </div>
                 <div class="col-6 mb-2">
                     <label for="FatherName">نام پدر</label>
-                    <input asp-for="FatherName" name="FatherName" class="form-control" />
+                    <input asp-for="FatherName" name="FatherName" class="form-control" required />
                 </div>
                 <div class="col-6 mb-2">
                     <label for="IdentitySerialNumber">سریال شناسنامه</label>
-                    <input asp-for="IdentitySerialNumber" name="IdentitySerialNumber" class="form-control" />
+                    <input asp-for="IdentitySerialNumber" name="IdentitySerialNumber" class="form-control" required />
                 </div>
                 <div class="col-6 mb-2">
                     <label for="IdentityNumber">شماره شناسنامه</label>
-                    <input asp-for="IdentityNumber" name="IdentityNumber" class="form-control intTextBox" />
+                    <input asp-for="IdentityNumber" name="IdentityNumber" class="form-control intTextBox" required />
                 </div>
                 <div class="col-6 mb-2">
                     <label for="BirthPlace">محل تولد</label>
-                    <input asp-for="BirthPlace" name="BirthPlace" class="form-control" />
+                    <input asp-for="BirthPlace" name="BirthPlace" class="form-control" required />
                 </div>
                 <div class="col-6 mb-2">
                     <label for="Address">آدرس</label>
-                    <input asp-for="Address" name="Address" class="form-control" />
+                    <input asp-for="Address" name="Address" class="form-control" required />
                 </div>
                 <div class="col-6 mb-2">
                     <label for="ZipCode">کد پستی</label>
-                    <input asp-for="ZipCode" name="ZipCode" class="form-control" />
+                    <input asp-for="ZipCode" name="ZipCode" class="form-control" required />
                 </div>
                 <div class="col-6 mb-2">
                     <label for="PhoneNumber">شماره همراه</label>
-                    <input asp-for="PhoneNumber" name="PhoneNumber" class="form-control intTextBox" />
+                    <input asp-for="PhoneNumber" name="PhoneNumber" class="form-control intTextBox" required />
                 </div>
                 <div class="col-6 mb-2">
                     <input name="AdditionalUserData.index" value="@indexOfUserAdditional" hidden />
-                    <input asp-for="AdditionalUserData[indexOfUserAdditional].Id"  hidden />
+                    <input asp-for="AdditionalUserData[indexOfUserAdditional].Id" hidden />
                     <input asp-for="AdditionalUserData[indexOfUserAdditional].ParentRef" value="@Model.Id" hidden />
                     <input asp-for="AdditionalUserData[indexOfUserAdditional].FamilyRole" value="0" hidden />
                     <label class="form-label">آپلود اسناد</label>
@@ -62,26 +63,26 @@
             <div class="row mt-2" id="AdditionalUserData[@indexOfUserAdditional]_DocumentsBox">
                 @foreach (var Doc in Model.AdditionalUserData[indexOfUserAdditional].Documents)
                 {
-                <div class="col-6 mb-2 form-inline" id="AdditionalUserData[@indexOfUserAdditional]_Documents[@DocIndex]_Files">
-                    <select asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].DocumentType"
+                    <div class="col-6 mb-2 form-inline" id="AdditionalUserData[@indexOfUserAdditional]_Documents[@DocIndex]_Files">
+                        <select asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].DocumentType"
                             class="form-control ml-0 mr-0"
                             asp-items="Html.GetEnumSelectList<DocumentType>()">
-                    </select>
-                    <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].File"
+                        </select>
+                        <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].File"
                            onchange="SetFileData(this,@indexOfUserAdditional,@DocIndex)" accept="image/*" />
-                    <input type="hidden" name="AdditionalUserData[@indexOfUserAdditional].Documents.index" value="@DocIndex" />
-                    <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].FullPath" />
-                    <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].FileName" />
-                    <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].Id" />
-                    <a href="@_fileRepository.GetFileFullPath(Doc.FullPath).ImagePath" target="_blank">
-                        <img class="form-control mr-3" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].Image"
+                        <input type="hidden" name="AdditionalUserData[@indexOfUserAdditional].Documents.index" value="@DocIndex" />
+                        <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].FullPath" />
+                        <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].FileName" />
+                        <input type="hidden" asp-for="AdditionalUserData[indexOfUserAdditional].Documents[DocIndex].Id" />
+                        <a href="@_fileRepository.GetFileFullPath(Doc.FullPath).ImagePath" target="_blank">
+                            <img class="form-control mr-3" name="AdditionalUserData[@indexOfUserAdditional].Documents[@DocIndex].Image"
                              src="@_fileRepository.GetFileFullPath(Doc.FullPath).ThumbPath" />
-                    </a>
+                        </a>
 
-                    <button type="button" onclick="RemoveDocument(@indexOfUserAdditional,@DocIndex)" class="btn btn-danger">
-                        <i>حذف مدرک</i>
-                    </button>
-                </div>
+                        <button type="button" onclick="RemoveDocument(@indexOfUserAdditional,@DocIndex)" class="btn btn-danger">
+                            <i>حذف مدرک</i>
+                        </button>
+                    </div>
                     DocIndex++;
                 }
             </div>
@@ -113,28 +114,33 @@
                         <div class="col-6 mb-2">
                             <label>نام</label>
                             <input type="hidden" maxlength="26" name="AdditionalUserData.index" value="@index" />
-                            <input asp-for="AdditionalUserData[index].FirstName" class="form-control" />
+                            <input asp-for="AdditionalUserData[index].FirstName" class="form-control" data-val-required="The FirstName field is required." required />
                         </div>
                         <div class="col-6 mb-2">
                             <label>نام خانوادگی</label>
-                            <input asp-for="AdditionalUserData[index].LastName" class="form-control" />
+                            <input asp-for="AdditionalUserData[index].LastName" class="form-control" data-val-required="The FirstName field is required." required />
                         </div>
                         <div class="col-6 mb-2">
                             <label> کد ملی</label>
-                            <input asp-for="AdditionalUserData[index].NationalCode" class="form-control" />
+                            <input asp-for="AdditionalUserData[index].NationalCode" class="form-control"
+                           data-val="true" data-val-regex="لطفا فیلد را با عدد وارد کنید." data-val-regex-pattern="^(?!(\d)\1{9})\d{10}$" data-val-required="The IdentityNumber field is required." required
+                           aria-describedby="IdentityNumber-error" aria-invalid="false" />
                         </div>
                         <div class="col-6 mb-2">
                             <label> شماره شناسنامه</label>
-                            <input asp-for="AdditionalUserData[index].IdentityNumber" class="form-control" />
+                            <input asp-for="AdditionalUserData[index].IdentityNumber" class="form-control"
+                           data-val="true" data-val-regex="لطفا فیلد را با عدد وارد کنید." data-val-regex-pattern="^[0-9]{2,}$" data-val-required="The IdentityNumber field is required." required
+                           aria-describedby="IdentityNumber-error" aria-invalid="false" />
                         </div>
                         <div class="col-6 mb-2">
                             <label>تاریخ تولد</label>
-                            <input name="AdditionalUserData[@index].Birthday" class="datepicker form-control" value="@Model.AdditionalUserData[index].Birthday?.ToString("yyyy/MM/dd")" />
+                            <input name="AdditionalUserData[@index].Birthday" class="datepicker form-control" value="@Model.AdditionalUserData[index].Birthday?.ToString("yyyy/MM/dd")" data-val-required="The FirstName field is required." required />
                         </div>
                         <div class="col-6 mb-2">
                             <label class="form-label">جنسیت</label>
                             <select asp-for="AdditionalUserData[index].Gender"
                             class="form-control"
+                            data-val-required="The FirstName field is required."
                             asp-items="Html.GetEnumSelectList<Gender>()">
                             </select>
                         </div>
@@ -142,6 +148,7 @@
                             <label class="form-label">رابطه خویشاوندی</label>
                             <select asp-for="AdditionalUserData[index].FamilyRole"
                             class="form-control"
+                            data-val-required="The FirstName field is required."
                             asp-items='Html.GetEnumSelectList<FamilyRole>().Where(x=>x.Value!="0")'>
                             </select>
                         </div>
@@ -159,25 +166,25 @@
                     <div class="row mt-2" id="AdditionalUserData[@index]_DocumentsBox">
                         @foreach (var Doc in additionalUser.Documents)
                         {
-                        <div class="col-6 mb-2 form-inline" id="AdditionalUserData[@index]_Documents[@DocIndex]_Files">
-                            <select asp-for="AdditionalUserData[index].Documents[DocIndex].DocumentType"
-                                    class="form-control ml-0 mr-0"
-                                    asp-items="Html.GetEnumSelectList<DocumentType>()">
-                            </select>
-                            <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@index].Documents[@DocIndex].File"
-                                   onchange="SetFileData(this,@index,@DocIndex)" accept="image/*"/>
-                            <input type="hidden" name="AdditionalUserData[@index].Documents.index" value="@DocIndex" />
-                            <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].FullPath" />
-                            <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].FileName" />
-                            <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].Id" />
-                            <a href="@_fileRepository.GetFileFullPath(Doc.FullPath).ImagePath" target="_blank">
-                                <img class="form-control mr-3" name="AdditionalUserData[@index].Documents[@DocIndex].Image"
-                                     src="@_fileRepository.GetFileFullPath(Doc.FullPath).ThumbPath" />
-                            </a>
-                            <button type="button" onclick="RemoveDocument(@index,@DocIndex)" class="btn btn-danger">
-                                <i>حذف مدرک</i>
-                            </button>
-                        </div>
+                            <div class="col-6 mb-2 form-inline" id="AdditionalUserData[@index]_Documents[@DocIndex]_Files">
+                                <select asp-for="AdditionalUserData[index].Documents[DocIndex].DocumentType"
+                            class="form-control ml-0 mr-0"
+                            asp-items="Html.GetEnumSelectList<DocumentType>()">
+                                </select>
+                                <input type="file" class="ml-2 mr-0" name="AdditionalUserData[@index].Documents[@DocIndex].File"
+                           onchange="SetFileData(this,@index,@DocIndex)" accept="image/*" />
+                                <input type="hidden" name="AdditionalUserData[@index].Documents.index" value="@DocIndex" />
+                                <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].FullPath" />
+                                <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].FileName" />
+                                <input type="hidden" asp-for="AdditionalUserData[index].Documents[DocIndex].Id" />
+                                <a href="@_fileRepository.GetFileFullPath(Doc.FullPath).ImagePath" target="_blank">
+                                    <img class="form-control mr-3" name="AdditionalUserData[@index].Documents[@DocIndex].Image"
+                             src="@_fileRepository.GetFileFullPath(Doc.FullPath).ThumbPath" />
+                                </a>
+                                <button type="button" onclick="RemoveDocument(@index,@DocIndex)" class="btn btn-danger">
+                                    <i>حذف مدرک</i>
+                                </button>
+                            </div>
                             DocIndex++;
                         }
 
@@ -199,4 +206,13 @@
 
 @section Scripts{
 <script src="~/js/Users/Edit/EditUser.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(){
+    $(".form-control").each(function(i) {
+        if( $(this).data("val-required") !== undefined && $(this).siblings('label').length >0 )
+        $(this).before('<span class="requiredSpan">*</span>');
+    });
+
+});
+</script>
 }

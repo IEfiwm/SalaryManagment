@@ -10,33 +10,44 @@
                 <input name="AdditionalUserData[`+ index + `].ParentRef" value="` + $('#Id').val() + `" hidden="" type="text" >
                 <div class="col-6 mb-2">
                     <label for="AdditionalUserData[`+ index + `].FirstName">نام</label>
-                    <input name="AdditionalUserData[`+ index + `].FirstName" class="form-control" type="text"  value="" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da">
+                    <span class="requiredSpan">*</span>
+                    <input name="AdditionalUserData[`+ index + `].FirstName" class="form-control" type="text"  value="" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da" data-val-required="The FirstName field is required."  required >
                 </div>
                 <div class="col-6 mb-2">
                     <label for="AdditionalUserData[`+ index + `].LastName">نام خانوادگی</label>
-                    <input name="AdditionalUserData[`+ index + `].LastName" class="form-control" type="text"  value="" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da">
+                    <span class="requiredSpan">*</span>
+                    <input name="AdditionalUserData[`+ index + `].LastName" class="form-control" type="text"  value="" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da" data-val-required="The FirstName field is required."  required >
                 </div>
                 <div class="col-6 mb-2">
                     <label for="AdditionalUserData[`+ index + `].NationalCode"> کد ملی</label>
-                    <input name="AdditionalUserData[`+ index + `].NationalCode" class="form-control" type="text"  value="" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da">
+                    <span class="requiredSpan">*</span>
+                    <input name="AdditionalUserData[`+ index + `].NationalCode" class="form-control" type="text"  value="" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da"
+                    data-val="true" data-val-regex="لطفا فیلد را با عدد وارد کنید." data-val-regex-pattern="^(?!(\d)\\1{9})\d{10}$" data-val-required="The IdentityNumber field is required."  required
+                    aria-describedby="IdentityNumber-error" aria-invalid="false" />
                 </div>
                 <div class="col-6 mb-2">
                     <label for="AdditionalUserData[`+ index + `].IdentityNumber"> شماره شناسنامه</label>
-                    <input name="AdditionalUserData[`+ index + `].IdentityNumber" class="form-control" type="text"  value="" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da">
+                    <span class="requiredSpan">*</span>
+                    <input name="AdditionalUserData[`+ index + `].IdentityNumber" class="form-control" type="text"  value="" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da"
+                     data-val="true" data-val-regex="لطفا فیلد را با عدد وارد کنید." data-val-regex-pattern="^[0-9]{2,}$" data-val-required="The IdentityNumber field is required."  required
+                     aria-describedby="IdentityNumber-error" aria-invalid="false">
                 </div>
                 <div class="col-6 mb-2">
                     <label for="AdditionalUserData[`+ index + `].Birthday">تاریخ تولد</label>
-                    <input name="AdditionalUserData[`+ index + `].Birthday"  class="datepicker form-control" id="AdditionalUserData_` + index + `__Birthday">
+                    <span class="requiredSpan">*</span>
+                    <input name="AdditionalUserData[`+ index + `].Birthday"  class="datepicker form-control" id="AdditionalUserData_` + index + `__Birthday" data-val-required="The FirstName field is required."  required >
                 </div>
                 <div class="col-6 mb-2">
                     <label class="form-label" >جنسیت</label>
-                    <select class="form-control" name="AdditionalUserData[`+ index + `].Gender" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da">
+                    <span class="requiredSpan">*</span>
+                    <select class="form-control" name="AdditionalUserData[`+ index + `].Gender" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da" data-val-required="The FirstName field is required."  required >
                         <option value="0">زن</option>
                         <option value="1">مرد</option>
                     </select>
                 </div>
                 <div class="col-6 mb-2">
                     <label class="form-label" >رابطه خویشاوندی</label>
+                    <span class="requiredSpan">*</span>
                     <select class="form-control" data-val="true" data-val-required="The FamilyRole field is required." name="AdditionalUserData[`+ index + `].FamilyRole" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da">
                         <option value="1">همسر</option>
                         <option value="2">دختر</option>
@@ -114,7 +125,7 @@ function RemoveDocument(familyBoxIndex, index) {
 
 function SetFileData(File, familyBoxIndex, index) {
     if (File.files && File.files[0]) {
-        const allowedExtensions = ['jpg', 'png', 'jpeg','bmp'];
+        const allowedExtensions = ['jpg', 'png', 'jpeg', 'bmp'];
         var reader = new FileReader();
         var file = File.files[0];
         var filesize = ((file.size / 1024) / 1024).toFixed(4); // MB
