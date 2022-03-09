@@ -95,6 +95,12 @@
                             <a onclick="DeleteProject('@project.Id')" class="dropdown-item">
                                 <i class="fa fa-pencil"></i> @localizer["Delete"]
                             </a>
+                            <a href="/admin/projectRule/create?projectId=@project.Id" class="dropdown-item">
+                                <i class="fa fa-pencil"></i> @localizer["CreateProjectRule"]
+                            </a>
+                            <a href="/admin/projectRule/index?projectId=@project.Id" class="dropdown-item">
+                                <i class="fa fa-letter"></i> @localizer["ListProjectRule"]
+                            </a>
                         </div>
                     </div>
                 </td>

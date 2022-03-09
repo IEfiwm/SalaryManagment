@@ -29,15 +29,15 @@ namespace Web.Areas.Admin.Controllers
             _projectRuleRepository = projectRuleRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(long? projectId = null)
         {
             var projects = await _projectRepository.GetListAsync();
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
-
+            ViewData["projectId"] = projectId;
             return View();
         }
 
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(long? projectId = null)
         {
             JsonSerializer serializer = new JsonSerializer();
             string solutiondir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
@@ -54,17 +54,26 @@ namespace Web.Areas.Admin.Controllers
             var projects = await _projectRepository.GetListAsync();
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
 
-            return View();
+
+            var model = new ProjectRuleViewModel();
+            if (projectId != null)
+                model.ProjectId = projectId.Value;
+
+            return View(model);
         }
 
 
 
-        public async Task<IActionResult> LoadAll()
+        public async Task<IActionResult> LoadAll(long? projectId = null)
         {
             var projects = await _projectRepository.GetListAsync();
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
 
             var projectList = await _projectRuleRepository.GetListAsync();
+          
+            if (projectId != null)
+                projectList = projectList.Where(x => x.ProjectId == projectId.Value).ToList();
+
             var model = _mapper.Map<IEnumerable<ProjectRuleViewModel>>(projectList);
 
             return PartialView("_ViewAll", model);
@@ -101,7 +110,7 @@ namespace Web.Areas.Admin.Controllers
             {
 
                 ProjectRule ruleModel = _mapper.Map<ProjectRule>(model);
-                
+
 
                 if (model.Id == 0)
                 {
@@ -112,7 +121,7 @@ namespace Web.Areas.Admin.Controllers
                 {
                     ruleModel = await _projectRuleRepository.GetByIdAsync(Convert.ToInt32(model.Id));
                     _mapper.Map(model, ruleModel);
-                    
+
                     ruleModel.Rule = String.Join(" & ", model.RuleList);
 
                 }

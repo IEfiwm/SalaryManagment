@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "مدیریت قوانین";
     ViewBag.Title = "لیست قوانین";
+    var projectId = ViewData["projectId"] as long?;
 }
 <div class="card">
     <div class="col-sm-12" style="padding:20px">
@@ -22,7 +23,7 @@
     });
     function loadData() {
         $('#CustomSpinner').css('display','block')
-        $('#viewAll').load('/admin/projectRule/loadall');
+        $('#viewAll').load('/admin/projectRule/loadall',{'projectId':'@projectId'});
     }
 </script>
 }
