@@ -25,6 +25,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +44,7 @@
     <Folder Include="Views\Shared\Components\Menu\" />
     <Folder Include="wwwroot\Files\Images\thumb\" />
     <Folder Include="wwwroot\Files\Images\image\" />
+    <Folder Include="wwwroot\Files\Template\" />
     <Folder Include="wwwroot\lib\persianDatepicker\" />
   </ItemGroup>
 

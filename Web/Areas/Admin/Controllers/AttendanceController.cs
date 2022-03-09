@@ -1,8 +1,10 @@
 ﻿using Common.Models.DataTable;
 using Infrastructure.Repositories.Application;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Web.Abstractions;
 using Web.Areas.Admin.Models;
@@ -14,10 +16,13 @@ namespace Web.Areas.Admin.Controllers
     public class AttendanceController : BaseController<AttendanceController>
     {
         private readonly IimportedRepository _importedRepository;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public AttendanceController(IimportedRepository iimportedRepository)
+        public AttendanceController(IimportedRepository iimportedRepository,
+            IHostingEnvironment hostingEnvironment)
         {
             _importedRepository = iimportedRepository;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public async Task<IActionResult> Delete(long attendanceId)
@@ -44,6 +49,22 @@ namespace Web.Areas.Admin.Controllers
             var res = _mapper.Map<DataTableViewModel<IEnumerable<AttendanceViewModel>>>(usersattendance);
 
             return PartialView("_ViewAll", res);
+        }
+
+
+        public IActionResult GetTemplate()
+        {
+
+            string webRootPath = _hostingEnvironment.WebRootPath;
+
+            string path = Path.Combine(webRootPath, "Files/Template/Karkard_temp.xlsx");
+
+            var stream = new FileStream(path, FileMode.Open);
+
+            if (stream == null)
+                return NotFound();
+
+            return File(stream, "application/octet-stream", "Karkard_temp.xlsx");
         }
     }
 }
