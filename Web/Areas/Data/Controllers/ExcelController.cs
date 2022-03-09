@@ -1688,5 +1688,20 @@ namespace Web.Areas.Attendance.Controllers
 
             return Redirect("~/");
         }
+
+        public IActionResult GetTemplate()
+        {
+
+            string webRootPath = _hostingEnvironment.WebRootPath;
+
+            string path = Path.Combine(webRootPath, "Files/Template/Karkard_temp.xlsx");
+
+            var stream = new FileStream(path, FileMode.Open);
+
+            if (stream == null)
+                return NotFound();
+
+            return File(stream, "application/octet-stream", "Karkard_temp.xlsx");
+        }
     }
 }

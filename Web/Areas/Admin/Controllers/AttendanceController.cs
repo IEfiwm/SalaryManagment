@@ -16,13 +16,10 @@ namespace Web.Areas.Admin.Controllers
     public class AttendanceController : BaseController<AttendanceController>
     {
         private readonly IimportedRepository _importedRepository;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public AttendanceController(IimportedRepository iimportedRepository,
-            IHostingEnvironment hostingEnvironment)
+        public AttendanceController(IimportedRepository iimportedRepository)
         {
             _importedRepository = iimportedRepository;
-            _hostingEnvironment = hostingEnvironment;
         }
 
         public async Task<IActionResult> Delete(long attendanceId)
@@ -52,19 +49,6 @@ namespace Web.Areas.Admin.Controllers
         }
 
 
-        public IActionResult GetTemplate()
-        {
-
-            string webRootPath = _hostingEnvironment.WebRootPath;
-
-            string path = Path.Combine(webRootPath, "Files/Template/Karkard_temp.xlsx");
-
-            var stream = new FileStream(path, FileMode.Open);
-
-            if (stream == null)
-                return NotFound();
-
-            return File(stream, "application/octet-stream", "Karkard_temp.xlsx");
-        }
+        
     }
 }
