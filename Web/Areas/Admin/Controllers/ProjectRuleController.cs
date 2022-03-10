@@ -41,8 +41,8 @@ namespace Web.Areas.Admin.Controllers
         {
             JsonSerializer serializer = new JsonSerializer();
 
-            var calculatedByfile = System.IO.File.ReadAllText($@"{Directory.GetCurrentDirectory()}Data\SalaryManagment\Infrastructure\Json\CalculateByProps.json");
-            var calculatedfile = System.IO.File.ReadAllText($@"{Directory.GetCurrentDirectory()}Data\SalaryManagment\Infrastructure\Json\CalculatedProps.json");
+            var calculatedByfile = System.IO.File.ReadAllText($@"{Directory.GetCurrentDirectory()}\Data\SalaryManagment\Infrastructure\Json\CalculateByProps.json");
+            var calculatedfile = System.IO.File.ReadAllText($@"{Directory.GetCurrentDirectory()}\Data\SalaryManagment\Infrastructure\Json\CalculatedProps.json");
 
             var jObject = JObject.Parse(calculatedByfile);
             ViewData["CalculatedByProps"] = JArray.Parse(jObject["props"].ToString()).Select(x => (string)x.Value<string>()).ToList();
@@ -80,10 +80,9 @@ namespace Web.Areas.Admin.Controllers
         {
 
             JsonSerializer serializer = new JsonSerializer();
-            string solutiondir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-
-            var calculatedByfile = System.IO.File.ReadAllText(solutiondir + "\\" + @"\SalaryManagment\Infrastructure\Json\CalculateByProps.json");
-            var calculatedfile = System.IO.File.ReadAllText(solutiondir + "\\" + @"\SalaryManagment\Infrastructure\Json\CalculatedProps.json");
+       
+            var calculatedByfile = System.IO.File.ReadAllText($@"{Directory.GetCurrentDirectory()}\Data\SalaryManagment\Infrastructure\Json\CalculateByProps.json");
+            var calculatedfile = System.IO.File.ReadAllText($@"{Directory.GetCurrentDirectory()}\Data\SalaryManagment\Infrastructure\Json\CalculatedProps.json");
 
             var jObject = JObject.Parse(calculatedByfile);
             ViewData["CalculatedByProps"] = JArray.Parse(jObject["props"].ToString()).Select(x => (string)x.Value<string>()).ToList();
