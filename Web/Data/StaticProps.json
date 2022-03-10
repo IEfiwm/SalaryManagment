@@ -1,0 +1,15 @@
+{
+  "props": [
+    "[Identity].Users.FirstName",
+    "[Identity].Users.LastName",
+    "[Identity].Users.PersonnalCode",
+    "[Identity].Users.NationalCode",
+    "[Identity].Users.IdentityNumber",
+    "[Identity].Users.Birthday",
+    "[Identity].Users.FatherName",
+    "[Identity].Users.JobCode",
+    "[Identity].Users.Gender",
+    "[Identity].Users.Nationality",
+    "Users.EndWorkingDate"
+  ]
+}
