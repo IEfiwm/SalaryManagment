@@ -61,8 +61,6 @@ namespace Web.Areas.Admin.Controllers
             return View(model);
         }
 
-
-
         public async Task<IActionResult> LoadAll(long? projectId = null)
         {
             var projects = await _projectRepository.GetListAsync();
