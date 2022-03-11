@@ -7,6 +7,8 @@ namespace Web.Areas.Admin.Models
         public long Id { get; set; }
 
         public string Name { get; set; }
+       
+        public long FieldId { get; set; }
 
         public string Rule { get; set; }
 

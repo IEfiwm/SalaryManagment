@@ -20,13 +20,16 @@ namespace Web.Areas.Admin.Controllers
     {
         private readonly IProjectRepository _projectRepository;
         private readonly IProjectRuleRepository _projectRuleRepository;
+        private readonly IFieldRepository _fieldRepository;
 
         public ProjectRuleController(
             IProjectRepository projectRepository,
-            IProjectRuleRepository projectRuleRepository)
+            IProjectRuleRepository projectRuleRepository,
+            IFieldRepository fieldRepository)
         {
             _projectRepository = projectRepository;
             _projectRuleRepository = projectRuleRepository;
+            _fieldRepository = fieldRepository;
         }
 
         public async Task<IActionResult> Index(long? projectId = null)
@@ -41,14 +44,12 @@ namespace Web.Areas.Admin.Controllers
         {
             JsonSerializer serializer = new JsonSerializer();
 
-            var calculatedByfile = System.IO.File.ReadAllText($@"{Directory.GetCurrentDirectory()}\Data\SalaryManagment\Infrastructure\Json\CalculateByProps.json");
-            var calculatedfile = System.IO.File.ReadAllText($@"{Directory.GetCurrentDirectory()}\Data\SalaryManagment\Infrastructure\Json\CalculatedProps.json");
 
-            var jObject = JObject.Parse(calculatedByfile);
-            ViewData["CalculatedByProps"] = JArray.Parse(jObject["props"].ToString()).Select(x => (string)x.Value<string>()).ToList();
+            var calculatedByfile = await _fieldRepository.GetCalculatedByFields();
+            ViewData["CalculatedByProps"] = _mapper.Map<List<FieldViewModel>>(calculatedByfile);
 
-            jObject = JObject.Parse(calculatedfile);
-            ViewData["CalculatedProps"] = JArray.Parse(jObject["props"].ToString()).Select(x => (string)x.Value<string>()).ToList();
+            var calculatedfile = await _fieldRepository.GetCalculateFields();
+            ViewData["CalculatedProps"] = _mapper.Map<List<FieldViewModel>>(calculatedfile);
 
             var projects = await _projectRepository.GetListAsync();
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
@@ -67,7 +68,7 @@ namespace Web.Areas.Admin.Controllers
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
 
             var projectList = await _projectRuleRepository.GetListAsync();
-          
+
             if (projectId != null)
                 projectList = projectList.Where(x => x.ProjectId == projectId.Value).ToList();
 
@@ -80,15 +81,13 @@ namespace Web.Areas.Admin.Controllers
         {
 
             JsonSerializer serializer = new JsonSerializer();
-       
-            var calculatedByfile = System.IO.File.ReadAllText($@"{Directory.GetCurrentDirectory()}\Data\SalaryManagment\Infrastructure\Json\CalculateByProps.json");
-            var calculatedfile = System.IO.File.ReadAllText($@"{Directory.GetCurrentDirectory()}\Data\SalaryManagment\Infrastructure\Json\CalculatedProps.json");
 
-            var jObject = JObject.Parse(calculatedByfile);
-            ViewData["CalculatedByProps"] = JArray.Parse(jObject["props"].ToString()).Select(x => (string)x.Value<string>()).ToList();
 
-            jObject = JObject.Parse(calculatedfile);
-            ViewData["CalculatedProps"] = JArray.Parse(jObject["props"].ToString()).Select(x => (string)x.Value<string>()).ToList();
+            var calculatedByfile = await _fieldRepository.GetCalculatedByFields();
+            ViewData["CalculatedByProps"] = _mapper.Map<List<FieldViewModel>>(calculatedByfile);
+
+            var calculatedfile = await _fieldRepository.GetCalculateFields();
+            ViewData["CalculatedProps"] = _mapper.Map<List<FieldViewModel>>(calculatedfile);
 
             var projects = await _projectRepository.GetListAsync();
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
@@ -107,18 +106,49 @@ namespace Web.Areas.Admin.Controllers
 
                 ProjectRule ruleModel = _mapper.Map<ProjectRule>(model);
 
+                var field = await _fieldRepository.GetByIdAsync(model.FieldId);
+
+                ruleModel.Name = field.Alias;
+
 
                 if (model.Id == 0)
                 {
+                    if (model.RuleList == null || model.RuleList?.Count == 0)
+                    {
+                        _notify.Warning("لطفا فرمول را پر کنید.");
+                        return RedirectToAction("create");
+                    }
+
+                    var dup = await _projectRuleRepository.GetByFieldtId(model.FieldId, model.ProjectId);
+                    if (dup)
+                    {
+                        _notify.Warning(ruleModel.Name + " برای پروژه مورد نظر تعریف شده و تکراری می باشد.");
+                        return RedirectToAction("Create");
+                    }
+
                     ruleModel.Rule = String.Join(" & ", model.RuleList);
                     await _projectRuleRepository.InsertAsync(ruleModel);
                 }
                 else
                 {
+                    if (model.RuleList == null || model.RuleList?.Count == 0)
+                    {
+                        _notify.Warning("لطفا فرمول را پر کنید.");
+                        return RedirectToAction("Edit", new { projectRuleId = model.Id });
+                    }
+
+                    var dup = await _projectRuleRepository.GetByFieldtId(model.FieldId, model.ProjectId, model.Id);
+                    if (dup)
+                    {
+                        _notify.Warning(ruleModel.Name + " برای پروژه مورد نظر تعریف شده و تکراری می باشد.");
+                        return RedirectToAction("Edit", new { projectRuleId = model.Id });
+                    }
+
                     ruleModel = await _projectRuleRepository.GetByIdAsync(Convert.ToInt32(model.Id));
                     _mapper.Map(model, ruleModel);
 
                     ruleModel.Rule = String.Join(" & ", model.RuleList);
+                    ruleModel.Name = field.Alias;
 
                 }
 

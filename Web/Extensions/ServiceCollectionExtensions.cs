@@ -150,6 +150,7 @@ namespace Web.Extensions
             services.AddScoped<ITaxRepository, TaxRepository>();
             services.AddScoped<IProjectRuleRepository, ProjectRuleRepository>();
             services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+            services.AddScoped<IFieldRepository, FieldRepository>();
         }
 
         public static void AddDependencies(this IServiceCollection services)
@@ -168,6 +169,7 @@ namespace Web.Extensions
             services.AddTransient<ITaxRepository, TaxRepository>();
             services.AddTransient<IProjectRuleRepository, ProjectRuleRepository>();
             services.AddTransient<IAttendanceRepository, AttendanceRepository>();
+            services.AddTransient<IFieldRepository, FieldRepository>();
         }
     }
 }

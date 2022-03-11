@@ -4,8 +4,8 @@
 @{
     ViewBag.Title = "ویرایش قانون";
     var projects = ViewData["projects"] as List<ProjectViewModel>;
-    var props = ViewData["CalculatedProps"] as List<string>;
-    var propsBy = ViewData["CalculatedByProps"] as List<string>;
+    var props = ViewData["CalculatedProps"] as List<FieldViewModel>;
+    var propsBy = ViewData["CalculatedByProps"] as List<FieldViewModel>;
     var index = 1;
 }
 <link href="~/css/DraggerProjectRule.css" rel="stylesheet" />
@@ -21,10 +21,18 @@
 
                         <div class="col-6 mt-3">
                             <label class="form-label" for="Title">نام فیلد</label>
-                            <select id="Name" class="js-data-example-ajax form-control" name="Name" required>
+                            <select id="FieldId" class="js-data-example-ajax form-control" name="FieldId" required>
                                 @foreach (var prop in props)
                                 {
-                                    <option value="@prop">@prop</option>
+                                    if (Model.FieldId == prop.Id)
+                                    {
+                                        <option value="@prop.Id" selected>@prop.Alias</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@prop.Id">@prop.Alias</option>
+                                    }
+
                                 }
                             </select>
                         </div>
@@ -33,7 +41,14 @@
                             <select id="ProjectId" class="js-data-example-ajax form-control" name="ProjectId" required>
                                 @foreach (var project in projects)
                                 {
-                                    <option value="@project.Id">@project.Title</option>
+                                    if (Model.ProjectId == project.Id)
+                                    {
+                                        <option value="@project.Id" selected>@project.Title</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@project.Id">@project.Title</option>
+                                    }
                                 }
                             </select>
                         </div>
@@ -56,7 +71,7 @@
                                     <div class="modules">
                                         @foreach (var prop in propsBy)
                                         {
-                                            <p class="drag" id="@prop"><a class="btn btn-light">@prop</a></p>
+                                            <p class="drag" id="@prop.Alias"><a class="btn btn-light">@prop.Alias</a></p>
                                         }
                                     </div>
                                 </div>
@@ -88,10 +103,10 @@
                                                     <div class="col-md-2" name="CalcProp">
                                                         <div class="drop-item row">
                                                             <div class="col-md-9 pr-1">
-                                                                <label class="pt-2">@prop.Replace("[","").Replace("]","")</label>
+                                                                <label class="pt-2">@prop.Replace("[","").Replace("]","")?.Trim()</label>
                                                             </div>
                                                             <div class="col-md-3 pl-0">
-                                                                <input type="hidden" value="@prop" name="RuleList">
+                                                                <input type="hidden" value="@prop?.Trim()" name="RuleList">
                                                                 <button type="button" title="حذف" class="btn btn-default btn-xs remove">
                                                                     <small class="fa fa-times text-danger"></small>
                                                                 </button>

@@ -7,5 +7,8 @@ namespace Infrastructure.Repositories.Application.Basic
 {
     public interface IProjectRuleRepository : IBaseIdentityRepository<ProjectRule, IdentityContext>
     {
+        Task<bool> GetByFieldtId(long fieldId,long projectId, long id);
+
+        Task<bool> GetByFieldtId(long fieldId, long projectId);
     }
 }
