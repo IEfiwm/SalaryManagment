@@ -135,13 +135,13 @@
                             <li class="nav-item">
                                 <a href="/admin/projectRule" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>@localizer["ListProjectRule"]</p>
+                                    <p>لیست قوانین</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/admin/projectRule/create" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>@localizer["CreateProjectRule"]</p>
+                                    <p>قانون جدید</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -153,7 +153,7 @@
                             <li class="nav-item">
                                 <a href="/admin/bank/create" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>حساب بانکی جدید</p>
+                                    <p>حساب جدید</p>
                                 </a>
                             </li>
                         </ul>
@@ -210,31 +210,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/user/contractlist" class="nav-link">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>قرارداد ها</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/attendance/" class="nav-link">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>کارکرد ها</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="PayRollTipList" class="nav-link">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>فیش حقوقی</p>
-                                </a>
-                            </li>
-                        </ul>
-
+                        
                     </li>
                     <li is-active-route asp-controller="Permission" class="nav-item has-treeview">
                         <a is-active-route asp-controller="Permission" class="nav-link">
@@ -259,9 +235,9 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item has-treeview">
-                        <a class="nav-link">
-                            <i class="nav-icon fa fa-bandcamp"></i>
+                    <li is-active-route asp-controller="Project" class="nav-item has-treeview">
+                        <a is-active-route asp-controller="Project" class="nav-link">
+                            <i class="nav-icon fa fa-user"></i>
                             <p>
                                 مدیریت پروژه
                                 <i class="right fa fa-angle-left"></i>
@@ -269,13 +245,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/admin/project" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="Project" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>لیست پروژه ها</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/project/create" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="Project" asp-action="Create" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>پروژه جدید</p>
                                 </a>
@@ -283,13 +259,13 @@
                             <li class="nav-item">
                                 <a href="/admin/projectRule" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>@localizer["ListProjectRule"]</p>
+                                    <p>لیست قوانین</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/admin/projectRule/create" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>@localizer["CreateProjectRule"]</p>
+                                    <p>قانون جدید</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -301,7 +277,7 @@
                             <li class="nav-item">
                                 <a href="/admin/bank/create" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>حساب بانکی جدید</p>
+                                    <p>حساب جدید</p>
                                 </a>
                             </li>
                         </ul>
@@ -334,12 +310,12 @@
 
                 @if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager") || User.IsInRole("Admin"))
                 {
-                    <li class="nav-header">وارد کردن اطلاعات</li>
-                    <li is-active-route asp-area="Data" class="nav-item has-treeview">
+                    <li class="nav-header">اطلاعات</li>
+                    <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fa fa-book"></i>
                             <p>
-                                ورودی Excel
+                                اطلاعات پایه
                                 <i class="right fa fa-angle-left"></i>
                             </p>
                         </a>
@@ -347,13 +323,13 @@
                             <li class="nav-item">
                                 <a href="/data/excel/personnel" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>@localizer["ImportDataFromExcelForPersonnel"]</p>
+                                    <p>بارگزاری پرسنل</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/data/excel/attendances" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>@localizer["ImportDataFromExcelForAttendances"]</p>
+                                    <p>بارگزاری کارکرد</p>
                                 </a>
                             </li>
                             @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
@@ -368,7 +344,7 @@
                             <li class="nav-item">
                                 <a href="/data/excel/MonthlyAttendances" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>@localizer["ImportDataFromExcelForMonthlyAttendances"]</p>
+                                    <p>بارگزاری کارکرد ماهانه</p>
                                 </a>
                             </li>
                             @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
@@ -382,12 +358,45 @@
                             }
                         </ul>
                     </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-book"></i>
+                            <p>
+                                اطلاعات کاربران
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="ContractList" class="nav-link">
+                                    <i class="fa fa-bullseye nav-icon"></i>
+                                    <p>قرارداد ها</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Admin" asp-controller="Attendance" asp-action="Index" class="nav-link">
+                                    <i class="fa fa-bullseye nav-icon"></i>
+                                    <p>کارکرد ها</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="PayRollTipList" class="nav-link">
+                                    <i class="fa fa-bullseye nav-icon"></i>
+                                    <p>فیش حقوقی</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-header">خروجی</li>
-                    <li is-active-route asp-area="Data" class="nav-item has-treeview">
+                    <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fa fa-bolt"></i>
                             <p>
-                                @localizer["Basic"]
+                                خروجی بیمه
                                 <i class="right fa fa-angle-left"></i>
                             </p>
                         </a>
@@ -404,6 +413,17 @@
                                     <p>@localizer["ExportSummaryInsuranceList"]</p>
                                 </a>
                             </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-bolt"></i>
+                            <p>
+                                خروجی مالیات
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="/export/tax" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
@@ -416,14 +436,66 @@
                                     <p>@localizer["ExportSummaryTaxList"]</p>
                                 </a>
                             </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-bolt"></i>
+                            <p>
+                                خروجی بانک
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="/export/bank" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>@localizer["ExportBankPay"]</p>
+                                    <p>خروجی لیست بانک</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
+                    @*                    <li is-active-route asp-area="Data" class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                        <i class="nav-icon fa fa-bolt"></i>
+                        <p>
+                        @localizer["Basic"]
+                        <i class="right fa fa-angle-left"></i>
+                        </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                        <a href="/export/insurance" class="nav-link">
+                        <i class="fa fa-bullseye nav-icon"></i>
+                        <p>@localizer["ExportInsuranceList"]</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="/export/summaryinsurance" class="nav-link">
+                        <i class="fa fa-bullseye nav-icon"></i>
+                        <p>@localizer["ExportSummaryInsuranceList"]</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="/export/tax" class="nav-link">
+                        <i class="fa fa-bullseye nav-icon"></i>
+                        <p>@localizer["ExportTaxList"]</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="/export/summarytax" class="nav-link">
+                        <i class="fa fa-bullseye nav-icon"></i>
+                        <p>@localizer["ExportSummaryTaxList"]</p>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="/export/bank" class="nav-link">
+                        <i class="fa fa-bullseye nav-icon"></i>
+                        <p>@localizer["ExportBankPay"]</p>
+                        </a>
+                        </li>
+                        </ul>
+                        </li>*@
                 }
 
                 @if (User.IsInRole("User"))

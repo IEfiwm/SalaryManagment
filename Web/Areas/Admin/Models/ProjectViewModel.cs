@@ -14,6 +14,14 @@ namespace Web.Areas.Admin.Models
         [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string Code { get; set; }
 
+        public string CompanyName { get; set; }
+
+        public string CompanyRegistrationCode { get; set; }
+
+        public string CompanyOwnerName { get; set; }
+
+        public string CompanyAddress { get; set; }
+
         public DateTime StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }

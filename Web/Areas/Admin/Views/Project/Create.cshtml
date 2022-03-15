@@ -56,7 +56,7 @@
                             <input asp-for="InsurancesName" class="form-control" placeholder="">
                         </div>
                         <div class="col-4 mt-3">
-                            <label class="form-label" for="InsurancesName">نام کارفرما</label>
+                            <label class="form-label" for="InsurancesName">نام مسئول</label>
                             <input asp-for="OwnerName" class="form-control" placeholder="">
                         </div>
                         <div class="col-4 mt-3">
@@ -105,6 +105,28 @@
             </div>
             <div class="card">
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="CompanyName">نام شرکت کارفرما</label>
+                            <input asp-for="CompanyName" class="form-control">
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="DisplayPhoneNumber">شماره ثبت شرکت کارفرما</label>
+                            <input asp-for="CompanyRegistrationCode" class="form-control intTextBox" placeholder="">
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="CompanyOwnerName">نام مدیر عامل شرکت کارفرما</label>
+                            <input asp-for="CompanyOwnerName" class="form-control">
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="CompanyAddress">آدرس شرکت کارفرما</label>
+                            <input asp-for="CompanyAddress" class="form-control intTextBox" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
                     <div class="row" id="mainBox">
                         <div class="col-12">
                             <button type="button" onclick="AddBankBox()" class="btn btn-info">
@@ -125,7 +147,7 @@
                         </div>
                         <div class="col-5 mt-3">
                             <label class="form-label" for="BankAccounts">شماره حساب</label>
-                            <select id="BankAccounts_0" class="js-data-example-ajax form-control" name="BankAccounts" >
+                            <select id="BankAccounts_0" class="js-data-example-ajax form-control" name="BankAccounts">
                             </select>
                         </div>
                         <div class="col-1 mt-5">

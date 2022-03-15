@@ -3,7 +3,6 @@ using Domain.Base.Entity;
 using Domain.Entities.Base.Identity;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Basic
 {
@@ -12,6 +11,14 @@ namespace Domain.Entities.Basic
         public string Title { get; set; }
 
         public string Code { get; set; }
+
+        public string CompanyName { get; set; }
+
+        public string CompanyRegistrationCode { get; set; }
+
+        public string CompanyOwnerName { get; set; }
+
+        public string CompanyAddress { get; set; }
 
         public DateTime StartDate { get; set; }
 
@@ -46,11 +53,11 @@ namespace Domain.Entities.Basic
         public string DisplayPostalCode { get; set; }
 
         public string DisplayAddress { get; set; }
-        
+
         public virtual ICollection<ApplicationUser> ProjectUsers { get; set; }
 
-        public virtual ICollection<ProjectBankAccount>  ProjectBankAccounts { get; set; }
+        public virtual ICollection<ProjectBankAccount> ProjectBankAccounts { get; set; }
 
-        public virtual ICollection<ProjectRule>  ProjectRules { get; set; }
+        public virtual ICollection<ProjectRule> ProjectRules { get; set; }
     }
 }
