@@ -1,4 +1,5 @@
 ﻿using Domain.Base.Entity;
+using Domain.Entities.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,6 +17,11 @@ namespace Domain.Entities.Basic
         public long ProjectId { get; set; }
 
         public Project Project { get; set; }
+
+        [ForeignKey("Field")]
+        public long FieldId { get; set; }
+
+        public Field Field { get; set; }
 
     }
 }

@@ -2,6 +2,8 @@
 using Domain.Entities.Basic;
 using Infrastructure.DbContexts;
 using Infrastructure.Repositories.Base;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories.Application.Basic
 {
@@ -11,6 +13,14 @@ namespace Infrastructure.Repositories.Application.Basic
         {
         }
 
-       
+        public async Task<bool> GetByFieldtId(long fieldId, long projectId, long id)
+        {
+            return await Model.AnyAsync(x => x.FieldId == fieldId && x.ProjectId == projectId && x.Id != id);
+        }
+
+        public async Task<bool> GetByFieldtId(long fieldId, long projectId)
+        {
+            return await Model.AnyAsync(x => x.FieldId == fieldId && x.ProjectId == projectId);
+        }
     }
 }

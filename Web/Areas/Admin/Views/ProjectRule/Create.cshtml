@@ -4,8 +4,8 @@
 @{
     ViewBag.Title = "قانون جدید";
     var projects = ViewData["projects"] as List<ProjectViewModel>;
-    var props = ViewData["CalculatedProps"] as List<string>;
-    var propsBy = ViewData["CalculatedByProps"] as List<string>;
+    var props = ViewData["CalculatedProps"] as List<FieldViewModel>;
+    var propsBy = ViewData["CalculatedByProps"] as List<FieldViewModel>;
 }
 <link href="~/css/DraggerProjectRule.css" rel="stylesheet" />
 
@@ -19,10 +19,10 @@
 
                         <div class="col-6 mt-3">
                             <label class="form-label" for="Title">نام فیلد</label>
-                            <select id="Name" class="js-data-example-ajax form-control" name="Name" required>
+                            <select id="FieldId" class="js-data-example-ajax form-control" name="FieldId" required>
                                 @foreach (var prop in props)
                                 {
-                                    <option value="@prop">@prop</option>
+                                    <option value="@prop.Id">@prop.Alias</option>
                                 }
                             </select>
                         </div>
@@ -61,7 +61,7 @@
                                     <div class="modules">
                                         @foreach (var prop in propsBy)
                                         {
-                                            <p class="drag" id="@prop"><a class="btn btn-light">@prop</a></p>
+                                            <p class="drag" id="@prop.Alias"><a class="btn btn-light">@prop.Alias</a></p>
                                         }
                                     </div>
                                 </div>

@@ -10,9 +10,14 @@ $('#dropzone').droppable({
     drop: function (e, ui) {
 
         var draggedFieldId = $(ui.draggable).prop('id');
-
+        var value = draggedFieldId;
         var draggedId = $(ui.draggable).parent().parent().prop('id');
         var draggedBefore = $('#dropzone').children().last().attr('name')
+
+        if (draggedBefore == undefined && draggedId == 'Calc') {
+            swal('امکان اضافه کردن عملگر در ابتدای فرمول وجود ندارد');
+            return;
+        }
 
         if (draggedId == draggedBefore) {
             swal('لطفا در بین عوامل از عملگر استفاده کنید.');
@@ -24,7 +29,7 @@ $('#dropzone').droppable({
                 swal('لطفا فیلد عدد را پر کنید.');
                 return;
             }
-            draggedFieldId = $('#dynamicNumber input').val();
+            value = $('#dynamicNumber input').val();
             $('#dynamicNumber input').val('');
         }
 
@@ -44,15 +49,20 @@ $('#dropzone').droppable({
         }, 0);
 
         if (draggedId == 'CalcProp') {
-            var $el = $(`<div class="col-md-2" name="${draggedId}"><input type="hidden" value="[${draggedFieldId}]" name="RuleList" /></div>`);
-            var $elDiv = $('<div class="drop-item row"><div class="col-md-9 pr-1"><label class="pt-2">' + draggedFieldId + '</label></div></div>');
+
+            var $elDiv = $('<div class="drop-item row"><div class="col-md-9 pr-1"><label class="pt-2">' + value + '</label></div></div>');
+
+            if (draggedFieldId != 'dynamicNumber') {
+                value = '[' + value + ']';
+            }
+            var $el = $(`<div class="col-md-2" name="${draggedId}"><input type="hidden" value="${value}" name="RuleList" /></div>`);
             $elDiv.append($elDiv1);
             $el.append($elDiv);
             $(this).append($el);
         }
         else {
-            var $el = $(`<div class="col-md-1" name="${draggedId}"><input type="hidden" value="${draggedFieldId}" name="RuleList" /></div>`);
-            var $elDiv = $('<div class="drop-item row"><div class="col-md-3 pr-3"><h5 class="pt-2">' + draggedFieldId + '</h5></div></div>');
+            var $el = $(`<div class="col-md-1" name="${draggedId}"><input type="hidden" value="${value}" name="RuleList" /></div>`);
+            var $elDiv = $('<div class="drop-item row"><div class="col-md-3 pr-3"><h5 class="pt-2">' + value + '</h5></div></div>');
             $elDiv.append($elDiv1);
             $el.append($elDiv);
             $(this).append($el);
@@ -61,3 +71,13 @@ $('#dropzone').droppable({
 
     }
 })
+
+
+$('#form').on('submit', function (e) {
+    var draggedBefore = $('#dropzone').children().last().attr('name')
+    if (draggedBefore == 'Calc') {
+        swal('امکان وجود عملگر در انتهای فرمول وجود ندارد.');
+        e.preventDefault();
+    }
+
+});
