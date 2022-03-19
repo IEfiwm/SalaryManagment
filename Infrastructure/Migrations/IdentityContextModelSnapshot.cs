@@ -745,9 +745,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .UseIdentityColumn();
 
-                    b.Property<long>("FieldId")
-                        .HasColumnType("bigint");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -762,8 +759,6 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .IsClustered();
-
-                    b.HasIndex("FieldId");
 
                     b.HasIndex("ProjectId");
 
@@ -1157,19 +1152,11 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Basic.ProjectRule", b =>
                 {
-                    b.HasOne("Domain.Entities.Data.Field", "Field")
-                        .WithMany("ProjectRules")
-                        .HasForeignKey("FieldId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.Basic.Project", "Project")
                         .WithMany("ProjectRules")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Field");
 
                     b.Navigation("Project");
                 });
@@ -1263,11 +1250,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("ProjectRules");
 
                     b.Navigation("ProjectUsers");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Data.Field", b =>
-                {
-                    b.Navigation("ProjectRules");
                 });
 #pragma warning restore 612, 618
         }
