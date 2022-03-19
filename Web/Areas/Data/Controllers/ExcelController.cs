@@ -257,7 +257,7 @@ namespace Web.Areas.Attendance.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> ImportAttendances()
+        public async Task<bool> ImportAttendances(long projectRef)
         {
             try
             {

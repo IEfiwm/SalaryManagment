@@ -1,6 +1,7 @@
 ﻿$('.drag').draggable({
     appendTo: 'body',
-    helper: 'clone'
+    helper: 'clone',
+    revert: 'invalid'
 });
 
 $('#dropzone').droppable({
@@ -43,10 +44,10 @@ $('#dropzone').droppable({
             })
         );
 
-        ui.draggable.draggable({ disabled: true });
-        setTimeout(function () {
-            $(ui.draggable).draggable("destroy");
-        }, 0);
+        //ui.draggable.draggable({ disabled: true });
+        //setTimeout(function () {
+        //    $(ui.draggable).draggable("destroy");
+        //}, 0);
 
         if (draggedId == 'CalcProp') {
 
