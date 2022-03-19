@@ -1,0 +1,41 @@
+﻿<form id="form" method="POST">
+    <div class="row justify-content-center">
+        <div class="card col-sm-8">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6 mt-1">
+                        <label class="form-label">پروژه</label>
+                        <select id="projectId" name="projectId" class="js-data-example-ajax form-control" required>
+                            <option selected>یک مورد را انتخاب کنید</option>
+                        </select>
+                    </div>
+                    <div class="col-3 mt-1">
+                        <label class="form-label">سال</label>
+                        <input name="year" class="form-control" />
+                    </div>
+                    <div class="col-3 mt-1">
+                        <label class="form-label">ماه</label>
+                        <input name="month" class="form-control" />
+                    </div>
+                    <div class="col-6 mt-4 w-100">
+                        <button onclick="Submit()" class="btn btn-primary w-25">تولید </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+        $.ajax({
+        url: "/admin/project/getlist",
+        method: "GET",
+        success: function (model) {
+            $.map(model, function (val, i) {
+                    $("#projectId").append('<option value="' + val.id + '">' + val.title + '</option>');
+            });
+        }
+    })
+        function Submit() {
+        $('#form').attr('action', "/admin/user/ContractList").submit();
+    }
+</script>

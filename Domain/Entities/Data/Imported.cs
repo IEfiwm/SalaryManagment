@@ -1,5 +1,7 @@
 ﻿using Domain.Base.Entity;
+using Domain.Entities.Basic;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Data
 {
@@ -154,6 +156,8 @@ namespace Domain.Entities.Data
         public string NonContinuousIncludedNotIncluded { get; set; }
 
         public string NonContinuousIncluded { get; set; }
+
+        public long? ProjectRef { get; set; }
 
         public DateTime CreateDate { get; set; } = DateTime.Now;
     }

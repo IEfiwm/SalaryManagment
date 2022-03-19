@@ -441,5 +441,19 @@ namespace Web.Areas.Admin.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> GeneratePayRoll()
+        {
+            ViewBag.Title = "محاسبه فیش حقوقی";
+
+            return View("GeneratePayRoll");
+        }
+
+        public async Task<IActionResult> GeneratePayRoll(int year, int month, long projectId)
+        {
+            ViewBag.Title = "محاسبه فیش حقوقی";
+
+            return View("GeneratePayRoll");
+        }
     }
 }
