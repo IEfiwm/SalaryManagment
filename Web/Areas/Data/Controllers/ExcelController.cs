@@ -308,6 +308,8 @@ namespace Web.Areas.Attendance.Controllers
 
                             var model = new Imported();
 
+                            model.ProjectRef = projectRef;
+
                             #region Validaition
                             if (string.IsNullOrEmpty(row?.GetCell(2)?.ToString()))
                                 continue;
