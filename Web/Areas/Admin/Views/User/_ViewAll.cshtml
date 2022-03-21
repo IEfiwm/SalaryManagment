@@ -234,24 +234,24 @@
                   cancel : 'لغو'
               }
           })
-          .then((willDelete) => {
+      .then((willDelete) => {
               if (willDelete) {
-                      $.ajax({
+                     $.ajax({
                   url: "/admin/user/Delete?userId="+userId,
                   method: "GET",
                   success: function (model) {
                       notyf.success("حذف با موفقیت انجام شد.")
-                      loadData($('#project').val(),$('#key').val());
-                  //swal("حذف با موفقیت انجام شد", {
-                  //    icon: "success",
-                  //    });
-                  //    loadData($('#project').val(),$('#key').val());
-                  //    }
+      //                loadData($('#project').val(),$('#key').val());
+      //            //swal("حذف با موفقیت انجام شد", {
+      //            //    icon: "success",
+      //            //    });
+          loadData($('#project').val(),$('#key').val());
+                  }
               });
               } else {
                   notyf.warning("عملیات لغو شد.");
               }
-          });
+        });
 
       }
               page = @(Model.PageNumber);

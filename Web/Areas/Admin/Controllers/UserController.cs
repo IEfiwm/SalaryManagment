@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -449,8 +450,22 @@ namespace Web.Areas.Admin.Controllers
             return View("GeneratePayRoll");
         }
 
+        [HttpPost]
         public async Task<IActionResult> GeneratePayRoll(int year, int month, long projectId)
         {
+            var client = new RestClient($@"{ _configuration["Base:KoshaCore:APIAddress"].ToString()}/Calculation/GenerateSalary/{projectId}/{year}/{month}");
+
+            client.Timeout = -1;
+
+            var request = new RestRequest(Method.GET);
+
+            IRestResponse response = client.Execute(request);
+
+            if (response.IsSuccessful)
+                _notify.Success("درخواست تولید فیش حقوقی ثبت شد.");
+            else
+                _notify.Error("عملیات با خطا مواجعه شد.");
+
             ViewBag.Title = "محاسبه فیش حقوقی";
 
             return View("GeneratePayRoll");
