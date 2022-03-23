@@ -48,5 +48,36 @@
     <partial name="_Scripts" />
     @await Component.InvokeAsync("Notyf")
     @RenderSection("Scripts", required: false)
+    <script>
+            var current = location.pathname.toLowerCase();
+            if(!current.endsWith("/")){
+                current += "/";
+            }
+        $('.nav-link').each(function(){
+
+            var $this = $(this);
+
+            if($this && $this.attr('href')){
+                let href = $this.attr('href').toLowerCase();
+
+                            if(!href.endsWith("/")){
+                href += "/";
+            }
+                //console.log($this.attr('href').toLowerCase() == current);
+
+                if(href == current){
+
+                   var parent = $this.parent().parent().parent();
+
+                   if(parent){
+                       parent.addClass("menu-open");
+
+                       $(parent.find("a.nav-link").get(0)).addClass("active");
+                   }
+                    $this.addClass('active');
+                }
+            }
+        })
+    </script>
 </body>
 </html>
