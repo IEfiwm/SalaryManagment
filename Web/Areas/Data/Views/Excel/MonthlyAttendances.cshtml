@@ -4,45 +4,44 @@
 @{
     ViewBag.Title = "بارگزاری کارکرد ماهیانه از اکسل";
 }
-<br />
-<br />
-<br />
 <form asp-controller="Home" asp-action="Export">
-    <div class="card col-md-12">
-        <div class="container m-5">
-            <div class="row">
-                <div class="col-3">
-                    <label class="form-label" for="inputEmail">سال</label>
-                    <input type="text" id="year" class="form-control" placeholder="" required>
-                </div>
-                <div class="col-3">
-                    <label class="form-label" for="inputPassword">ماه</label>
-                    <input type="text" id="month" class="form-control" placeholder="" required>
-                </div>
-                <div class="col-6">
-                    <label class="form-label" for="inputPassword">پروژه</label>
-                    <select id="project" class="js-data-example-ajax form-control" name="projectId" required>
-                        <option selected>یک مورد را انتخاب کنید</option>
-                    </select>
-                </div>
-                <div class="col-md-9 mt-3">
-                    <label class="form-label" for="inputPassword">فایل</label>
-                    <input type="file" id="fileupload" name="files" class="form-control" />
-                </div>
-                <div class="col-md-3" style="margin-top: 2.98rem !important;">
-                    <div class="form-group">
-                        <input type="button" name="Upload" value="بارگزاری فایل" id="btnupload" class="btn btn-primary" />
-                        <a href="/data/excel/getTemplate" class="btn btn-info">دانلود قالب</a>
-
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="form-label" for="inputEmail">سال</label>
+                            <input type="text" id="year" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label" for="inputPassword">ماه</label>
+                            <input type="text" id="month" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="col-4" style="margin-top: 2.0rem !important;">
+                            <a href="/data/excel/getTemplate" class="btn btn-info">دانلود قالب</a>
+                        </div>
+                        <div class="col-12  mt-3">
+                            <label class="form-label" for="inputPassword">پروژه</label>
+                            <select id="project" class="js-data-example-ajax form-control" name="projectId" required>
+                                <option selected>یک مورد را انتخاب کنید</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label class="form-label" for="inputPassword">فایل</label>
+                            <input type="file" id="fileupload" name="files" class="form-control" />
+                        </div>
+                        <div class="col-md-3" style="margin-top: 2.98rem !important;">
+                            <div class="form-group">
+                                <input type="button" name="Upload" value="بارگزاری فایل" id="btnupload" class="btn btn-primary" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="clearfix">&nbsp;</div>
-            <div class="row">
-                <div id="divPrint"></div>
-            </div>
         </div>
     </div>
+
 </form>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

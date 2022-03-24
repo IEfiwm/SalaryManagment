@@ -1,8 +1,7 @@
 ﻿@inject IHtmlLocalizer<SharedResource> localizer
 @{
-    ViewData["Title"] = localizer["Users"];
-    ViewData["Caption"] = localizer["Manage Users here"];
     ViewBag.Title = "مدیریت حساب ها";
+    ViewData["Caption"] = "حساب ها را در اینجا مدیریت کنید";
 }
 <div class="card">
     <div class="col-sm-12" style="padding:20px">
@@ -21,7 +20,7 @@
             loadData();
         });
     });
-    function loadData() {        
+    function loadData() {
         $('#CustomSpinner').css('display','block')
         $('#viewAll').load('/admin/bank/loadall');
     }

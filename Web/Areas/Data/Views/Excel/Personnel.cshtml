@@ -4,23 +4,22 @@
 @{
     ViewBag.Title = "بارگزاری از اکسل";
 }
-<br />
-<br />
-<br />
+
 <form asp-controller="Home" asp-action="Export">
-    <div class="card col-md-12">
-        <div class="container m-5">
-            <div class="row">
-                <div class="col-md-10">
-                    <input type="file" id="fileupload" name="files" class="form-control" />
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label" for="inputEmail">فایل</label>
+                            <input type="file" id="fileupload" name="files" class="form-control" />
+                        </div>
+                        <div class="mt-4 col-4">
+                            <input type="button" name="Upload" value="بارگزاری فایل" id="btnupload" class="btn btn-primary" />
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <input type="button" name="Upload" value="بارگزاری فایل" id="btnupload" class="btn btn-primary" />
-                </div>
-            </div>
-            <div class="clearfix">&nbsp;</div>
-            <div class="row">
-                <div id="divPrint"></div>
             </div>
         </div>
     </div>
