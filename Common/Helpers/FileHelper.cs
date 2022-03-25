@@ -65,6 +65,10 @@ namespace Common.Helpers
                     {
                         var test = await response.Content.ReadAsByteArrayAsync();
 
+                        if (response.Content.Headers.ContentDisposition is null)
+                        {
+                            return null;
+                        }
                         result.DownloadedFileName = response.Content.Headers.ContentDisposition.FileName;
 
                         await System.IO.File.WriteAllBytesAsync(path, test);

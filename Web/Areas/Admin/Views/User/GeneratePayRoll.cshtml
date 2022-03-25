@@ -25,17 +25,23 @@
         </div>
     </div>
 </form>
+@section Scripts
+{
+<script src="~/js/site.js"></script>
 <script>
-        $.ajax({
+    $.ajax({
         url: "/admin/project/getlist",
         method: "GET",
         success: function (model) {
             $.map(model, function (val, i) {
+
                     $("#projectId").append('<option value="' + val.id + '">' + val.title + '</option>');
             });
         }
-    })
+    });
+
         function Submit() {
         $('#form').attr('action', "/admin/user/generatepayroll").submit();
     }
 </script>
+}
