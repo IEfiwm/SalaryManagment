@@ -28,9 +28,9 @@ namespace Web.Areas.Export.Controllers
         [HttpPost]
         public async Task<IActionResult> PDFAsync(int year, int month, long projectId)
         {
-            var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(Guid.NewGuid() + ".txt", @$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/InsuranceAll/{year}/{month}/{projectId}");
+            var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(Guid.NewGuid() + ".pdf", @$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/InsuranceAll/{year}/{month}/{projectId}");
 
-            return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName);
+            return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName.Replace("\"",""));
         }
     }
 }
