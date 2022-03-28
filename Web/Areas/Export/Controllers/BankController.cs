@@ -21,7 +21,7 @@ namespace Web.Areas.Export.Controllers
         {
             var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(Guid.NewGuid() + ".txt", @$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/BankTXT/{year}/{month}/{projectId}");
 
-            return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName);
+            return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName.Replace("\"", ""));
         }
 
         [HttpPost]
@@ -29,7 +29,7 @@ namespace Web.Areas.Export.Controllers
         {
             var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(Guid.NewGuid() + ".txt", @$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/BankPDF/{year}/{month}/{projectId}");
 
-            return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName);
+            return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName.Replace("\"",""));
         }
     }
 }

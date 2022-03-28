@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
 using System.Text;
@@ -463,8 +464,10 @@ namespace Web.Areas.Admin.Controllers
 
             if (response.IsSuccessful)
                 _notify.Success("درخواست تولید فیش حقوقی ثبت شد.");
+            else if (response.StatusCode == HttpStatusCode.NotAcceptable)
+                _notify.Error("خطا! درخواستی در حال انجام است.");
             else
-                _notify.Error("عملیات با خطا مواجعه شد.");
+                _notify.Error("عملیات با خطا مواجه شد.");
 
             ViewBag.Title = "محاسبه فیش حقوقی";
 
