@@ -16,12 +16,14 @@ namespace Web.Areas.Admin.Models
 
         public string Email { get; set; }
 
+        [Required]
         public string JobCode { get; set; }
 
         [Required]
         [RegularExpression("^09[0-3][0-9]-?[0-9]{3}-?[0-9]{4}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string PhoneNumber { get; set; }
 
+        [Required]
         public string PersonnelCode { get; set; }
 
         [Required]
@@ -40,10 +42,12 @@ namespace Web.Areas.Admin.Models
 
         public bool EmailConfirmed { get; set; }
 
+        [Required]
         public string FatherName { get; set; }
 
         public string IdentitySerialNumber { get; set; }
 
+        [Required]
         [RegularExpression("^[0-9]{2,}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string IdentityNumber { get; set; }
 
@@ -51,6 +55,7 @@ namespace Web.Areas.Admin.Models
 
         public string BirthPlace { get; set; }
 
+        [Required]
         public string JobTitle { get; set; }
 
         public string Address { get; set; }
@@ -59,6 +64,7 @@ namespace Web.Areas.Admin.Models
 
         public string DegreeOfEducation { get; set; }
 
+        [Required]
         [RegularExpression(@"^(?!(\d)\1{9})\d{5,}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string InsuranceCode { get; set; }
       
@@ -111,6 +117,7 @@ namespace Web.Areas.Admin.Models
 
         public DateTime? HireDate { get; set; }
 
+        [Required]
         public DateTime? StartWorkingDate { get; set; }
 
         public DateTime? EndWorkingDate { get; set; }
@@ -137,6 +144,7 @@ namespace Web.Areas.Admin.Models
             set;
         } = new List<AdditionalUserDataViewModel>();
 
+        [Required]
         public long? BankId { get; set; }
     }
 }

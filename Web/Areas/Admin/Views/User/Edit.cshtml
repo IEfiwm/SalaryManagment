@@ -181,7 +181,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="StartWorkingDate" class="form-label col-lg-12">تاریخ شروع کار</label>
-                    <input name="StartWorkingDate" class="form-control datepicker col-lg-12" placeholder="تاریخ شروع کار" value='@(Model.StartWorkingDate == null? null:Model.StartWorkingDate.Value.ToString("yyyy/MM/dd"))'>
+                    <input name="StartWorkingDate" class="form-control datepicker col-lg-12" placeholder="تاریخ شروع کار" data-val-required="" required value='@(Model.StartWorkingDate == null? null:Model.StartWorkingDate.Value.ToString("yyyy/MM/dd"))'>
                 </div>
                 <div class="form-group col-md-3">
                     <label for="EndWorkingDate" class="form-label col-lg-12">تاریخ پایان کار</label>
