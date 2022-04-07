@@ -1,9 +1,9 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Account Settings";
+    ViewData["Title"] = "تنظیمات حساب کاربری";
     ViewData["ActivePage"] = ManageNavPages.Index;
-    ViewData["Caption"] = "Manage Account Settings";
+    ViewData["Caption"] = "حساب کاربری خود را در اینجا مدیریت کنید.";
 }
 
 <div class="row">
@@ -27,45 +27,50 @@
                                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Input.Username"></label>
+                                <label asp-for="Input.Username">نام کاربری</label>
                                 <input asp-for="Input.Username" class="form-control" />
                                 <span asp-validation-for="Input.Username" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Input.PhoneNumber"></label>
+                                <label asp-for="Input.PhoneNumber">تلفن همراه</label>
                                 <input asp-for="Input.PhoneNumber" class="form-control" />
                                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
-                                <label asp-for="Input.ProfilePicture" style="width: 100%;"></label>
-                                @if (Model.Input.ProfilePicture != null)
-                                {
-                                    <img id="profilePicture" style="width: 100%;object-fit: cover;padding-bottom: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Input.ProfilePicture))">
-                                }
-                                else
-                                {
-                                    <img id="profilePicture" style="width: 100%;object-fit: cover;padding-bottom: 10px;" src="">
-                                }
-                                <div class="custom-file">
-                                    <input accept=".png,.jpg,.jpeg,.gif,.tif"
-                                           asp-for="Input.ProfilePicture"
-                                           type="file" class="custom-file-input"
-                                           onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])"
-                                           id="customFile">
-                                    <label class="custom-file-label" for="customFile">Choose file</label>
-                                </div>
-                                <span asp-validation-for="Input.ProfilePicture" class="text-danger"></span>
+                                <label asp-for="Input.Email"></label>
+                                <input asp-for="Input.Email" class="form-control" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
                             </div>
                         </div>
+                        @*                        <div class="col-md-6">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                            <label asp-for="Input.ProfilePicture" style="width: 100%;"></label>
+                            @if (Model.Input.ProfilePicture != null)
+                            {
+                            <img id="profilePicture" style="width: 100%;object-fit: cover;padding-bottom: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Input.ProfilePicture))">
+                            }
+                            else
+                            {
+                            <img id="profilePicture" style="width: 100%;object-fit: cover;padding-bottom: 10px;" src="">
+                            }
+                            <div class="custom-file">
+                            <input accept=".png,.jpg,.jpeg,.gif,.tif"
+                            asp-for="Input.ProfilePicture"
+                            type="file" class="custom-file-input"
+                            onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])"
+                            id="customFile">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                            <span asp-validation-for="Input.ProfilePicture" class="text-danger"></span>
+                            </div>
+                            </div>*@
                     </div>
                     <button id="update-profile-button" type="submit" class="btn btn-success btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-check"></i>
                         </span>
-                        <span class="text">Save</span>
+                        <span class="text">ذخیره</span>
                     </button>
                 </form>
             </div>
@@ -74,8 +79,8 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
-        $('#profilePicture').click(function () { $('#customFile').trigger('click'); });
-    </script>
+<partial name="_ValidationScriptsPartial" />
+<script>
+    $('#profilePicture').click(function () { $('#customFile').trigger('click'); });
+</script>
 }

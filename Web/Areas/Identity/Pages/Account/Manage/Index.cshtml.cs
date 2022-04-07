@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Web.Areas.Identity.Pages.Account.Manage
 {
@@ -14,6 +16,8 @@ namespace Web.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+
+        private INotyfService _notify => HttpContext.RequestServices.GetService<INotyfService>();
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
@@ -46,6 +50,9 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
+            [Display(Name = "Email")]
+            public string Email { get; set; }
+
             [Display(Name = "Profile Picture")]
             public byte[] ProfilePicture { get; set; }
         }
@@ -65,6 +72,7 @@ namespace Web.Areas.Identity.Pages.Account.Manage
                 Username = userName,
                 FirstName = firstName,
                 LastName = lastName,
+                Email = user.Email
                 //ProfilePicture = profilePicture
             };
         }
@@ -117,14 +125,16 @@ namespace Web.Areas.Identity.Pages.Account.Manage
                 await _userManager.UpdateAsync(user);
             }
 
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile file = Request.Form.Files.FirstOrDefault();
-                //user.ProfilePicture = file.OptimizeImageSize(720, 720);
-                await _userManager.UpdateAsync(user);
-            }
+            //if (Request.Form.Files.Count > 0)
+            //{
+            //    IFormFile file = Request.Form.Files.FirstOrDefault();
+            //    //user.ProfilePicture = file.OptimizeImageSize(720, 720);
+            //    await _userManager.UpdateAsync(user);
+            //}
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+
+            _notify.Success("مشخصات کاربری شما با موفقیت بروز شد.");
+
             return RedirectToPage();
         }
     }
