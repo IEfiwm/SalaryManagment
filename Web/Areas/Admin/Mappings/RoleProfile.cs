@@ -1,6 +1,6 @@
-﻿using Web.Areas.Admin.Models;
-using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Domain.Entities.Base.Identity;
+using Web.Areas.Admin.Models;
 
 namespace Web.Areas.Admin.Mappings
 {
@@ -8,7 +8,7 @@ namespace Web.Areas.Admin.Mappings
     {
         public RoleProfile()
         {
-            CreateMap<IdentityRole, RoleViewModel>().ReverseMap();
+            CreateMap<ApplicationRole, RoleViewModel>().ReverseMap();
         }
     }
 }

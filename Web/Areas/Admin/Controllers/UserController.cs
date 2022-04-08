@@ -33,7 +33,7 @@ namespace Web.Areas.Admin.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IUserRepository _userRepository;
         private readonly IBankAccountRepository _bankAccountRepository;
         private readonly IAdditionalUserDateRepository _additionalUserDateRepository;
@@ -43,7 +43,7 @@ namespace Web.Areas.Admin.Controllers
 
         public UserController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<ApplicationRole> roleManager,
             IUserRepository userRepository,
             IBankAccountRepository bankAccountRepository,
             IAdditionalUserDateRepository additionalUserDateRepository,
@@ -62,11 +62,26 @@ namespace Web.Areas.Admin.Controllers
             _bankRepository = bankRepository;
         }
 
-        //[Authorize(Policy = Permissions.Users.View)]
         public IActionResult Index()
         {
             return View();
         }
+
+        //[Authorize(Policy = Permissions.Users.View)]
+        public IActionResult Personnel()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> ViewAll()
+        {
+            var allUsersExceptCurrentUser = await _userRepository.GetUserListAsync();
+
+            var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser.Where(x => x.Email is not null));
+
+            return PartialView("_ViewAll", model);
+        }
+
 
         public async Task<IActionResult> LoadAll(long projectId, string key, byte pageSize, byte pageNumber)
         {
@@ -86,7 +101,7 @@ namespace Web.Areas.Admin.Controllers
                 });
             }
 
-            return PartialView("_ViewAll", model);
+            return PartialView("_LoadAll", model);
         }
 
         public async Task<IActionResult> Create()

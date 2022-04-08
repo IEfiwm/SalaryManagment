@@ -11,6 +11,8 @@ namespace Infrastructure.Map.Base.Identity
         public void Configure(EntityTypeBuilder<IdentityUserRole<string>> builder)
         {
             builder.ToTable("UserRoles", "Identity");
+
+            //builder.HasKey(p => new { p.UserId, p.RoleId });
         }
     }
 }

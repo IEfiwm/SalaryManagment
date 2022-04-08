@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Domain.Entities.Base.Identity;
 
 namespace Web.Helpers
 {
@@ -37,7 +38,7 @@ namespace Web.Helpers
             }
         }
 
-        public static async Task AddPermissionClaim(this RoleManager<IdentityRole> roleManager, IdentityRole role, string permission)
+        public static async Task AddPermissionClaim(this RoleManager<ApplicationRole> roleManager, ApplicationRole role, string permission)
         {
             var allClaims = await roleManager.GetClaimsAsync(role);
             if (!allClaims.Any(a => a.Type == "Permission" && a.Value == permission))

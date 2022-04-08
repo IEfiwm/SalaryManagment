@@ -14,10 +14,10 @@ namespace Web.Areas.Admin.Controllers
     [Authorize(Roles = "SuperAdmin,Admin,Manager")]
     public class RoleController : BaseController<RoleController>
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public RoleController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public RoleController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -55,7 +55,7 @@ namespace Web.Areas.Admin.Controllers
             {
                 if (string.IsNullOrEmpty(role.Id))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(role.Name));
+                    await _roleManager.CreateAsync(new ApplicationRole(role.Name));
                     _notify.Success("Role Created");
                 }
                 else

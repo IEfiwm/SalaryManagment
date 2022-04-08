@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace Infrastructure.DbContexts
 {
-    public partial class IdentityContext : IdentityDbContext<ApplicationUser>
+    public partial class IdentityContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
         {
