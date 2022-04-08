@@ -89,49 +89,52 @@ namespace Web.Areas.Admin.Controllers
             return PartialView("_ViewAll", model);
         }
 
-        public async Task<IActionResult> OnGetCreate()
+        public async Task<IActionResult> Create()
         {
-            return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_Create", new UserViewModel()) });
+            return View("Create", new UserViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> OnPostCreate(UserViewModel userModel)
+        public async Task<IActionResult> Create(UserViewModel userModel)
         {
             if (ModelState.IsValid)
             {
-                MailAddress address = new MailAddress(userModel.Email);
-                string userName = address.User;
+                //MailAddress address = new MailAddress(userModel.Email);
+                //string userName = address.User;
                 var user = new ApplicationUser
                 {
-                    UserName = userName,
+                    UserName = userModel.UserName,
                     Email = userModel.Email,
                     FirstName = userModel.FirstName,
                     LastName = userModel.LastName,
                     EmailConfirmed = true,
+                    IsActive = true,
+                    IsInsurance = false
                 };
+
                 var result = await _userManager.CreateAsync(user, userModel.Password);
+
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, Roles.User.ToString());
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-                    var allUsersExceptCurrentUser = await _userManager.Users.Where(a => a.Id != currentUser.Id).ToListAsync();
-                    var users = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser);
-                    var htmlData = await _viewRenderer.RenderViewToStringAsync("_ViewAll", users);
-                    _notify.Success($"Account for {user.Email} created.");
-                    return new JsonResult(new { isValid = true, html = htmlData });
+                    //add role
+                    await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+
+                    _notify.Success($"کاربر {userModel.UserName} با موفقیت اضافه شد.");
+
+                    return RedirectToAction("Index");
                 }
                 foreach (var error in result.Errors)
                 {
                     _notify.Error(error.Description);
                 }
-                var html = await _viewRenderer.RenderViewToStringAsync("_Create", userModel);
-                return new JsonResult(new { isValid = false, html = html });
+
+                return View("Create", userModel);
             }
+
             return default;
         }
 
-        public async Task<IActionResult> Edit(string userId)
+        public async Task<IActionResult> EditPersonnel(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var model = _mapper.Map<UserViewModel>(user);
@@ -162,7 +165,7 @@ namespace Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUser(UserViewModel user)
+        public async Task<IActionResult> EditPersonnel(UserViewModel user)
         {
             long? bankRef = null;
             if (user.BankId != 0 && user.BankId is not null && user.BankAccNumber is not null)
@@ -220,7 +223,8 @@ namespace Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Create()
+        [HttpGet]
+        public async Task<IActionResult> CreatePersonnel()
         {
             var banks = await _bankRepository.GetListAsync();
             ViewData["banks"] = _mapper.Map<List<BankViewModel>>(banks.Where(x => x.Active).ToList());
@@ -229,7 +233,7 @@ namespace Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(UserViewModel user)
+        public async Task<IActionResult> CreatePersonnel(UserViewModel user)
         {
             long? bankRef = null;
             if (user.BankId != 0 && user.BankId is not null && user.BankAccNumber is not null)
