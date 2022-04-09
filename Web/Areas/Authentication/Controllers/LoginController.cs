@@ -41,7 +41,7 @@ namespace Web.Areas.Authentication.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RequestVerificationCode(RequestVerificationCodeViewModel model)
         {
-            var user = _userManager.Users.Where(m => m.PhoneNumber == model.Phone).FirstOrDefault();
+            var user = _userManager.Users.Where(m => m.PhoneNumber == model.Phone && m.UserType == Common.Enums.UserType.SystemUser).FirstOrDefault();
 
             if (user == null)
             {
@@ -107,7 +107,7 @@ namespace Web.Areas.Authentication.Controllers
         {
             if (await _authenticationCodeRepository.VerifyCode(model.Phone, model.Code))
             {
-                var user = _userManager.Users.Where(m => m.PhoneNumber == model.Phone).FirstOrDefault();
+                var user = _userManager.Users.Where(m => m.PhoneNumber == model.Phone && m.UserType == Common.Enums.UserType.SystemUser).FirstOrDefault();
 
                 if (user == null)
                 {

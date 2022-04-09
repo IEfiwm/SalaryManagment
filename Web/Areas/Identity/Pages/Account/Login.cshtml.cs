@@ -73,7 +73,7 @@ namespace Web.Areas.Identity.Pages.Account
                 {
                     user = await _userManager.FindByEmailAsync(Input.Email);
 
-                    if (user != null)
+                    if (user != null && user.UserType == Common.Enums.UserType.SystemUser)
                     {
                         userName = user.UserName;
                     }
