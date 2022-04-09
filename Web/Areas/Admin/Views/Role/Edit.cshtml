@@ -1,0 +1,54 @@
+﻿@using Web.Areas.Admin.Models
+@using Common.Enums
+@model RoleViewModel
+@{
+    ViewBag.Title = "ویرایش نقش";
+    var MenuList = ViewData["MenuList"] as List<MenuViewModel>;
+}
+
+<form id="form" method="POST" action="Edit">
+    <input hidden asp-for="Id">
+    <div class="row justify-content-center">
+        <div class="col-12 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="Name">نام</label>
+                            <input asp-for="Name" class="form-control" required>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="Active">فعال</label>
+                            <input asp-for="Active" class="form-control" placeholder="">
+                        </div>
+                        <div class="col-6 mt-3">
+
+                            <label class="form-label select-label">منو ها</label>
+                            <select class="selectpicker js-data-example-ajax form-control" title="انتخاب کنید" name="MenuIds"
+                                    data-live-search="true" data-live-search-placeholder="جستجو" multiple>
+                                @foreach (var menu in MenuList.Where(x => x.Active))
+                                {
+                                    if (Model.Menus?.Select(x=>x.Id)?.Contains(menu.Id) == true)
+                                    {
+                                        <option value="@menu.Id" selected>@menu.PersianName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@menu.Id">@menu.PersianName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="mt-5 col-2 text-right">
+                    <button type="submit" class="btn btn-primary">ذخیره</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>

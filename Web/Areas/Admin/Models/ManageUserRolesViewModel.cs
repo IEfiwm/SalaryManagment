@@ -2,13 +2,13 @@
 
 namespace Web.Areas.Admin.Models
 {
-    public class ManageUserRolesViewModel
+    public class ManageUserRoleViewModel
     {
         public string UserId { get; set; }
-        public IList<UserRolesViewModel> UserRoles { get; set; }
+        public IList<UserRoleViewModel> UserRoles { get; set; }
     }
 
-    public class UserRolesViewModel
+    public class UserRoleViewModel
     {
         public string RoleName { get; set; }
         public bool Selected { get; set; }

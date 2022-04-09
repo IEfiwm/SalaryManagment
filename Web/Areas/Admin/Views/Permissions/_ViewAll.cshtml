@@ -2,20 +2,20 @@
 @using Web.Areas.Admin.Models
 @using Application.Extensions
 @using Common.Enums
-@model IEnumerable<RoleViewModel>
+@model IEnumerable<PermissionsViewModel>
 @inject IHtmlLocalizer<SharedResource> localizer
 @{
 
 }
 
-<table class="table table-striped display" id="RoleTable">
+<table class="table table-striped display" id="PermissionTable">
     <thead>
         <tr>
             <th>
                 نام
             </th>
             <th>
-                وضعیت
+                سر گروه
             </th>
             <th style="width:10%">
                 #
@@ -23,14 +23,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var role in Model)
+        @foreach (var Permission in Model)
         {
             <tr>
                 <td>
                     <div class="row">
                         <div class="col-sm">
                             <a>
-                                @role.Name
+                                @Permission.Name
                             </a>
                             <br>
                             <small>
@@ -42,14 +42,13 @@
                 <td>
                     <div class="row">
                         <div class="col-sm">
-                            @if (role.Active)
-                            {
-                                <span class="badge badge-success">@localizer["Active"]</span>
-                            }
-                            else
-                            {
-                                <span class="badge badge-danger">@localizer["Deactivated"]</span>
-                            }
+                            <a>
+                                @Permission.Parent?.Name
+                            </a>
+                            <br>
+                            <small>
+
+                            </small>
                         </div>
                     </div>
                 </td>
@@ -59,10 +58,10 @@
                             @localizer["Actions"]
                         </button>
                         <div class="dropdown-menu shadow animated--grow-in">
-                            <a asp-area="Admin" asp-controller="Roles" asp-action="Edit" asp-route-roleId="@role.Id" class="dropdown-item">
+                            <a asp-area="Admin" asp-controller="Permissions" asp-action="Edit" asp-route-PermissionId="@Permission.Id" class="dropdown-item">
                                 <i class="fa fa-pencil"></i> @localizer["Edit"]
                             </a>
-                            <a asp-area="Admin" asp-controller="Roles" asp-action="Delete" asp-route-roleId="@role.Id" class="dropdown-item">
+                            <a asp-area="Admin" asp-controller="Permissions" asp-action="Delete" asp-route-PermissionId="@Permission.Id" class="dropdown-item">
                                 <i class="fa fa-pencil"></i> @localizer["Delete"]
                             </a>
                         </div>
@@ -76,7 +75,7 @@
     var test;
     $(document).ready(function () {
         $('#CustomSpinner').css('display','none');
-        test = $("#RoleTable").DataTable({
+        test = $("#PermissionTable").DataTable({
                 searching: true,
                 ordering:  true,
                 select: true,

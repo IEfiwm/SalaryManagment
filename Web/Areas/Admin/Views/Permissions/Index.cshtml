@@ -1,7 +1,7 @@
 ﻿@inject IHtmlLocalizer<SharedResource> localizer
 @{
-    ViewBag.Title = "مدیریت نقش ها";
-    ViewData["Caption"] = "نقش ها را در اینجا مدیریت کنید";
+    ViewBag.Title = "مدیریت سطوح دسترسی";
+    ViewData["Caption"] = "سطوح دسترسی را در اینجا مدیریت کنید";
 }
 <div class="card">
     <div class="col-sm-12" style="padding:20px">
@@ -14,7 +14,7 @@
 <script src="~/js/site.js"></script>
 <script>
     $(document).ready(function () {
-        $("#RoleTable").DataTable();
+        $("#PermissionTable").DataTable();
         loadData();
         $('#reload').on('click', function () {
             loadData();
@@ -22,7 +22,7 @@
     });
     function loadData() {
         $('#CustomSpinner').css('display','block')
-        $('#viewAll').load('/admin/roles/loadall');
+        $('#viewAll').load('/admin/Permissions/loadall');
     }
 </script>
 }

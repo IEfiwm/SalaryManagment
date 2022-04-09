@@ -4,15 +4,17 @@ using Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    partial class IdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20220405145047_RoleDb")]
+    partial class RoleDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -830,6 +832,28 @@ namespace Infrastructure.Migrations
                     b.ToTable("TbProjectRule", "Basic");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Basic.Role", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id")
+                        .IsClustered();
+
+                    b.ToTable("TbRole", "Basic");
+                });
+
             modelBuilder.Entity("Domain.Entities.Basic.Role_Menu", b =>
                 {
                     b.Property<long>("Id")
@@ -846,8 +870,8 @@ namespace Infrastructure.Migrations
                     b.Property<long>("MenuId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id")
                         .IsClustered();
@@ -875,8 +899,8 @@ namespace Infrastructure.Migrations
                     b.Property<long>("ProjectId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id")
                         .IsClustered();
@@ -931,8 +955,8 @@ namespace Infrastructure.Migrations
                     b.Property<string>("MenuId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
@@ -1057,7 +1081,7 @@ namespace Infrastructure.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("Roles", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1162,16 +1186,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", "Identity");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationRole", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.ToTable("Roles", "Identity");
                 });
 
             modelBuilder.Entity("ApplicationUserApplicationUser", b =>
@@ -1359,9 +1373,11 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Base.Identity.ApplicationRole", "Role")
+                    b.HasOne("Domain.Entities.Basic.Role", "Role")
                         .WithMany("Role_Menus")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Menu");
 
@@ -1382,9 +1398,11 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Base.Identity.ApplicationRole", "Role")
+                    b.HasOne("Domain.Entities.Basic.Role", "Role")
                         .WithMany("Role_Project_Permissions")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Permission");
 
@@ -1399,9 +1417,11 @@ namespace Infrastructure.Migrations
                         .WithMany("User_Roles")
                         .HasForeignKey("MenuId");
 
-                    b.HasOne("Domain.Entities.Base.Identity.ApplicationRole", "Role")
+                    b.HasOne("Domain.Entities.Basic.Role", "Role")
                         .WithMany("User_Roles")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Role");
 
@@ -1459,15 +1479,6 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationRole", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithOne()
-                        .HasForeignKey("Domain.Entities.Base.Identity.ApplicationRole", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationUser", b =>
                 {
                     b.Navigation("BankCreatedByUsers");
@@ -1522,18 +1533,18 @@ namespace Infrastructure.Migrations
                     b.Navigation("Role_Project_Permissions");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Data.Field", b =>
-                {
-                    b.Navigation("ProjectRules");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationRole", b =>
+            modelBuilder.Entity("Domain.Entities.Basic.Role", b =>
                 {
                     b.Navigation("Role_Menus");
 
                     b.Navigation("Role_Project_Permissions");
 
                     b.Navigation("User_Roles");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Data.Field", b =>
+                {
+                    b.Navigation("ProjectRules");
                 });
 #pragma warning restore 612, 618
         }

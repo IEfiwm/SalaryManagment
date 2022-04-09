@@ -59,5 +59,7 @@ namespace Domain.Entities.Basic
         public virtual ICollection<ProjectBankAccount> ProjectBankAccounts { get; set; }
 
         public virtual ICollection<ProjectRule> ProjectRules { get; set; }
+
+        public virtual ICollection<Role_Project_Permission> Role_Project_Permissions { get; set; }
     }
 }

@@ -27,27 +27,27 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(string userId)
         {
-            var viewModel = new List<UserRolesViewModel>();
+            var viewModel = new List<UserRoleViewModel>();
             var user = await _userManager.FindByIdAsync(userId);
             ViewData["Title"] = $"{user.UserName} - Roles";
             ViewData["Caption"] = $"Manage {user.Email}'s Roles.";
             foreach (var role in _roleManager.Roles)
             {
-                var userRolesViewModel = new UserRolesViewModel
+                var userRoleViewModel = new UserRoleViewModel
                 {
                     RoleName = role.Name
                 };
                 if (await _userManager.IsInRoleAsync(user, role.Name))
                 {
-                    userRolesViewModel.Selected = true;
+                    userRoleViewModel.Selected = true;
                 }
                 else
                 {
-                    userRolesViewModel.Selected = false;
+                    userRoleViewModel.Selected = false;
                 }
-                viewModel.Add(userRolesViewModel);
+                viewModel.Add(userRoleViewModel);
             }
-            var model = new ManageUserRolesViewModel()
+            var model = new ManageUserRoleViewModel()
             {
                 UserId = userId,
                 UserRoles = viewModel
@@ -56,7 +56,7 @@ namespace Web.Areas.Admin.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Update(string id, ManageUserRolesViewModel model)
+        public async Task<IActionResult> Update(string id, ManageUserRoleViewModel model)
         {
             var user = await _userManager.FindByIdAsync(id);
             var roles = await _userManager.GetRolesAsync(user);

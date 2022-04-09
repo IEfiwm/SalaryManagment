@@ -141,16 +141,9 @@ namespace Web.Extensions
             services.AddTransient<IDateTimeService, SystemDateTimeService>();
             services.AddTransient<IMailService, SMTPMailService>();
             services.AddTransient<IAuthenticatedUserService, AuthenticatedUserService>();
-            services.AddTransient<IDocumentRepository, DocumentRepository>();
-            services.AddTransient<IFileRepository, FileRepository>();
-            services.AddTransient<IimportedRepository, ImportedRepository>();
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddScoped<IApplicationWriteDbConnection, ApplicationWriteDbConnection>();
             services.AddScoped<IApplicationReadDbConnection, ApplicationReadDbConnection>();
-            services.AddScoped<ITaxRepository, TaxRepository>();
-            services.AddScoped<IProjectRuleRepository, ProjectRuleRepository>();
-            services.AddScoped<IAttendanceRepository, AttendanceRepository>();
-            services.AddScoped<IFieldRepository, FieldRepository>();
         }
 
         public static void AddDependencies(this IServiceCollection services)
@@ -170,6 +163,12 @@ namespace Web.Extensions
             services.AddTransient<IProjectRuleRepository, ProjectRuleRepository>();
             services.AddTransient<IAttendanceRepository, AttendanceRepository>();
             services.AddTransient<IFieldRepository, FieldRepository>();
+            services.AddTransient<IMenuRepository, MenuRepository>();
+            services.AddTransient<IPermissionRepository, PermissionRepository>();
+            services.AddTransient<IRole_MenuRepository, Role_MenuRepository>();
+            services.AddTransient<IRole_Project_PermissionRepository, Role_Project_PermissionRepository>();
+            services.AddTransient<IUser_RoleRepository, User_RoleRepository>();
+
         }
     }
 }
