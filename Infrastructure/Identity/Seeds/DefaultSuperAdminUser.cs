@@ -10,7 +10,7 @@ namespace Infrastructure.Identity.Seeds
 {
     public static class DefaultSuperAdminUser
     {
-        public static async Task AddPermissionClaim(this RoleManager<IdentityRole> roleManager, IdentityRole role, string module)
+        public static async Task AddPermissionClaim(this RoleManager<ApplicationRole> roleManager, ApplicationRole role, string module)
         {
             var allClaims = await roleManager.GetClaimsAsync(role);
             var allPermissions = Permissions.GeneratePermissionsForModule(module);
@@ -23,7 +23,7 @@ namespace Infrastructure.Identity.Seeds
             }
         }
 
-        private async static Task SeedClaimsForSuperAdmin(this RoleManager<IdentityRole> roleManager)
+        private async static Task SeedClaimsForSuperAdmin(this RoleManager<ApplicationRole> roleManager)
         {
             var adminRole = await roleManager.FindByNameAsync("SuperAdmin");
             await roleManager.AddPermissionClaim(adminRole, "Users");
@@ -31,7 +31,7 @@ namespace Infrastructure.Identity.Seeds
             await roleManager.AddPermissionClaim(adminRole, "Brands");
         }
 
-        public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             //Seed Default User
             var defaultUser = new ApplicationUser

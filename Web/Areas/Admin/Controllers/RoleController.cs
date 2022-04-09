@@ -17,13 +17,13 @@ namespace Web.Areas.Admin.Controllers
     [Authorize(Roles = "SuperAdmin,Admin,Manager")]
     public class RoleController : BaseController<RoleController>
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMenuRepository _menuRepository;
         private readonly IRole_MenuRepository _role_MenuRepository;
 
         public RoleController(UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<ApplicationRole> roleManager,
             IMenuRepository menuRepository,
             IRole_MenuRepository role_MenuRepository)
         {

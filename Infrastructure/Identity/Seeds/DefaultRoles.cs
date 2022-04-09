@@ -7,13 +7,14 @@ namespace Infrastructure.Identity.Seeds
 {
     public static class DefaultRoles
     {
-        public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             //Seed Roles
-            await roleManager.CreateAsync(new IdentityRole(Roles.SuperAdmin.ToString()));
-            await roleManager.CreateAsync(new IdentityRole(Roles.Admin.ToString()));
-            await roleManager.CreateAsync(new IdentityRole(Roles.Manager.ToString()));
-            await roleManager.CreateAsync(new IdentityRole(Roles.User.ToString()));
+            var test = new ApplicationRole("Test");
+            await roleManager.CreateAsync(test);
+            await roleManager.CreateAsync(new ApplicationRole(Roles.Admin.ToString()));
+            await roleManager.CreateAsync(new ApplicationRole(Roles.Manager.ToString()));
+            await roleManager.CreateAsync(new ApplicationRole(Roles.User.ToString()));
         }
     }
 }

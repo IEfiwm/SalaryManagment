@@ -24,7 +24,7 @@ namespace Web.Areas.Admin.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
         private readonly IProjectRepository _projectRepository;
         private readonly IBankRepository _bankRepository;
@@ -33,7 +33,7 @@ namespace Web.Areas.Admin.Controllers
 
         public ProjectController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<ApplicationRole> roleManager,
             IProjectRepository projectRepository,
             IBankRepository bankRepository,
             IBank_AccountRepository bank_AccountRepository,

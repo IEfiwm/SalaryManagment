@@ -1,0 +1,289 @@
+﻿@using Common.Models.DataTable
+@using Web.Areas.Admin.Models
+@model DataTableViewModel<IEnumerable<UserViewModel>>
+@inject IHtmlLocalizer<SharedResource> localizer
+<div id="viewAll" class="card-body table-responsive">
+    <table class="table table-striped" id="userTable">
+        <thead>
+            <tr>
+                <th>
+                    کد پ
+                </th>
+                <th>
+                    نام‌و‌نام‌خانوادگی
+                </th>
+                <th>
+                    نام پدر
+                </th>
+                <th>
+                    کد ملی
+                </th>
+                <th>
+                    شماره بیمه
+                </th>
+                <th>
+                    شماره حساب
+                </th>
+                <th>
+                    شماره تماس
+                </th>
+                <th>
+                    شغل
+                </th>
+                @*                <th>
+                    شروع کار
+                    </th>
+                    <th>
+                    ترک کار
+                    </th>*@
+                <th>
+                    وضعیت‌مدارک
+                </th>
+                <th data-toggle="tooltip" data-placement="top" title="وضعیت اطلاعات تحت تکفل">
+                    وضعیت‌اطل...
+                </th>
+                <th data-toggle="tooltip" data-placement="top" title="وضعیت مدارک تحت تکفل">
+                    وضعیت‌مد...
+                </th>
+                <th>
+                    وضعیت
+                </th>
+                <th style="width:10%">
+                    #
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.ViewModel)
+            {
+                <tr>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                <a>
+                                    @user.PersonnelCode
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width:50px">
+                        <div class="row">
+                            <div class="col-sm">
+                                <a>
+                                    @user.FirstName @user.LastName
+                                </a>
+                                <br>
+                                <small>
+                                    @user.ProjectName
+                                </small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                <a>
+                                    @user.FatherName
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                <a>
+                                    @user.NationalCode
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @user.InsuranceCode
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @user.BankAccNumber
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @user.PhoneNumber
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @user.JobTitle
+                            </div>
+                        </div>
+                    </td>
+                    @*                    <td>
+                        <div class="row">
+                        <div class="col-sm">
+                        @(user.StartWorkingDate != null ? user.StartWorkingDate.Value.ToString("yyyy/MM/dd")  : "")
+                        </div>
+                        </div>
+                        </td>
+                        <td>
+                        <div class="row">
+                        <div class="col-sm">
+                        @(user.EndWorkingDate != null ? user.EndWorkingDate.Value.ToString("yyyy/MM/dd")  : "")
+                        </div>
+                        </div>
+                        </td>*@
+                    <td>
+                        @if (user.HasDocument)
+                        {
+                            <span class="badge badge-success">&#10004;</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">&#10008;</span>
+                        }
+                    </td>
+                    <td>
+                        @if (user.HasAdditionalUser)
+                        {
+                            <span class="badge badge-success">&#10004;</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">&#10008;</span>
+                        }
+                    </td>
+                    <td>
+                        @if (user.HasAdditionalUserDocument)
+                        {
+                            <span class="badge badge-success">&#10004;</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">&#10008;</span>
+                        }
+                    </td>
+                    <td>
+                        @if (user.IsActive)
+                        {
+                            <span class="badge badge-success">@localizer["Active"]</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">@localizer["Deactivated"]</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @localizer["Actions"]
+                            </button>
+                            <div class="dropdown-menu shadow animated--grow-in">
+                                <a asp-area="Admin" asp-controller="User" asp-action="EditPersonnel" asp-route-userId="@user.Id" class="dropdown-item">
+                                    <i class="fa fa-pencil"></i> @localizer["Edit"]
+                                </a>
+                                <a onclick="DeleteUser('@user.Id')" class="dropdown-item">
+                                    <i class="fa fa-pencil"></i> @localizer["Delete"]
+                                </a>
+                                @if (user.HasDocument)
+                                {
+                                    <a class="dropdown-item" onclick="GetDocuments('@user.Id')">
+                                        <i class="fa fa-list"></i> مدارک
+                                    </a>
+                                }
+                                @if (user.HasAdditionalUser)
+                                {
+                                    <a class="dropdown-item" onclick="GetAdditionalUsers('@user.Id')">
+                                        <i class="fa fa-user"></i> تحت تکفل
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row mr-2">
+    <button class="btn btn-outline-success m-1" @(Model.PageNumber != 0 ? "" : "disabled") onclick="page = page - 1;loadData($('#project').val(),$('#key').val())">قبلی</button>
+
+    <button class="btn btn-outline-success m-1" @(Model.PageCount != Model.PageNumber? "": "disabled") onclick="page = page + 1;loadData($('#project').val(),$('#key').val())">بعدی</button>
+
+</div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+      $('#CustomSpinner').css('display','none')
+
+      function DeleteUser(userId)
+      {
+          swal({
+              title: "آیا از حذف این کاربر اطمینان دارید؟",
+              text: "در صورت حذف، امکان بازگردانی اطلاعات وجود ندارد!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+              buttons: {
+                  confirm : {text:'حذف',className:'sweet-warning'},
+                  cancel : 'لغو'
+              }
+          })
+      .then((willDelete) => {
+              if (willDelete) {
+                     $.ajax({
+                  url: "/admin/user/Delete?userId="+userId,
+                  method: "GET",
+                  success: function (model) {
+                      notyf.success("حذف با موفقیت انجام شد.")
+      //                loadData($('#project').val(),$('#key').val());
+      //            //swal("حذف با موفقیت انجام شد", {
+      //            //    icon: "success",
+      //            //    });
+          loadData($('#project').val(),$('#key').val());
+                  }
+              });
+              } else {
+                  notyf.warning("عملیات لغو شد.");
+              }
+        });
+
+      }
+              page = @(Model.PageNumber);
+
+              $("#data-card").removeClass("d-none");
+              $(document).ready(function () {
+                  $("#userTable").DataTable({
+                          searching: false,
+                          ordering:  true,
+                          processing: true,
+                          select: true,
+                          responsive: true,
+                          bPaginate: false,
+                          fixedColumns: true,
+                          fixedHeader: {header: true,footer: false},
+                          columnDefs: [{ width: "200px" }],
+                          aaSorting: [[ 0, "desc" ]],
+                          oLanguage : {
+                              sSearch: "جستجو: ",
+                              sInfo: "نمایش _START_ تا _END_ از @Model.DataCount رکورد |  @(Model.PageNumber + 1) از @(Model.PageCount + 1) صفحه",
+                              sLengthMenu: "نمایش _MENU_ رکورد",
+                              sInfoFiltered: "فیلتر شده از _MAX_ رکورد",
+                              sInfoEmpty  : "هیچ داده ای یافت نشد",
+                              sZeroRecords: "رکوردی یافت نشد",
+                              oPaginate:{
+                                  sPrevious: "قبلی",
+                                  sNext: "بعدی",
+                              }
+                          }
+                  });
+              });
+              $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+</script>
