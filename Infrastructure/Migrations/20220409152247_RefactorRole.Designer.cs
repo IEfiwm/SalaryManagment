@@ -11,7 +11,7 @@ using NetTopologySuite.Geometries;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20220409151022_RefactorRole")]
+    [Migration("20220409152247_RefactorRole")]
     partial class RefactorRole
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -187,6 +187,36 @@ namespace Infrastructure.Migrations
                     b.HasIndex("CountryRef");
 
                     b.ToTable("TbProvince", "Geography");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("Roles", "Identity");
                 });
 
             modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationUser", b =>
@@ -1035,33 +1065,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("TbField", "Data");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -1164,16 +1167,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", "Identity");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationRole", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.ToTable("Roles", "Identity");
                 });
 
             modelBuilder.Entity("ApplicationUserApplicationUser", b =>
@@ -1412,7 +1405,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Domain.Entities.Base.Identity.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1439,7 +1432,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Domain.Entities.Base.Identity.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1463,11 +1456,11 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationRole", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithOne()
-                        .HasForeignKey("Domain.Entities.Base.Identity.ApplicationRole", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                    b.Navigation("Role_Menus");
+
+                    b.Navigation("Role_Project_Permissions");
+
+                    b.Navigation("User_Roles");
                 });
 
             modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationUser", b =>
@@ -1527,15 +1520,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Data.Field", b =>
                 {
                     b.Navigation("ProjectRules");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationRole", b =>
-                {
-                    b.Navigation("Role_Menus");
-
-                    b.Navigation("Role_Project_Permissions");
-
-                    b.Navigation("User_Roles");
                 });
 #pragma warning restore 612, 618
         }

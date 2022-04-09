@@ -59,10 +59,10 @@
                             @localizer["Actions"]
                         </button>
                         <div class="dropdown-menu shadow animated--grow-in">
-                            <a asp-area="Admin" asp-controller="Roles" asp-action="Edit" asp-route-roleId="@role.Id" class="dropdown-item">
+                            <a asp-area="Admin" asp-controller="Role" asp-action="Edit" asp-route-roleId="@role.Id" class="dropdown-item">
                                 <i class="fa fa-pencil"></i> @localizer["Edit"]
                             </a>
-                            <a asp-area="Admin" asp-controller="Roles" asp-action="Delete" asp-route-roleId="@role.Id" class="dropdown-item">
+                            <a asp-area="Admin" asp-controller="Role" asp-action="Delete" asp-route-roleId="@role.Id" class="dropdown-item">
                                 <i class="fa fa-pencil"></i> @localizer["Delete"]
                             </a>
                         </div>

@@ -7,10 +7,6 @@ namespace Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_RoleClaims_Roles_RoleId",
-                table: "RoleClaims");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_TbRole_Menu_TbRole_RoleId",
                 schema: "Basic",
                 table: "TbRole_Menu");
@@ -25,34 +21,9 @@ namespace Infrastructure.Migrations
                 schema: "Basic",
                 table: "TbUser_Role");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_UserRoles_Roles_RoleId",
-                schema: "Identity",
-                table: "UserRoles");
-
             migrationBuilder.DropTable(
                 name: "TbRole",
                 schema: "Basic");
-
-            migrationBuilder.DropIndex(
-                name: "RoleNameIndex",
-                schema: "Identity",
-                table: "Roles");
-
-            migrationBuilder.DropColumn(
-                name: "ConcurrencyStamp",
-                schema: "Identity",
-                table: "Roles");
-
-            migrationBuilder.DropColumn(
-                name: "Name",
-                schema: "Identity",
-                table: "Roles");
-
-            migrationBuilder.DropColumn(
-                name: "NormalizedName",
-                schema: "Identity",
-                table: "Roles");
 
             //migrationBuilder.RenameTable(
             //    name: "ApplicationUserApplicationUser",
@@ -94,44 +65,6 @@ namespace Infrastructure.Migrations
                 nullable: false,
                 defaultValue: false);
 
-            migrationBuilder.CreateTable(
-                name: "AspNetRoles",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_RoleClaims_AspNetRoles_RoleId",
-                table: "RoleClaims",
-                column: "RoleId",
-                principalTable: "AspNetRoles",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Roles_AspNetRoles_Id",
-                schema: "Identity",
-                table: "Roles",
-                column: "Id",
-                principalTable: "AspNetRoles",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_TbRole_Menu_Roles_RoleId",
                 schema: "Basic",
@@ -161,28 +94,10 @@ namespace Infrastructure.Migrations
                 principalTable: "Roles",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_UserRoles_AspNetRoles_RoleId",
-                schema: "Identity",
-                table: "UserRoles",
-                column: "RoleId",
-                principalTable: "AspNetRoles",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_RoleClaims_AspNetRoles_RoleId",
-                table: "RoleClaims");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Roles_AspNetRoles_Id",
-                schema: "Identity",
-                table: "Roles");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_TbRole_Menu_Roles_RoleId",
                 schema: "Basic",
@@ -197,14 +112,6 @@ namespace Infrastructure.Migrations
                 name: "FK_TbUser_Role_Roles_RoleId",
                 schema: "Basic",
                 table: "TbUser_Role");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_UserRoles_AspNetRoles_RoleId",
-                schema: "Identity",
-                table: "UserRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
 
             migrationBuilder.DropColumn(
                 name: "Active",
@@ -249,29 +156,6 @@ namespace Infrastructure.Migrations
                 oldType: "nvarchar(450)",
                 oldNullable: true);
 
-            migrationBuilder.AddColumn<string>(
-                name: "ConcurrencyStamp",
-                schema: "Identity",
-                table: "Roles",
-                type: "nvarchar(max)",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Name",
-                schema: "Identity",
-                table: "Roles",
-                type: "nvarchar(256)",
-                maxLength: 256,
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "NormalizedName",
-                schema: "Identity",
-                table: "Roles",
-                type: "nvarchar(256)",
-                maxLength: 256,
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "TbRole",
                 schema: "Basic",
@@ -288,23 +172,6 @@ namespace Infrastructure.Migrations
                     table.PrimaryKey("PK_TbRole", x => x.Id)
                         .Annotation("SqlServer:Clustered", true);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                schema: "Identity",
-                table: "Roles",
-                column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_RoleClaims_Roles_RoleId",
-                table: "RoleClaims",
-                column: "RoleId",
-                principalSchema: "Identity",
-                principalTable: "Roles",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_TbRole_Menu_TbRole_RoleId",
@@ -333,16 +200,6 @@ namespace Infrastructure.Migrations
                 column: "RoleId",
                 principalSchema: "Basic",
                 principalTable: "TbRole",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_UserRoles_Roles_RoleId",
-                schema: "Identity",
-                table: "UserRoles",
-                column: "RoleId",
-                principalSchema: "Identity",
-                principalTable: "Roles",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }

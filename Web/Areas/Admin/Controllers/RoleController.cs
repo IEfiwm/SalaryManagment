@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +30,8 @@ namespace Web.Areas.Admin.Controllers
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _menuRepository = menuRepository;
+            _role_MenuRepository = role_MenuRepository;
         }
 
         public IActionResult Index()
@@ -69,6 +72,7 @@ namespace Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid && model.Name != "SuperAdmin" && model.Name != "Basic")
             {
+                model.Id = Guid.NewGuid().ToString();
                 var role = await _roleManager.CreateAsync(_mapper.Map<ApplicationRole>(model));
 
                 if (string.IsNullOrEmpty(model.Id))

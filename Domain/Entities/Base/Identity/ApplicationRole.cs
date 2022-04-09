@@ -13,7 +13,9 @@ namespace Domain.Entities.Base.Identity
 
         public ApplicationRole() : base()
         {
-                    public bool Active { get; set; }
+        }
+
+        public bool Active { get; set; }
 
         public virtual ICollection<Role_Menu> Role_Menus { get; set; }
 
@@ -21,7 +23,5 @@ namespace Domain.Entities.Base.Identity
 
         public virtual ICollection<Role_Project_Permission> Role_Project_Permissions { get; set; }
 
-
     }
-}
 }
