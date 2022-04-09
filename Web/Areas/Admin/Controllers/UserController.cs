@@ -77,7 +77,7 @@ namespace Web.Areas.Admin.Controllers
         {
             var allUsersExceptCurrentUser = await _userRepository.GetUserListAsync();
 
-            var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser.Where(x => x.Email is not null));
+            var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser.Where(x => x.UserType == Common.Enums.UserType.SystemUser));
 
             return PartialView("_ViewAll", model);
         }
@@ -124,7 +124,8 @@ namespace Web.Areas.Admin.Controllers
                     LastName = userModel.LastName,
                     EmailConfirmed = true,
                     IsActive = true,
-                    IsInsurance = false
+                    IsInsurance = false,
+                    UserType = Common.Enums.UserType.SystemUser
                 };
 
                 var result = await _userManager.CreateAsync(user, userModel.Password);
@@ -291,8 +292,9 @@ namespace Web.Areas.Admin.Controllers
 
             model.IsInsurance = true;
 
-            var res = await _userManager.CreateAsync(model, model.PersonnelCode);
+            model.UserType = Common.Enums.UserType.PublicUser;
 
+            var res = await _userManager.CreateAsync(model, model.PersonnelCode);
 
             //save files
             foreach (var data in user.AdditionalUserData)

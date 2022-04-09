@@ -39,6 +39,8 @@ namespace Domain.Entities.Base.Identity
 
         public bool IsDeleted { get; set; } = false;
 
+        public UserType UserType { get; set; }
+
         [ForeignKey("Caller")]
         public string CallerRef { get; set; } = null;
 

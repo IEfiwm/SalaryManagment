@@ -73,7 +73,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
             return await _identityContext.Users
                 .Include(e => e.Project)
                 .Include(e => e.Bank)
-                .Where(x => x.ProjectRef == projectId && x.Email == null && !x.IsDeleted)
+                .Where(x => x.ProjectRef == projectId && x.UserType == Common.Enums.UserType.PublicUser && !x.IsDeleted)
                 .ToListAsync();
         }
 
@@ -81,7 +81,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
         {
             return await _identityContext.Users
                 .Include(e => e.Project)
-                .Where(x => x.ProjectRef == projectId && x.Email == null && !x.IsDeleted)
+                .Where(x => x.ProjectRef == projectId && x.UserType == Common.Enums.UserType.PublicUser && !x.IsDeleted)
                 .Skip(take * page)
                 .Take(take)
                 .ToListAsync();
@@ -105,7 +105,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
                 || EF.Functions.Like(x.JobTitle, $"%{key}%"))
                 .Where(x => (projectId == 0 || x.ProjectRef == projectId)
                 //&& (string.IsNullOrEmpty(key) || x.PhoneNumber.Contains(key) || x.FullName.Contains(key) || x.PersonnelCode.Contains(key) || x.NationalCode.Contains(key))
-                && x.Email == null
+                && x.UserType == Common.Enums.UserType.PublicUser
                 && !x.IsDeleted)
                 .OrderByDescending(m => m.PersonnelCode)
                 .ToListAsync();
