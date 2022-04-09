@@ -1,0 +1,39 @@
+﻿@using Web.Areas.Admin.Models
+@using Common.Enums
+@model PermissionsViewModel
+@{
+    ViewBag.Title = "ویرایش سطح دسترسی";
+    var PermissionList = ViewData["PermissionList"] as List<PermissionsViewModel>;
+}
+
+<form id="form" method="POST" action="Edit">
+    <input hidden asp-for="Id">
+    <div class="row justify-content-center">
+        <div class="col-12 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5 mt-3">
+                            <label class="form-label" for="Name">نام</label>
+                            <input asp-for="Name" class="form-control" placeholder="">
+                        </div>
+                        <div class="col-5 mt-3">
+                            <label class="form-label" for="ParentId">سرگروه</label>
+                            <select id="ParentId" class="js-data-example-ajax form-control" name="ParentId">
+                                <option value="">انتخاب کنید</option>
+                                @foreach (var per in PermissionList)
+                                {
+                                    <option value="@per.Id">@per.Name</option>
+                                }
+                            </select>
+
+                        </div>
+                        <div class="mt-5 col-2 text-right">
+                            <button type="submit" class="btn btn-primary">ذخیره</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -71,5 +71,7 @@ namespace Domain.Entities.Base.Identity
         public virtual ICollection<BankAccount> BankUpdatedByUsers { get; set; }
 
         public virtual ICollection<BankAccount> BankCreatedByUsers { get; set; }
+
+        public virtual ICollection<User_Role> User_Roles { get; set; }
     }
 }
