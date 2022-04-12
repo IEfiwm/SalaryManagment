@@ -40,6 +40,7 @@ namespace Web.Areas.Admin.Controllers
         private readonly IDocumentRepository _documentRepository;
         private readonly IFileRepository _fileRepository;
         private readonly IBankRepository _bankRepository;
+        private readonly IUser_RoleRepository _user_RoleRepository;
 
         public UserController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -49,7 +50,8 @@ namespace Web.Areas.Admin.Controllers
             IAdditionalUserDateRepository additionalUserDateRepository,
             IDocumentRepository documentRepository,
             IFileRepository fileRepository,
-            IBankRepository bankRepository)
+            IBankRepository bankRepository,
+            IUser_RoleRepository user_RoleRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -60,6 +62,7 @@ namespace Web.Areas.Admin.Controllers
             _documentRepository = documentRepository;
             _fileRepository = fileRepository;
             _bankRepository = bankRepository;
+            _user_RoleRepository = user_RoleRepository;
         }
 
         public IActionResult Index()
@@ -77,7 +80,7 @@ namespace Web.Areas.Admin.Controllers
         {
             var allUsersExceptCurrentUser = await _userRepository.GetUserListAsync();
 
-            var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser.Where(x => x.UserType == Common.Enums.UserType.SystemUser));
+            var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser.Where(x => x.UserType == Common.Enums.UserType.SystemUser));
 
             return PartialView("_ViewAll", model);
         }
@@ -106,6 +109,7 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Create()
         {
+            ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
             return View("Create", new UserViewModel());
         }
 
@@ -130,10 +134,26 @@ namespace Web.Areas.Admin.Controllers
 
                 var result = await _userManager.CreateAsync(user, userModel.Password);
 
+
                 if (result.Succeeded)
                 {
                     //add role
-                    await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+                    //var res = await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+
+                    if (!string.IsNullOrEmpty(userModel.RoleId))
+                    {
+                        var resRole = await _user_RoleRepository.InsertAndSaveAsync(new User_Role
+                        {
+                            UserId = user.Id,
+                            RoleId = userModel.RoleId
+                        });
+
+                        if (resRole == 0)
+                        {
+                            _notify.Error("عملیات ثبت کاربر با خطا مواجعه شد.");
+                            return RedirectToAction("Index");
+                        }
+                    }
 
                     _notify.Success($"کاربر {userModel.UserName} با موفقیت اضافه شد.");
 
@@ -143,7 +163,7 @@ namespace Web.Areas.Admin.Controllers
                 {
                     _notify.Error(error.Description);
                 }
-
+                ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
                 return View("Create", userModel);
             }
 

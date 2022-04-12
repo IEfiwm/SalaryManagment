@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "کاربر جدید";
     ViewBag.Capation = "ایجاد کاربر جدید";
+    var RoleList = ViewData["RoleList"] as List<RoleViewModel>;
 }
 <form method="post" asp-area="Admin" asp-controller="User" asp-action="Create">
     <div class="card" id="mainBox">
@@ -37,6 +38,17 @@
                     <label for="ConfirmPassword" class="form-label col-lg-3">تکرار رمزعبور</label>
                     <input type="password" asp-for="ConfirmPassword" name="ConfirmPassword" class="form-control">
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="col-6 mt-3">
+
+                    <label class="form-label select-label">نقش</label>
+                    <select class="selectpicker js-data-example-ajax form-control" title="انتخاب کنید" name="RoleId" id="RoleId"
+                            data-live-search="true" data-live-search-placeholder="جستجو">
+                        @foreach (var role in RoleList)
+                        {
+                            <option value="@role.Id">@role.Name</option>
+                        }
+                    </select>
                 </div>
             </div>
         </div>
