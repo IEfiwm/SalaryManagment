@@ -1,0 +1,69 @@
+﻿@using Web.Areas.Admin.Models
+@using Common.Enums
+@model User_RoleViewModel
+@{
+    ViewBag.Title = "انتصاب نقش به کاربران";
+    var UserList = ViewData["UserList"] as List<UserViewModel>;
+    var RoleList = ViewData["RoleList"] as List<RoleViewModel>;
+}
+
+<form id="form" method="POST" action="SaveUserRole">
+    <div class="row justify-content-center">
+        <div class="col-12 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mt-3">
+
+                            <label class="form-label select-label">نقش</label>
+                            <select class="selectpicker js-data-example-ajax form-control" title="انتخاب کنید" name="RoleId" id="RoleId"
+                                    data-live-search="true" data-live-search-placeholder="جستجو">
+                                @foreach (var role in RoleList)
+                                {
+                                    <option value="@role.Id">@role.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label select-label">کاربر</label>
+                            <select class="selectpicker js-data-example-ajax form-control" title="انتخاب کنید" name="UserId" id="UserId"
+                                    data-live-search="true" data-live-search-placeholder="جستجو" multiple>
+                                @foreach (var user in UserList)
+                                {
+                                    <option value="@user.Id">@user.FirstName @user.LastName</option>
+                                }
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-right">
+                    <button type="submit" class="btn btn-primary">ذخیره</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+<script>
+    $('#RoleId').change(function(){
+        $("#UserId option").prop("selected", false);
+         $.ajax({
+            url: "/admin/role/getusers?roleId="+$('#RoleId').val(),
+            method: "GET",
+            success: function (model){
+                 $.each(model, function(i,e){
+                    $("#UserId option[value='" + e + "']").prop("selected", true);
+                });
+                $('.selectpicker').selectpicker('refresh');
+            }
+        });
+    });
+</script>
+
+}

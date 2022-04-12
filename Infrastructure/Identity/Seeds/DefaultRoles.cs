@@ -10,11 +10,11 @@ namespace Infrastructure.Identity.Seeds
         public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             //Seed Roles
-            var test = new ApplicationRole("Test");
-            await roleManager.CreateAsync(test);
-            await roleManager.CreateAsync(new ApplicationRole(Roles.Admin.ToString()));
-            await roleManager.CreateAsync(new ApplicationRole(Roles.Manager.ToString()));
-            await roleManager.CreateAsync(new ApplicationRole(Roles.User.ToString()));
+            //var test = new ApplicationRole("Test");
+            //await roleManager.CreateAsync(test);
+            //await roleManager.CreateAsync(new ApplicationRole(Roles.Admin.ToString()));
+            //await roleManager.CreateAsync(new ApplicationRole(Roles.Manager.ToString()));
+            //await roleManager.CreateAsync(new ApplicationRole(Roles.User.ToString()));
         }
     }
 }

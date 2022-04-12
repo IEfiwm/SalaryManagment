@@ -6,6 +6,10 @@
     border-radius: 10px;
 }
 
+    .modules > p > a {
+        direction: ltr !important
+    }
+
 #dropzone {
     padding: 20px;
     background: #eee;
@@ -35,6 +39,9 @@
     position: relative;
 }
 
-.drop-item .remove {
-    position: absolute;
-}
+    .drop-item .remove {
+        position: absolute;
+    }
+    .drop-item > div > h5 {
+        direction: ltr !important
+    }

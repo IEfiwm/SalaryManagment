@@ -1,4 +1,5 @@
 ﻿@using Web.Areas.Admin.Models
+@using Application.Extensions
 @using Common.Enums
 @model ProjectRuleViewModel
 @{
@@ -7,6 +8,7 @@
     var props = ViewData["CalculatedProps"] as List<FieldViewModel>;
     var propsBy = ViewData["CalculatedByProps"] as List<FieldViewModel>;
     var index = 1;
+    var enumNameList = EnumHelper<Calculate>.GetDisplayValues(Calculate.Divided).ToList();
 }
 <link href="~/css/DraggerProjectRule.css" rel="stylesheet" />
 
@@ -76,12 +78,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="modules" id="Calc">
-                                    @foreach (var prop in (Calculate[])Enum.GetValues(typeof(Calculate)))
-                                    {
-                                        <p class="drag" id="@Html.DisplayFor(e => prop)"><a class="btn btn-light">@Html.DisplayFor(e => prop)</a></p>
-                                    }
+                             <div class="col-md-4">
+                                <div id="Calc">
+                                    <div class="modules">
+                                        @foreach (var prop in (Calculate[])Enum.GetValues(typeof(Calculate)))
+                                        {
+                                            <p class="drag" id="@Html.DisplayFor(e => prop)"><a class="btn btn-light">@Html.DisplayFor(e => prop)</a></p>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -98,16 +102,16 @@
                                         <div id="dropzone" class="row">
                                             @foreach (var prop in Model.Rule?.Split("&").ToList())
                                             {
-                                                if (index % 2 != 0)
+                                                if (!enumNameList.Contains(prop?.Trim()))
                                                 {
                                                     <div class="col-md-2" name="CalcProp">
                                                         <div class="drop-item row">
                                                             <div class="col-md-9 pr-1">
-                                                                <label class="pt-2">@prop.Replace("[","").Replace("]","")?.Trim()</label>
+                                                                <h5 class="pt-2">@prop.Replace("[","").Replace("]","")?.Trim()</h5>
                                                             </div>
                                                             <div class="col-md-3 pl-0">
                                                                 <input type="hidden" value="@prop?.Trim()" name="RuleList">
-                                                                <button type="button" title="حذف" class="btn btn-default btn-xs remove">
+                                                                <button type="button" title="حذف" class="btn btn-default btn-xs remove" onclick="Delete(this)">
                                                                     <small class="fa fa-times text-danger"></small>
                                                                 </button>
                                                             </div>
@@ -123,7 +127,7 @@
                                                             </div>
                                                             <div class="col-md-3 pl-0">
                                                                 <input type="hidden" value="@prop" name="RuleList">
-                                                                <button type="button" title="حذف" class="btn btn-default btn-xs remove">
+                                                                <button type="button" title="حذف" class="btn btn-default btn-xs remove" onclick="Delete(this)">
                                                                     <small class="fa fa-times text-danger"></small>
                                                                 </button>
                                                             </div>

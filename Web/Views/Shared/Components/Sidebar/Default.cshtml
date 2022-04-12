@@ -96,8 +96,8 @@
                         </ul>
 
                     </li>
-                    <li is-active-route asp-controller="Permission" class="nav-item has-treeview">
-                        <a is-active-route asp-controller="Permission" class="nav-link">
+                    <li is-active-route asp-controller="Role" class="nav-item has-treeview">
+                        <a is-active-route asp-controller="Role" class="nav-link">
                             <i class="nav-icon fa fa-user"></i>
                             <p>
                                 مدیریت دسترسی
@@ -106,15 +106,21 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Permission" class="nav-link disabled">
+                                <a is-active-route asp-area="Admin" asp-controller="Role" asp-action="Index" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>لیست نقش ها</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Permission" asp-action="Create" class="nav-link disabled">
+                                <a is-active-route asp-area="Admin" asp-controller="Role" asp-action="Create" class="nav-link">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>نقش جدید </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Admin" asp-controller="Role" asp-action="UserRole" class="nav-link">
+                                    <i class="fa fa-bullseye nav-icon"></i>
+                                    <p>انتصاب نقش به کاربران </p>
                                 </a>
                             </li>
                         </ul>

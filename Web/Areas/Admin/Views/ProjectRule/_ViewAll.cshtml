@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="col-sm">
                             <a>
-                                @projects.FirstOrDefault(x=>x.Id==rule.ProjectId).Title
+                                @projects.FirstOrDefault(x=>x.Id==rule.ProjectId)?.Title
                             </a>
                         </div>
                     </div>

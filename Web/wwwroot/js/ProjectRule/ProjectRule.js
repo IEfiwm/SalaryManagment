@@ -14,13 +14,16 @@ $('#dropzone').droppable({
         var value = draggedFieldId;
         var draggedId = $(ui.draggable).parent().parent().prop('id');
         var draggedBefore = $('#dropzone').children().last().attr('name')
+        var draggedBeforeId = $('#dropzone').children().last().find('input[type="hidden"]').attr('value')
 
-        if (draggedBefore == undefined && draggedId == 'Calc') {
+        if (draggedBefore == undefined && draggedId == 'Calc' && draggedFieldId != '(') {
             swal('امکان اضافه کردن عملگر در ابتدای فرمول وجود ندارد');
             return;
         }
 
-        if (draggedId == draggedBefore) {
+        if (draggedId == draggedBefore &&
+            ((draggedFieldId != ')' && draggedFieldId != '(')
+                && (draggedBeforeId != ')' && draggedBeforeId != '('))) {
             swal('لطفا در بین عوامل از عملگر استفاده کنید.');
             return;
         }
@@ -73,12 +76,27 @@ $('#dropzone').droppable({
     }
 })
 
+function Delete(This) {
+    if ($(This).parent().parent().parent().next().length == 0)
+        $(This).parent().parent().parent().detach();
+    else
+        swal(' امکان حذف عملگر/عوامل در بین فرمول وجود ندارد، لطفا از انتها اقدام به حذف کنید');
 
+}
 $('#form').on('submit', function (e) {
     var draggedBefore = $('#dropzone').children().last().attr('name')
-    if (draggedBefore == 'Calc') {
+    var draggedId = $('#dropzone').children().last().find('input[type="hidden"]').attr('value')
+    if (draggedBefore == 'Calc' && draggedId != '%' && draggedId != ')') {
         swal('امکان وجود عملگر در انتهای فرمول وجود ندارد.');
         e.preventDefault();
+        return;
+    }
+    if ($('#dropzone').children().find('input[type="hidden"][value="("]').length
+        !=
+        $('#dropzone').children().find('input[type="hidden"][value=")"]').length) {
+        swal('تعداد پرانتز های باز و بسته یکسان نیست. لطفا فرمول را ویرایش کنید');
+        e.preventDefault();
+        return;
     }
 
 });

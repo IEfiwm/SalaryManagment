@@ -12,5 +12,11 @@ namespace Common.Enums
         Multiple = 2,
         [Display(Name = "/")]
         Divided = 3,
+        [Display(Name = "%")]
+        Percent = 4,
+        [Display(Name = "(")]
+        ParenthesesO = 5,
+        [Display(Name = ")")]
+        ParenthesesC = 6,
     }
 }

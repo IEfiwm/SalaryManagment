@@ -22,16 +22,19 @@ namespace Web.Areas.Admin.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMenuRepository _menuRepository;
         private readonly IRole_MenuRepository _role_MenuRepository;
+        private readonly IUser_RoleRepository _user_RoleRepository;
 
         public RoleController(UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
             IMenuRepository menuRepository,
-            IRole_MenuRepository role_MenuRepository)
+            IRole_MenuRepository role_MenuRepository,
+            IUser_RoleRepository user_RoleRepository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _menuRepository = menuRepository;
             _role_MenuRepository = role_MenuRepository;
+            _user_RoleRepository = user_RoleRepository;
         }
 
         public IActionResult Index()
@@ -45,6 +48,15 @@ namespace Web.Areas.Admin.Controllers
             var model = _mapper.Map<IEnumerable<RoleViewModel>>(roles);
             return PartialView("_ViewAll", model);
         }
+
+        public async Task<IActionResult> GetUsers(string roleId)
+        {
+            var user_role = await _user_RoleRepository.GetByRoleId(roleId);
+            var model = user_role?.Select(x => x.UserId).ToList();
+
+            return Json(model);
+        }
+
         public async Task<IActionResult> Create()
         {
             ViewData["MenuList"] = _mapper.Map<List<MenuViewModel>>(await _menuRepository.GetListAsync());
@@ -115,7 +127,7 @@ namespace Web.Areas.Admin.Controllers
             if (ModelState.IsValid && model.Name != "SuperAdmin" && model.Name != "Basic")
             {
                 var modelAcc = _mapper.Map(model, await _roleManager.FindByIdAsync(model.Id));
-                
+
                 modelAcc.Name = model.Name;
                 modelAcc.NormalizedName = model.Name.ToUpper();
 
@@ -185,88 +197,51 @@ namespace Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        //public async Task<IActionResult> OnGetCreate(string id)
-        //{
-        //    if (string.IsNullOrEmpty(id))
-        //        return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_Create", new RoleViewModel()) });
-        //    else
-        //    {
-        //        var role = await _roleManager.FindByIdAsync(id);
-        //        if (role == null) _notify.Error("Unexpected Error. Role not found!");
-        //        var roleviewModel = _mapper.Map<RoleViewModel>(role);
-        //        return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_Create", roleviewModel) });
-        //    }
-        //}
+        public async Task<IActionResult> UserRole()
+        {
+            var users = await _userManager.Users.Where(m => m.UserType == Common.Enums.UserType.SystemUser).ToListAsync();
 
-        //[HttpPost]
-        //public async Task<IActionResult> OnPostCreate(RoleViewModel role)
-        //{
-        //    if (ModelState.IsValid && role.Name != "SuperAdmin" && role.Name != "Basic")
-        //    {
-        //        if (string.IsNullOrEmpty(role.Id))
-        //        {
-        //            var resAdd = await _roleManager.CreateAsync(new IdentityRole(role.Name));
-        //            if (resAdd.Errors?.Count() > 0)
-        //            {
-        //                _notify.Error("عملیات ثبت نقش با خطا مواجعه شد.");
-        //                return RedirectToAction("Index");
+            ViewData["UserList"] = _mapper.Map<List<UserViewModel>>(users);
+            ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
 
-        //            }
-        //        }
-        //        else
-        //        {
-        //            var existingRole = await _roleManager.FindByIdAsync(role.Id);
-        //            existingRole.Name = role.Name;
-        //            existingRole.NormalizedName = role.Name.ToUpper();
-        //            await _roleManager.UpdateAsync(existingRole);
-        //            _notify.Success("Role Updated");
-        //        }
+            return View();
+        }
 
-        //        var roles = await _roleManager.Roles.ToListAsync();
-        //        var mappedRoles = _mapper.Map<IEnumerable<RoleViewModel>>(roles);
-        //        var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", mappedRoles);
-        //        return new JsonResult(new { isValid = true, html = html });
-        //    }
-        //    else
-        //    {
-        //        var html = await _viewRenderer.RenderViewToStringAsync<RoleViewModel>("_CreateOrEdit", role);
-        //        return new JsonResult(new { isValid = false, html = html });
-        //    }
-        //}
+        [HttpPost]
+        public async Task<IActionResult> SaveUserRole(User_RoleViewModel model)
+        {
+            var user_role = await _user_RoleRepository.GetByRoleId(model.RoleId);
 
-        //public async Task<JsonResult> OnPostDelete(string id)
-        //{
-        //    var existingRole = await _roleManager.FindByIdAsync(id);
-        //    if (existingRole.Name != "SuperAdmin" && existingRole.Name != "Basic")
-        //    {
-        //        //TODO Check if Any Users already uses this Role
-        //        bool roleIsNotUsed = true;
-        //        var allUsers = await _userManager.Users.ToListAsync();
-        //        foreach (var user in allUsers)
-        //        {
-        //            if (await _userManager.IsInRoleAsync(user, existingRole.Name))
-        //            {
-        //                roleIsNotUsed = false;
-        //            }
-        //        }
-        //        if (roleIsNotUsed)
-        //        {
-        //            await _roleManager.DeleteAsync(existingRole);
-        //            _notify.Success($"Role {existingRole.Name} deleted.");
-        //        }
-        //        else
-        //        {
-        //            _notify.Error("Role is being Used by another User. Cannot Delete.");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        _notify.Error($"Not allowed to  delete {existingRole.Name} Role.");
-        //    }
-        //    var roles = await _roleManager.Roles.ToListAsync();
-        //    var mappedRoles = _mapper.Map<IEnumerable<RoleViewModel>>(roles);
-        //    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", mappedRoles);
-        //    return new JsonResult(new { isValid = true, html = html });
-        //}
+            if (user_role != null && user_role.Count > 0)
+            {
+                foreach (var roleMenu in user_role)
+                {
+                    await _user_RoleRepository.DeleteAsync(roleMenu);
+                }
+            }
+
+            if (model.UserId?.Count > 0)
+            {
+                foreach (var userId in model.UserId)
+                {
+                    var resMenu = await _user_RoleRepository.InsertAndSaveAsync(new User_Role
+                    {
+                        UserId = userId,
+                        RoleId = model.RoleId
+                    });
+
+                    if (resMenu == 0)
+                    {
+                        _notify.Error("عملیات ثبت کاربر با خطا مواجعه شد.");
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+
+            _notify.Success("عملیات با موفقیت انجام شد.");
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
