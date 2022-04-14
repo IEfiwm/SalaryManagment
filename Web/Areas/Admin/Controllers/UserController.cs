@@ -259,7 +259,7 @@ namespace Web.Areas.Admin.Controllers
             var banks = await _bankRepository.GetListAsync();
             ViewData["banks"] = _mapper.Map<List<BankViewModel>>(banks.Where(x => x.Active).ToList());
 
-            return View("Edit", model);
+            return View("EditPersonnel", model);
         }
 
         [HttpPost]
@@ -315,7 +315,7 @@ namespace Web.Areas.Admin.Controllers
             {
                 _notify.Error("ویرایش انجام نشد.");
 
-                return Redirect("/admin/user/edit?userId=" + user.Id);
+                return Redirect("/admin/user/editpersonnel?userId=" + user.Id);
             }
 
             return RedirectToAction("Index");

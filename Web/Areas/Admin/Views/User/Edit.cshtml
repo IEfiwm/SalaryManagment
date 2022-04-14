@@ -1,8 +1,8 @@
 ﻿@using Web.Areas.Admin.Models
 @model UserViewModel
 @{
-    ViewBag.Title = "کاربر جدید";
-    ViewBag.Capation = "ایجاد کاربر جدید";
+    ViewBag.Title = "ویرایش کاربر";
+    ViewBag.Capation = "درحال ویرایش کاربر هستید.";
     var RoleList = ViewData["RoleList"] as List<RoleViewModel>;
 }
 <form method="post" asp-area="Admin" asp-controller="User" asp-action="Edit">

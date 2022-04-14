@@ -24,7 +24,7 @@
                         id="employeeStatus"
                         class="form-control"
                         asp-items="Html.GetEnumSelectList<EmployeeStatus>()">
-                     <option selected value=0>یک مورد را انتخاب کنید</option>
+                    <option selected value="000">یک مورد را انتخاب کنید</option>
                 </select>
             </div>
             <div class="col-3 mt-1">
@@ -33,7 +33,7 @@
                         id="gender"
                         class="form-control"
                         asp-items="Html.GetEnumSelectList<Gender>()">
-                     <option selected value=0>یک مورد را انتخاب کنید</option>
+                    <option selected value="000">یک مورد را انتخاب کنید</option>
                 </select>
             </div>
             <div class="col-3 mt-1">
@@ -42,7 +42,7 @@
                         id="militaryService"
                         class="form-control"
                         asp-items="Html.GetEnumSelectList<MilitaryService>()">
-                     <option selected value=0>یک مورد را انتخاب کنید</option>
+                    <option selected value="000">یک مورد را انتخاب کنید</option>
                 </select>
             </div>
             <div class="col-3 mt-1">
@@ -51,7 +51,7 @@
                         id="maritalStatus"
                         class="form-control"
                         asp-items="Html.GetEnumSelectList<MaritalStatus>()">
-                     <option selected value=0>یک مورد را انتخاب کنید</option>
+                    <option selected value="000">یک مورد را انتخاب کنید</option>
                 </select>
             </div>
             <div class="mt-3 col-2">
@@ -99,7 +99,7 @@
 
     function loadData(projectId,key,employeeStatus,gender,militaryService,maritalStatus) {
          $('#CustomSpinner').css('display','block')
-        $('#data-card').load('/admin/user/loadall?projectId=' + projectId + '&key=' + key + '&pageSize=10&pageNumber=' + page + '&employeeStatus=' + employeeStatus + '&gender='+gender + '&militaryService=' + militaryService + '&maritalStatus' + maritalStatus);
+        $('#data-card').load('/admin/user/loadall?projectId=' + projectId + '&key=' + key + '&pageSize=10&pageNumber=' + page + '&employeeStatus=' + (employeeStatus === "000" ? null : employeeStatus)  + '&gender=' + (gender === "000" ? null : gender) + '&militaryService=' + (militaryService === "000" ? null : militaryService) + '&maritalStatus' + (maritalStatus === "000" ? null : maritalStatus));
     }
 
     function GetDocuments(id)
