@@ -232,7 +232,7 @@ namespace Web.Areas.Admin.Controllers
                {
                    Role = x.Select(y => y.Role).FirstOrDefault(),
                    ProjectId = x.Key.ProjectId,
-                   Permissions = x.Select(y => y.Permission).ToList()
+                   Permissions = x.Select(y => y.Permission).ToList(),
 
                }).ToList();
 

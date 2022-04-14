@@ -62,9 +62,9 @@
                                     <a asp-area="Admin" asp-controller="Role" asp-action="RoleProjectPermission" asp-route-projectId="@role_permission.ProjectId"  asp-route-roleId="@role_permission.Role.Id" class="dropdown-item">
                                         <i class="fa fa-pencil"></i> @localizer["Edit"]
                                     </a>
-                                    <a onclick="DeleteRole_Permission('@role_permission.Id')" class="dropdown-item">
+@*                                    <a onclick="DeleteRole_Permission('@role_permission.Id')" class="dropdown-item">
                                         <i class="fa fa-pencil"></i> @localizer["Delete"]
-                                    </a>
+                                    </a>*@
                                 </div>
                             </div>
                         </td>
@@ -76,6 +76,7 @@
 </div>
 @section Scripts
 {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="~/js/site.js"></script>
 <script>
     function loadData()
