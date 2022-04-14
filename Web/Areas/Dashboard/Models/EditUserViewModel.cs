@@ -49,7 +49,7 @@ namespace Web.Areas.Dashboard.Models
         public byte NumberOfChildren { get; set; }
 
         [Required]
-        [RegularExpression("^09[0-3][0-9]-?[0-9]{3}-?[0-9]{4}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression("^09[0-9][0-9]-?[0-9]{3}-?[0-9]{4}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string PhoneNumber { get; set; }
 
         public List<AdditionalUserDataViewModel> AdditionalUserData

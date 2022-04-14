@@ -19,5 +19,9 @@ namespace Infrastructure.Repositories.Application.Basic
         {
             return await Model.Where(x => x.RoleId == roleId).ToListAsync();
         }
+        public async Task<List<User_Role>> GetByUserId(string userId)
+        {
+            return await Model.Where(x => x.UserId == userId).ToListAsync();
+        }
     }
 }

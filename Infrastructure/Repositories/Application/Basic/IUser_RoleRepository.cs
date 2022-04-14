@@ -9,5 +9,7 @@ namespace Infrastructure.Repositories.Application.Basic
     public interface IUser_RoleRepository : IBaseIdentityRepository<User_Role, IdentityContext>
     {
         Task<List<User_Role>> GetByRoleId(string roleId);
+
+        Task<List<User_Role>> GetByUserId(string userId);
     }
 }
