@@ -1,0 +1,122 @@
+﻿@using Web.Areas.Admin.Models
+@model IEnumerable<Role_Project_PermissionViewModel>
+@inject IHtmlLocalizer<SharedResource> localizer
+@{
+    ViewBag.Title = "لیست نقش های ‍‍پروژه";
+    ViewData["Caption"] = "نقش های پروژه را در اینجا مدیریت کنید";
+}
+<div class="card">
+    <div class="col-sm-12" style="padding:20px">
+    </div>
+    <div id="viewAll" class="card-body table-responsive">
+        <table class="table table-striped display" id="RoleTable">
+            <thead>
+                <tr>
+                    <th>
+                        نقش
+                    </th>
+                    <th>
+                        سطوح دسترسی
+                    </th>
+                    <th style="width:10%">
+                        #
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var role_permission in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <a>
+                                        @role_permission.Role.Name
+                                    </a>
+                                    <br>
+                                    <small>
+
+                                    </small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <a>
+                                        @string.Join(',', role_permission.Permissions.Select(x=>x.Name))
+                                    </a>
+                                    <br>
+                                    <small>
+
+                                    </small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @localizer["Actions"]
+                                </button>
+                                <div class="dropdown-menu shadow animated--grow-in">
+                                    <a asp-area="Admin" asp-controller="Role" asp-action="RoleProjectPermission" asp-route-projectId="@role_permission.ProjectId"  asp-route-roleId="@role_permission.Role.Id" class="dropdown-item">
+                                        <i class="fa fa-pencil"></i> @localizer["Edit"]
+                                    </a>
+                                    <a onclick="DeleteRole_Permission('@role_permission.Id')" class="dropdown-item">
+                                        <i class="fa fa-pencil"></i> @localizer["Delete"]
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts
+{
+<script src="~/js/site.js"></script>
+<script>
+    function loadData()
+    {
+        location.reload();
+    }
+    $(document).ready(function () {
+        $("#RoleTable").DataTable();
+    });
+        function DeleteRole_Permission(id)
+      {
+          swal({
+              title: "آیا از حذف این پروژه اطمینان دارید؟",
+              text: "در صورت حذف، امکان بازگردانی اطلاعات وجود ندارد!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+              buttons: {
+                  confirm : {text:'حذف',className:'sweet-warning'},
+                  cancel : 'لغو'
+              }
+          })
+          .then((willDelete) => {
+              if (willDelete) {
+                                        $.ajax({
+                  url: "/admin/role/DeleteRoleProjectPermission?id="+id,
+                  method: "GET",
+                  success: function (model) {
+                      notyf.success("حذف با موفقیت انجام شد.");
+                      loadData();
+              },
+                                        failed: function (model) {
+                      notyf.error("حذف با خطا مواجه شد.");
+                      loadData();
+              }});
+              } else {
+                  notyf.warning("عملیات لغو شد.");
+              }
+          });
+          }
+
+</script>
+
+}

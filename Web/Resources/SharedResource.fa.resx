@@ -396,4 +396,10 @@
 	<data name="ListProjectRule" xml:space="preserve">
     <value>لیست قوانین پروژه</value>
   </data>
+	<data name="CreateRoleProjectPermission" xml:space="preserve">
+    <value>انتصاب نقش و سطوح دسترسی</value>
+  </data>
+	<data name="ListRoleProjectPermission" xml:space="preserve">
+    <value>لیست نقش و سطوح دسترسی</value>
+  </data>
 </root>

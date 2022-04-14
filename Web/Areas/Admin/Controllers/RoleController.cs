@@ -23,18 +23,27 @@ namespace Web.Areas.Admin.Controllers
         private readonly IMenuRepository _menuRepository;
         private readonly IRole_MenuRepository _role_MenuRepository;
         private readonly IUser_RoleRepository _user_RoleRepository;
+        private readonly IRole_Project_PermissionRepository _role_Project_PermissionRepository;
+        private readonly IProjectRepository _projectRepository;
+        private readonly IPermissionRepository _permissionRepository;
 
         public RoleController(UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
             IMenuRepository menuRepository,
             IRole_MenuRepository role_MenuRepository,
-            IUser_RoleRepository user_RoleRepository)
+            IUser_RoleRepository user_RoleRepository,
+            IRole_Project_PermissionRepository role_Project_PermissionRepository,
+            IProjectRepository projectRepository,
+            IPermissionRepository permissionRepository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _menuRepository = menuRepository;
             _role_MenuRepository = role_MenuRepository;
             _user_RoleRepository = user_RoleRepository;
+            _role_Project_PermissionRepository = role_Project_PermissionRepository;
+            _projectRepository = projectRepository;
+            _permissionRepository = permissionRepository;
         }
 
         public IActionResult Index()
@@ -53,6 +62,14 @@ namespace Web.Areas.Admin.Controllers
         {
             var user_role = await _user_RoleRepository.GetByRoleId(roleId);
             var model = user_role?.Select(x => x.UserId).ToList();
+
+            return Json(model);
+        }
+
+        public async Task<IActionResult> GetPermissions(string roleId, long projectId)
+        {
+            var role_Project_Permissions = await _role_Project_PermissionRepository.GetByRoleAndProjectId(roleId, projectId);
+            var model = role_Project_Permissions?.Select(x => x.PermissionId).ToList();
 
             return Json(model);
         }
@@ -197,6 +214,87 @@ namespace Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> RoleProjectPermissionList(long projectId)
+        {
+            if (projectId == 0)
+            {
+                _notify.Error("بروز مشکل در انتخاب پروژه");
+                return RedirectToAction("Index", "Project");
+            }
+
+            var role_Project_Permissions = await _role_Project_PermissionRepository.GetByProjectId(projectId);
+
+            var model = _mapper.Map<List<Role_Project_PermissionViewModel>>(role_Project_Permissions);
+
+            model = model.GroupBy(x => new { x.ProjectId, x.RoleId }).Select(x =>
+
+               new Role_Project_PermissionViewModel
+               {
+                   Role = x.Select(y => y.Role).FirstOrDefault(),
+                   ProjectId = x.Key.ProjectId,
+                   Permissions = x.Select(y => y.Permission).ToList()
+
+               }).ToList();
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> RoleProjectPermission(long projectId, string? roleId = null)
+        {
+            if (projectId == 0)
+            {
+                _notify.Error("بروز مشکل در انتخاب پروژه");
+                return RedirectToAction("Index", "Project");
+            }
+            ViewData["PermissionList"] = _mapper.Map<List<PermissionsViewModel>>(await _permissionRepository.GetListAsync());
+            ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
+
+            var model = new Role_Project_PermissionViewModel { ProjectId = projectId };
+            if (roleId != null)
+            {
+                model.RoleId = roleId;
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveRoleProjectPermission(Role_Project_PermissionViewModel model)
+        {
+            var role_Project_Permissions = await _role_Project_PermissionRepository.GetByRoleAndProjectId(model.RoleId, model.ProjectId);
+
+            if (role_Project_Permissions != null && role_Project_Permissions.Count > 0)
+            {
+                foreach (var item in role_Project_Permissions)
+                {
+                    await _role_Project_PermissionRepository.DeleteAsync(item);
+                }
+            }
+
+            if (model.PermissionIds?.Count > 0)
+            {
+                foreach (var permissionId in model.PermissionIds)
+                {
+                    var resMenu = await _role_Project_PermissionRepository.InsertAndSaveAsync(new Role_Project_Permission
+                    {
+                        PermissionId = permissionId,
+                        RoleId = model.RoleId,
+                        ProjectId = model.ProjectId
+                    });
+
+                    if (resMenu == 0)
+                    {
+                        _notify.Error("عملیات ثبت سطح دسترسی با خطا مواجعه شد.");
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+
+            _notify.Success("عملیات با موفقیت انجام شد.");
+
+            return RedirectToAction("RoleProjectPermissionList", new { projectId = model.ProjectId });
+        }
+
         public async Task<IActionResult> UserRole()
         {
             var users = await _userManager.Users.Where(m => m.UserType == Common.Enums.UserType.SystemUser).ToListAsync();
@@ -243,5 +341,20 @@ namespace Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> DeleteRoleProjectPermission(long id)
+        {
+            var role_Project_Permission = await _role_Project_PermissionRepository.GetByIdAsync(id);
+            if (role_Project_Permission is not null)
+            {
+                await _role_Project_PermissionRepository.DeleteAsync(role_Project_Permission);
+                var role_Project_PermissionsRes = await _role_Project_PermissionRepository.SaveChangesAsync();
+
+                if (role_Project_PermissionsRes > 0)
+                {
+                    return Ok();
+                }
+            }
+            return BadRequest();
+        }
     }
 }

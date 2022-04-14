@@ -2,6 +2,10 @@
 using Domain.Entities.Basic;
 using Infrastructure.DbContexts;
 using Infrastructure.Repositories.Base;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories.Application.Basic
 {
@@ -11,6 +15,17 @@ namespace Infrastructure.Repositories.Application.Basic
         {
         }
 
-       
+        public async Task<List<Role_Project_Permission>> GetByRoleAndProjectId(string roleId, long projectId)
+        {
+            return await Model.Where(x => x.RoleId == roleId && x.ProjectId == projectId).ToListAsync();
+        }
+        public async Task<List<Role_Project_Permission>> GetByProjectId(long projectId)
+        {
+            return await Model
+                .Include(x=>x.Project)
+                .Include(x=>x.Role)
+                .Include(x=>x.Permission)
+                .Where(x => x.ProjectId == projectId).ToListAsync();
+        }
     }
 }
