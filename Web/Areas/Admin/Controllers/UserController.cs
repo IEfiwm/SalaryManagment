@@ -138,8 +138,6 @@ namespace Web.Areas.Admin.Controllers
                 if (result.Succeeded)
                 {
                     //add role
-                    //var res = await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
-
                     if (!string.IsNullOrEmpty(userModel.RoleId))
                     {
                         var resRole = await _user_RoleRepository.InsertAndSaveAsync(new User_Role
@@ -165,6 +163,70 @@ namespace Web.Areas.Admin.Controllers
                 }
                 ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
                 return View("Create", userModel);
+            }
+
+            return default;
+        }
+
+        public async Task<IActionResult> Edit(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var model = _mapper.Map<UserViewModel>(user);
+            var user_role = await _user_RoleRepository.GetByUserId(userId);
+
+            if (user_role != null && user_role.Count > 0)
+            {
+                model.RoleId = user_role.FirstOrDefault().RoleId;
+            }
+
+            ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
+
+            return View("Edit", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserViewModel userModel)
+        {
+            if (ModelState.IsValid)
+            {
+                //MailAddress address = new MailAddress(userModel.Email);
+                //string userName = address.User;
+                var ouser = await _userManager.FindByIdAsync(userModel.Id);
+
+                ouser = _mapper.Map<UserViewModel, ApplicationUser>(userModel, ouser);
+                ouser.ProjectRef = null;
+                var result = await _userManager.UpdateAsync(ouser);
+
+                if (!string.IsNullOrEmpty(userModel.RoleId))
+                {
+                    //delete by userId
+                    var user_role = await _user_RoleRepository.GetByUserId(userModel.Id);
+
+                    if (user_role != null && user_role.Count > 0)
+                    {
+                        foreach (var roleMenu in user_role)
+                        {
+                            await _user_RoleRepository.DeleteAsync(roleMenu);
+                        }
+                    }
+
+                    //add role
+                    var resRole = await _user_RoleRepository.InsertAndSaveAsync(new User_Role
+                    {
+                        UserId = userModel.Id,
+                        RoleId = userModel.RoleId
+                    });
+
+                    if (resRole == 0)
+                    {
+                        _notify.Error("عملیات ویرایش کاربر با خطا مواجعه شد.");
+                        return RedirectToAction("Index");
+                    }
+                }
+
+                _notify.Success($"کاربر {userModel.UserName} با موفقیت ویرایش شد.");
+
+                return RedirectToAction("Index");
             }
 
             return default;
