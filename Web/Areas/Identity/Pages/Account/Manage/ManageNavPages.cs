@@ -41,7 +41,11 @@ namespace Web.Areas.Identity.Pages.Account.Manage
         {
             var activePage = viewContext.ViewData["ActivePage"] as string
                 ?? System.IO.Path.GetFileNameWithoutExtension(viewContext.ActionDescriptor.DisplayName);
-            return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "active" : null;
+            if (activePage.Contains(page))
+            {
+                return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "active" : null;
+            }
+            return null;
         }
     }
 }

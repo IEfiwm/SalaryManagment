@@ -1,4 +1,5 @@
-﻿@inject IHtmlLocalizer<SharedResource> localizer
+﻿@using Common.Enums
+@inject IHtmlLocalizer<SharedResource> localizer
 @inject Infrastructure.Repositories.IFileRepository _fileRepository;
 
 @{
@@ -14,11 +15,47 @@
                     <option selected value=0>یک مورد را انتخاب کنید</option>
                 </select>
             </div>
-            <div class="col-2 mt-1">
+            <div class="col-4 mt-1">
                 <input class="form-control" name="key" id="key" placeholder="جست و جو" />
             </div>
-            <div class="mt-1 col-2">
-                <button onclick="loadData($('#project').val(),$('#key').val())" class="btn btn-primary">نمایش نتیجه</button>
+            <div class="col-3 mt-1">
+                <label class="control-label"></label>
+                <select name="employeeStatus"
+                        id="employeeStatus"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<EmployeeStatus>()">
+                     <option selected value=0>یک مورد را انتخاب کنید</option>
+                </select>
+            </div>
+            <div class="col-3 mt-1">
+                <label class="control-label"></label>
+                <select name="gender"
+                        id="gender"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<Gender>()">
+                     <option selected value=0>یک مورد را انتخاب کنید</option>
+                </select>
+            </div>
+            <div class="col-3 mt-1">
+                <label class="control-label"></label>
+                <select name="militaryService"
+                        id="militaryService"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<MilitaryService>()">
+                     <option selected value=0>یک مورد را انتخاب کنید</option>
+                </select>
+            </div>
+            <div class="col-3 mt-1">
+                <label class="control-label"></label>
+                <select name="maritalStatus"
+                        id="maritalStatus"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<MaritalStatus>()">
+                     <option selected value=0>یک مورد را انتخاب کنید</option>
+                </select>
+            </div>
+            <div class="mt-3 col-2">
+                <button onclick="loadData($('#project').val(),$('#key').val(),$('#employeeStatus').val(),$('#gender').val(),$('#militaryService').val(),$('#maritalStatus').val())" class="btn btn-primary">نمایش نتیجه</button>
             </div>
         </div>
     </div>
@@ -60,9 +97,9 @@
 <script>
     var page = 0;
 
-    function loadData(projectId,key) {
+    function loadData(projectId,key,employeeStatus,gender,militaryService,maritalStatus) {
          $('#CustomSpinner').css('display','block')
-        $('#data-card').load('/admin/user/loadall?projectId=' + projectId + '&key=' + key + '&pageSize=10&pageNumber=' + page);
+        $('#data-card').load('/admin/user/loadall?projectId=' + projectId + '&key=' + key + '&pageSize=10&pageNumber=' + page + '&employeeStatus=' + employeeStatus + '&gender='+gender + '&militaryService=' + militaryService + '&maritalStatus' + maritalStatus);
     }
 
     function GetDocuments(id)

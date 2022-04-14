@@ -63,10 +63,8 @@
                             if(!href.endsWith("/")){
                 href += "/";
             }
-                //console.log($this.attr('href').toLowerCase() == current);
-
-                if(href == current){
-
+                if(href == current && href != '/identity/account/manage' && href != '/identity/account/manage/changepassword/'){
+                    console.log("true")
                    var parent = $this.parent().parent().parent();
 
                    if(parent){

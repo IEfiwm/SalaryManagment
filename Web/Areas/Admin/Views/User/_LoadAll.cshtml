@@ -212,9 +212,9 @@
     </table>
 </div>
 <div class="row mr-2">
-    <button class="btn btn-outline-success m-1" @(Model.PageNumber != 0 ? "" : "disabled") onclick="page = page - 1;loadData($('#project').val(),$('#key').val())">قبلی</button>
+    <button class="btn btn-outline-success m-1" @(Model.PageNumber != 0 ? "" : "disabled") onclick="page = page - 1;loadData($('#project').val(),$('#key').val(),$('#employeeStatus').val(),$('#gender').val(),$('#militaryService').val(),$('#maritalStatus').val())">قبلی</button>
 
-    <button class="btn btn-outline-success m-1" @(Model.PageCount != Model.PageNumber? "": "disabled") onclick="page = page + 1;loadData($('#project').val(),$('#key').val())">بعدی</button>
+    <button class="btn btn-outline-success m-1" @(Model.PageCount != Model.PageNumber? "": "disabled") onclick="page = page + 1;loadData($('#project').val(),$('#key').val(),$('#employeeStatus').val(),$('#gender').val(),$('#militaryService').val(),$('#maritalStatus').val())">بعدی</button>
 
 </div>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

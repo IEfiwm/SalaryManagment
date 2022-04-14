@@ -1,7 +1,9 @@
-﻿using Domain.Entities.Base.Identity;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Domain.Entities.Base.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
@@ -13,6 +15,7 @@ namespace Web.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
+        private INotyfService _notify => HttpContext.RequestServices.GetService<INotyfService>();
 
         public ChangePasswordModel(
             UserManager<ApplicationUser> userManager,
@@ -34,18 +37,18 @@ namespace Web.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Current password")]
+            [Display(Name = "رمزعبور فعلی")]
             public string OldPassword { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "New password")]
+            [Display(Name = "رمزعبور جدید")]
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Display(Name = "تکرار رمزعبور جدید")]
+            [Compare("NewPassword", ErrorMessage = "رمزعبور جدید با تکرار رمزعبور برابر نیستند.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -91,7 +94,7 @@ namespace Web.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            _notify.Success("رمز عبور شما با موفقیت تغییر یافت.");
 
             return RedirectToPage();
         }

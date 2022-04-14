@@ -1,4 +1,5 @@
-﻿using Common.Models.DataTable;
+﻿using Common.Enums;
+using Common.Models.DataTable;
 using Domain.Entities.Base.Identity;
 using Infrastructure.DbContexts;
 using Microsoft.AspNetCore.Identity;
@@ -87,7 +88,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
                 .ToListAsync();
         }
 
-        public async Task<DataTableDTO<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(long projectId, string key, int pageSize, int pageNumber)
+        public async Task<DataTableDTO<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(long projectId, string key, int pageSize, int pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
         {
             var result = new DataTableDTO<IEnumerable<ApplicationUser>>();
 
@@ -103,6 +104,10 @@ namespace Infrastructure.Repositories.Application.Idenitity
                 || EF.Functions.Like(x.NationalCode, $"%{key}%")
                 || EF.Functions.Like(x.InsuranceCode, $"%{key}%")
                 || EF.Functions.Like(x.JobTitle, $"%{key}%"))
+                .Where(m => gender == null || m.Gender == gender.Value)
+                .Where(m => employeeStatus == null || m.EmployeeStatus == employeeStatus.Value)
+                .Where(m => militaryService == null || m.MilitaryService == militaryService.Value)
+                .Where(m => maritalStatus == null || m.MaritalStatus == maritalStatus.Value)
                 .Where(x => (projectId == 0 || x.ProjectRef == projectId)
                 //&& (string.IsNullOrEmpty(key) || x.PhoneNumber.Contains(key) || x.FullName.Contains(key) || x.PersonnelCode.Contains(key) || x.NationalCode.Contains(key))
                 && x.UserType == Common.Enums.UserType.PublicUser

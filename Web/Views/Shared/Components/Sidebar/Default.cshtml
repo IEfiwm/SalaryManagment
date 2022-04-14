@@ -13,7 +13,7 @@
                 @if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager") || User.IsInRole("Admin"))
                 {
                     <li class="nav-item">
-                        <a href="/Dashboard/Managment" class="nav-link">
+                        <a href="/Dashboard/Managment" class="nav-link menulink">
                             <i class="nav-icon fa fa-th"></i>
                             <p>
                                 @localizer["Dashboard"]
@@ -25,7 +25,7 @@
                 else
                 {
                     <li class="nav-item">
-                        <a href="/Dashboard/User/EditInformation" class="nav-link">
+                        <a href="/Dashboard/User/EditInformation" class="nav-link menulink">
                             <i class="nav-icon fa fa-th"></i>
                             <p>
                                 @localizer["Dashboard"]
@@ -39,7 +39,7 @@
                 {
                     <li class="nav-header">@localizer["Admin"]</li>
                     <li is-active-route asp-controller="User" class="nav-item has-treeview">
-                        <a is-active-route asp-controller="User" class="nav-link">
+                        <a is-active-route asp-controller="User" class="nav-link menulink">
                             <i class="nav-icon fa fa-user"></i>
                             <p>
                                 مدیریت کاربران
@@ -48,7 +48,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="User" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>لیست پرسنل </p>
                                 </a>
@@ -56,7 +56,7 @@
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="Create" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="Create" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>پرسنل جدید</p>
                                 </a>
@@ -64,7 +64,7 @@
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="ContractList" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="ContractList" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>قرارداد ها</p>
                                 </a>
@@ -72,7 +72,7 @@
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Attendance" asp-action="Index" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="Attendance" asp-action="Index" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>کارکرد ها</p>
                                 </a>
@@ -80,7 +80,7 @@
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="PayRollTipList" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="PayRollTipList" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>فیش حقوقی ها</p>
                                 </a>
@@ -88,7 +88,7 @@
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="GeneratePayRoll" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="GeneratePayRoll" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>محاسبه حقوق</p>
                                 </a>
@@ -97,7 +97,7 @@
 
                     </li>
                     <li is-active-route asp-controller="Role" class="nav-item has-treeview">
-                        <a is-active-route asp-controller="Role" class="nav-link">
+                        <a is-active-route asp-controller="Role" class="nav-link menulink">
                             <i class="nav-icon fa fa-user"></i>
                             <p>
                                 مدیریت دسترسی
@@ -106,19 +106,19 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Role" asp-action="Index" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="Role" asp-action="Index" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>لیست نقش ها</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Role" asp-action="Create" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="Role" asp-action="Create" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>نقش جدید </p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Role" asp-action="UserRole" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="Role" asp-action="UserRole" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>انتصاب نقش به کاربران </p>
                                 </a>
@@ -126,7 +126,7 @@
                         </ul>
                     </li>
                     <li is-active-route asp-controller="Project" class="nav-item has-treeview">
-                        <a is-active-route asp-controller="Project" class="nav-link">
+                        <a is-active-route asp-controller="Project" class="nav-link menulink">
                             <i class="nav-icon fa fa-user"></i>
                             <p>
                                 مدیریت پروژه
@@ -135,37 +135,37 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/admin/project" class="nav-link">
+                                <a href="/admin/project" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>لیست پروژه ها</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/project/create" class="nav-link">
+                                <a href="/admin/project/create" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>پروژه جدید</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/projectRule" class="nav-link">
+                                <a href="/admin/projectRule" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>لیست قوانین</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/projectRule/create" class="nav-link">
+                                <a href="/admin/projectRule/create" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>قانون جدید</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/bank" class="nav-link">
+                                <a href="/admin/bank" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>لیست حساب ها</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/bank/create" class="nav-link">
+                                <a href="/admin/bank/create" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>حساب جدید</p>
                                 </a>
@@ -173,7 +173,7 @@
                         </ul>
                     </li>
                     @*                    <li class="nav-item has-treeview">
-                        <a class="nav-link">
+                        <a class="nav-link menulink">
                         <i class="nav-icon fa fa-bandcamp"></i>
                         <p>
                         مدیریت حساب ها
@@ -182,13 +182,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                         <li class="nav-item">
-                        <a href="/admin/bank" class="nav-link">
+                        <a href="/admin/bank" class="nav-link menulink">
                         <i class="fa fa-bullseye nav-icon"></i>
                         <p>لیست حساب ها</p>
                         </a>
                         </li>
                         <li class="nav-item">
-                        <a href="/admin/bank/create" class="nav-link">
+                        <a href="/admin/bank/create" class="nav-link menulink">
                         <i class="fa fa-bullseye nav-icon"></i>
                         <p>حساب بانکی جدید</p>
                         </a>
@@ -201,7 +201,7 @@
                 {
                     <li class="nav-header">@localizer["Admin"]</li>
                     <li class="nav-item has-treeview">
-                        <a class="nav-link">
+                        <a class="nav-link menulink">
                             <i class="nav-icon fa fa-user"></i>
                             <p>
                                 مدیریت کاربران
@@ -210,7 +210,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/admin/user/personnel" class="nav-link">
+                                <a href="/admin/user/personnel" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>لیست پرسنل </p>
                                 </a>
@@ -218,7 +218,7 @@
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/admin/user/createPersonnel" class="nav-link">
+                                <a href="/admin/user/createPersonnel" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>پرسنل جدید</p>
                                 </a>
@@ -227,7 +227,7 @@
 
                     </li>
                     <li is-active-route asp-controller="Permission" class="nav-item has-treeview">
-                        <a is-active-route asp-controller="Permission" class="nav-link">
+                        <a is-active-route asp-controller="Permission" class="nav-link menulink">
                             <i class="nav-icon fa fa-address-card"></i>
                             <p>
                                 مدیریت دسترسی
@@ -236,13 +236,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Permission" class="nav-link disabled">
+                                <a is-active-route asp-area="Admin" asp-controller="Permission" class="nav-link menulink disabled">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>لیست نقش ها</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Permission" asp-action="Create" class="nav-link disabled">
+                                <a is-active-route asp-area="Admin" asp-controller="Permission" asp-action="Create" class="nav-link menulink disabled">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>نقش جدید </p>
                                 </a>
@@ -250,7 +250,7 @@
                         </ul>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a class="nav-link">
+                        <a class="nav-link menulink">
                             <i class="nav-icon fa fa-user"></i>
                             <p>
                                 مدیریت پروژه
@@ -259,37 +259,37 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/admin/project" class="nav-link">
+                                <a href="/admin/project" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>لیست پروژه ها</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/project/create" class="nav-link">
+                                <a href="/admin/project/create" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>پروژه جدید</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/projectRule" class="nav-link">
+                                <a href="/admin/projectRule" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>لیست قوانین محاسبات</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/projectRule/create" class="nav-link">
+                                <a href="/admin/projectRule/create" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>قانون محاسبات جدید</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/bank" class="nav-link">
+                                <a href="/admin/bank" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>لیست حساب ها</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/bank/create" class="nav-link">
+                                <a href="/admin/bank/create" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>حساب جدید</p>
                                 </a>
@@ -297,7 +297,7 @@
                         </ul>
                     </li>
                     @*<li class="nav-item has-treeview">
-                        <a class="nav-link">
+                        <a class="nav-link menulink">
                         <i class="nav-icon fa fa-bandcamp"></i>
                         <p>
                         مدیریت حساب ها
@@ -306,13 +306,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                         <li class="nav-item">
-                        <a href="/admin/bank" class="nav-link">
+                        <a href="/admin/bank" class="nav-link menulink">
                         <i class="fa fa-bullseye nav-icon"></i>
                         <p>لیست حساب ها</p>
                         </a>
                         </li>
                         <li class="nav-item">
-                        <a href="/admin/bank/create" class="nav-link">
+                        <a href="/admin/bank/create" class="nav-link menulink">
                         <i class="fa fa-bullseye nav-icon"></i>
                         <p>حساب بانکی جدید</p>
                         </a>
@@ -326,7 +326,7 @@
                 {
                     <li class="nav-header">اطلاعات</li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link menulink">
                             <i class="nav-icon fa fa-book"></i>
                             <p>
                                 اطلاعات پایه
@@ -335,13 +335,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/data/excel/personnel" class="nav-link">
+                                <a href="/data/excel/personnel" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>بارگزاری پرسنل</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/data/excel/attendances" class="nav-link">
+                                <a href="/data/excel/attendances" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>بارگزاری کارکرد</p>
                                 </a>
@@ -349,14 +349,14 @@
                             @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                             {
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="Data" asp-controller="Excel" asp-action="DeleteAttendances" class="nav-link">
+                                    <a is-active-route asp-area="Data" asp-controller="Excel" asp-action="DeleteAttendances" class="nav-link menulink">
                                         <i class="fa fa-bullseye nav-icon"></i>
                                         <p>@localizer["DeleteImportedAttendances"]</p>
                                     </a>
                                 </li>
                             }
                             <li class="nav-item">
-                                <a href="/data/excel/MonthlyAttendances" class="nav-link">
+                                <a href="/data/excel/MonthlyAttendances" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>بارگزاری کارکرد ماهانه</p>
                                 </a>
@@ -364,7 +364,7 @@
                             @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                             {
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="Data" asp-controller="Excel" asp-action="DeleteMonthlyAttendances" class="nav-link">
+                                    <a is-active-route asp-area="Data" asp-controller="Excel" asp-action="DeleteMonthlyAttendances" class="nav-link menulink">
                                         <i class="fa fa-bullseye nav-icon"></i>
                                         <p>@localizer["DeleteMonthlyImportedAttendances"]</p>
                                     </a>
@@ -373,7 +373,7 @@
                         </ul>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link menulink">
                             <i class="nav-icon fa fa-book"></i>
                             <p>
                                 اطلاعات کاربران
@@ -382,7 +382,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="ContractList" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="ContractList" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>قرارداد ها</p>
                                 </a>
@@ -390,7 +390,7 @@
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Attendance" asp-action="Index" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="Attendance" asp-action="Index" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>کارکرد ها</p>
                                 </a>
@@ -398,7 +398,7 @@
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="PayRollTipList" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="PayRollTipList" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>فیش حقوقی ها</p>
                                 </a>
@@ -406,7 +406,7 @@
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="GeneratePayRoll" class="nav-link">
+                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="GeneratePayRoll" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>محاسبه حقوق</p>
                                 </a>
@@ -415,7 +415,7 @@
                     </li>
                     <li class="nav-header">خروجی</li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link menulink">
                             <i class="nav-icon fa fa-bolt"></i>
                             <p>
                                 خروجی بیمه
@@ -424,13 +424,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/export/insurance" class="nav-link">
+                                <a href="/export/insurance" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>@localizer["ExportInsuranceList"]</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/export/summaryinsurance" class="nav-link">
+                                <a href="/export/summaryinsurance" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>@localizer["ExportSummaryInsuranceList"]</p>
                                 </a>
@@ -438,7 +438,7 @@
                         </ul>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link menulink">
                             <i class="nav-icon fa fa-bolt"></i>
                             <p>
                                 خروجی مالیات
@@ -447,13 +447,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/export/tax" class="nav-link">
+                                <a href="/export/tax" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>@localizer["ExportTaxList"]</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/export/summarytax" class="nav-link">
+                                <a href="/export/summarytax" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>@localizer["ExportSummaryTaxList"]</p>
                                 </a>
@@ -461,7 +461,7 @@
                         </ul>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link menulink">
                             <i class="nav-icon fa fa-bolt"></i>
                             <p>
                                 خروجی بانک
@@ -470,7 +470,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/export/bank" class="nav-link">
+                                <a href="/export/bank" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>خروجی لیست بانک</p>
                                 </a>
@@ -478,7 +478,7 @@
                         </ul>
                     </li>
                     @*                    <li is-active-route asp-area="Data" class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link menulink">
                         <i class="nav-icon fa fa-bolt"></i>
                         <p>
                         @localizer["Basic"]
@@ -487,31 +487,31 @@
                         </a>
                         <ul class="nav nav-treeview">
                         <li class="nav-item">
-                        <a href="/export/insurance" class="nav-link">
+                        <a href="/export/insurance" class="nav-link menulink">
                         <i class="fa fa-bullseye nav-icon"></i>
                         <p>@localizer["ExportInsuranceList"]</p>
                         </a>
                         </li>
                         <li class="nav-item">
-                        <a href="/export/summaryinsurance" class="nav-link">
+                        <a href="/export/summaryinsurance" class="nav-link menulink">
                         <i class="fa fa-bullseye nav-icon"></i>
                         <p>@localizer["ExportSummaryInsuranceList"]</p>
                         </a>
                         </li>
                         <li class="nav-item">
-                        <a href="/export/tax" class="nav-link">
+                        <a href="/export/tax" class="nav-link menulink">
                         <i class="fa fa-bullseye nav-icon"></i>
                         <p>@localizer["ExportTaxList"]</p>
                         </a>
                         </li>
                         <li class="nav-item">
-                        <a href="/export/summarytax" class="nav-link">
+                        <a href="/export/summarytax" class="nav-link menulink">
                         <i class="fa fa-bullseye nav-icon"></i>
                         <p>@localizer["ExportSummaryTaxList"]</p>
                         </a>
                         </li>
                         <li class="nav-item">
-                        <a href="/export/bank" class="nav-link">
+                        <a href="/export/bank" class="nav-link menulink">
                         <i class="fa fa-bullseye nav-icon"></i>
                         <p>@localizer["ExportBankPay"]</p>
                         </a>
@@ -524,7 +524,7 @@
                 {
                     <li class="nav-header">@localizer["Basic"]</li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link menulink">
                             <i class="nav-icon fa fa-user"></i>
                             <p>
                                 @localizer["EditInformation"]
@@ -533,7 +533,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="/dashboard/user/editinformation" class="nav-link">
+                                <a href="/dashboard/user/editinformation" class="nav-link menulink">
                                     <i class="fa fa-bullseye nav-icon"></i>
                                     <p>@localizer["EditIdentityInformation"]</p>
                                 </a>

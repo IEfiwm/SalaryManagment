@@ -1,4 +1,5 @@
 ﻿using Application.Enums;
+using Common.Enums;
 using Common.Helpers;
 using Common.Models.DataTable;
 using Domain.Entities.Base.Identity;
@@ -85,10 +86,9 @@ namespace Web.Areas.Admin.Controllers
             return PartialView("_ViewAll", model);
         }
 
-
-        public async Task<IActionResult> LoadAll(long projectId, string key, byte pageSize, byte pageNumber)
+        public async Task<IActionResult> LoadAll(long projectId, string key, byte pageSize, byte pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
         {
-            var allUsersExceptCurrentUser = await _userRepository.GetUserListByProjectIdDataTableAsync(projectId, key, pageSize, pageNumber);
+            var allUsersExceptCurrentUser = await _userRepository.GetUserListByProjectIdDataTableAsync(projectId, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
 
             var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser);
 
