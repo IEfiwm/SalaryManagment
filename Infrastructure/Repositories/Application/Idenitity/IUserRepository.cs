@@ -32,5 +32,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
         Task<DataTableDTO<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(long projectId, string key, int pageSize, int pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus);
 
         Task<int> SaveChangesAsync();
+
+        Task<string> GetLastPersonnelCode(long projecId);
     }
 }

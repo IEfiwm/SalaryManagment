@@ -67,10 +67,10 @@ namespace Web.Areas.Admin.Models
         [Required]
         [RegularExpression(@"^(?!(\d)\1{9})\d{5,}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string InsuranceCode { get; set; }
-      
+
         [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
-        public byte NotIncludedNumberOfChildren { get; set; }        
-        
+        public byte NotIncludedNumberOfChildren { get; set; }
+
         [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public byte IncludedNumberOfChildren { get; set; }
 
@@ -82,7 +82,7 @@ namespace Web.Areas.Admin.Models
 
         [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int ChildrenRight { get; set; }
-      
+
         [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int WorkerRight { get; set; }
 
@@ -106,6 +106,9 @@ namespace Web.Areas.Admin.Models
         [Required]
         [RegularExpression(@"^(?!(\d)\1{9})\d{5,}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string BankAccNumber { get; set; }
+
+        [Required]
+        public string ShebaNumber { get; set; }
 
         public long BankRef { get; set; }
 

@@ -274,6 +274,7 @@ namespace Web.Areas.Admin.Controllers
                 {
                     AccountNumber = user.BankAccNumber,
                     Title = bank.Title,
+                    iBan = user.ShebaNumber,
                     BankId = bank.Id,
                     CreatedByRef = (await _userManager.GetUserAsync(HttpContext.User)).Id,
                     CreatedDate = System.DateTime.Now
@@ -341,6 +342,7 @@ namespace Web.Areas.Admin.Controllers
                 bankRef = await _bankAccountRepository.InsertAndSaveAsync(new BankAccount
                 {
                     AccountNumber = user.BankAccNumber,
+                    iBan = user.ShebaNumber,
                     Title = bank.Title,
                     BankId = bank.Id,
                     CreatedByRef = (await _userManager.GetUserAsync(HttpContext.User)).Id,
@@ -575,6 +577,15 @@ namespace Web.Areas.Admin.Controllers
             ViewBag.Title = "محاسبه فیش حقوقی";
 
             return View("GeneratePayRoll");
+        }
+
+        [HttpGet]
+        public async Task<string> GetPersonnelCode(long projectId)
+        {
+            if (projectId == default(long))
+                return "0";
+
+            return await _userRepository.GetLastPersonnelCode(projectId);
         }
     }
 }

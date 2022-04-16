@@ -135,5 +135,10 @@ namespace Infrastructure.Repositories.Application.Idenitity
         {
             return await _identityContext.SaveChangesAsync();
         }
+
+        public async Task<string> GetLastPersonnelCode(long projecId)
+        {
+            return (await _userManager.Users.Where(m => projecId == default(long) || m.ProjectRef == projecId).OrderByDescending(m => m.CreateDate).FirstOrDefaultAsync()).PersonnelCode;
+        }
     }
 }
