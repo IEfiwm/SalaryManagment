@@ -19,6 +19,8 @@
 
         if (role_menu is not null)
             menuHeader.AddRange(role_menu.Select(x => x.Menu));
+
+        menuHeader.Distinct();
     }
 }
 <aside id="sideBar" class="main-sidebar sidebar-dark-primary">
