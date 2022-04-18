@@ -322,7 +322,7 @@ namespace Web.Areas.Admin.Controllers
             {
                 foreach (var userId in model.UserId)
                 {
-                    var resMenu = await _user_RoleRepository.InsertAndSaveAsync(new User_Role
+                    var resMenu = await _user_RoleRepository.InsertAndSaveAsync(new IdentityUserRole<string>
                     {
                         UserId = userId,
                         RoleId = model.RoleId

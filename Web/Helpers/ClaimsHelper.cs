@@ -46,5 +46,6 @@ namespace Web.Helpers
                 await roleManager.AddClaimAsync(role, new Claim(CustomClaimTypes.Permission, permission));
             }
         }
+       
     }
 }

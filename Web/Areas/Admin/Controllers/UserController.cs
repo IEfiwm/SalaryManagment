@@ -140,7 +140,7 @@ namespace Web.Areas.Admin.Controllers
                     //add role
                     if (!string.IsNullOrEmpty(userModel.RoleId))
                     {
-                        var resRole = await _user_RoleRepository.InsertAndSaveAsync(new User_Role
+                        var resRole = await _user_RoleRepository.InsertAndSaveAsync(new IdentityUserRole<string>
                         {
                             UserId = user.Id,
                             RoleId = userModel.RoleId
@@ -211,7 +211,7 @@ namespace Web.Areas.Admin.Controllers
                     }
 
                     //add role
-                    var resRole = await _user_RoleRepository.InsertAndSaveAsync(new User_Role
+                    var resRole = await _user_RoleRepository.InsertAndSaveAsync(new IdentityUserRole<string>
                     {
                         UserId = userModel.Id,
                         RoleId = userModel.RoleId
