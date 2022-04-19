@@ -50,6 +50,19 @@
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="wwwroot\lib\fontawesome\sprites\brands.svg" />
+    <None Include="wwwroot\lib\fontawesome\sprites\duotone.svg" />
+    <None Include="wwwroot\lib\fontawesome\sprites\light.svg" />
+    <None Include="wwwroot\lib\fontawesome\sprites\regular.svg" />
+    <None Include="wwwroot\lib\fontawesome\sprites\solid.svg" />
+    <None Include="wwwroot\lib\fontawesome\sprites\thin.svg" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-duotone-900.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-light-300.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-thin-100.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-v4compatibility.woff2" />
   </ItemGroup>
 
   <ItemGroup>
