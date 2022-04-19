@@ -17,6 +17,8 @@ namespace Domain.Entities.Basic
 
         public long? ParentId { get; set; }
 
+        public int Order { get; set; }=0;
+
         public bool Active { get; set; }
 
         [ForeignKey("ParentId")]

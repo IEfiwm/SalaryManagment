@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -88,6 +89,24 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> LoadAll(long projectId, string key, byte pageSize, byte pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
         {
+
+            var model = await FilterUsers(projectId, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
+            return PartialView("_LoadAll", model);
+        }
+        public async Task<IActionResult> ExportExcel(long projectId, string key, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
+        {
+
+            var model = await FilterUsers(projectId, key, int.MaxValue, 0, employeeStatus, gender, militaryService, maritalStatus);
+
+            MemoryStream result = (MemoryStream)ExportToExcel(model.ViewModel);
+            // Set memorystream position; if we don't it'll fail
+            result.Position = 0;
+
+            return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","Personnel.xlsx");
+
+        }
+        private async Task<DataTableViewModel<IEnumerable<UserViewModel>>> FilterUsers(long projectId, string key, int pageSize, byte pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
+        {
             var allUsersExceptCurrentUser = await _userRepository.GetUserListByProjectIdDataTableAsync(projectId, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
 
             var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser);
@@ -103,10 +122,8 @@ namespace Web.Areas.Admin.Controllers
                     user.HasDocument = await _additionalUserDateRepository.HasDocumentsAsync(user.Id);
                 });
             }
-
-            return PartialView("_LoadAll", model);
+            return model;
         }
-
         public async Task<IActionResult> Create()
         {
             ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
@@ -140,7 +157,7 @@ namespace Web.Areas.Admin.Controllers
                     //add role
                     if (!string.IsNullOrEmpty(userModel.RoleId))
                     {
-                        var resRole = await _user_RoleRepository.InsertAndSaveAsync(new User_Role
+                        var resRole = await _user_RoleRepository.InsertAndSaveAsync(new IdentityUserRole<string>
                         {
                             UserId = user.Id,
                             RoleId = userModel.RoleId
@@ -211,7 +228,7 @@ namespace Web.Areas.Admin.Controllers
                     }
 
                     //add role
-                    var resRole = await _user_RoleRepository.InsertAndSaveAsync(new User_Role
+                    var resRole = await _user_RoleRepository.InsertAndSaveAsync(new IdentityUserRole<string>
                     {
                         UserId = userModel.Id,
                         RoleId = userModel.RoleId
@@ -587,5 +604,64 @@ namespace Web.Areas.Admin.Controllers
 
             return await _userRepository.GetLastPersonnelCode(projectId);
         }
+
+
+
+        private object ExportToExcel(IEnumerable<UserViewModel> model)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            using (var excelFile = new ExcelPackage())
+            {
+                var NewModel = model.Select(x => new
+                {
+                    x.PersonnelCode,
+                    Name = x.FirstName + " " + x.LastName,
+                    x.ProjectName,
+                    x.FatherName,
+                    x.NationalCode,
+                    x.InsuranceCode,
+                    x.BankAccNumber,
+                    x.PhoneNumber,
+                    x.JobTitle,
+                    HasDocument = x.HasDocument ? "دارد" : "ندارد",
+                    HasAdditionalUser = x.HasAdditionalUser ? "دارد" : "ندارد",
+                    HasAdditionalUserDocument = x.HasAdditionalUserDocument ? "دارد" : "ندارد",
+                    IsActive = x.IsActive ? "فعال" : "غیر فعال"
+                });
+
+                var worksheet = excelFile.Workbook.Worksheets.Add("Personnel");
+                worksheet.View.RightToLeft = true;
+
+                worksheet.Cells["A1"].Value = "کد پ";
+                worksheet.Cells["B1"].Value = "نام ‌و ‌نام‌خانوادگی";
+                worksheet.Cells["C1"].Value = "پروژه";
+                worksheet.Cells["D1"].Value = "نام پدر";
+                worksheet.Cells["E1"].Value = "کد ملی";
+                worksheet.Cells["F1"].Value = "شماره بیمه";
+                worksheet.Cells["G1"].Value = "شماره حساب";
+                worksheet.Cells["H1"].Value = "شماره تماس";
+                worksheet.Cells["I1"].Value = "شغل";
+                worksheet.Cells["J1"].Value = "وضعیت ‌مدارک";
+                worksheet.Cells["K1"].Value = "وضعیت اطلاعات تحت تکفل";
+                worksheet.Cells["L1"].Value = "وضعیت مدارک تحت تکفل";
+                worksheet.Cells["M1"].Value = "وضعیت";
+
+                worksheet.Cells["A2"].LoadFromCollection(Collection: NewModel, PrintHeaders: false, OfficeOpenXml.Table.TableStyles.Light13);
+
+                var allCells = worksheet.Cells[1, 1, worksheet.Dimension.End.Row, worksheet.Dimension.End.Column];
+                var cellFont = allCells.Style.Font;
+                cellFont.SetFromFont("B Nazanin", 11);
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                MemoryStream result = new MemoryStream();
+                result.Position = 0;
+
+                excelFile.SaveAs(result);
+
+                return result;
+            }
+        }
+
     }
 }

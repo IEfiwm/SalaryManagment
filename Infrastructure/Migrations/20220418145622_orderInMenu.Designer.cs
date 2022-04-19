@@ -4,15 +4,17 @@ using Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    partial class IdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20220418145622_orderInMenu")]
+    partial class orderInMenu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -954,6 +956,35 @@ namespace Infrastructure.Migrations
                     b.ToTable("TbTax", "Basic");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Basic.User_Role", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MenuId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id")
+                        .IsClustered();
+
+                    b.HasIndex("MenuId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("TbUser_Role", "Basic");
+                });
+
             modelBuilder.Entity("Domain.Entities.Data.Attendance", b =>
                 {
                     b.Property<long>("Id")
@@ -1363,6 +1394,21 @@ namespace Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Basic.User_Role", b =>
+                {
+                    b.HasOne("Domain.Entities.Base.Identity.ApplicationUser", "User")
+                        .WithMany("User_Roles")
+                        .HasForeignKey("MenuId");
+
+                    b.HasOne("Domain.Entities.Base.Identity.ApplicationRole", "Role")
+                        .WithMany("User_Roles")
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Domain.Entities.Base.Identity.ApplicationRole", null)
@@ -1419,6 +1465,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("Role_Menus");
 
                     b.Navigation("Role_Project_Permissions");
+
+                    b.Navigation("User_Roles");
                 });
 
             modelBuilder.Entity("Domain.Entities.Base.Identity.ApplicationUser", b =>
@@ -1428,6 +1476,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("BankUpdatedByUsers");
 
                     b.Navigation("CallerUsers");
+
+                    b.Navigation("User_Roles");
                 });
 
             modelBuilder.Entity("Domain.Entities.Basic.AdditionalUserData", b =>

@@ -1,5 +1,28 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
+﻿@using Domain.Entities.Basic
+@using Infrastructure.Repositories.Application.Basic
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Security.Claims
 @inject IHtmlLocalizer<SharedResource> localizer
+@inject IRole_MenuRepository _role_MenuRepository;
+@inject UserManager<ApplicationUser> _userManager
+@inject RoleManager<ApplicationRole> _roleManager
+@{
+
+    var user = await _userManager.GetUserAsync(User);
+    var roleNames = await _userManager.GetRolesAsync(user);
+    List<ApplicationRole> roles = _roleManager.Roles.Where(r => roleNames.Contains(r.Name)).ToList();
+
+    var menuHeader = new List<Menu>();
+    foreach (var role in roles)
+    {
+        var role_menu = await _role_MenuRepository.GetByRoleId(role.Id);
+
+        if (role_menu is not null)
+            menuHeader.AddRange(role_menu.Select(x => x.Menu));
+
+        menuHeader.Distinct();
+    }
+}
 <aside id="sideBar" class="main-sidebar sidebar-dark-primary">
     <a href="/" class="brand-link">
         @*        <img src="~/images/logo-transparent.png" id="brand-logo" alt="logo" class="brand-image img-circle"
@@ -9,18 +32,36 @@
     <div class="sidebar">
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
-                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager") || User.IsInRole("Admin"))
+                @if (user.UserType == Common.Enums.UserType.SystemUser)
                 {
-                    <li class="nav-item">
-                        <a href="/Dashboard/Managment" class="nav-link menulink">
-                            <i class="nav-icon fa fa-th"></i>
-                            <p>
-                                @localizer["Dashboard"]
-                                <span class="right badge badge-danger">@localizer["New"]</span>
-                            </p>
-                        </a>
-                    </li>
+                    foreach (var menu in menuHeader.Where(x => x.ParentId is null).OrderBy(x => x.Order))
+                    {
+                        <li class="nav-item has-treeview" @(menu.Active? "is-active-route":"")>
+                            <a href="@menu.Root" class="nav-link menulink" @(menu.Active? "is-active-route":"")>
+                                <i class="@menu.Icon"></i>
+                                <p>
+                                    @menu.PersianName
+                                    @if (menuHeader.Any(x => x.ParentId == menu.Id))
+                                    {
+                                        <i class="right fa fa-angle-left"></i>
+                                    }
+                                </p>
+                            </a>
+                            @foreach (var subMenu in menuHeader.Where(x => x.ParentId == menu.Id).OrderBy(x => x.Order))
+                            {
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="@subMenu.Root" class="nav-link menulink" @(subMenu.Active? "is-active-route":"")>
+                                            <i class="@subMenu.Icon"></i>
+                                            <p>
+                                                @subMenu.PersianName
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            }
+                        </li>
+                    }
                 }
                 else
                 {
@@ -29,499 +70,9 @@
                             <i class="nav-icon fa fa-th"></i>
                             <p>
                                 @localizer["Dashboard"]
-                                <span class="right badge badge-danger">@localizer["New"]</span>
                             </p>
                         </a>
                     </li>
-                }
-
-                @if (User.IsInRole("SuperAdmin"))
-                {
-                    <li class="nav-header">@localizer["Admin"]</li>
-                    <li is-active-route asp-controller="User" class="nav-item has-treeview">
-                        <a is-active-route asp-controller="User" class="nav-link menulink">
-                            <i class="nav-icon fa fa-user"></i>
-                            <p>
-                                مدیریت کاربران
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>لیست پرسنل </p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="Create" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>پرسنل جدید</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="ContractList" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>قرارداد ها</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Attendance" asp-action="Index" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>کارکرد ها</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="PayRollTipList" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>فیش حقوقی ها</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="GeneratePayRoll" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>محاسبه حقوق</p>
-                                </a>
-                            </li>
-                        </ul>
-
-                    </li>
-                    <li is-active-route asp-controller="Role" class="nav-item has-treeview">
-                        <a is-active-route asp-controller="Role" class="nav-link menulink">
-                            <i class="nav-icon fa fa-user"></i>
-                            <p>
-                                مدیریت دسترسی
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Role" asp-action="Index" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>لیست نقش ها</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Role" asp-action="Create" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>نقش جدید </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Role" asp-action="UserRole" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>انتصاب نقش به کاربران </p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li is-active-route asp-controller="Project" class="nav-item has-treeview">
-                        <a is-active-route asp-controller="Project" class="nav-link menulink">
-                            <i class="nav-icon fa fa-user"></i>
-                            <p>
-                                مدیریت پروژه
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/project" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>لیست پروژه ها</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/project/create" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>پروژه جدید</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/projectRule" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>لیست قوانین</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/projectRule/create" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>قانون جدید</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/bank" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>لیست حساب ها</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/bank/create" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>حساب جدید</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    @*                    <li class="nav-item has-treeview">
-                        <a class="nav-link menulink">
-                        <i class="nav-icon fa fa-bandcamp"></i>
-                        <p>
-                        مدیریت حساب ها
-                        <i class="right fa fa-angle-left"></i>
-                        </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                        <a href="/admin/bank" class="nav-link menulink">
-                        <i class="fa fa-bullseye nav-icon"></i>
-                        <p>لیست حساب ها</p>
-                        </a>
-                        </li>
-                        <li class="nav-item">
-                        <a href="/admin/bank/create" class="nav-link menulink">
-                        <i class="fa fa-bullseye nav-icon"></i>
-                        <p>حساب بانکی جدید</p>
-                        </a>
-                        </li>
-                        </ul>
-                        </li>*@
-                }
-
-                @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
-                {
-                    <li class="nav-header">@localizer["Admin"]</li>
-                    <li class="nav-item has-treeview">
-                        <a class="nav-link menulink">
-                            <i class="nav-icon fa fa-user"></i>
-                            <p>
-                                مدیریت کاربران
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/user/personnel" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>لیست پرسنل </p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/user/createPersonnel" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>پرسنل جدید</p>
-                                </a>
-                            </li>
-                        </ul>
-
-                    </li>
-                    <li is-active-route asp-controller="Permission" class="nav-item has-treeview">
-                        <a is-active-route asp-controller="Permission" class="nav-link menulink">
-                            <i class="nav-icon fa fa-address-card"></i>
-                            <p>
-                                مدیریت دسترسی
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Permission" class="nav-link menulink disabled">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>لیست نقش ها</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Permission" asp-action="Create" class="nav-link menulink disabled">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>نقش جدید </p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a class="nav-link menulink">
-                            <i class="nav-icon fa fa-user"></i>
-                            <p>
-                                مدیریت پروژه
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/project" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>لیست پروژه ها</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/project/create" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>پروژه جدید</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/projectRule" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>لیست قوانین محاسبات</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/projectRule/create" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>قانون محاسبات جدید</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/bank" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>لیست حساب ها</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/bank/create" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>حساب جدید</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    @*<li class="nav-item has-treeview">
-                        <a class="nav-link menulink">
-                        <i class="nav-icon fa fa-bandcamp"></i>
-                        <p>
-                        مدیریت حساب ها
-                        <i class="right fa fa-angle-left"></i>
-                        </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                        <a href="/admin/bank" class="nav-link menulink">
-                        <i class="fa fa-bullseye nav-icon"></i>
-                        <p>لیست حساب ها</p>
-                        </a>
-                        </li>
-                        <li class="nav-item">
-                        <a href="/admin/bank/create" class="nav-link menulink">
-                        <i class="fa fa-bullseye nav-icon"></i>
-                        <p>حساب بانکی جدید</p>
-                        </a>
-                        </li>
-                        </ul>
-                        </li>*@
-
-                }
-
-                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager") || User.IsInRole("Admin"))
-                {
-                    <li class="nav-header">اطلاعات</li>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link menulink">
-                            <i class="nav-icon fa fa-book"></i>
-                            <p>
-                                اطلاعات پایه
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/data/excel/personnel" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>بارگزاری پرسنل</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/data/excel/attendances" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>بارگزاری کارکرد</p>
-                                </a>
-                            </li>
-                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
-                            {
-                                <li class="nav-item">
-                                    <a is-active-route asp-area="Data" asp-controller="Excel" asp-action="DeleteAttendances" class="nav-link menulink">
-                                        <i class="fa fa-bullseye nav-icon"></i>
-                                        <p>@localizer["DeleteImportedAttendances"]</p>
-                                    </a>
-                                </li>
-                            }
-                            <li class="nav-item">
-                                <a href="/data/excel/MonthlyAttendances" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>بارگزاری کارکرد ماهانه</p>
-                                </a>
-                            </li>
-                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
-                            {
-                                <li class="nav-item">
-                                    <a is-active-route asp-area="Data" asp-controller="Excel" asp-action="DeleteMonthlyAttendances" class="nav-link menulink">
-                                        <i class="fa fa-bullseye nav-icon"></i>
-                                        <p>@localizer["DeleteMonthlyImportedAttendances"]</p>
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link menulink">
-                            <i class="nav-icon fa fa-book"></i>
-                            <p>
-                                اطلاعات کاربران
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="ContractList" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>قرارداد ها</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="Attendance" asp-action="Index" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>کارکرد ها</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="PayRollTipList" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>فیش حقوقی ها</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Admin" asp-controller="User" asp-action="GeneratePayRoll" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>محاسبه حقوق</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-header">خروجی</li>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link menulink">
-                            <i class="nav-icon fa fa-bolt"></i>
-                            <p>
-                                خروجی بیمه
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/export/insurance" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>@localizer["ExportInsuranceList"]</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/export/summaryinsurance" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>@localizer["ExportSummaryInsuranceList"]</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link menulink">
-                            <i class="nav-icon fa fa-bolt"></i>
-                            <p>
-                                خروجی مالیات
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/export/tax" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>@localizer["ExportTaxList"]</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/export/summarytax" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>@localizer["ExportSummaryTaxList"]</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link menulink">
-                            <i class="nav-icon fa fa-bolt"></i>
-                            <p>
-                                خروجی بانک
-                                <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/export/bank" class="nav-link menulink">
-                                    <i class="fa fa-bullseye nav-icon"></i>
-                                    <p>خروجی لیست بانک</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    @*                    <li is-active-route asp-area="Data" class="nav-item has-treeview">
-                        <a href="#" class="nav-link menulink">
-                        <i class="nav-icon fa fa-bolt"></i>
-                        <p>
-                        @localizer["Basic"]
-                        <i class="right fa fa-angle-left"></i>
-                        </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                        <a href="/export/insurance" class="nav-link menulink">
-                        <i class="fa fa-bullseye nav-icon"></i>
-                        <p>@localizer["ExportInsuranceList"]</p>
-                        </a>
-                        </li>
-                        <li class="nav-item">
-                        <a href="/export/summaryinsurance" class="nav-link menulink">
-                        <i class="fa fa-bullseye nav-icon"></i>
-                        <p>@localizer["ExportSummaryInsuranceList"]</p>
-                        </a>
-                        </li>
-                        <li class="nav-item">
-                        <a href="/export/tax" class="nav-link menulink">
-                        <i class="fa fa-bullseye nav-icon"></i>
-                        <p>@localizer["ExportTaxList"]</p>
-                        </a>
-                        </li>
-                        <li class="nav-item">
-                        <a href="/export/summarytax" class="nav-link menulink">
-                        <i class="fa fa-bullseye nav-icon"></i>
-                        <p>@localizer["ExportSummaryTaxList"]</p>
-                        </a>
-                        </li>
-                        <li class="nav-item">
-                        <a href="/export/bank" class="nav-link menulink">
-                        <i class="fa fa-bullseye nav-icon"></i>
-                        <p>@localizer["ExportBankPay"]</p>
-                        </a>
-                        </li>
-                        </ul>
-                        </li>*@
-                }
-
-                @if (User.IsInRole("User"))
-                {
                     <li class="nav-header">@localizer["Basic"]</li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link menulink">
