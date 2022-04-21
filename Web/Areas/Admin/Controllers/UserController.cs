@@ -93,7 +93,7 @@ namespace Web.Areas.Admin.Controllers
             var model = await FilterUsers(projectId, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
             return PartialView("_LoadAll", model);
         }
-        
+
         public async Task<IActionResult> ExportExcel(long projectId, string key, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
         {
 
@@ -103,10 +103,10 @@ namespace Web.Areas.Admin.Controllers
             // Set memorystream position; if we don't it'll fail
             result.Position = 0;
 
-            return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","Personnel.xlsx");
+            return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Personnel.xlsx");
 
         }
-        
+
         public async Task<IActionResult> Create()
         {
             ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
@@ -128,7 +128,6 @@ namespace Web.Areas.Admin.Controllers
                     LastName = userModel.LastName,
                     EmailConfirmed = true,
                     IsActive = true,
-                    IsInsurance = false,
                     UserType = Common.Enums.UserType.SystemUser
                 };
 
@@ -373,8 +372,6 @@ namespace Web.Areas.Admin.Controllers
             model.IsDeleted = false;
 
             model.IsProfileCompleted = true;
-
-            model.IsInsurance = true;
 
             model.UserType = Common.Enums.UserType.PublicUser;
 
