@@ -56,6 +56,22 @@
 <script>
     $(document).ready(function () {
         $('#CustomSpinner').css('display','none')
-        $("#userTable").DataTable();
+        $("#userTable").DataTable({
+                searching: true,
+                ordering:  true,
+                select: true,
+                responsive: true,
+                oLanguage : {
+                    sSearch: "جستجو: ",
+                    sInfo: "نمایش _START_ تا _END_ از _TOTAL_ رکورد",
+                    sLengthMenu: "نمایش _MENU_ رکورد",
+                    sInfoFiltered: "فیلتر شده از _MAX_ رکورد",
+                    sInfoEmpty  : "هیچ داده ای یافت نشد",
+                    sZeroRecords: "رکوردی یافت نشد",
+                    oPaginate:{
+                        sPrevious: "قبلی",
+                        sNext: "بعدی",
+                    }
+                },
     });
 </script>

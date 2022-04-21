@@ -80,9 +80,9 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> ViewAll()
         {
-            var allUsersExceptCurrentUser = await _userRepository.GetUserListAsync();
+            var allUsersExceptCurrentUser = await _userRepository.GetSysUserListAsync();
 
-            var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser.Where(x => x.UserType == Common.Enums.UserType.SystemUser));
+            var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser);
 
             return PartialView("_ViewAll", model);
         }
