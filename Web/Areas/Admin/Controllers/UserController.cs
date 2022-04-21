@@ -548,8 +548,6 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> GeneratePayRoll()
         {
-            ViewBag.Title = "محاسبه فیش حقوقی";
-
             return View("GeneratePayRoll");
         }
 
@@ -570,8 +568,6 @@ namespace Web.Areas.Admin.Controllers
                 _notify.Error("خطا! درخواستی در حال انجام است.");
             else
                 _notify.Error("عملیات با خطا مواجه شد.");
-
-            ViewBag.Title = "محاسبه فیش حقوقی";
 
             return View("GeneratePayRoll");
         }
