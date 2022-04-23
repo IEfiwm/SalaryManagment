@@ -82,7 +82,22 @@ namespace Web.Areas.Admin.Controllers
         {
             var allUsersExceptCurrentUser = await _userRepository.GetSysUserListAsync();
 
-            var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser);
+            var allUsers = new List<ApplicationUser>();
+
+            allUsersExceptCurrentUser.ForEach(m =>
+            {
+                var rolesTask = _userManager.GetRolesAsync(m);
+
+                rolesTask.ContinueWith(r =>
+                {
+                    if (!r.Result.Contains(Roles.SuperAdmin.ToString()))
+                        allUsers.Add(m);
+                });
+
+                rolesTask.Wait();
+            });
+
+            var model = _mapper.Map<List<UserViewModel>>(allUsers);
 
             return PartialView("_ViewAll", model);
         }
