@@ -130,7 +130,7 @@ namespace Web.Areas.Authentication.Controllers
                 return View("VerifyPhoneNumber", new VerifyPhoneNumberViewModel { Phone = model.Phone });
             }
 
-            return Redirect("~/Dashboard/Home/Index");
+            return Redirect("~/dashboard/home/index");
         }
     }
 }
