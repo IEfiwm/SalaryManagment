@@ -80,9 +80,9 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> ViewAll()
         {
-            var allUsersExceptCurrentUser = await _userRepository.GetUserListAsync();
+            var allUsersExceptCurrentUser = await _userRepository.GetSysUserListAsync();
 
-            var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser.Where(x => x.UserType == Common.Enums.UserType.SystemUser));
+            var model = _mapper.Map<IEnumerable<UserViewModel>>(allUsersExceptCurrentUser);
 
             return PartialView("_ViewAll", model);
         }
@@ -93,6 +93,7 @@ namespace Web.Areas.Admin.Controllers
             var model = await FilterUsers(projectId, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
             return PartialView("_LoadAll", model);
         }
+
         public async Task<IActionResult> ExportExcel(long projectId, string key, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
         {
 
@@ -102,28 +103,10 @@ namespace Web.Areas.Admin.Controllers
             // Set memorystream position; if we don't it'll fail
             result.Position = 0;
 
-            return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","Personnel.xlsx");
+            return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Personnel.xlsx");
 
         }
-        private async Task<DataTableViewModel<IEnumerable<UserViewModel>>> FilterUsers(long projectId, string key, int pageSize, byte pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
-        {
-            var allUsersExceptCurrentUser = await _userRepository.GetUserListByProjectIdDataTableAsync(projectId, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
 
-            var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser);
-
-            foreach (var user in model.ViewModel)
-            {
-                await Task.Run(async () =>
-                {
-                    user.HasAdditionalUser = await _additionalUserDateRepository.HasAdditionalUsersAsync(user.Id);
-
-                    user.HasAdditionalUserDocument = await _additionalUserDateRepository.HasAdditionalUserDocumentAsync(user.Id);
-
-                    user.HasDocument = await _additionalUserDateRepository.HasDocumentsAsync(user.Id);
-                });
-            }
-            return model;
-        }
         public async Task<IActionResult> Create()
         {
             ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
@@ -145,7 +128,6 @@ namespace Web.Areas.Admin.Controllers
                     LastName = userModel.LastName,
                     EmailConfirmed = true,
                     IsActive = true,
-                    IsInsurance = false,
                     UserType = Common.Enums.UserType.SystemUser
                 };
 
@@ -391,8 +373,6 @@ namespace Web.Areas.Admin.Controllers
 
             model.IsProfileCompleted = true;
 
-            model.IsInsurance = true;
-
             model.UserType = Common.Enums.UserType.PublicUser;
 
             var res = await _userManager.CreateAsync(model, model.PersonnelCode);
@@ -568,8 +548,6 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> GeneratePayRoll()
         {
-            ViewBag.Title = "محاسبه فیش حقوقی";
-
             return View("GeneratePayRoll");
         }
 
@@ -591,8 +569,6 @@ namespace Web.Areas.Admin.Controllers
             else
                 _notify.Error("عملیات با خطا مواجه شد.");
 
-            ViewBag.Title = "محاسبه فیش حقوقی";
-
             return View("GeneratePayRoll");
         }
 
@@ -604,8 +580,6 @@ namespace Web.Areas.Admin.Controllers
 
             return await _userRepository.GetLastPersonnelCode(projectId);
         }
-
-
 
         private object ExportToExcel(IEnumerable<UserViewModel> model)
         {
@@ -663,5 +637,24 @@ namespace Web.Areas.Admin.Controllers
             }
         }
 
+        private async Task<DataTableViewModel<IEnumerable<UserViewModel>>> FilterUsers(long projectId, string key, int pageSize, byte pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
+        {
+            var allUsersExceptCurrentUser = await _userRepository.GetUserListByProjectIdDataTableAsync(projectId, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
+
+            var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser);
+
+            foreach (var user in model.ViewModel)
+            {
+                await Task.Run(async () =>
+                {
+                    user.HasAdditionalUser = await _additionalUserDateRepository.HasAdditionalUsersAsync(user.Id);
+
+                    user.HasAdditionalUserDocument = await _additionalUserDateRepository.HasAdditionalUserDocumentAsync(user.Id);
+
+                    user.HasDocument = await _additionalUserDateRepository.HasDocumentsAsync(user.Id);
+                });
+            }
+            return model;
+        }
     }
 }

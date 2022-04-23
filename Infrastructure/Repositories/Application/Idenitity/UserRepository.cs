@@ -69,6 +69,13 @@ namespace Infrastructure.Repositories.Application.Idenitity
                 .ToListAsync();
         }
 
+        public async Task<List<ApplicationUser>> GetSysUserListAsync()
+        {
+            return await _identityContext.Users
+                .Where(e => e.UserType == UserType.SystemUser)
+                .ToListAsync();
+        }
+
         public async Task<List<ApplicationUser>> GetUserListByProjectIdAsync(long projectId)
         {
             return await _identityContext.Users

@@ -10,10 +10,10 @@ namespace Web.Areas.Admin.Models
 
         public bool Active { get; set; }
 
+        public bool SystemRole { get; set; }
+
         public List<long> MenuIds { get; set; }
 
         public List<MenuViewModel> Menus { get; set; }
-
-
     }
 }

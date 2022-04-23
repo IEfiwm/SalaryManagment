@@ -25,6 +25,8 @@ namespace Infrastructure.Repositories.Application.Idenitity
 
         Task<List<ApplicationUser>> GetUserListAsync();
 
+        Task<List<ApplicationUser>> GetSysUserListAsync();
+
         Task<List<ApplicationUser>> GetUserListByProjectIdAsync(long projectId);
 
         Task<List<ApplicationUser>> GetUserListByProjectIdAsync(long projectId, int take, int page);

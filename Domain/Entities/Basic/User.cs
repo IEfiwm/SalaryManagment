@@ -68,8 +68,6 @@ namespace Domain.Entities.Base.Identity
         //[ForeignKey("Project")]
         public long? ProjectRef { get; set; }
 
-        public bool IsInsurance { get; set; } = true;
-
         public BankAccount Bank { get; set; }
 
         public Project Project { get; set; }

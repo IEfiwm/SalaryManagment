@@ -22,10 +22,12 @@ namespace Infrastructure.Repositories.Application.Basic
         public async Task<List<Role_Project_Permission>> GetByProjectId(long projectId)
         {
             return await Model
-                .Include(x=>x.Project)
-                .Include(x=>x.Role)
-                .Include(x=>x.Permission)
-                .Where(x => x.ProjectId == projectId).ToListAsync();
+                .Include(x => x.Project)
+                .Include(x => x.Role)
+                .Include(x => x.Permission)
+                .Where(x => x.ProjectId == projectId)
+                .Where(x => x.Role.Public && x.Role.Active)
+                .ToListAsync();
         }
 
         public async Task<List<Role_Project_Permission>> GetByRoleListAndPermissionId(IEnumerable<string> rolesId, long permissionId)
