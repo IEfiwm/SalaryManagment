@@ -1,6 +1,7 @@
 ﻿using Common.Extentions;
 using Domain.Entities.Base.Identity;
 using Domain.Entities.Basic;
+using Infrastructure.Base.Permission;
 using Infrastructure.Repositories.Application.Basic;
 using MD.PersianDateTime;
 using Microsoft.AspNetCore.Authorization;
@@ -30,6 +31,7 @@ namespace Web.Areas.Admin.Controllers
         private readonly IBankRepository _bankRepository;
         private readonly IBank_AccountRepository _bank_AccountRepository;
         private readonly IProjectBankAccountRepository _projectBankAccountRepository;
+        private readonly IPermissionCommon _permissionCommon;
 
         public ProjectController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -37,7 +39,8 @@ namespace Web.Areas.Admin.Controllers
             IProjectRepository projectRepository,
             IBankRepository bankRepository,
             IBank_AccountRepository bank_AccountRepository,
-            IProjectBankAccountRepository projectBankAccountRepository)
+            IProjectBankAccountRepository projectBankAccountRepository,
+            IPermissionCommon permissionCommon)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -46,6 +49,7 @@ namespace Web.Areas.Admin.Controllers
             _bankRepository = bankRepository;
             _bank_AccountRepository = bank_AccountRepository;
             _projectBankAccountRepository = projectBankAccountRepository;
+            _permissionCommon = permissionCommon;
         }
 
         public IActionResult Index()
@@ -63,7 +67,7 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> LoadAll()
         {
-            var projectList = await _projectRepository.GetListAsync();
+            var projectList = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
 
             var model = _mapper.Map<IEnumerable<ProjectViewModel>>(projectList);
 
@@ -198,9 +202,9 @@ namespace Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetList()
         {
-            var model = await _projectRepository.GetListAsync();
-
+            var model = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
             return Json(model);
         }
+
     }
 }

@@ -27,5 +27,14 @@ namespace Infrastructure.Repositories.Application.Basic
                 .Include(x=>x.Permission)
                 .Where(x => x.ProjectId == projectId).ToListAsync();
         }
+
+        public async Task<List<Role_Project_Permission>> GetByRoleListAndPermissionId(IEnumerable<string> rolesId, long permissionId)
+        {
+            return await Model
+              .Include(x => x.Project)
+              .Include(x => x.Role)
+              .Include(x => x.Permission)
+              .Where(x => rolesId.Contains(x.RoleId) && x.PermissionId == permissionId).ToListAsync();
+        }
     }
 }

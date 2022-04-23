@@ -14,6 +14,11 @@ namespace Infrastructure.Repositories.Application.Basic
         {
         }
 
+        public async Task<Permission> GetByName(string name)
+        {
+            return await Model.FirstOrDefaultAsync(x => x.Name == name);
+        }
+
         public async Task<bool> IsParent(long parentId)
         {
            return await Model.AnyAsync(x => x.ParentId == parentId);

@@ -156,6 +156,47 @@ namespace Domain.Entities.Data
         public string NonContinuousIncludedNotIncluded { get; set; }
 
         public string NonContinuousIncluded { get; set; }
+       
+        public string Bonuses { get; set; }
+
+        public string Leave { get; set; }
+
+        public string Sanavat { get; set; }
+
+        public string OverHead { get; set; }
+
+        public string LifeAndAccidents { get; set; }
+
+        public string Sum { get; set; }
+
+        public string Insured { get; set; }
+
+        public string Insurance23Percent { get; set; }
+
+        public string SumWithInsurance { get; set; }
+
+        public string VAT { get; set; }
+
+        public string ValueAddedAggregates { get; set; }
+
+        public string SupplementaryInsurance { get; set; }
+
+        public string ValueAddedInsurance { get; set; }
+
+        public string Total { get; set; }
+
+        public string Description { get; set; }
+
+        public string GoodPerformance10Percent { get; set; }
+
+        public string Deposit5Percent { get; set; }
+
+        public string Pure { get; set; }
+
+        public string TotalBonusesAndLeave { get; set; }
+
+        public string TotalWithoutBonusesAndLeave { get; set; }
+
 
         public long? ProjectRef { get; set; }
 

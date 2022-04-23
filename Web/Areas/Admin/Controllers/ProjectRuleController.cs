@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Basic;
+using Infrastructure.Base.Permission;
 using Infrastructure.Repositories.Application.Basic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,20 +22,23 @@ namespace Web.Areas.Admin.Controllers
         private readonly IProjectRepository _projectRepository;
         private readonly IProjectRuleRepository _projectRuleRepository;
         private readonly IFieldRepository _fieldRepository;
+        private readonly IPermissionCommon _permissionCommon;
 
         public ProjectRuleController(
             IProjectRepository projectRepository,
             IProjectRuleRepository projectRuleRepository,
-            IFieldRepository fieldRepository)
+            IFieldRepository fieldRepository,
+            IPermissionCommon permissionCommon)
         {
             _projectRepository = projectRepository;
             _projectRuleRepository = projectRuleRepository;
             _fieldRepository = fieldRepository;
+            _permissionCommon = permissionCommon;
         }
 
         public async Task<IActionResult> Index(long? projectId = null)
         {
-            var projects = await _projectRepository.GetListAsync();
+            var projects = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
             ViewData["projectId"] = projectId;
             return View();
@@ -51,7 +55,7 @@ namespace Web.Areas.Admin.Controllers
             var calculatedfile = await _fieldRepository.GetCalculateFields();
             ViewData["CalculatedProps"] = _mapper.Map<List<FieldViewModel>>(calculatedfile);
 
-            var projects = await _projectRepository.GetListAsync();
+            var projects = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
 
 
@@ -64,7 +68,7 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> LoadAll(long? projectId = null)
         {
-            var projects = await _projectRepository.GetListAsync();
+            var projects = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
 
             var projectList = await _projectRuleRepository.GetListAsync();
@@ -89,7 +93,7 @@ namespace Web.Areas.Admin.Controllers
             var calculatedfile = await _fieldRepository.GetCalculateFields();
             ViewData["CalculatedProps"] = _mapper.Map<List<FieldViewModel>>(calculatedfile);
 
-            var projects = await _projectRepository.GetListAsync();
+            var projects = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
 
             var model = await _projectRuleRepository.GetByIdAsync(projectRuleId);

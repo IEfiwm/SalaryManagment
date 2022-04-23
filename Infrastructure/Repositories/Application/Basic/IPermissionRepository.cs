@@ -8,5 +8,7 @@ namespace Infrastructure.Repositories.Application.Basic
     public interface IPermissionRepository : IBaseIdentityRepository<Permission, IdentityContext>
     {
         Task<bool> IsParent(long parentId);
+
+        Task<Permission> GetByName(string name);
     }
 }

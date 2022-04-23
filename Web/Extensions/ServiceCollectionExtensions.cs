@@ -2,6 +2,7 @@
 using Application.Interfaces.Contexts;
 using Application.Interfaces.Shared;
 using Domain.Entities.Base.Identity;
+using Infrastructure.Base.Permission;
 using Infrastructure.Dapper;
 using Infrastructure.DbContexts;
 using Infrastructure.Repositories;
@@ -168,6 +169,7 @@ namespace Web.Extensions
             services.AddTransient<IRole_MenuRepository, Role_MenuRepository>();
             services.AddTransient<IRole_Project_PermissionRepository, Role_Project_PermissionRepository>();
             services.AddTransient<IUser_RoleRepository, User_RoleRepository>();
+            services.AddTransient<IPermissionCommon, PermissionCommon>();
 
         }
     }

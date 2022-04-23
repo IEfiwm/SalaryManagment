@@ -7,10 +7,11 @@
 @inject UserManager<ApplicationUser> _userManager
 @inject RoleManager<ApplicationRole> _roleManager
 @{
-
+    List<ApplicationRole> roles = new List<ApplicationRole>();
     var user = await _userManager.GetUserAsync(User);
+
     var roleNames = await _userManager.GetRolesAsync(user);
-    List<ApplicationRole> roles = _roleManager.Roles.Where(r => roleNames.Contains(r.Name)).ToList();
+    roles = _roleManager.Roles.Where(r => roleNames.Contains(r.Name)).ToList();
 
     var menuHeader = new List<Menu>();
     foreach (var role in roles)

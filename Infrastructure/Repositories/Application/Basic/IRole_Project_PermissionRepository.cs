@@ -11,5 +11,7 @@ namespace Infrastructure.Repositories.Application.Basic
         Task<List<Role_Project_Permission>> GetByRoleAndProjectId(string roleId, long projectId);
 
         Task<List<Role_Project_Permission>> GetByProjectId(long projectId);
+
+        Task<List<Role_Project_Permission>> GetByRoleListAndPermissionId(IEnumerable<string> rolesId, long permissionId);
     }
 }
