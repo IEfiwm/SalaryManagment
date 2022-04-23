@@ -12,9 +12,9 @@
             <th>
                 ایمیل
             </th>
-            <th>
+            @*            <th>
                 شماره همراه
-            </th>
+                </th>*@
             <th style="width:10%">
                 #
             </th>
@@ -34,9 +34,9 @@
                 <td>
                     @user.Email
                 </td>
-                <td>
+                @*                <td>
                     @user.PhoneNumber
-                </td>
+                    </td>*@
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,8 +54,9 @@
     </tbody>
 </table>
 <script>
+
     $(document).ready(function () {
-        $('#CustomSpinner').css('display','none')
+        $('#CustomSpinner').hide();
         $("#userTable").DataTable({
                 searching: true,
                 ordering:  true,
@@ -73,5 +74,6 @@
                         sNext: "بعدی",
                     }
                 },
+    });
     });
 </script>

@@ -53,8 +53,10 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> LoadAll()
         {
-            var roles = await _roleManager.Roles.ToListAsync();
+            var roles = await _roleManager.Roles.Where(x => x.Active && x.Public).ToListAsync();
+
             var model = _mapper.Map<IEnumerable<RoleViewModel>>(roles);
+
             return PartialView("_ViewAll", model);
         }
 
@@ -219,6 +221,7 @@ namespace Web.Areas.Admin.Controllers
             if (projectId == 0)
             {
                 _notify.Error("بروز مشکل در انتخاب پروژه");
+
                 return RedirectToAction("Index", "Project");
             }
 
@@ -233,7 +236,6 @@ namespace Web.Areas.Admin.Controllers
                    Role = x.Select(y => y.Role).FirstOrDefault(),
                    ProjectId = x.Key.ProjectId,
                    Permissions = x.Select(y => y.Permission).ToList(),
-
                }).ToList();
 
             return View(model);
@@ -244,12 +246,16 @@ namespace Web.Areas.Admin.Controllers
             if (projectId == 0)
             {
                 _notify.Error("بروز مشکل در انتخاب پروژه");
+
                 return RedirectToAction("Index", "Project");
             }
+
             ViewData["PermissionList"] = _mapper.Map<List<PermissionsViewModel>>(await _permissionRepository.GetListAsync());
-            ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
+
+            ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.Where(x => x.Active && x.Public).ToListAsync());
 
             var model = new Role_Project_PermissionViewModel { ProjectId = projectId };
+
             if (roleId != null)
             {
                 model.RoleId = roleId;
@@ -300,7 +306,8 @@ namespace Web.Areas.Admin.Controllers
             var users = await _userManager.Users.Where(m => m.UserType == Common.Enums.UserType.SystemUser).ToListAsync();
 
             ViewData["UserList"] = _mapper.Map<List<UserViewModel>>(users);
-            ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
+
+            ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.Where(x => x.Active && x.Public).ToListAsync());
 
             return View();
         }
