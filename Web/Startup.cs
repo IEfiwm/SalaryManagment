@@ -1,4 +1,5 @@
-﻿using Application.Extensions;
+﻿using Alachisoft.NCache.Caching.Distributed;
+using Application.Extensions;
 using Application.Providers;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
@@ -82,6 +83,8 @@ namespace Web
             services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
 
             services.AddScoped<IViewRenderService, ViewRenderService>();
+
+            services.AddNCacheDistributedCache(_configuration.GetSection("NCacheSettings"));
 
             ConfigurationStorage.Configuration = _configuration;
 

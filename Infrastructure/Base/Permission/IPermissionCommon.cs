@@ -17,5 +17,7 @@ namespace Infrastructure.Base.Permission
 
         Task<bool> SetFullPermissionsProjectsToUser(Project project, ClaimsPrincipal userClaim);
 
+        Task<List<Menu>> GetMenuOfUser(ApplicationUser user);
+
     }
 }

@@ -1,28 +1,17 @@
 ﻿@using Domain.Entities.Basic
+@using Infrastructure.Base.Permission
 @using Infrastructure.Repositories.Application.Basic
 @using Microsoft.AspNetCore.Mvc.Localization
 @using System.Security.Claims
 @inject IHtmlLocalizer<SharedResource> localizer
 @inject IRole_MenuRepository _role_MenuRepository;
-@inject UserManager<ApplicationUser> _userManager
-@inject RoleManager<ApplicationRole> _roleManager
+@inject UserManager<ApplicationUser> _userManager;
+@inject RoleManager<ApplicationRole> _roleManager;
+@inject IPermissionCommon _permissionCommon;
 @{
-    List<ApplicationRole> roles = new List<ApplicationRole>();
     var user = await _userManager.GetUserAsync(User);
+    var menuHeader = await _permissionCommon.GetMenuOfUser(user);
 
-    var roleNames = await _userManager.GetRolesAsync(user);
-    roles = _roleManager.Roles.Where(r => roleNames.Contains(r.Name)).ToList();
-
-    var menuHeader = new List<Menu>();
-    foreach (var role in roles)
-    {
-        var role_menu = await _role_MenuRepository.GetByRoleId(role.Id);
-
-        if (role_menu is not null)
-            menuHeader.AddRange(role_menu.Select(x => x.Menu));
-
-        menuHeader.Distinct();
-    }
 }
 <aside id="sideBar" class="main-sidebar sidebar-dark-primary">
     <a href="/" class="brand-link">

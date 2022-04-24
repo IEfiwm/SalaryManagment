@@ -1,7 +1,9 @@
-﻿using Domain.Entities.Base.Identity;
+﻿using Alachisoft.NCache.Client;
+using Domain.Entities.Base.Identity;
 using Domain.Entities.Basic;
 using Infrastructure.Repositories.Application.Basic;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,7 @@ namespace Infrastructure.Base.Permission
         private readonly IPermissionRepository _permissionRepository;
         private readonly IProjectRepository _projectRepository;
         private readonly IRole_Project_PermissionRepository _role_Project_PermissionRepository;
+        private readonly IRole_MenuRepository _role_MenuRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -25,7 +28,8 @@ namespace Infrastructure.Base.Permission
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
             IProjectRepository projectRepository,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IRole_MenuRepository role_MenuRepository)
         {
             _permissionRepository = permissionRepository;
             _role_Project_PermissionRepository = role_Project_PermissionRepository;
@@ -33,6 +37,49 @@ namespace Infrastructure.Base.Permission
             _roleManager = roleManager;
             _projectRepository = projectRepository;
             _signInManager = signInManager;
+            _role_MenuRepository = role_MenuRepository;
+        }
+
+        public async Task<List<Menu>> GetMenuOfUser(ApplicationUser user)
+        {
+            var menuHeader = new List<Menu>();
+            //ICache _cache = CacheManager.GetCache(_appSettings.CacheName);
+
+            //var cacheKey = string.Format("menu_{0}", user.UserName);
+
+            //if (_cache != null)
+            //{
+            //    menuHeader = _cache.Get<List<Menu>>(cacheKey);
+            //}
+            //if (menuHeader == null)
+            //{
+            List<ApplicationRole> roles = new List<ApplicationRole>();
+            var roleNames = await _userManager.GetRolesAsync(user);
+            roles = _roleManager.Roles.Where(r => roleNames.Contains(r.Name)).ToList();
+
+            foreach (var role in roles)
+            {
+                var role_menu = await _role_MenuRepository.GetByRoleId(role.Id);
+
+                if (role_menu is not null)
+                    menuHeader.AddRange(role_menu.Select(x => x.Menu));
+
+                menuHeader.Distinct();
+            }
+
+            //if (menuHeader != null)
+            //{
+            //    if (_appSettings.CacheDbResults && _cache != null)
+            //    {
+            //        var cacheItem = new CacheItem(menuHeader);
+            //        cacheItem.SlidingExpiration = TimeSpan.AddMinutes(10);
+
+            //        // Add CacheItem to cache
+            //        _cache.Insert(cacheKey, cacheItem);
+            //    }
+            //}
+            //}
+            return menuHeader;
         }
 
         public async Task<Domain.Entities.Basic.Permission> GetOrCreateByName(string name)
@@ -106,10 +153,10 @@ namespace Infrastructure.Base.Permission
             /// 
             /// add 4 permission with role to project
             /// 
-            foreach (var item in new List<string> { "Show","Create","Update","Delete"})
+            foreach (var item in new List<string> { "Show", "Create", "Update", "Delete" })
             {
                 var permission = await GetOrCreateByName(item);
-                
+
                 var resPermission = await _role_Project_PermissionRepository.InsertAndSaveAsync(new Role_Project_Permission
                 {
                     PermissionId = permission.Id,
@@ -117,7 +164,7 @@ namespace Infrastructure.Base.Permission
                     ProjectId = project.Id
                 });
 
-                if (resPermission==0)
+                if (resPermission == 0)
                     return false;
 
             }
