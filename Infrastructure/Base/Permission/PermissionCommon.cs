@@ -4,6 +4,7 @@ using Domain.Entities.Basic;
 using Infrastructure.Repositories.Application.Basic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace Infrastructure.Base.Permission
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IMemoryCache _memoryCache;
 
         public PermissionCommon(IPermissionRepository permissionRepository,
             IRole_Project_PermissionRepository role_Project_PermissionRepository,
@@ -29,7 +31,8 @@ namespace Infrastructure.Base.Permission
             RoleManager<ApplicationRole> roleManager,
             IProjectRepository projectRepository,
             SignInManager<ApplicationUser> signInManager,
-            IRole_MenuRepository role_MenuRepository)
+            IRole_MenuRepository role_MenuRepository,
+            IMemoryCache memoryCache)
         {
             _permissionRepository = permissionRepository;
             _role_Project_PermissionRepository = role_Project_PermissionRepository;
@@ -38,19 +41,17 @@ namespace Infrastructure.Base.Permission
             _projectRepository = projectRepository;
             _signInManager = signInManager;
             _role_MenuRepository = role_MenuRepository;
+            _memoryCache = memoryCache;
         }
 
         public async Task<List<Menu>> GetMenuOfUser(ApplicationUser user)
         {
             var menuHeader = new List<Menu>();
-            //ICache _cache = CacheManager.GetCache(_appSettings.CacheName);
 
-            //var cacheKey = string.Format("menu_{0}", user.UserName);
+            var key = string.Format("menu_{0}", user.UserName);
 
-            //if (_cache != null)
-            //{
-            //    menuHeader = _cache.Get<List<Menu>>(cacheKey);
-            //}
+            var menus = _memoryCache.Get<List<Menu>>(key);
+
             //if (menuHeader == null)
             //{
             List<ApplicationRole> roles = new List<ApplicationRole>();
