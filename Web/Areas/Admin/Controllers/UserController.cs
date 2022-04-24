@@ -111,7 +111,6 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> ExportExcel(long projectId, string key, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
         {
-
             var model = await FilterUsers(projectId, key, int.MaxValue, 0, employeeStatus, gender, militaryService, maritalStatus);
 
             MemoryStream result = (MemoryStream)ExportToExcel(model.ViewModel);
@@ -613,10 +612,10 @@ namespace Web.Areas.Admin.Controllers
                     x.BankAccNumber,
                     x.PhoneNumber,
                     x.JobTitle,
-                    HasDocument = x.HasDocument ? "دارد" : "ندارد",
-                    HasAdditionalUser = x.HasAdditionalUser ? "دارد" : "ندارد",
-                    HasAdditionalUserDocument = x.HasAdditionalUserDocument ? "دارد" : "ندارد",
-                    IsActive = x.IsActive ? "فعال" : "غیر فعال"
+                    //HasDocument = x.HasDocument ? "دارد" : "ندارد",
+                    //HasAdditionalUser = x.HasAdditionalUser ? "دارد" : "ندارد",
+                    //HasAdditionalUserDocument = x.HasAdditionalUserDocument ? "دارد" : "ندارد",
+                    //IsActive = x.IsActive ? "فعال" : "غیر فعال"
                 });
 
                 var worksheet = excelFile.Workbook.Worksheets.Add("Personnel");
@@ -627,11 +626,15 @@ namespace Web.Areas.Admin.Controllers
                 worksheet.Cells["A1"].LoadFromCollection(Collection: NewModel, PrintHeaders: false, OfficeOpenXml.Table.TableStyles.Light13);
 
                 var allCells = worksheet.Cells[1, 1, worksheet.Dimension.End.Row, worksheet.Dimension.End.Column];
+
                 var cellFont = allCells.Style.Font;
-                cellFont.SetFromFont("B Nazanin", 11);
+
+                //cellFont.SetFromFont("B Nazanin", 11);
+
                 worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
 
                 MemoryStream result = new MemoryStream();
+
                 result.Position = 0;
 
                 excelFile.SaveAs(result);
@@ -646,17 +649,17 @@ namespace Web.Areas.Admin.Controllers
 
             var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser);
 
-            foreach (var user in model.ViewModel)
-            {
-                await Task.Run(async () =>
-                {
-                    user.HasAdditionalUser = await _additionalUserDateRepository.HasAdditionalUsersAsync(user.Id);
+            //foreach (var user in model.ViewModel)
+            //{
+            //    await Task.Run(async () =>
+            //    {
+            //        user.HasAdditionalUser = await _additionalUserDateRepository.HasAdditionalUsersAsync(user.Id);
 
-                    user.HasAdditionalUserDocument = await _additionalUserDateRepository.HasAdditionalUserDocumentAsync(user.Id);
+            //        user.HasAdditionalUserDocument = await _additionalUserDateRepository.HasAdditionalUserDocumentAsync(user.Id);
 
-                    user.HasDocument = await _additionalUserDateRepository.HasDocumentsAsync(user.Id);
-                });
-            }
+            //        user.HasDocument = await _additionalUserDateRepository.HasDocumentsAsync(user.Id);
+            //    });
+            //}
             return model;
         }
     }
