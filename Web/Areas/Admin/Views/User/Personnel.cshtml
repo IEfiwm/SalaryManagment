@@ -98,103 +98,123 @@
 {
 <script src="~/js/site.js"></script>
 <script>
-    var page = 0;
+        var page = 0;
 
-    function loadData(projectId,key,employeeStatus,gender,militaryService,maritalStatus) {
-         $('#CustomSpinner').css('display','block')
-        $('#data-card').load('/admin/user/loadall?projectId=' + projectId + '&key=' + key + '&pageSize=10&pageNumber=' + page + '&employeeStatus=' + (employeeStatus === "000" ? null : employeeStatus)  + '&gender=' + (gender === "000" ? null : gender) + '&militaryService=' + (militaryService === "000" ? null : militaryService) + '&maritalStatus' + (maritalStatus === "000" ? null : maritalStatus));
-    }
-    function ExcelData(projectId,key,employeeStatus,gender,militaryService,maritalStatus) {
-        location.href='/admin/user/ExportExcel?projectId=' + projectId + '&key=' + key + '&pageSize=255&pageNumber=1&employeeStatus=' + (employeeStatus === "000" ? null : employeeStatus)  + '&gender=' + (gender === "000" ? null : gender) + '&militaryService=' + (militaryService === "000" ? null : militaryService) + '&maritalStatus' + (maritalStatus === "000" ? null : maritalStatus);
-    }
-
-    function GetDocuments(id)
-    {
-        $.ajax({
-        url: "/admin/user/getdocuments?userId="+id,
-        method: "GET",
-        success: function (model) {
-
-             $('#modal-user-docs .modal-body').html('<div class="row"></div>');
-             $.each(model,function(index,item){
-             var row=`<div class="col-md-3">
-                        <select id="User_Doc_`+index+`" class="form-control ml-0 mr-0 valid" disabled>
-                            <option value="1">عکس پرسنلی</option>
-                            <option value="2">کارت ملی</option>
-                            <option value="3">پشت کارت ملی</option>
-                            <option value="4">صفحه اول شناسنامه</option>
-                            <option value="5">صفحه دوم شناسنامه</option>
-                            <option value="6">صفحه سوم شناسنامه</option>
-                            <option value="7">کارت پایان خدمت</option>
-                            <option value="8">آخرین مدرک تحصیلی</option>
-                            <option value="9">تضامین 1</option>
-                            <option value="10">تضامین 2</option>
-                            <option value="11">سایر</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="@_fileRepository.GetFileFullPath("").ImagePath\\`+item.fullPath+`" target="_blank">
-                            <img class="form-control w-auto" src="@_fileRepository.GetFileFullPath("").ThumbPath\\`+item.fullPath+`" />
-                        </a>
-                    </div>` ;
-                $('#modal-user-docs .modal-body .row').append(row);
-                $('#User_Doc_'+index).val(item.documentType);
-
-             });
-
-             $('#modal-user-docs').modal('show')
+        function loadData(projectId,key,employeeStatus,gender,militaryService,maritalStatus) {
+            $('#CustomSpinner').css('display','block')
+            $('#data-card').load('/admin/user/loadall?projectId=' + projectId + '&key=' + key + '&pageSize=10&pageNumber=' + page + '&employeeStatus=' + (employeeStatus === "000" ? null : employeeStatus)  + '&gender=' + (gender === "000" ? null : gender) + '&militaryService=' + (militaryService === "000" ? null : militaryService) + '&maritalStatus' + (maritalStatus === "000" ? null : maritalStatus));
         }
-    });
-    }
+        function ExcelData(projectId,key,employeeStatus,gender,militaryService,maritalStatus) {
+          
+            
+            $('#CustomSpinner').css('display','block');
+            fetch('/admin/user/ExportExcel?projectId=' + projectId + '&key=' + key + '&pageSize=255&pageNumber=1&employeeStatus=' + (employeeStatus === "000" ? null : employeeStatus)  + '&gender=' + (gender === "000" ? null : gender) + '&militaryService=' + (militaryService === "000" ? null : militaryService) + '&maritalStatus' + (maritalStatus === "000" ? null : maritalStatus))
+              .then(resp => resp.blob())
+              .then(blob => {
+                $('#CustomSpinner').css('display','none');
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                // the filename you want
+                a.download = 'Personnel.xlsx';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+              })
+              .catch(() => $('#CustomSpinner').css('display','none'));
+            
+            
+            
+        }
 
-    function GetAdditionalUsers(id)
-    {
-        $.ajax({
-        url: "/admin/user/GetAdditionalUsers?userId="+id,
-        method: "GET",
-        success: function (model) {
-
-            $('#modal-user-additional .modal-body').html('<div class="row"></div>');
-             $.each(model,function(index,item){
-             var row=`
-             <div class="col-md-4">
-             <label class="form-label">رابطه خویشاوندی</label>
-                <select class="form-control" id="User_additional_`+index+`" disabled>
-                    <option value="1">همسر</option>
-                    <option value="2">دختر</option>
-                    <option value="3">پسر</option>
-                    <option value="4">مادر</option>
-                    <option value="5">پدر</option>
-                </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">نام و نام خانوادگی</label>
-                        <input  class="form-control" type="text"  value="`+item.firstName+` `+item.lastName+`" disabled>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">کد ملی</label>
-                        <input  class="form-control" type="text"  value="`+item.nationalCode+`" disabled>
-                    </div>`
-                    ;
-                $('#modal-user-additional .modal-body .row').append(row);
-                $('#User_additional_'+index).val(item.familyRole);
-
-             });
-
-             $('#modal-user-additional').modal('show');
-         }
-    });
-    }
+        function GetDocuments(id)
+        {
             $.ajax({
-        url: "/admin/project/getlist",
-        method: "GET",
-        success: function (model){
-            $.map( model, function( val, i ) {
+            url: "/admin/user/getdocuments?userId="+id,
+            method: "GET",
+            success: function (model) {
 
-                $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
-            });
+                 $('#modal-user-docs .modal-body').html('<div class="row"></div>');
+                 $.each(model,function(index,item){
+                 var row=`<div class="col-md-3">
+                            <select id="User_Doc_`+index+`" class="form-control ml-0 mr-0 valid" disabled>
+                                <option value="1">عکس پرسنلی</option>
+                                <option value="2">کارت ملی</option>
+                                <option value="3">پشت کارت ملی</option>
+                                <option value="4">صفحه اول شناسنامه</option>
+                                <option value="5">صفحه دوم شناسنامه</option>
+                                <option value="6">صفحه سوم شناسنامه</option>
+                                <option value="7">کارت پایان خدمت</option>
+                                <option value="8">آخرین مدرک تحصیلی</option>
+                                <option value="9">تضامین 1</option>
+                                <option value="10">تضامین 2</option>
+                                <option value="11">سایر</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="@_fileRepository.GetFileFullPath("").ImagePath\\`+item.fullPath+`" target="_blank">
+                                <img class="form-control w-auto" src="@_fileRepository.GetFileFullPath("").ThumbPath\\`+item.fullPath+`" />
+                            </a>
+                        </div>` ;
+                    $('#modal-user-docs .modal-body .row').append(row);
+                    $('#User_Doc_'+index).val(item.documentType);
+
+                 });
+
+                 $('#modal-user-docs').modal('show')
+            }
+        });
         }
-    })
+
+        function GetAdditionalUsers(id)
+        {
+            $.ajax({
+            url: "/admin/user/GetAdditionalUsers?userId="+id,
+            method: "GET",
+            success: function (model) {
+
+                $('#modal-user-additional .modal-body').html('<div class="row"></div>');
+                 $.each(model,function(index,item){
+                 var row=`
+                 <div class="col-md-4">
+                 <label class="form-label">رابطه خویشاوندی</label>
+                    <select class="form-control" id="User_additional_`+index+`" disabled>
+                        <option value="1">همسر</option>
+                        <option value="2">دختر</option>
+                        <option value="3">پسر</option>
+                        <option value="4">مادر</option>
+                        <option value="5">پدر</option>
+                    </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">نام و نام خانوادگی</label>
+                            <input  class="form-control" type="text"  value="`+item.firstName+` `+item.lastName+`" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">کد ملی</label>
+                            <input  class="form-control" type="text"  value="`+item.nationalCode+`" disabled>
+                        </div>`
+                        ;
+                    $('#modal-user-additional .modal-body .row').append(row);
+                    $('#User_additional_'+index).val(item.familyRole);
+
+                 });
+
+                 $('#modal-user-additional').modal('show');
+             }
+        });
+        }
+                $.ajax({
+            url: "/admin/project/getlist",
+            method: "GET",
+            success: function (model){
+                $.map( model, function( val, i ) {
+
+                    $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
+                });
+            }
+        })
 
 </script>
 }

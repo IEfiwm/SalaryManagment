@@ -84,7 +84,7 @@ namespace Web
 
             services.AddScoped<IViewRenderService, ViewRenderService>();
 
-            services.AddNCacheDistributedCache(_configuration.GetSection("NCacheSettings"));
+            //services.AddNCacheDistributedCache(_configuration.GetSection("NCacheSettings"));
 
             ConfigurationStorage.Configuration = _configuration;
 

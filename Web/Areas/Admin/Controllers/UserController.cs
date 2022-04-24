@@ -10,6 +10,7 @@ using Infrastructure.Repositories.Application.Idenitity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OfficeOpenXml;
@@ -26,6 +27,7 @@ using System.Threading.Tasks;
 using Web.Abstractions;
 using Web.Areas.Admin.Models;
 using Web.Areas.Dashboard.Models;
+using Application.Extensions;
 
 namespace Web.Areas.Admin.Controllers
 {
@@ -43,6 +45,7 @@ namespace Web.Areas.Admin.Controllers
         private readonly IFileRepository _fileRepository;
         private readonly IBankRepository _bankRepository;
         private readonly IUser_RoleRepository _user_RoleRepository;
+        private readonly IHtmlLocalizer<SharedResource> _localizer;
 
         public UserController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -53,7 +56,8 @@ namespace Web.Areas.Admin.Controllers
             IDocumentRepository documentRepository,
             IFileRepository fileRepository,
             IBankRepository bankRepository,
-            IUser_RoleRepository user_RoleRepository)
+            IUser_RoleRepository user_RoleRepository,
+            IHtmlLocalizer<SharedResource> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -65,9 +69,10 @@ namespace Web.Areas.Admin.Controllers
             _fileRepository = fileRepository;
             _bankRepository = bankRepository;
             _user_RoleRepository = user_RoleRepository;
+            _localizer = localizer;
         }
 
-        public IActionResult Index()
+        public IActionResult InUsdex()
         {
             return View();
         }
@@ -606,12 +611,43 @@ namespace Web.Areas.Admin.Controllers
                     x.PersonnelCode,
                     Name = x.FirstName + " " + x.LastName,
                     x.ProjectName,
-                    x.FatherName,
                     x.NationalCode,
-                    x.InsuranceCode,
-                    x.BankAccNumber,
                     x.PhoneNumber,
+                    x.IdentitySerialNumber,
+                    x.IdentityNumber,
+                    x.FatherName,
+                    x.Nationality,
                     x.JobTitle,
+                    x.JobCode,
+                    x.BirthPlace,
+                    x.Address,
+                    x.ZipCode,
+                    Gender = EnumHelper<Gender>.GetDisplayValue(x.Gender),
+                    x.BankAccNumber,
+                    x.ShebaNumber,
+                    x.BankName,
+                    x.DegreeOfEducation,
+                    x.InsuranceCode,
+                    x.IncludedNumberOfChildren,
+                    x.NotIncludedNumberOfChildren,
+                    x.MonthlyBaseYear,
+                    x.MonthlySalary,
+                    x.ChildrenRight,
+                    x.WorkerRight,
+                    x.FoodAndHouseRight,
+                    x.DailyBaseYear,
+                    x.DailySalary,
+                    x.InsuranceHistory,
+                    x.WorkExperience,
+                    Birthday = x.Birthday == null ? null : x.Birthday.Value.ToString("yyyy/MM/dd"),
+                    HireDate = x.HireDate == null ? null : x.HireDate.Value.ToString("yyyy/MM/dd"),
+                    StartWorkingDate = x.StartWorkingDate == null ? null : x.StartWorkingDate.Value.ToString("yyyy/MM/dd"),
+                    EndWorkingDate = x.EndWorkingDate == null ? null : x.EndWorkingDate.Value.ToString("yyyy/MM/dd"),
+                    MaritalStatus = EnumHelper<MaritalStatus>.GetDisplayValue(x.MaritalStatus),
+                    MilitaryService = EnumHelper<MilitaryService>.GetDisplayValue(x.MilitaryService),
+                    EmployeeStatus = EnumHelper<EmployeeStatus>.GetDisplayValue(x.EmployeeStatus),
+
+
                     //HasDocument = x.HasDocument ? "دارد" : "ندارد",
                     //HasAdditionalUser = x.HasAdditionalUser ? "دارد" : "ندارد",
                     //HasAdditionalUserDocument = x.HasAdditionalUserDocument ? "دارد" : "ندارد",
@@ -620,10 +656,54 @@ namespace Web.Areas.Admin.Controllers
 
                 var worksheet = excelFile.Workbook.Worksheets.Add("Personnel");
                 worksheet.View.RightToLeft = true;
+                 
+                worksheet.Cells["A1"].Value = _localizer["PersonnelCode"].Value;
+                worksheet.Cells["B1"].Value = _localizer["FirstName"].Value + " " + _localizer["LastName"].Value;
+                worksheet.Cells["C1"].Value = "پروژه";
+                worksheet.Cells["D1"].Value = _localizer["NationalCode"].Value;
+                worksheet.Cells["E1"].Value = _localizer["PhoneNumber"].Value;
+                worksheet.Cells["F1"].Value = _localizer["IdentitySerialNumber"].Value;
+                worksheet.Cells["G1"].Value = _localizer["IdentityNumber"].Value;
+                worksheet.Cells["H1"].Value = "نام پدر";
+                worksheet.Cells["I1"].Value = _localizer["Nationality"].Value;
+                worksheet.Cells["J1"].Value = _localizer["JobTitle"].Value;
+                worksheet.Cells["K1"].Value = _localizer["JobCode"].Value;
+                worksheet.Cells["L1"].Value = _localizer["BirthPlace"].Value;
+                worksheet.Cells["M1"].Value = _localizer["Address"].Value;
+                worksheet.Cells["N1"].Value = _localizer["ZipCode"].Value;
+                worksheet.Cells["O1"].Value = "جنسیت";
+                worksheet.Cells["P1"].Value = "شماره حساب";
+                worksheet.Cells["Q1"].Value = "شماره شبا";
+                worksheet.Cells["R1"].Value = "نام بانک";
+                worksheet.Cells["S1"].Value = _localizer["DegreeOfEducation"].Value;
+                worksheet.Cells["T1"].Value = _localizer["InsuranceCode"].Value;
+                worksheet.Cells["U1"].Value = _localizer["IncludedNumberOfChildren"].Value;
+                worksheet.Cells["V1"].Value = _localizer["NotIncludedNumberOfChildren"].Value;
+                worksheet.Cells["W1"].Value = _localizer["MonthlyBaseYear"].Value;
+                worksheet.Cells["X1"].Value = _localizer["MonthlySalary"].Value;
+                worksheet.Cells["Y1"].Value = _localizer["ChildrenRight"].Value;
+                worksheet.Cells["Z1"].Value = _localizer["WorkerRight"].Value;
+                worksheet.Cells["AA1"].Value = _localizer["FoodAndHouseRight"].Value;
+                worksheet.Cells["AB1"].Value = _localizer["DailyBaseYear"].Value;
+                worksheet.Cells["AC1"].Value = _localizer["DailySalary"].Value;
+                worksheet.Cells["AD1"].Value = _localizer["InsuranceHistory"].Value;
+                worksheet.Cells["AE1"].Value = _localizer["WorkExperience"].Value;
+                worksheet.Cells["AF1"].Value = "تاریخ تولد";
+                worksheet.Cells["AG1"].Value = "تاریخ استخدام";
+                worksheet.Cells["AH1"].Value = "تاریخ شروع کار";
+                worksheet.Cells["AI1"].Value = "تاریخ پایان کار";
+                worksheet.Cells["AJ1"].Value = "وضعیت تاهل";
+                worksheet.Cells["AK1"].Value = "وضعیت سربازی";
+                worksheet.Cells["AL1"].Value = "وضعیت کارمند";
 
-                //worksheet.Cells["A1"].Value = "کد پ";
- 
-                worksheet.Cells["A1"].LoadFromCollection(Collection: NewModel, PrintHeaders: false, OfficeOpenXml.Table.TableStyles.Light13);
+
+
+                //worksheet.Cells["J1"].Value = "وضعیت ‌مدارک";
+                //worksheet.Cells["K1"].Value = "وضعیت اطلاعات تحت تکفل";
+                //worksheet.Cells["L1"].Value = "وضعیت مدارک تحت تکفل";
+                //worksheet.Cells["M1"].Value = "وضعیت";
+
+                worksheet.Cells["A2"].LoadFromCollection(Collection: NewModel, PrintHeaders: false, OfficeOpenXml.Table.TableStyles.Light13);
 
                 var allCells = worksheet.Cells[1, 1, worksheet.Dimension.End.Row, worksheet.Dimension.End.Column];
 
