@@ -23,9 +23,6 @@ namespace Web.Areas.Admin.Controllers
     [Authorize(Roles = "SuperAdmin,Admin,Manager")]
     public class ProjectController : BaseController<UserController>
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
 
         private readonly IProjectRepository _projectRepository;
         private readonly IBankRepository _bankRepository;
@@ -33,18 +30,13 @@ namespace Web.Areas.Admin.Controllers
         private readonly IProjectBankAccountRepository _projectBankAccountRepository;
         private readonly IPermissionCommon _permissionCommon;
 
-        public ProjectController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            RoleManager<ApplicationRole> roleManager,
+        public ProjectController(
             IProjectRepository projectRepository,
             IBankRepository bankRepository,
             IBank_AccountRepository bank_AccountRepository,
             IProjectBankAccountRepository projectBankAccountRepository,
             IPermissionCommon permissionCommon)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
             _projectRepository = projectRepository;
             _bankRepository = bankRepository;
             _bank_AccountRepository = bank_AccountRepository;
@@ -114,7 +106,9 @@ namespace Web.Areas.Admin.Controllers
 
                 if (model.Id == 0)
                 {
-                    await _projectRepository.InsertAsync(projectModel);
+                    projectModel.Id = await _projectRepository.InsertAndSaveAsync(projectModel);
+                   
+                    await _permissionCommon.SetFullPermissionsProjectsToUser(projectModel,User);
                 }
                 else
                 {

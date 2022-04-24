@@ -60,8 +60,8 @@ namespace Web.Areas.Admin.Controllers
         {
             var user = await _userManager.FindByIdAsync(id);
             var roles = await _userManager.GetRolesAsync(user);
-            var result = await _userManager.RemoveFromRolesAsync(user, roles);
-            result = await _userManager.AddToRolesAsync(user, model.UserRoles.Where(x => x.Selected).Select(y => y.RoleName));
+            //var result = await _userManager.RemoveFromRolesAsync(user, roles);
+            var result = await _userManager.AddToRolesAsync(user, model.UserRoles.Where(x => x.Selected && !roles.Contains(x.RoleName)).Select(y => y.RoleName));
             var currentUser = await _userManager.GetUserAsync(User);
             await _signInManager.RefreshSignInAsync(currentUser);
             await Infrastructure.Identity.Seeds.DefaultSuperAdminUser.SeedAsync(_userManager, _roleManager);

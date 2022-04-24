@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Base.Identity;
+using Domain.Entities.Basic;
 using Infrastructure.Repositories.Application.Basic;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -17,18 +18,21 @@ namespace Infrastructure.Base.Permission
         private readonly IRole_Project_PermissionRepository _role_Project_PermissionRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public PermissionCommon(IPermissionRepository permissionRepository,
             IRole_Project_PermissionRepository role_Project_PermissionRepository,
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
-            IProjectRepository projectRepository)
+            IProjectRepository projectRepository,
+            SignInManager<ApplicationUser> signInManager)
         {
             _permissionRepository = permissionRepository;
             _role_Project_PermissionRepository = role_Project_PermissionRepository;
             _userManager = userManager;
             _roleManager = roleManager;
             _projectRepository = projectRepository;
+            _signInManager = signInManager;
         }
 
         public async Task<Domain.Entities.Basic.Permission> GetOrCreateByName(string name)
@@ -49,7 +53,7 @@ namespace Infrastructure.Base.Permission
             return permission;
         }
 
-        public async Task<List<Domain.Entities.Basic.Project>> GetProjectsByPermission(string permissionName, ClaimsPrincipal userClaim)
+        public async Task<List<Project>> GetProjectsByPermission(string permissionName, ClaimsPrincipal userClaim)
         {
             if (!userClaim.IsInRole("SuperAdmin"))
             {
@@ -69,6 +73,58 @@ namespace Infrastructure.Base.Permission
             {
                 return await _projectRepository.GetListAsync();
             }
+        }
+
+        public async Task<bool> SetFullPermissionsProjectsToUser(Project project, ClaimsPrincipal userClaim)
+        {
+            /// add role with project name
+            /// 
+            var role = new ApplicationRole
+            {
+                Active = true,
+                Name = " ادمین " + project.Title,
+                Id = Guid.NewGuid().ToString(),
+                SystemRole = false,
+
+            };
+
+            var res = await _roleManager.CreateAsync(role);
+            if (!res.Succeeded)
+                return false;
+            /// 
+            /// add role to user
+            /// 
+            var user = await _userManager.GetUserAsync(userClaim);
+
+            var result = await _userManager.AddToRolesAsync(user, new List<string> { role.Name });
+            if (!result.Succeeded)
+                return false;
+            var currentUser = await _userManager.GetUserAsync(userClaim);
+            await _signInManager.RefreshSignInAsync(currentUser);
+            await Identity.Seeds.DefaultSuperAdminUser.SeedAsync(_userManager, _roleManager);
+
+            /// 
+            /// add 4 permission with role to project
+            /// 
+            foreach (var item in new List<string> { "Show","Create","Update","Delete"})
+            {
+                var permission = await GetOrCreateByName(item);
+                
+                var resPermission = await _role_Project_PermissionRepository.InsertAndSaveAsync(new Role_Project_Permission
+                {
+                    PermissionId = permission.Id,
+                    RoleId = role.Id,
+                    ProjectId = project.Id
+                });
+
+                if (resPermission==0)
+                    return false;
+
+            }
+            /// 
+            return true;
+
+
         }
     }
 }

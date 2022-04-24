@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Base.Identity;
+using Domain.Entities.Basic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace Infrastructure.Base.Permission
     {
         Task<Domain.Entities.Basic.Permission> GetOrCreateByName(string name);
 
-        Task<List<Domain.Entities.Basic.Project>> GetProjectsByPermission(string permissionName, ClaimsPrincipal userClaim);
+        Task<List<Project>> GetProjectsByPermission(string permissionName, ClaimsPrincipal userClaim);
 
-        //Task<List<Domain.Entities.Basic.Project>> SetPermissionProjectsToUser(string permissionName, ClaimsPrincipal userClaim);
+        Task<bool> SetFullPermissionsProjectsToUser(Project project, ClaimsPrincipal userClaim);
 
     }
 }
