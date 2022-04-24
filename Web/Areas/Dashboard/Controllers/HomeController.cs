@@ -23,16 +23,16 @@ namespace Web.Areas.Dashboard.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
             if (user == null)
-                return LocalRedirect("~/Authentication/Login/");
+                return LocalRedirect("~/authentication/login/");
 
             var roles = await _userManager.GetRolesAsync(user);
 
             if (roles.Any(m => m == "User"))
             {
-                return LocalRedirect("~/Dashboard/User/EditInformation");
+                return LocalRedirect("~/dashboard/user/editinformation");
             }
 
-            return LocalRedirect("~/Dashboard/Managment");
+            return LocalRedirect("~/dashboard/managment");
         }
     }
 }
