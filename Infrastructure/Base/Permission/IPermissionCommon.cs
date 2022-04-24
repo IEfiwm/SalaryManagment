@@ -14,7 +14,7 @@ namespace Infrastructure.Base.Permission
 
         Task<List<Domain.Entities.Basic.Project>> GetProjectsByPermission(string permissionName, ClaimsPrincipal userClaim);
 
-       // Task<List<Domain.Entities.Basic.Project>> SetPermissionProjectsToUser(string permissionName, ClaimsPrincipal userClaim);
+        //Task<List<Domain.Entities.Basic.Project>> SetPermissionProjectsToUser(string permissionName, ClaimsPrincipal userClaim);
 
     }
 }

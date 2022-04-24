@@ -202,7 +202,9 @@ namespace Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetList()
         {
-            var model = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
+            var projectList = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
+
+            var model = _mapper.Map<IEnumerable<ProjectViewModel>>(projectList);
             return Json(model);
         }
 

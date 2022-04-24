@@ -607,21 +607,9 @@ namespace Web.Areas.Admin.Controllers
                 var worksheet = excelFile.Workbook.Worksheets.Add("Personnel");
                 worksheet.View.RightToLeft = true;
 
-                worksheet.Cells["A1"].Value = "کد پ";
-                worksheet.Cells["B1"].Value = "نام ‌و ‌نام‌خانوادگی";
-                worksheet.Cells["C1"].Value = "پروژه";
-                worksheet.Cells["D1"].Value = "نام پدر";
-                worksheet.Cells["E1"].Value = "کد ملی";
-                worksheet.Cells["F1"].Value = "شماره بیمه";
-                worksheet.Cells["G1"].Value = "شماره حساب";
-                worksheet.Cells["H1"].Value = "شماره تماس";
-                worksheet.Cells["I1"].Value = "شغل";
-                worksheet.Cells["J1"].Value = "وضعیت ‌مدارک";
-                worksheet.Cells["K1"].Value = "وضعیت اطلاعات تحت تکفل";
-                worksheet.Cells["L1"].Value = "وضعیت مدارک تحت تکفل";
-                worksheet.Cells["M1"].Value = "وضعیت";
-
-                worksheet.Cells["A2"].LoadFromCollection(Collection: NewModel, PrintHeaders: false, OfficeOpenXml.Table.TableStyles.Light13);
+                //worksheet.Cells["A1"].Value = "کد پ";
+ 
+                worksheet.Cells["A1"].LoadFromCollection(Collection: NewModel, PrintHeaders: false, OfficeOpenXml.Table.TableStyles.Light13);
 
                 var allCells = worksheet.Cells[1, 1, worksheet.Dimension.End.Row, worksheet.Dimension.End.Column];
                 var cellFont = allCells.Style.Font;
