@@ -386,7 +386,7 @@
         $.validator.unobtrusive.parse(document);
 
             $.ajax({
-            url: "/admin/project/getlist",
+            url: "/admin/project/getlist?permissionName=EditPersonnel",
             method: "GET",
             success: function (model){
                 $.map( model, function( val, i ) {

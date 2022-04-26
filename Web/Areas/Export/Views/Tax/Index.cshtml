@@ -55,7 +55,7 @@
     <script>
 
         $.ajax({
-            url: "/admin/project/getlist",
+            url: "/admin/project/getlist?permissionName=ExportTaxSummary",
             method: "GET",
             success: function (model) {
                 $.map(model, function (val, i) {

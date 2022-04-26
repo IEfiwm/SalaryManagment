@@ -206,7 +206,7 @@
         });
         }
                 $.ajax({
-            url: "/admin/project/getlist",
+            url: "/admin/project/getlist?permissionName=PersonnelList",
             method: "GET",
             success: function (model){
                 $.map( model, function( val, i ) {

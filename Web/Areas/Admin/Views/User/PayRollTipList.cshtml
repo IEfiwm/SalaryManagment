@@ -133,7 +133,7 @@
 
 
     $.ajax({
-        url: "/admin/project/getlist",
+        url: "/admin/project/getlist?permissionName=ShowPayRollList",
         method: "GET",
         success: function (model) {
             $.map(model, function (val, i) {

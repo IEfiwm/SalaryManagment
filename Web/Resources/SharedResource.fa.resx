@@ -402,4 +402,7 @@
 	<data name="ListRoleProjectPermission" xml:space="preserve">
     <value>لیست نقش و سطوح دسترسی</value>
   </data>
+	<data name="AccessDeniedProject" xml:space="preserve">
+    <value>شما دسترسی لازم برای انجام عملیات موردنظر روی این پروژه را ندارید.</value>
+  </data>
 </root>

@@ -44,13 +44,39 @@ namespace Infrastructure.Base.Permission
             _memoryCache = memoryCache;
         }
 
+        public async Task<bool> CheckProjectPermissionByProjectId(string permissionName, ClaimsPrincipal userClaim, long projectId)
+        {
+            if (!userClaim.IsInRole("SuperAdmin"))
+            {
+                var user = await _userManager.GetUserAsync(userClaim);
+
+                var roleNames = await _userManager.GetRolesAsync(user);
+               
+                var roles = _roleManager.Roles.Where(r => roleNames.Contains(r.Name)).ToList()?.Select(x => x.Id);
+
+                var permission = await GetOrCreateByName(permissionName);
+
+                var role_Project_Permission = await _role_Project_PermissionRepository.GetByProjectId(projectId);
+
+                if (role_Project_Permission.Any(x => x.PermissionId == permission.Id && roles.Contains(x.RoleId)))
+                {
+                    return true;
+                }
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public async Task<List<Menu>> GetMenuOfUser(ApplicationUser user)
         {
             var menuHeader = new List<Menu>();
 
             var key = string.Format("menu_{0}", user.UserName);
 
-            var menus = _memoryCache.Get<List<Menu>>(key);
+            menuHeader = _memoryCache.Get<List<Menu>>(key);
 
             if (menus is not null)
             {
@@ -63,22 +89,24 @@ namespace Infrastructure.Base.Permission
 
             roles = _roleManager.Roles.Where(r => roleNames.Contains(r.Name)).ToList();
 
-            foreach (var role in roles)
-            {
-                var role_menu = await _role_MenuRepository.GetByRoleId(role.Id);
+                foreach (var role in roles)
+                {
+                    var role_menu = await _role_MenuRepository.GetByRoleId(role.Id);
 
-                if (role_menu is not null)
-                    menuHeader.AddRange(role_menu.Select(x => x.Menu));
+                    if (role_menu is not null)
+                        menuHeader.AddRange(role_menu.Select(x => x.Menu));
 
-                menuHeader.Distinct();
-            }
+                    menuHeader.Distinct();
+                    // _memoryCache.Set<List<Menu>>(menuHeader);
 
-            //if (menuHeader != null)
-            //{
-            //    if (_appSettings.CacheDbResults && _cache != null)
-            //    {
-            //        var cacheItem = new CacheItem(menuHeader);
-            //        cacheItem.SlidingExpiration = TimeSpan.AddMinutes(10);
+                }
+
+                //if (menuHeader != null)
+                //{
+                //    if (_appSettings.CacheDbResults && _cache != null)
+                //    {
+                //        var cacheItem = new CacheItem(menuHeader);
+                //        cacheItem.SlidingExpiration = TimeSpan.AddMinutes(10);
 
             //        // Add CacheItem to cache
             //        _cache.Insert(cacheKey, cacheItem);
@@ -118,7 +146,7 @@ namespace Infrastructure.Base.Permission
                 var roleNames = await _userManager.GetRolesAsync(user);
                 var roles = _roleManager.Roles.Where(r => roleNames.Contains(r.Name)).ToList();
 
-                var permission = await GetOrCreateByName("Show");
+                var permission = await GetOrCreateByName(permissionName);
 
                 var role_Project_Permission = await _role_Project_PermissionRepository.GetByRoleListAndPermissionId(roles.Select(x => x.Id), permission.Id);
 

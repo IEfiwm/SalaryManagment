@@ -46,7 +46,7 @@
 <script>
 
         $.ajax({
-        url: "/admin/project/getlist",
+        url: "/admin/project/getlist?permissionName=ExportBank",
         method: "GET",
         success: function (model){
             //console.log(parseJSON(model));

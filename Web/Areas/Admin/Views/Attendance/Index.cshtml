@@ -36,12 +36,12 @@
 <script src="~/js/site.js"></script>
 <script>
      $.ajax({
-        url: "/admin/project/getlist",
+        url: "/admin/project/getlist?permissionName=ShowAttendance",
         method: "GET",
         success: function (model){
             //console.log(parseJSON(model));
             $.map( model, function( val, i ) {
-                console.log(val);
+                //console.log(val);
                 $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
             });
             //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');

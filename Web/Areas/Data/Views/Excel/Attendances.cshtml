@@ -116,7 +116,7 @@
     });
     $(document).ready(function(){
     $.ajax({
-        url: "/admin/project/getlist",
+        url: "/admin/project/getlist?permissionName=ImportAttendance",
         method: "GET",
         success: function (model){
             //console.log(parseJSON(model));

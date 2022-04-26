@@ -15,6 +15,8 @@ namespace Infrastructure.Base.Permission
 
         Task<List<Project>> GetProjectsByPermission(string permissionName, ClaimsPrincipal userClaim);
 
+        Task<bool> CheckProjectPermissionByProjectId(string permissionName, ClaimsPrincipal userClaim,long projectId);
+
         Task<bool> SetFullPermissionsProjectsToUser(Project project, ClaimsPrincipal userClaim);
 
         Task<List<Menu>> GetMenuOfUser(ApplicationUser user);

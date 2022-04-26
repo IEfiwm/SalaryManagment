@@ -8,6 +8,8 @@ namespace Domain.Entities.Basic
     {
         public string Name { get; set; }
 
+        public string PersianName { get; set; }
+
         public long? ParentId { get; set; }
 
         public virtual Permission Parent { get; set; }

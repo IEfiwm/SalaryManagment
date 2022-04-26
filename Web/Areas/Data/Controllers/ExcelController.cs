@@ -261,6 +261,13 @@ namespace Web.Areas.Attendance.Controllers
         {
             try
             {
+                var permission = await _permissionCommon.CheckProjectPermissionByProjectId("ImportAttendance", User, projectRef);
+                if (!permission)
+                {
+                    _notify.Error(_localizer["AccessDeniedProject"].Value);
+                    return false;
+                }
+
                 IFormFile file = Request.Form.Files[0];
 
                 string folderName = "UploadExcel";
@@ -1364,6 +1371,13 @@ namespace Web.Areas.Attendance.Controllers
         {
             try
             {
+                var permission = await _permissionCommon.CheckProjectPermissionByProjectId("ShowMonthlyAttendance", User, projectRef);
+                if (!permission)
+                {
+                    _notify.Error(_localizer["AccessDeniedProject"].Value);
+                    return false;
+                }
+                
                 IFormFile file = Request.Form.Files[0];
 
                 string folderName = "UploadExcel";
@@ -1614,6 +1628,12 @@ namespace Web.Areas.Attendance.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteAttendances(int year, int month, long projectId)
         {
+            var permission = await _permissionCommon.CheckProjectPermissionByProjectId("DeleteAttendance", User, projectId);
+            if (!permission)
+            {
+                _notify.Error(_localizer["AccessDeniedProject"].Value);
+                return RedirectToAction("DeleteAttendances");
+            }
             var userList = await _userRepository.GetUserListByProjectIdAsync(projectId);
 
             var userNationalCodeList = userList.Where(x => x.NationalCode != null).Select(x => x.NationalCode).ToList();
@@ -1643,6 +1663,13 @@ namespace Web.Areas.Attendance.Controllers
         public async Task<IActionResult> DeleteMonthlyAttendances(int year, int month, long projectId)
         {
 
+            var permission = await _permissionCommon.CheckProjectPermissionByProjectId("DeleteMonthlyAttendance", User, projectId);
+            if (!permission)
+            {
+                _notify.Error(_localizer["AccessDeniedProject"].Value);
+                return RedirectToAction("DeleteMonthlyAttendances");
+            }
+            
             var listOfAttendances = await _attendanceRepository.GetByProjectId(year, month, projectId);
 
             if (listOfAttendances == null)

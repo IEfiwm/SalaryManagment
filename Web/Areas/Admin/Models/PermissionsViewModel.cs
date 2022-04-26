@@ -6,6 +6,8 @@
 
         public string Name { get; set; }
 
+        public string PersianName { get; set; }
+        
         public PermissionsViewModel Parent { get; set; }
 
         public long? ParentId { get; set; }
