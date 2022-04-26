@@ -51,7 +51,7 @@ namespace Infrastructure.Base.Permission
                 var user = await _userManager.GetUserAsync(userClaim);
 
                 var roleNames = await _userManager.GetRolesAsync(user);
-               
+
                 var roles = _roleManager.Roles.Where(r => roleNames.Contains(r.Name)).ToList()?.Select(x => x.Id);
 
                 var permission = await GetOrCreateByName(permissionName);
@@ -72,15 +72,13 @@ namespace Infrastructure.Base.Permission
 
         public async Task<List<Menu>> GetMenuOfUser(ApplicationUser user)
         {
-            var menuHeader = new List<Menu>();
-
             var key = string.Format("menu_{0}", user.UserName);
 
-            menuHeader = _memoryCache.Get<List<Menu>>(key);
+            var menu = _memoryCache.Get<List<Menu>>(key);
 
-            if (menus is not null)
+            if (menu is not null)
             {
-                return menus;
+                return menu;
             }
 
             List<ApplicationRole> roles = new List<ApplicationRole>();
@@ -89,24 +87,25 @@ namespace Infrastructure.Base.Permission
 
             roles = _roleManager.Roles.Where(r => roleNames.Contains(r.Name)).ToList();
 
-                foreach (var role in roles)
-                {
-                    var role_menu = await _role_MenuRepository.GetByRoleId(role.Id);
+            var menuHeader = new List<Menu>();
 
-                    if (role_menu is not null)
-                        menuHeader.AddRange(role_menu.Select(x => x.Menu));
+            foreach (var role in roles)
+            {
+                var role_menu = await _role_MenuRepository.GetByRoleId(role.Id);
 
-                    menuHeader.Distinct();
-                    // _memoryCache.Set<List<Menu>>(menuHeader);
+                if (role_menu is not null)
+                    menuHeader.AddRange(role_menu.Select(x => x.Menu));
 
-                }
+                menuHeader.Distinct();
+                // _memoryCache.Set<List<Menu>>(menuHeader);
+            }
 
-                //if (menuHeader != null)
-                //{
-                //    if (_appSettings.CacheDbResults && _cache != null)
-                //    {
-                //        var cacheItem = new CacheItem(menuHeader);
-                //        cacheItem.SlidingExpiration = TimeSpan.AddMinutes(10);
+            //if (menuHeader != null)
+            //{
+            //    if (_appSettings.CacheDbResults && _cache != null)
+            //    {
+            //        var cacheItem = new CacheItem(menuHeader);
+            //        cacheItem.SlidingExpiration = TimeSpan.AddMinutes(10);
 
             //        // Add CacheItem to cache
             //        _cache.Insert(cacheKey, cacheItem);
