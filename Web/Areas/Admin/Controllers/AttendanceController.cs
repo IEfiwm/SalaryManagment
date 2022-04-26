@@ -1,4 +1,5 @@
 ﻿using Common.Models.DataTable;
+using Infrastructure.Base.Permission;
 using Infrastructure.Repositories.Application;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -16,10 +17,13 @@ namespace Web.Areas.Admin.Controllers
     public class AttendanceController : BaseController<AttendanceController>
     {
         private readonly IimportedRepository _importedRepository;
+        private readonly IPermissionCommon _permissionCommon;
 
-        public AttendanceController(IimportedRepository iimportedRepository)
+        public AttendanceController(IimportedRepository iimportedRepository,
+            IPermissionCommon permissionCommon)
         {
             _importedRepository = iimportedRepository;
+            _permissionCommon = permissionCommon;
         }
 
         public async Task<IActionResult> Delete(long attendanceId)
@@ -41,6 +45,13 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> LoadAll(int year, int month, long projectId, string key, byte pageSize, byte pageNumber)
         {
+            var permission = await _permissionCommon.CheckProjectPermissionByProjectId("ShowAttendance", User, projectId);
+            if (!permission)
+            {
+                _notify.Error(_localizer["AccessDeniedProject"].Value);
+                return Ok();
+            }
+
             var usersattendance = await _importedRepository.GetUserAttendanceListAsync(year, month, projectId, key, pageSize, pageNumber);
 
             var res = _mapper.Map<DataTableViewModel<IEnumerable<AttendanceViewModel>>>(usersattendance);

@@ -37,7 +37,7 @@ namespace Web.Areas.Dashboard.Controllers
             var model = new SummaryViewModel();
 
             model.ImportedDataCount = (await _iimportedRepository.GetListAsync()).Count;
-            model.ProjectCount = (await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User)).Count;
+            model.ProjectCount = (await _permissionCommon.GetProjectsByPermission("ShowDoshboard", HttpContext.User)).Count;
             model.UserCount = (await _userRepository.GetUserListAsync()).Count;
 
             _notify.Information("خوش آمدید !");

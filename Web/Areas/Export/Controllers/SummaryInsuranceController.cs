@@ -19,6 +19,13 @@ namespace Web.Areas.Export.Controllers
         [HttpGet]
         public async Task<IActionResult> DBFAsync(int year, int month, int projectId)
         {
+            var permission = await _permissionCommon.CheckProjectPermissionByProjectId("ExportInsuranceSummary", User, projectId);
+            if (!permission)
+            {
+                _notify.Error(_localizer["AccessDeniedProject"].Value);
+                return Ok();
+            }
+
             var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(Guid.NewGuid() + ".txt", @$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/DBFSummary/{year}/{month}/{projectId}");
 
             return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName);
@@ -27,6 +34,13 @@ namespace Web.Areas.Export.Controllers
         [HttpGet]
         public async Task<IActionResult> PDFAsync(int year, int month, int projectId)
         {
+            var permission = await _permissionCommon.CheckProjectPermissionByProjectId("ExportInsuranceSummary", User, projectId);
+            if (!permission)
+            {
+                _notify.Error(_localizer["AccessDeniedProject"].Value);
+                return Ok();
+            }
+            
             var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(Guid.NewGuid() + ".pdf", @$"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/InsuranceSummary/{year}/{month}/{projectId}");
 
             return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName.Replace("\"", ""));

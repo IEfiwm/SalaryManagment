@@ -38,7 +38,7 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(long? projectId = null)
         {
-            var projects = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
+            var projects = await _permissionCommon.GetProjectsByPermission("ShowProjectRule", HttpContext.User);
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
             ViewData["projectId"] = projectId;
             return View();
@@ -55,7 +55,7 @@ namespace Web.Areas.Admin.Controllers
             var calculatedfile = await _fieldRepository.GetCalculateFields();
             ViewData["CalculatedProps"] = _mapper.Map<List<FieldViewModel>>(calculatedfile);
 
-            var projects = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
+            var projects = await _permissionCommon.GetProjectsByPermission("CreateProjectRule", HttpContext.User);
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
 
 
@@ -68,7 +68,7 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> LoadAll(long? projectId = null)
         {
-            var projects = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
+            var projects = await _permissionCommon.GetProjectsByPermission("ShowProjectRule", HttpContext.User);
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
 
             var projectList = await _projectRuleRepository.GetListAsync();
@@ -93,7 +93,7 @@ namespace Web.Areas.Admin.Controllers
             var calculatedfile = await _fieldRepository.GetCalculateFields();
             ViewData["CalculatedProps"] = _mapper.Map<List<FieldViewModel>>(calculatedfile);
 
-            var projects = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
+            var projects = await _permissionCommon.GetProjectsByPermission("EditProjectRule", HttpContext.User);
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
 
             var model = await _projectRuleRepository.GetByIdAsync(projectRuleId);
@@ -117,6 +117,13 @@ namespace Web.Areas.Admin.Controllers
 
                 if (model.Id == 0)
                 {
+                    var permission = await _permissionCommon.CheckProjectPermissionByProjectId("CreateProjectRule", User, model.ProjectId);
+                    if (!permission)
+                    {
+                        _notify.Error(_localizer["AccessDeniedProject"].Value);
+                        return RedirectToAction("Index");
+                    }
+
                     if (model.RuleList == null || model.RuleList?.Count == 0)
                     {
                         _notify.Warning("لطفا فرمول را پر کنید.");
@@ -135,6 +142,13 @@ namespace Web.Areas.Admin.Controllers
                 }
                 else
                 {
+                    var permission = await _permissionCommon.CheckProjectPermissionByProjectId("EditProjectRule", User, model.ProjectId);
+                    if (!permission)
+                    {
+                        _notify.Error(_localizer["AccessDeniedProject"].Value);
+                        return RedirectToAction("Index");
+                    }
+                    
                     if (model.RuleList == null || model.RuleList?.Count == 0)
                     {
                         _notify.Warning("لطفا فرمول را پر کنید.");

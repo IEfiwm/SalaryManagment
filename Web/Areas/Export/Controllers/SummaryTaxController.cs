@@ -27,6 +27,7 @@ namespace Web.Areas.Export.Controllers
         [HttpPost]
         public async Task<IActionResult> TXT(MKViewModel model)
         {
+
             var fileName = "WK" + model.Year + CommonHelper.GetTowDigits(model.Month) + ".txt";
 
             var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(fileName, $@"{ _configuration["Base:KoshaCore:APIAddress"].ToString()}/Report/TXTTaxSummary", model);
@@ -37,6 +38,7 @@ namespace Web.Areas.Export.Controllers
         [HttpPost]
         public async Task<IActionResult> PDF(MKViewModel model)
         {
+            
             model.PaymentMethodStr = EnumHelper<PaymentType>.GetDisplayValue((PaymentType)model.PaymentMethod);
 
             model.BankName = EnumHelper<BankType>.GetDisplayValue((BankType)model.BankIndex);

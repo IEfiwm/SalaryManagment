@@ -45,7 +45,6 @@ namespace Web.Areas.Admin.Controllers
         private readonly IFileRepository _fileRepository;
         private readonly IBankRepository _bankRepository;
         private readonly IUser_RoleRepository _user_RoleRepository;
-        private readonly IHtmlLocalizer<SharedResource> _localizer;
 
         public UserController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -56,8 +55,7 @@ namespace Web.Areas.Admin.Controllers
             IDocumentRepository documentRepository,
             IFileRepository fileRepository,
             IBankRepository bankRepository,
-            IUser_RoleRepository user_RoleRepository,
-            IHtmlLocalizer<SharedResource> localizer)
+            IUser_RoleRepository user_RoleRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -69,7 +67,6 @@ namespace Web.Areas.Admin.Controllers
             _fileRepository = fileRepository;
             _bankRepository = bankRepository;
             _user_RoleRepository = user_RoleRepository;
-            _localizer = localizer;
         }
 
         public IActionResult InUsdex()
@@ -109,6 +106,12 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> LoadAll(long projectId, string key, byte pageSize, byte pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
         {
+            var permission = await _permissionCommon.CheckProjectPermissionByProjectId("PersonnelList", User, projectId);
+            if (!permission)
+            {
+                _notify.Error(_localizer["AccessDeniedProject"].Value);
+                return Ok();
+            } 
 
             var model = await FilterUsers(projectId, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
             return PartialView("_LoadAll", model);
@@ -283,6 +286,13 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditPersonnel(UserViewModel user)
         {
+            var permission = await _permissionCommon.CheckProjectPermissionByProjectId("EditPersonnel", User, user.ProjectRef);
+            if (!permission)
+            {
+                _notify.Error(_localizer["AccessDeniedProject"].Value);
+                return RedirectToAction("Personnel");
+            }
+            
             long? bankRef = null;
             if (user.BankId != 0 && user.BankId is not null && user.BankAccNumber is not null)
             {
@@ -352,6 +362,13 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePersonnel(UserViewModel user)
         {
+            var permission = await _permissionCommon.CheckProjectPermissionByProjectId("CreatePersonnel", User, user.ProjectRef);
+            if (!permission)
+            {
+                _notify.Error(_localizer["AccessDeniedProject"].Value);
+                return RedirectToAction("Personnel");
+            }
+            
             long? bankRef = null;
             if (user.BankId != 0 && user.BankId is not null && user.BankAccNumber is not null)
             {
@@ -466,6 +483,12 @@ namespace Web.Areas.Admin.Controllers
 
             if (projectId != 0)
             {
+                var permission = await _permissionCommon.CheckProjectPermissionByProjectId("ShowContractList", User, projectId);
+                if (!permission)
+                {
+                    _notify.Error(_localizer["AccessDeniedProject"].Value);
+                    return RedirectToAction("ContractList");
+                }
                 var usersByprojectId = await _userRepository.GetUserListByProjectIdAsync(projectId);
 
                 model.Users = _mapper.Map<IEnumerable<UserViewModel>>(usersByprojectId).ToList();
@@ -483,6 +506,13 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetAllContractsFile(ContractListParameters model)
         {
+            var permission = await _permissionCommon.CheckProjectPermissionByProjectId("ShowContractList", User, model.projectId);
+            if (!permission)
+            {
+                _notify.Error(_localizer["AccessDeniedProject"].Value);
+                return Ok();
+            }
+            
             var usersByprojectId = await _userRepository.GetUserListByProjectIdAsync(model.projectId);
 
             if (usersByprojectId.Count == 0)
@@ -550,6 +580,13 @@ namespace Web.Areas.Admin.Controllers
 
             if (projectId != 0)
             {
+                var permission = await _permissionCommon.CheckProjectPermissionByProjectId("ShowPayRollList", User, projectId);
+                if (!permission)
+                {
+                    _notify.Error(_localizer["AccessDeniedProject"].Value);
+                    return RedirectToAction("PayRollTipList");
+                }
+                
                 var usersByprojectId = await _userRepository.GetUserListByProjectIdAsync(projectId);
 
                 model.Users = _mapper.Map<IEnumerable<UserViewModel>>(usersByprojectId).ToList();

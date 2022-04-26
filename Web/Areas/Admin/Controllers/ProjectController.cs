@@ -74,6 +74,13 @@ namespace Web.Areas.Admin.Controllers
             var bank_Account = await _bank_AccountRepository.GetListAsync();
             ViewData["bankAccounts"] = _mapper.Map<List<Bank_AccountViewModel>>(bank_Account.Where(x => x.Active).ToList());
 
+            var permission = await _permissionCommon.CheckProjectPermissionByProjectId("EditProject", User, projectId);
+            if (!permission)
+            {
+                _notify.Error(_localizer["AccessDeniedProject"].Value);
+                return RedirectToAction("Index");
+            }
+            
             var model = await _projectRepository.GetWithBankAccountsById(projectId);
             var viewModel = _mapper.Map<ProjectViewModel>(model);
 
@@ -107,11 +114,18 @@ namespace Web.Areas.Admin.Controllers
                 if (model.Id == 0)
                 {
                     projectModel.Id = await _projectRepository.InsertAndSaveAsync(projectModel);
-                   
-                    await _permissionCommon.SetFullPermissionsProjectsToUser(projectModel,User);
+
+                    await _permissionCommon.SetFullPermissionsProjectsToUser(projectModel, User);
                 }
                 else
                 {
+                    var permission = await _permissionCommon.CheckProjectPermissionByProjectId("EditProject", User, model.Id);
+                    if (!permission)
+                    {
+                        _notify.Error(_localizer["AccessDeniedProject"].Value);
+                        return RedirectToAction("Index");
+                    }
+
                     isUpdate = true;
                     projectModel = await _projectRepository.GetByIdAsync(Convert.ToInt32(model.Id));
                     _mapper.Map(model, projectModel);
@@ -177,6 +191,13 @@ namespace Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int projectId)
         {
+            var permission = await _permissionCommon.CheckProjectPermissionByProjectId("DeleteProject", User, projectId);
+            if (!permission)
+            {
+                _notify.Error(_localizer["AccessDeniedProject"].Value);
+                return RedirectToAction("Index");
+            }
+
             var model = await _projectRepository.GetByIdAsync(projectId);
 
             model.IsDeleted = true;
@@ -194,9 +215,9 @@ namespace Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetList()
+        public async Task<IActionResult> GetList(string permissionName = "Show")
         {
-            var projectList = await _permissionCommon.GetProjectsByPermission("Show", HttpContext.User);
+            var projectList = await _permissionCommon.GetProjectsByPermission(permissionName, HttpContext.User);
 
             var model = _mapper.Map<IEnumerable<ProjectViewModel>>(projectList);
             return Json(model);

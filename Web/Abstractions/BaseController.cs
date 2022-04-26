@@ -1,7 +1,9 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using AutoMapper;
+using Infrastructure.Base.Permission;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -22,6 +24,14 @@ namespace Web.Abstractions
 
         private INotyfService _notifyInstance;
 
+        protected IHtmlLocalizer<SharedResource> _localizerInstance;
+
+        protected IPermissionCommon _permissionCommonInstance;
+    
+        protected IPermissionCommon _permissionCommon => _permissionCommonInstance ??= HttpContext.RequestServices.GetService<IPermissionCommon>();
+
+        protected IHtmlLocalizer<SharedResource> _localizer => _localizerInstance ??= HttpContext.RequestServices.GetService<IHtmlLocalizer<SharedResource>>();
+      
         protected INotyfService _notify => _notifyInstance ??= HttpContext.RequestServices.GetService<INotyfService>();
 
         protected IMediator _mediator => _mediatorInstance ??= HttpContext.RequestServices.GetService<IMediator>();
@@ -33,5 +43,8 @@ namespace Web.Abstractions
         protected IMapper _mapper => _mapperInstance ??= HttpContext.RequestServices.GetService<IMapper>();
 
         protected IConfiguration _configuration => _configurationInstance ??= HttpContext.RequestServices.GetService<IConfiguration>();
+
+
+
     }
 }
