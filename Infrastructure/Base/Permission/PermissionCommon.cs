@@ -52,10 +52,15 @@ namespace Infrastructure.Base.Permission
 
             var menus = _memoryCache.Get<List<Menu>>(key);
 
-            //if (menuHeader == null)
-            //{
+            if (menus is not null)
+            {
+                return menus;
+            }
+
             List<ApplicationRole> roles = new List<ApplicationRole>();
+
             var roleNames = await _userManager.GetRolesAsync(user);
+
             roles = _roleManager.Roles.Where(r => roleNames.Contains(r.Name)).ToList();
 
             foreach (var role in roles)
@@ -80,6 +85,9 @@ namespace Infrastructure.Base.Permission
             //    }
             //}
             //}
+
+            _memoryCache.Set<List<Menu>>(key, menuHeader);
+
             return menuHeader;
         }
 
