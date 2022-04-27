@@ -69,7 +69,7 @@ namespace Web.Areas.Admin.Controllers
             _user_RoleRepository = user_RoleRepository;
         }
 
-        public IActionResult InUsdex()
+        public IActionResult Index()
         {
             return View();
         }
