@@ -97,23 +97,16 @@ namespace Infrastructure.Base.Permission
                     menuHeader.AddRange(role_menu.Select(x => x.Menu));
 
                 menuHeader.Distinct();
-                // _memoryCache.Set<List<Menu>>(menuHeader);
+
             }
 
-            //if (menuHeader != null)
-            //{
-            //    if (_appSettings.CacheDbResults && _cache != null)
-            //    {
-            //        var cacheItem = new CacheItem(menuHeader);
-            //        cacheItem.SlidingExpiration = TimeSpan.AddMinutes(10);
+            if (menuHeader != null)
+            {
+                _memoryCache.Set<List<Menu>>(key, menuHeader);
 
-            //        // Add CacheItem to cache
-            //        _cache.Insert(cacheKey, cacheItem);
-            //    }
-            //}
-            //}
+            }
 
-            _memoryCache.Set<List<Menu>>(key, menuHeader);
+
 
             return menuHeader;
         }
