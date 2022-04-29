@@ -28,7 +28,7 @@ namespace Web.Areas.Dashboard.Models
         public string IdentitySerialNumber { get; set; }
 
         [Required]
-        [RegularExpression("^[0-9]{2,}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
+        [RegularExpression("^[0-9]{1,}$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید.")]
         public string IdentityNumber { get; set; }
 
         [Required]
