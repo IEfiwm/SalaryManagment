@@ -1,21 +1,62 @@
-﻿@{
+﻿@using Web.Areas.Admin.Models
+@model PasswordViewModel
+@{
     ViewData["Title"] = "کاربران";
     ViewData["Caption"] = "کاربران سامانه را در اینجا مدیریت کنید.";
 }
+<form method="post" asp-area="Admin" asp-controller="User" asp-action="EditPassword">
+    <input type="hidden" asp-for="Id" id="userId" />
+    <div class="modal" tabindex="-1" role="dialog" id="edit-pass-modal">
+        <div class="modal-dialog modal-dialog-centered"  role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ویرایش رمز عبور</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="col-md-12 form-group">
+                            <label for="Password" class="form-label col-lg-3">رمز عبور</label>
+                            <input type="password" asp-for="Password" name="Password" class="form-control">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label for="ConfirmPassword" class="form-label col-lg-3">تکرار رمزعبور</label>
+                            <input type="password" asp-for="ConfirmPassword" name="ConfirmPassword" class="form-control">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                        <button type="submit" class="btn btn-success">ذخیره</button>
+                        <button type="button" class="btn btn-default close-button" data-dismiss="modal">لغو</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
 <div class="card">
     <div id="viewAll" class="card-body table-responsive">
     </div>
 </div>
 @section Scripts
 {
-    <script src="~/js/site.js"></script>
-    <script>
-        $(document).ready(function () {
-            loadData();
-        });
-        function loadData() {
-                $('#CustomSpinner').css('display','block')
-                $('#viewAll').load('/admin/user/ViewAll');
-        }
-    </script>
+<script src="~/js/site.js"></script>
+<script>
+    $(document).ready(function () {
+        loadData();
+    });
+    function loadData() {
+            $('#CustomSpinner').css('display','block')
+            $('#viewAll').load('/admin/user/ViewAll');
+    }
+  
+    function EditPass(userId)
+    {
+        $('#userId').val(userId);
+        $('#edit-pass-modal').modal('show');
+    }
+</script>
 }

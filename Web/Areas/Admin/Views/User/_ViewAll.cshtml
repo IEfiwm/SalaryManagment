@@ -46,6 +46,9 @@
                             <a asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-userId="@user.Id" class="dropdown-item">
                                 <i class="fa fa-pencil"></i> @localizer["Edit"]
                             </a>
+                            <a href="#" onclick="EditPass('@user.Id')" class="dropdown-item">
+                                <i class="fa fa-pencil"></i> @localizer["EditPassword"]
+                            </a>
                         </div>
                     </div>
                 </td>
@@ -76,4 +79,6 @@
                 },
     });
     });
+
+    
 </script>

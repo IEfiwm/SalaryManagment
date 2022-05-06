@@ -111,7 +111,7 @@ namespace Web.Areas.Admin.Controllers
             {
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
                 return Ok();
-            } 
+            }
 
             var model = await FilterUsers(projectId, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
             return PartialView("_LoadAll", model);
@@ -292,7 +292,7 @@ namespace Web.Areas.Admin.Controllers
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
                 return RedirectToAction("Personnel");
             }
-            
+
             long? bankRef = null;
             if (user.BankId != 0 && user.BankId is not null && user.BankAccNumber is not null)
             {
@@ -368,7 +368,7 @@ namespace Web.Areas.Admin.Controllers
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
                 return RedirectToAction("Personnel");
             }
-            
+
             long? bankRef = null;
             if (user.BankId != 0 && user.BankId is not null && user.BankAccNumber is not null)
             {
@@ -512,7 +512,7 @@ namespace Web.Areas.Admin.Controllers
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
                 return Ok();
             }
-            
+
             var usersByprojectId = await _userRepository.GetUserListByProjectIdAsync(model.projectId);
 
             if (usersByprojectId.Count == 0)
@@ -586,7 +586,7 @@ namespace Web.Areas.Admin.Controllers
                     _notify.Error(_localizer["AccessDeniedProject"].Value);
                     return RedirectToAction("PayRollTipList");
                 }
-                
+
                 var usersByprojectId = await _userRepository.GetUserListByProjectIdAsync(projectId);
 
                 model.Users = _mapper.Map<IEnumerable<UserViewModel>>(usersByprojectId).ToList();
@@ -693,7 +693,7 @@ namespace Web.Areas.Admin.Controllers
 
                 var worksheet = excelFile.Workbook.Worksheets.Add("Personnel");
                 worksheet.View.RightToLeft = true;
-                 
+
                 worksheet.Cells["A1"].Value = _localizer["PersonnelCode"].Value;
                 worksheet.Cells["B1"].Value = _localizer["FirstName"].Value + " " + _localizer["LastName"].Value;
                 worksheet.Cells["C1"].Value = "پروژه";
@@ -758,6 +758,43 @@ namespace Web.Areas.Admin.Controllers
 
                 return result;
             }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditPassword(PasswordViewModel passwordViewModel)
+        {
+            if (ModelState.IsValid && !string.IsNullOrEmpty(passwordViewModel.Password))
+            {
+                var ouser = await _userManager.FindByIdAsync(passwordViewModel.Id);
+
+                //var validPass = await _userManager.PasswordValidators(ouser, passwordViewModel.Password);
+                var passwordValidator = new PasswordValidator<ApplicationUser>();
+                var validPass = await passwordValidator.ValidateAsync(_userManager, ouser, "your password here");
+
+                if (validPass.Succeeded && passwordViewModel.Password == passwordViewModel.ConfirmPassword)
+                {
+                    ouser.PasswordHash = _userManager.PasswordHasher.HashPassword(ouser, passwordViewModel.Password);
+
+                    var result = await _userManager.UpdateAsync(ouser);
+                   
+                    if (!result.Succeeded)
+                        _notify.Error("عملیات ویرایش رمز عبور با خطا مواجعه شد.");
+
+                    _notify.Success($"رمز عبور با موفقیت ویرایش شد.");
+                }
+                else
+                {
+                    _notify.Error("رمز عبور معتبر نیست.");
+
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                _notify.Error("درخواست معتبر نیست.");
+            }
+            return default;
         }
 
         private async Task<DataTableViewModel<IEnumerable<UserViewModel>>> FilterUsers(long projectId, string key, int pageSize, byte pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
