@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = " خروجی صورت وضعیت پروژه";
+}
+
+<form id="form" method="POST">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label" for="inputEmail">سال</label>
+                            <input type="text" name="year" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" for="inputPassword">ماه</label>
+                            <input type="text" name="month" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="col-12 mt-1">
+                            <label class="form-label" for="inputPassword">پروژه</label>
+                            <select id="project" class="js-data-example-ajax form-control"  name="projectId" required>
+                                <option selected>یک مورد را انتخاب کنید</option>
+                            </select>
+                        </div>
+                        <div class="mt-3 col-12">
+                            <button onclick="SubmitExcelForm()" class="btn btn-primary">صورت وضعیت</button>
+                            <button onclick="SubmitPDFForm()" class="btn btn-primary">خلاصه وضعیت</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    function SubmitExcelForm(){
+        $('#form').attr('action', "/Export/ProjectStatus/Excel").submit();
+    }
+    function SubmitPDFForm(){
+        $('#form').attr('action', "/Export/ProjectStatus/PDF").submit();
+    }
+    //$.ajax({
+    //    url: "/admin/project/getlist",
+    //    method: "GET",
+    //    success: function (model){
+    //        console.log(model);
+    //        //$("#project").append($('<option>', {
+    //        //    value: 1,
+    //        //    text: 'My option'
+    //        //}));
+    //    }
+    //})
+
+</script>
+@section Scripts{
+<script>
+
+        $.ajax({
+        url: "/admin/project/getlist?permissionName=ExportInsuranceList",
+        method: "GET",
+        success: function (model){
+            //console.log(parseJSON(model));
+            $.map( model, function( val, i ) {
+                console.log(val);
+                $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
+            });
+            //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');
+            //$("#project").select2();
+        }
+    })
+</script>
+}

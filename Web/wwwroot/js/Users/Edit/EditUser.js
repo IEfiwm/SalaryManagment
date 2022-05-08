@@ -29,7 +29,7 @@
                     <label for="AdditionalUserData[`+ index + `].IdentityNumber"> شماره شناسنامه</label>
                     <span class="requiredSpan">*</span>
                     <input name="AdditionalUserData[`+ index + `].IdentityNumber" class="form-control" type="text"  value="" style="background-color: #ffffff!important;color:black;border:1px solid #ced4da"
-                     data-val="true" data-val-regex="لطفا فیلد را با عدد وارد کنید." data-val-regex-pattern="^[0-9]{2,}$" data-val-required="The IdentityNumber field is required."  required
+                     data-val="true" data-val-regex="لطفا فیلد را با عدد وارد کنید." data-val-regex-pattern="^[0-9]{1,}$" data-val-required="The IdentityNumber field is required."  required
                      aria-describedby="IdentityNumber-error" aria-invalid="false">
                 </div>
                 <div class="col-6 mb-2">

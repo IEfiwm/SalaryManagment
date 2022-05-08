@@ -197,6 +197,22 @@ namespace Domain.Entities.Data
 
         public string TotalWithoutBonusesAndLeave { get; set; }
 
+        public string TotalBonusesAndSanavatAndLeaveAndOverHead { get; set; }
+        
+        public string ImpurePerformance { get; set; }
+
+        public string ReturnGoodPerformance { get; set; }
+
+        public string RemainedGoodPerformance { get; set; }
+
+        public string ReturnInsurance { get; set; }
+
+        public string RemainedInsurance { get; set; }
+
+        public string PartPaymentRecieved { get; set; }
+
+        public string RecievedRemainedPastMonth { get; set; }
+
 
         public long? ProjectRef { get; set; }
 
