@@ -155,7 +155,6 @@ namespace Web.Areas.Admin.Controllers
 
                 var result = await _userManager.CreateAsync(user, userModel.Password);
 
-
                 if (result.Succeeded)
                 {
                     //add role
