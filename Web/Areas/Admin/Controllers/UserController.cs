@@ -263,6 +263,7 @@ namespace Web.Areas.Admin.Controllers
                 model.BankAccNumber = acc.AccountNumber;
                 model.BankName = acc.Title;
                 model.BankId = acc.BankId;
+                model.ShebaNumber = acc.iBan;
             }
             model.AdditionalUserData = _mapper.Map<List<AdditionalUserDataViewModel>>
                (_additionalUserDateRepository.Model.Include(x => x.Documents).Where(x => x.ParentRef == user.Id)).ToList();
@@ -347,7 +348,7 @@ namespace Web.Areas.Admin.Controllers
                 return Redirect("/admin/user/editpersonnel?userId=" + user.Id);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Personnel");
         }
 
         [HttpGet]
