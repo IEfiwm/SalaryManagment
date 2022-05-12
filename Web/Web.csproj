@@ -46,7 +46,6 @@
     <Folder Include="Views\Shared\Components\Menu\" />
     <Folder Include="wwwroot\Files\Images\thumb\" />
     <Folder Include="wwwroot\Files\Images\image\" />
-    <Folder Include="wwwroot\Files\Template\" />
     <Folder Include="wwwroot\lib\persianDatepicker\" />
   </ItemGroup>
 
