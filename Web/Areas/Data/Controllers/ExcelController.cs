@@ -82,7 +82,7 @@ namespace Web.Areas.Attendance.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> ImportPersonnel()
+        public async Task<bool> ImportPersonnel(long projectRef)
         {
             var personnelCode = "";
 
@@ -137,25 +137,25 @@ namespace Web.Areas.Attendance.Controllers
                         {
                             var row = sheet.GetRow(j);
 
-                            personnelCode = row?.GetCell(1)?.ToString();
+                            personnelCode = row?.GetCell(0)?.ToString();
 
-                            var projectRef = (await _projectRepository.GetProjectByName(row?.GetCell(0)?.ToString()))?.Id;
+                            //var projectRef = (await _projectRepository.GetProjectByName(row?.GetCell(0)?.ToString()))?.Id;
 
-                            if (projectRef == null)
-                                projectRef = await _projectRepository.InsertAndSaveAsync(new Project
-                                {
-                                    Title = row?.GetCell(0)?.ToString(),
-                                    Code = Guid.NewGuid().ToString(),
-                                    ProjectStatus = ProjectStatus.NotStarted,
-                                    IsDeleted = false
-                                });
+                            //if (projectRef == null)
+                            //    projectRef = await _projectRepository.InsertAndSaveAsync(new Project
+                            //    {
+                            //        Title = row?.GetCell(0)?.ToString(),
+                            //        Code = Guid.NewGuid().ToString(),
+                            //        ProjectStatus = ProjectStatus.NotStarted,
+                            //        IsDeleted = false
+                            //    });
 
-                            var birth = row?.GetCell(7)?.ToString().Split("/");
+                            var birth = row?.GetCell(6)?.ToString().Split("/");
 
                             var bankaccount = await _bankAccountRepository.InsertAndSaveAsync(new BankAccount
                             {
-                                AccountNumber = row?.GetCell(14)?.ToString(),
-                                Title = row?.GetCell(15)?.ToString(),
+                                AccountNumber = row?.GetCell(13)?.ToString(),
+                                Title = row?.GetCell(14)?.ToString(),
                                 IsDeleted = false,
                                 CreatedByRef = _userManager.Users.Where(m => m.UserName == "user").FirstOrDefault().Id,
                                 CreatedDate = DateTime.Now,
@@ -167,23 +167,24 @@ namespace Web.Areas.Attendance.Controllers
                             var user = new ApplicationUser
                             {
                                 ProjectRef = projectRef,
-                                PersonnelCode = row?.GetCell(1)?.ToString(),
-                                UserName = row?.GetCell(1)?.ToString(),
-                                NationalCode = row?.GetCell(2)?.ToString(),
-                                InsuranceCode = row?.GetCell(3)?.ToString(),
-                                FirstName = row?.GetCell(4)?.ToString(),
-                                LastName = row?.GetCell(5)?.ToString(),
-                                FatherName = row?.GetCell(6)?.ToString(),
-                                Birthday = row?.GetCell(7)?.ToString() == null || row?.GetCell(7)?.ToString() == "" ? null : new DateTime(Convert.ToInt32(birth[0]), Convert.ToInt32(birth[1]), Convert.ToInt32(birth[2]), new PersianCalendar()),
-                                BirthPlace = row?.GetCell(8)?.ToString(),
-                                IdentityNumber = row?.GetCell(9)?.ToString(),
-                                IdentitySerialNumber = row?.GetCell(10)?.ToString(),
-                                Nationality = row?.GetCell(11)?.ToString(),
-                                DegreeOfEducation = row?.GetCell(12)?.ToString(),
-                                JobTitle = row?.GetCell(13)?.ToString(),
+                                PersonnelCode = row?.GetCell(0)?.ToString(),
+                                UserName = row?.GetCell(0)?.ToString(),
+                                NationalCode = row?.GetCell(1)?.ToString(),
+                                InsuranceCode = row?.GetCell(2)?.ToString(),
+                                FirstName = row?.GetCell(3)?.ToString(),
+                                LastName = row?.GetCell(4)?.ToString(),
+                                FatherName = row?.GetCell(5)?.ToString(),
+                                Birthday = row?.GetCell(6)?.ToString() == null || row?.GetCell(7)?.ToString() == "" ? null : new DateTime(Convert.ToInt32(birth[0]), Convert.ToInt32(birth[1]), Convert.ToInt32(birth[2]), new PersianCalendar()),
+                                BirthPlace = row?.GetCell(7)?.ToString(),
+                                IdentityNumber = row?.GetCell(8)?.ToString(),
+                                IdentitySerialNumber = row?.GetCell(9)?.ToString(),
+                                Nationality = row?.GetCell(10)?.ToString(),
+                                DegreeOfEducation = row?.GetCell(11)?.ToString(),
+                                JobTitle = row?.GetCell(12)?.ToString(),
                                 BankAccountRef = bankaccount,
-                                IncludedNumberOfChildren = Convert.ToByte(row?.GetCell(16)?.ToString()),
+                                IncludedNumberOfChildren = Convert.ToByte(row?.GetCell(15)?.ToString()),
                                 DailySalary = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(17)?.ToString()))),
+                                NotIncludedNumberOfChildern = Convert.ToByte(row?.GetCell(16)?.ToString()),
                                 DailyBaseYear = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(18)?.ToString()))),
                                 FoodAndHouseRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(19)?.ToString()))),
                                 WorkerRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(20)?.ToString()))),
@@ -208,10 +209,11 @@ namespace Web.Areas.Attendance.Controllers
                                 IsBlocked = false,
                                 EmailConfirmed = true,
                                 PhoneNumberConfirmed = true,
-                                TwoFactorEnabled = false
+                                TwoFactorEnabled = false,
+                                UserType = UserType.PublicUser
                             };
 
-                            var result = await _userManager.CreateAsync(user, row?.GetCell(2)?.ToString());
+                            var result = await _userManager.CreateAsync(user, Guid.NewGuid().ToString("N"));
 
                             if (result.Succeeded)
                             {
@@ -1377,7 +1379,7 @@ namespace Web.Areas.Attendance.Controllers
                     _notify.Error(_localizer["AccessDeniedProject"].Value);
                     return false;
                 }
-                
+
                 IFormFile file = Request.Form.Files[0];
 
                 string folderName = "UploadExcel";
@@ -1669,7 +1671,7 @@ namespace Web.Areas.Attendance.Controllers
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
                 return RedirectToAction("DeleteMonthlyAttendances");
             }
-            
+
             var listOfAttendances = await _attendanceRepository.GetByProjectId(year, month, projectId);
 
             if (listOfAttendances == null)
