@@ -11,12 +11,21 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
+                        <div class="col-12  mt-3">
+                            <label class="form-label" for="inputPassword">پروژه</label>
+                            <select id="project" class="js-data-example-ajax form-control" name="projectId" required>
+                                <option selected>یک مورد را انتخاب کنید</option>
+                            </select>
+                        </div>
                         <div class="col-12">
                             <label class="form-label" for="inputEmail">فایل</label>
                             <input type="file" id="fileupload" name="files" class="form-control" />
                         </div>
                         <div class="mt-4 col-4">
                             <input type="button" name="Upload" value="بارگزاری فایل" id="btnupload" class="btn btn-primary" />
+                        </div>
+                        <div class="mt-4 col-4">
+                            <a href="/data/excel/getPersonnelTemplate" class="btn btn-info">دانلود قالب</a>
                         </div>
                     </div>
                 </div>
@@ -27,7 +36,21 @@
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-
+    $(document).ready(function(){
+    $.ajax({
+        url: "/admin/project/getlist?permissionName=ShowMonthlyAttendance",
+        method: "GET",
+        success: function (model){
+            //console.log(parseJSON(model));
+            $.map( model, function( val, i ) {
+                console.log(val);
+                $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
+            });
+            //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');
+            //$("#project").select2();
+        }
+    });
+    });
     $(function () {
         $('#btnupload').on('click', function () {
 
@@ -66,7 +89,7 @@
 
                 type: "POST",
 
-                url: "/Data/Excel/ImportPersonnel",
+                url: `/Data/Excel/ImportPersonnel?projectRef=${$('#project').val()}`,
 
                 beforeSend: function (xhr) {
 
