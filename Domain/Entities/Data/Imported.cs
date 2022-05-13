@@ -59,6 +59,8 @@ namespace Domain.Entities.Data
 
         public string FoodPay { get; set; }
 
+        public string ClothesPay { get; set; }
+
         public string Other01 { get; set; }
 
         public string Other02 { get; set; }
