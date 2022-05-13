@@ -1447,7 +1447,7 @@ namespace Web.Areas.Attendance.Controllers
                             if (!string.IsNullOrEmpty(row?.GetCell(4)?.ToString()))
                             {
 
-                                if (!DataConversion.Convert<int>(row?.GetCell(4)?.ToString(), out int overtimeworkingTime))
+                                if (!DataConversion.Convert<int>(row?.GetCell(4)?.ToString(), out int workingDays))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : کارکرد ردیف: " + j);
                                     return false;

@@ -9,6 +9,7 @@
     var propsBy = ViewData["CalculatedByProps"] as List<FieldViewModel>;
     var index = 1;
     var enumNameList = EnumHelper<Calculate>.GetDisplayValues(Calculate.Divided).ToList();
+    enumNameList.AddRange(EnumHelper<Condition>.GetDisplayValues(Condition.Condition).ToList());
 }
 <link href="~/css/DraggerProjectRule.css" rel="stylesheet" />
 
@@ -78,7 +79,7 @@
                                     </div>
                                 </div>
                             </div>
-                             <div class="col-md-4">
+                            <div class="col-md-4">
                                 <div id="Calc">
                                     <div class="modules">
                                         @foreach (var prop in (Calculate[])Enum.GetValues(typeof(Calculate)))
@@ -86,6 +87,25 @@
                                             <p class="drag" id="@Html.DisplayFor(e => prop)"><a class="btn btn-light">@Html.DisplayFor(e => prop)</a></p>
                                         }
                                     </div>
+                                    <div class="modules">
+                                        @foreach (var prop in (Condition[])Enum.GetValues(typeof(Condition)))
+                                        {
+                                            if (prop == Condition.Condition)
+                                            {
+                                                <p class="drag" id="@Html.DisplayFor(e => prop)"
+                                                   data-title="IIF( `condition expression` , `true expression` , `false expression` )"
+                                                   title="IIF( `condition expression` , `true expression` , `false expression` )">
+                                                   <a class="btn btn-light">@Html.DisplayFor(e => prop)</a></p>
+
+                                            }
+                                            else
+                                            {
+                                                <p class="drag" id="@Html.DisplayFor(e => prop)"><a class="btn btn-light">@Html.DisplayFor(e => prop)</a></p>
+
+                                            }
+                                        }
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -120,9 +140,10 @@
                                                 }
                                                 else
                                                 {
-                                                    <div class="col-md-1" name="Calc">
+
+                                                    <div class=@((prop.Trim()=="IIF(" || prop.Trim()==">="||prop.Trim()=="<=")?"col-md-2":"col-md-1") name="Calc">
                                                         <div class="drop-item row">
-                                                            <div class="col-md-3 pr-3">
+                                                            <div class="col-md-6 pr-3">
                                                                 <h5 class="pt-2">@prop</h5>
                                                             </div>
                                                             <div class="col-md-3 pl-0">

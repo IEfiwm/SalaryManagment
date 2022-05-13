@@ -74,6 +74,23 @@
                                             <p class="drag" id="@Html.DisplayFor(e => prop)"><a class="btn btn-light">@Html.DisplayFor(e => prop)</a></p>
                                         }
                                     </div>
+                                    <div class="modules">
+                                        @foreach (var prop in (Condition[])Enum.GetValues(typeof(Condition)))
+                                        {
+                                            if (prop == Condition.Condition)
+                                            {
+                                                <p class="drag" id="@Html.DisplayFor(e => prop)"
+                                                   data-title="IIF( `condition expression` , `true expression` , `false expression` )"
+                                                   title="IIF( `condition expression` , `true expression` , `false expression` )">
+                                                    <a class="btn btn-light">@Html.DisplayFor(e => prop)</a></p>
+
+                                            }
+                                            else
+                                            {
+                                                <p class="drag" id="@Html.DisplayFor(e => prop)"><a class="btn btn-light">@Html.DisplayFor(e => prop)</a></p>
+                                            }
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -16,14 +16,14 @@ $('#dropzone').droppable({
         var draggedBefore = $('#dropzone').children().last().attr('name')
         var draggedBeforeId = $('#dropzone').children().last().find('input[type="hidden"]').attr('value')
 
-        if (draggedBefore == undefined && draggedId == 'Calc' && draggedFieldId != '(') {
+        if (draggedBefore == undefined && draggedId == 'Calc' && draggedFieldId != '(' && draggedFieldId != 'IIF(') {
             swal('امکان اضافه کردن عملگر در ابتدای فرمول وجود ندارد');
             return;
         }
 
         if (draggedId == draggedBefore &&
-            ((draggedFieldId != ')' && draggedFieldId != '(')
-                && (draggedBeforeId != ')' && draggedBeforeId != '('))) {
+
+            ((draggedFieldId != ')' && draggedFieldId != '(' && draggedFieldId != 'IIF(') && (draggedBeforeId != ')' && draggedBeforeId != '(' ))) {
             swal('لطفا در بین عوامل از عملگر استفاده کنید.');
             return;
         }
@@ -59,14 +59,25 @@ $('#dropzone').droppable({
             if (draggedFieldId != 'dynamicNumber') {
                 value = '[' + value + ']';
             }
-            var $el = $(`<div class="col-md-2" name="${draggedId}"><input type="hidden" value="${value}" name="RuleList" /></div>`);
+            var $el = $(`<div class="col-md-3" name="${draggedId}"><input type="hidden" value="${value}" name="RuleList" /></div>`);
             $elDiv.append($elDiv1);
             $el.append($elDiv);
             $(this).append($el);
         }
         else {
-            var $el = $(`<div class="col-md-1" name="${draggedId}"><input type="hidden" value="${value}" name="RuleList" /></div>`);
-            var $elDiv = $('<div class="drop-item row"><div class="col-md-3 pr-3"><h5 class="pt-2">' + value + '</h5></div></div>');
+            var $el;
+
+            if (value == 'IIF(' || value == '>='|| value == '<=') {
+
+                $el = $(`<div class="col-md-2" name="${draggedId}"><input type="hidden" value="${value}" name="RuleList" /></div>`);
+            }
+            else {
+                $el = $(`<div class="col-md-1" name="${draggedId}"><input type="hidden" value="${value}" name="RuleList" /></div>`);
+
+            }
+            var $elDiv = $('<div class="drop-item row"><div class="col-md-6 pr-3"><h5 class="pt-2">' + value + '</h5></div></div>');
+
+
             $elDiv.append($elDiv1);
             $el.append($elDiv);
             $(this).append($el);
@@ -91,7 +102,8 @@ $('#form').on('submit', function (e) {
         e.preventDefault();
         return;
     }
-    if ($('#dropzone').children().find('input[type="hidden"][value="("]').length
+    if ($('#dropzone').children().find('input[type="hidden"][value="("]').length +
+        $('#dropzone').children().find('input[type="hidden"][value="IIF("]').length
         !=
         $('#dropzone').children().find('input[type="hidden"][value=")"]').length) {
         swal('تعداد پرانتز های باز و بسته یکسان نیست. لطفا فرمول را ویرایش کنید');
