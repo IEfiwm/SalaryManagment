@@ -54,14 +54,10 @@
                     <option selected value="000">یک وضعیت تاهل را انتخاب کنید</option>
                 </select>
             </div>
-            <div class="mt-2 col-2">
-                <button onclick="loadData($('#project').val(),$('#key').val(),$('#employeeStatus').val(),$('#gender').val(),$('#militaryService').val(),$('#maritalStatus').val())" class="btn btn-primary">نمایش نتیجه</button>
-            </div>
-            <div class="mt-2 col-2">
-                <button onclick="ExcelData($('#project').val(),$('#key').val(),$('#employeeStatus').val(),$('#gender').val(),$('#militaryService').val(),$('#maritalStatus').val())" class="btn btn-info">خروجی اکسل</button>
-            </div>
-            <div class="mt-2 col-2">
-                <button onclick="GroupEdit()" class="btn btn-warning">ویرایش گروهی</button>
+            <div class="mt-2 col-4 row">
+                <button onclick="loadData($('#project').val(),$('#key').val(),$('#employeeStatus').val(),$('#gender').val(),$('#militaryService').val(),$('#maritalStatus').val())" class="btn btn-primary mr-2">نمایش نتیجه</button>
+                <button onclick="ExcelData($('#project').val(),$('#key').val(),$('#employeeStatus').val(),$('#gender').val(),$('#militaryService').val(),$('#maritalStatus').val())" class="btn btn-info mr-2">خروجی اکسل</button>
+                <button onclick="GroupEdit()" class="btn btn-warning mr-2">ویرایش گروهی</button>
             </div>
         </div>
     </div>
