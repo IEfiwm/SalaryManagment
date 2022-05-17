@@ -196,7 +196,7 @@
         method: "GET",
         success: function (model) {
             $.map(model, function (val, i) {
-                $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
+                $("#project").append('<option value="' + val.id + '">' + val.title  + ' - ' + val.code + ' ( ' + val.workshopName + ' - ' + val.workshopCode  + ' ) ' + '</option>');
             });
         }
     })

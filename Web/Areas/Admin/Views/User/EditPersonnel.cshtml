@@ -391,10 +391,10 @@
             success: function (model){
                 $.map( model, function( val, i ) {
                     if(val.id == @Model?.ProjectRef){
-                        $("#project").append('<option value="' + val.id + '" selected>' + val.title + '</option>');
+                        $("#project").append('<option value="' + val.id + '" selected>' + val.title  + ' - ' + val.code + ' ( ' + val.workshopName + ' - ' + val.workshopCode  + ' ) ' + '</option>');
                     }
                     else{
-                        $("#project").append('<option value="' + val.id + '">' + val.title + '</option>');
+                        $("#project").append('<option value="' + val.id + '">' + val.title + ' - ' + val.code + ' ( ' + val.workshopName + ' - ' + val.workshopCode  + ' ) ' + '</option>');
                     }
                 });
             }
