@@ -129,6 +129,21 @@ namespace Web.Areas.Admin.Controllers
 
         }
 
+        public async Task<IActionResult> GroupEdit(long projectId, string key, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus,
+            GroupEditViewModel dataModel)
+        {
+            var model = await FilterUsers(projectId, key, int.MaxValue, 0, employeeStatus, gender, militaryService, maritalStatus);
+
+            var permission = await _permissionCommon.CheckProjectPermissionByProjectId("EditGroupPersonnel", User, projectId);
+            if (!permission)
+            {
+                _notify.Error(_localizer["AccessDeniedProject"].Value);
+                return Ok();
+            }
+
+            return  (await EditGroupPersonnel(dataModel, model.ViewModel));
+        }
+
         public async Task<IActionResult> Create()
         {
             ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
@@ -348,6 +363,29 @@ namespace Web.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Personnel");
+        }
+
+        private async Task<IActionResult> EditGroupPersonnel(GroupEditViewModel dataModel, IEnumerable<UserViewModel> users)
+        {
+            foreach (var user in users)
+            {
+                var ouser = await _userRepository.GetUserByIdAsync(user.Id);
+
+                if (ouser is null)
+                    continue;
+
+                ouser.DailySalary = dataModel.DailySalary;
+                ouser.MonthlySalary = dataModel.MonthlySalary;
+                ouser.ChildrenRight = dataModel.ChildrenRight;
+                ouser.DailyBaseYear = dataModel.DailyBaseYear;
+                ouser.WorkerRight = dataModel.WorkerRight;
+                ouser.MonthlyBaseYear = dataModel.MonthlyBaseYear;
+                ouser.FoodAndHouseRight = dataModel.FoodAndHouseRight;
+
+                await _userRepository.SaveChangesAsync();
+            }
+
+            return Ok();
         }
 
         [HttpGet]
@@ -777,7 +815,7 @@ namespace Web.Areas.Admin.Controllers
                     ouser.PasswordHash = _userManager.PasswordHasher.HashPassword(ouser, passwordViewModel.Password);
 
                     var result = await _userManager.UpdateAsync(ouser);
-                   
+
                     if (!result.Succeeded)
                         _notify.Error("عملیات ویرایش رمز عبور با خطا مواجعه شد.");
 
