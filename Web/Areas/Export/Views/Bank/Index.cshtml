@@ -52,7 +52,7 @@
             //console.log(parseJSON(model));
             $.map( model, function( val, i ) {
                 console.log(val);
-                $("#project").append('<option value="' + val.id + '">' + val.title  + ' - ' + val.code + ' ( ' + val.workshopName + ' - ' + val.workshopCode  + ' ) ' + '</option>');
+                $("#project").append('<option value="' + val.id + '">' + val.title + ' ( ' + val.workshopName + ' ) ' + '</option>');
             });
             //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');
             //$("#project").select2();
