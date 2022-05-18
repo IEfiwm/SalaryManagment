@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
 
         Task<List<ApplicationUser>> GetUserListByProjectIdAsync(long projectId, int take, int page);
 
-        Task<DataTableDTO<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(long projectId, string key, int pageSize, int pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus);
+        Task<DataTableDTO<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(List<long> projectIds, string key, int pageSize, int pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus);
 
         Task<int> SaveChangesAsync();
 

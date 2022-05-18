@@ -95,7 +95,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
                 .ToListAsync();
         }
 
-        public async Task<DataTableDTO<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(long projectId, string key, int pageSize, int pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
+        public async Task<DataTableDTO<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(List<long> projectIds, string key, int pageSize, int pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
         {
             var result = new DataTableDTO<IEnumerable<ApplicationUser>>();
 
@@ -115,8 +115,9 @@ namespace Infrastructure.Repositories.Application.Idenitity
                 .Where(m => employeeStatus == null || m.EmployeeStatus == employeeStatus.Value)
                 .Where(m => militaryService == null || m.MilitaryService == militaryService.Value)
                 .Where(m => maritalStatus == null || m.MaritalStatus == maritalStatus.Value)
-                .Where(x => (projectId == 0 || x.ProjectRef == projectId)
-                //&& (string.IsNullOrEmpty(key) || x.PhoneNumber.Contains(key) || x.FullName.Contains(key) || x.PersonnelCode.Contains(key) || x.NationalCode.Contains(key))
+                .Where(x => x.ProjectRef != null && projectIds.Contains(x.ProjectRef.Value)
+                //.Where(x => (projectId == 0 || x.ProjectRef == projectId)
+                && (string.IsNullOrEmpty(key) || x.PhoneNumber.Contains(key) || x.FullName.Contains(key) || x.PersonnelCode.Contains(key) || x.NationalCode.Contains(key))
                 && x.UserType == Common.Enums.UserType.PublicUser
                 && !x.IsDeleted)
                 .OrderByDescending(m => m.PersonnelCode)
