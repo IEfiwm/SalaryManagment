@@ -507,9 +507,12 @@ namespace Web.Areas.Admin.Controllers
 
             if (res.Succeeded)
             {
-                await _bankAccountRepository.SoftDeleteAsync(user.BankAccountRef.Value);
+                if (user.BankAccountRef is not null)
+                {
+                    await _bankAccountRepository.SoftDeleteAsync(user.BankAccountRef.Value);
 
-                await _bankAccountRepository.SaveChangesAsync();
+                    await _bankAccountRepository.SaveChangesAsync();
+                }
             }
             else
                 _notify.Error("حذف کاربر انجام نشد.");
@@ -850,7 +853,7 @@ namespace Web.Areas.Admin.Controllers
             {
                 projectIdList.Add(projectId);
             }
-            
+
             var allUsersExceptCurrentUser = await _userRepository.GetUserListByProjectIdDataTableAsync(projectIdList, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
 
             var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser);

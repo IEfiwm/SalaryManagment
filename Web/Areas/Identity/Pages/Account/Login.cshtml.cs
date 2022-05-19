@@ -94,14 +94,14 @@ namespace Web.Areas.Identity.Pages.Account
                     {
                         return RedirectToPage("./Deactivated");
                     }
-                    else if (!user.EmailConfirmed)
-                    {
-                        _notyf.Error("ایمیل تایید نشده است.");
+                    //else if (!user.EmailConfirmed)
+                    //{
+                    //    _notyf.Error("ایمیل تایید نشده است.");
 
-                        ModelState.AddModelError(string.Empty, "Email Not Confirmed.");
+                    //    ModelState.AddModelError(string.Empty, "Email Not Confirmed.");
 
-                        return Page();
-                    }
+                    //    return Page();
+                    //}
                     else
                     {
                         var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);

@@ -1,5 +1,6 @@
 ﻿@using Web.Areas.Admin.Models
 @model IEnumerable<UserViewModel>
+@inject IHtmlLocalizer<SharedResource> localizer
 <table class="table table-striped" id="userTable">
     <thead>
         <tr>
@@ -49,6 +50,9 @@
                             <a href="#" onclick="EditPass('@user.Id')" class="dropdown-item">
                                 <i class="fa fa-pencil"></i> @localizer["EditPassword"]
                             </a>
+                            <a onclick="DeleteUser('@user.Id')" class="dropdown-item">
+                                <i class="fa fa-pencil"></i> @localizer["Delete"]
+                            </a>
                         </div>
                     </div>
                 </td>
@@ -56,6 +60,7 @@
         }
     </tbody>
 </table>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 
     $(document).ready(function () {
@@ -80,5 +85,33 @@
     });
     });
 
-    
+      function DeleteUser(userId)
+      {
+          swal({
+              title: "آیا از حذف این کاربر اطمینان دارید؟",
+              text: "در صورت حذف، امکان بازگردانی اطلاعات وجود ندارد!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+              buttons: {
+                  confirm : {text:'حذف',className:'sweet-warning'},
+                  cancel : 'لغو'
+              }
+          })
+          .then((willDelete) => {
+              if (willDelete) {
+                 $.ajax({
+                  url: "/admin/user/Delete?userId="+userId,
+                  method: "GET",
+                  success: function (model) {
+                      console.log(model)
+                      notyf.success("حذف با موفقیت انجام شد.")
+                      loadData();
+                  }
+              });
+              } else {
+                  notyf.warning("عملیات لغو شد.");
+              }
+            });
+      }
 </script>

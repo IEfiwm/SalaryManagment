@@ -72,7 +72,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
         public async Task<List<ApplicationUser>> GetSysUserListAsync()
         {
             return await _identityContext.Users
-                .Where(e => e.UserType == UserType.SystemUser)
+                .Where(e => e.UserType == UserType.SystemUser && !e.IsDeleted)
                 .ToListAsync();
         }
 
