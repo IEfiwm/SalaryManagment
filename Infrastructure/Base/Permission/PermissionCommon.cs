@@ -48,6 +48,11 @@ namespace Infrastructure.Base.Permission
         {
             if (!userClaim.IsInRole("SuperAdmin"))
             {
+                if (projectId == 0)
+                {
+                    return true;
+                }
+
                 var user = await _userManager.GetUserAsync(userClaim);
 
                 var roleNames = await _userManager.GetRolesAsync(user);
@@ -62,6 +67,7 @@ namespace Infrastructure.Base.Permission
                 {
                     return true;
                 }
+
                 return false;
             }
             else

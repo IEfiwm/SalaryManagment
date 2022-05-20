@@ -107,13 +107,16 @@ namespace Web.Areas.Admin.Controllers
         public async Task<IActionResult> LoadAll(long projectId, string key, byte pageSize, byte pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
         {
             var permission = await _permissionCommon.CheckProjectPermissionByProjectId("PersonnelList", User, projectId);
+
             if (!permission)
             {
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
+
                 return Ok();
             }
 
             var model = await FilterUsers(projectId, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
+
             return PartialView("_LoadAll", model);
         }
 
@@ -846,7 +849,18 @@ namespace Web.Areas.Admin.Controllers
 
         private async Task<DataTableViewModel<IEnumerable<UserViewModel>>> FilterUsers(long projectId, string key, int pageSize, byte pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
         {
-            var allUsersExceptCurrentUser = await _userRepository.GetUserListByProjectIdDataTableAsync(projectId, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
+            var projectIdList = new List<long>();
+            if (projectId == 0)
+            {
+                var projects = await _permissionCommon.GetProjectsByPermission("ShowProjectRule", HttpContext.User);
+                projectIdList = projects.Select(p => p.Id).ToList();
+            }
+            else
+            {
+                projectIdList.Add(projectId);
+            }
+            
+            var allUsersExceptCurrentUser = await _userRepository.GetUserListByProjectIdDataTableAsync(projectIdList, key, pageSize, pageNumber, employeeStatus, gender, militaryService, maritalStatus);
 
             var model = _mapper.Map<DataTableViewModel<IEnumerable<UserViewModel>>>(allUsersExceptCurrentUser);
 

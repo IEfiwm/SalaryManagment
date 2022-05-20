@@ -198,11 +198,12 @@ namespace Web.Areas.Attendance.Controllers
                                 WorkExperience = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(28)?.ToString()))),
                                 MaritalStatus = EnumHelper<MaritalStatus>.Parse(row?.GetCell(29)?.ToString()),
                                 MilitaryService = EnumHelper<MilitaryService>.Parse(row?.GetCell(30)?.ToString()),
-                                JobCode = row?.GetCell(31)?.ToString(),
-                                Gender = EnumHelper<Gender>.Parse(row?.GetCell(32)?.ToString()),
-                                HireDate = row?.GetCell(33)?.ToString() == null || row?.GetCell(33)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(33)?.ToString()),
-                                StartWorkingDate = row?.GetCell(34)?.ToString() == null || row?.GetCell(34)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(34)?.ToString()),
-                                EndWorkingDate = row?.GetCell(35)?.ToString() == null || row?.GetCell(35)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(35)?.ToString()),
+                                EmployeeStatus = EnumHelper<EmployeeStatus>.Parse(row?.GetCell(31)?.ToString()),
+                                JobCode = row?.GetCell(32)?.ToString(),
+                                Gender = EnumHelper<Gender>.Parse(row?.GetCell(33)?.ToString()),
+                                HireDate = row?.GetCell(34)?.ToString() == null || row?.GetCell(34)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(34)?.ToString()),
+                                StartWorkingDate = row?.GetCell(35)?.ToString() == null || row?.GetCell(35)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(35)?.ToString()),
+                                EndWorkingDate = row?.GetCell(36)?.ToString() == null || row?.GetCell(36)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(36)?.ToString()),
                                 IsDeleted = false,
                                 IsActive = true,
                                 IsProfileCompleted = true,
@@ -210,7 +211,8 @@ namespace Web.Areas.Attendance.Controllers
                                 EmailConfirmed = true,
                                 PhoneNumberConfirmed = true,
                                 TwoFactorEnabled = false,
-                                UserType = UserType.PublicUser
+                                UserType = UserType.PublicUser,
+                                CreateDate = DateTime.Now
                             };
 
                             var result = await _userManager.CreateAsync(user, Guid.NewGuid().ToString("N"));
