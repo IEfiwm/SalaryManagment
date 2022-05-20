@@ -141,7 +141,7 @@ namespace Web.Areas.Admin.Controllers
                 return Ok();
             }
 
-            return  (await EditGroupPersonnel(dataModel, model.ViewModel));
+            return (await EditGroupPersonnel(dataModel, model.ViewModel));
         }
 
         public async Task<IActionResult> Create()
@@ -170,32 +170,39 @@ namespace Web.Areas.Admin.Controllers
 
                 var result = await _userManager.CreateAsync(user, userModel.Password);
 
+
                 if (result.Succeeded)
                 {
                     //add role
-                    if (!string.IsNullOrEmpty(userModel.RoleId))
+                    if (userModel.RoleIds is not null && userModel.RoleIds.Count > 0)
                     {
-                        var resRole = await _user_RoleRepository.InsertAndSaveAsync(new IdentityUserRole<string>
+                        foreach (var roleId in userModel.RoleIds)
                         {
-                            UserId = user.Id,
-                            RoleId = userModel.RoleId
-                        });
+                            var resRole = await _user_RoleRepository.InsertAndSaveAsync(new IdentityUserRole<string>
+                            {
+                                UserId = user.Id,
+                                RoleId = roleId
+                            });
 
-                        if (resRole == 0)
-                        {
-                            _notify.Error("عملیات ثبت کاربر با خطا مواجعه شد.");
-                            return RedirectToAction("Index");
+                            if (resRole == 0)
+                            {
+                                _notify.Error("بروز خطا در ثبت نقش برای کاربر.");
+
+                            }
                         }
                     }
+
 
                     _notify.Success($"کاربر {userModel.UserName} با موفقیت اضافه شد.");
 
                     return RedirectToAction("Index");
                 }
+
                 foreach (var error in result.Errors)
                 {
                     _notify.Error(error.Description);
                 }
+
                 ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
                 return View("Create", userModel);
             }
@@ -211,7 +218,7 @@ namespace Web.Areas.Admin.Controllers
 
             if (user_role != null && user_role.Count > 0)
             {
-                model.RoleId = user_role.FirstOrDefault().RoleId;
+                model.RoleIds = user_role.Select(x => x.RoleId).ToList();
             }
 
             ViewData["RoleList"] = _mapper.Map<List<RoleViewModel>>(await _roleManager.Roles.ToListAsync());
@@ -232,7 +239,7 @@ namespace Web.Areas.Admin.Controllers
                 ouser.ProjectRef = null;
                 var result = await _userManager.UpdateAsync(ouser);
 
-                if (!string.IsNullOrEmpty(userModel.RoleId))
+                if (userModel.RoleIds is not null && userModel.RoleIds.Count > 0)
                 {
                     //delete by userId
                     var user_role = await _user_RoleRepository.GetByUserId(userModel.Id);
@@ -245,17 +252,19 @@ namespace Web.Areas.Admin.Controllers
                         }
                     }
 
-                    //add role
-                    var resRole = await _user_RoleRepository.InsertAndSaveAsync(new IdentityUserRole<string>
+                    foreach (var roleId in userModel.RoleIds)
                     {
-                        UserId = userModel.Id,
-                        RoleId = userModel.RoleId
-                    });
+                        var resRole = await _user_RoleRepository.InsertAndSaveAsync(new IdentityUserRole<string>
+                        {
+                            UserId = userModel.Id,
+                            RoleId = roleId
+                        });
 
-                    if (resRole == 0)
-                    {
-                        _notify.Error("عملیات ویرایش کاربر با خطا مواجعه شد.");
-                        return RedirectToAction("Index");
+                        if (resRole == 0)
+                        {
+                            _notify.Error("بروز خطا در ثبت نقش برای کاربر.");
+
+                        }
                     }
                 }
 

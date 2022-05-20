@@ -33,11 +33,11 @@
                 <div class="col-6 mt-3">
 
                     <label class="form-label select-label">نقش</label>
-                    <select class="selectpicker js-data-example-ajax form-control" title="انتخاب کنید" name="RoleId" id="RoleId"
-                            data-live-search="true" data-live-search-placeholder="جستجو">
+                    <select class="selectpicker js-data-example-ajax form-control" title="انتخاب کنید" name="RoleIds" id="RoleId"
+                            data-live-search="true" data-live-search-placeholder="جستجو" multiple>
                         @foreach (var role in RoleList)
                         {
-                            if (Model.RoleId == role.Id)
+                            if (Model.RoleIds.Contains(role.Id))
                             {
                                 <option value="@role.Id" selected>@role.Name</option>
                             }

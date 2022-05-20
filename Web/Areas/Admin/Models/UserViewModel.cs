@@ -149,6 +149,6 @@ namespace Web.Areas.Admin.Models
 
         [Required]
         public long? BankId { get; set; }
-        public string RoleId { get; set; }
+        public List<string> RoleIds { get; set; }
     }
 }
