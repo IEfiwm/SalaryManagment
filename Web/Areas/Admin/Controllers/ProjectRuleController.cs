@@ -4,10 +4,8 @@ using Infrastructure.Repositories.Application.Basic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Web.Abstractions;
@@ -148,7 +146,7 @@ namespace Web.Areas.Admin.Controllers
                         _notify.Error(_localizer["AccessDeniedProject"].Value);
                         return RedirectToAction("Index");
                     }
-                    
+
                     if (model.RuleList == null || model.RuleList?.Count == 0)
                     {
                         _notify.Warning("لطفا فرمول را پر کنید.");
