@@ -54,6 +54,8 @@ namespace Domain.Entities.Basic
 
         public string DisplayAddress { get; set; }
 
+        public string LogoPath { get; set; }
+
         public virtual ICollection<ApplicationUser> ProjectUsers { get; set; }
 
         public virtual ICollection<ProjectBankAccount> ProjectBankAccounts { get; set; }

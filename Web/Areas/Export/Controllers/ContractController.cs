@@ -28,7 +28,7 @@ namespace Web.Areas.Export.Controllers
 
             var viewModel = await new FileHelper().DownloadAndReturnMemorySreamAsync(Guid.NewGuid() + ".pdf", @$"{ConfigurationStorage.GetValue("Base:KoshaCore:APIAddress")}/Contract/Get/{nationalCode}/{projectId}/{startDate}/{endDate}");
 
-            return File(viewModel.FileStream, "application/octet-stream", viewModel.DownloadedFileName);
+            return File(viewModel.FileStream, "application/octet-stream", viewModel?.DownloadedFileName);
         }
     }
 }

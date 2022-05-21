@@ -10,7 +10,7 @@ namespace Infrastructure.Repositories
 {
     public interface IFileRepository
     {
-        Task<string> SaveImageAsync(IFormFile image);
+        Task<string> SaveImageAsync(IFormFile image, string path = "");
         bool CheckImageExists(string fileName);
         ImagePathViewModel GetFileFullPath(string fullPath);
     }
