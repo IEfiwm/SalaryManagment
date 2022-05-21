@@ -7,7 +7,7 @@
 }
 
 
-<form id="form" method="POST" action="Save">
+<form id="form" method="POST" action="Save"  enctype="multipart/form-data">
     <div class="row justify-content-center">
         <div class="col-12 mt-3">
             <div class="card">
@@ -72,6 +72,11 @@
                         <div class="col-8 mt-3 mb-5">
                             <label class="form-label" for="Address">آدرس</label>
                             <input asp-for="Address" class="form-control" placeholder="">
+                        </div>
+                        <div class="col-4 mt-3 mb-5">
+                            <label class="form-label" for="Address">لوگو</label>
+                            <input type="file" class="ml-2 mr-0" name="Logo" accept="image/*" onchange="SetFileData(this)" />
+                              <img class="form-control mr-3 w-25" id="LogoPic" src="" />
                         </div>
 
                     </div>
@@ -186,5 +191,33 @@
             }
         });
     }
+
+    function SetFileData(File) {
+    if (File.files && File.files[0]) {
+        const allowedExtensions = ['jpg', 'png', 'jpeg', 'bmp'];
+        var reader = new FileReader();
+        var file = File.files[0];
+        var filesize = ((file.size / 1024) / 1024).toFixed(4); // MB
+        var fileExtension = file.name.split(".").pop();
+
+        if (!allowedExtensions.includes(fileExtension)) {
+            File.value = null;
+            alert("file type not allowed");
+            return false;
+        } else if (filesize > 10) {
+            File.value = null;
+            alert("file size too large");
+            return false;
+        }
+        else {
+            reader.onload = function (e) {
+                document.getElementById('LogoPic').value = file.name;
+                document.getElementById('LogoPic').src = e.target.result;
+            }
+
+            reader.readAsDataURL(file);
+        }
+    }
+}
 </script>
 }

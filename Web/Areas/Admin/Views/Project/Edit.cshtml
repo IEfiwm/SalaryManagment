@@ -1,15 +1,19 @@
 ﻿@using Web.Areas.Admin.Models
 @using Common.Enums
+@inject Infrastructure.Repositories.IFileRepository _fileRepository;
 @model ProjectViewModel
 @{
     ViewBag.Title = "ویرایش پروژه";
     var banks = ViewData["banks"] as List<BankViewModel>;
     var bankAccounts = ViewData["bankAccounts"] as List<Bank_AccountViewModel>;
     var index = 0;
+    var logoPath = "";
+    if (Model.LogoPath is not null)
+        logoPath = _fileRepository.GetFileFullPath(Model.LogoPath).ThumbPath;
 
 }
 
-<form id="form" method="POST" action="Save">
+<form id="form" method="POST" action="Save"  enctype="multipart/form-data">
     <div class="row justify-content-center">
         <div class="col-12 mt-3">
             <div class="card">
@@ -71,9 +75,14 @@
                             <label class="form-label" for="WorkshopCode">شعبه بیمه</label>
                             <input asp-for="BranchName" class="form-control" placeholder="">
                         </div>
-                        <div class="col-12 mt-3 mb-5">
+                        <div class="col-8 mt-3 mb-5">
                             <label class="form-label" for="Address">آدرس</label>
                             <input asp-for="Address" class="form-control" placeholder="">
+                        </div>
+                        <div class="col-4 mt-3 mb-5">
+                            <label class="form-label" for="Address">لوگو</label>
+                            <input type="file" class="ml-2 mr-0" asp-for="Logo" accept="image/*" onchange="SetFileData(this)" />
+                            <img class="form-control mr-3 w-25" id="LogoPic" src="@logoPath" />
                         </div>
                     </div>
                 </div>
@@ -230,6 +239,34 @@
                 });
             }
         });
+    }
+
+        function SetFileData(File) {
+    if (File.files && File.files[0]) {
+        const allowedExtensions = ['jpg', 'png', 'jpeg', 'bmp'];
+        var reader = new FileReader();
+        var file = File.files[0];
+        var filesize = ((file.size / 1024) / 1024).toFixed(4); // MB
+        var fileExtension = file.name.split(".").pop();
+
+        if (!allowedExtensions.includes(fileExtension)) {
+            File.value = null;
+            alert("file type not allowed");
+            return false;
+        } else if (filesize > 10) {
+            File.value = null;
+            alert("file size too large");
+            return false;
+        }
+        else {
+            reader.onload = function (e) {
+                document.getElementById('LogoPic').value = file.name;
+                document.getElementById('LogoPic').src = e.target.result;
+            }
+
+            reader.readAsDataURL(file);
+        }
+    }
     }
 </script>
 }

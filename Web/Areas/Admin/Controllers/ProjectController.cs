@@ -2,6 +2,7 @@
 using Domain.Entities.Base.Identity;
 using Domain.Entities.Basic;
 using Infrastructure.Base.Permission;
+using Infrastructure.Repositories;
 using Infrastructure.Repositories.Application.Basic;
 using MD.PersianDateTime;
 using Microsoft.AspNetCore.Authorization;
@@ -29,19 +30,22 @@ namespace Web.Areas.Admin.Controllers
         private readonly IBank_AccountRepository _bank_AccountRepository;
         private readonly IProjectBankAccountRepository _projectBankAccountRepository;
         private readonly IPermissionCommon _permissionCommon;
+        private readonly IFileRepository _fileRepository;
 
         public ProjectController(
             IProjectRepository projectRepository,
             IBankRepository bankRepository,
             IBank_AccountRepository bank_AccountRepository,
             IProjectBankAccountRepository projectBankAccountRepository,
-            IPermissionCommon permissionCommon)
+            IPermissionCommon permissionCommon,
+            IFileRepository fileRepository)
         {
             _projectRepository = projectRepository;
             _bankRepository = bankRepository;
             _bank_AccountRepository = bank_AccountRepository;
             _projectBankAccountRepository = projectBankAccountRepository;
             _permissionCommon = permissionCommon;
+            _fileRepository = fileRepository;
         }
 
         public IActionResult Index()
@@ -80,7 +84,7 @@ namespace Web.Areas.Admin.Controllers
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
                 return RedirectToAction("Index");
             }
-            
+
             var model = await _projectRepository.GetWithBankAccountsById(projectId);
             var viewModel = _mapper.Map<ProjectViewModel>(model);
 
@@ -110,6 +114,12 @@ namespace Web.Areas.Admin.Controllers
 
                 bool isUpdate = false;
                 Project projectModel = _mapper.Map<Project>(model);
+
+                //save logo
+                if (model.Logo != null)
+                {
+                    model.LogoPath = await _fileRepository.SaveImageAsync(model.Logo, _configuration["Base:KoshaCore:FilePath"].ToString());
+                }
 
                 if (model.Id == 0)
                 {

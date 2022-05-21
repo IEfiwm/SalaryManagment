@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class FileRepository:IFileRepository
+    public class FileRepository : IFileRepository
     {
         private readonly IHostingEnvironment _hostingEnvironmen;
 
@@ -19,13 +19,18 @@ namespace Infrastructure.Repositories
         {
             _hostingEnvironmen = hostingEnvironmen;
         }
-        public async Task<string> SaveImageAsync(IFormFile image)
+        public async Task<string> SaveImageAsync(IFormFile image, string path = "")
         {
-           var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(image.FileName);
+            if (path == "")
+            {
+                path = Path.Combine(_hostingEnvironmen.WebRootPath,@"Files\Images");
+            }
 
-            string imagePath = Path.Combine(_hostingEnvironmen.WebRootPath, "Files\\Images\\image", fileName);
+            var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(image.FileName);
 
-            string thumbPath = Path.Combine(_hostingEnvironmen.WebRootPath, "Files\\Images\\thumb", fileName);
+            string imagePath = Path.Combine(path + "image", fileName);
+
+            string thumbPath = Path.Combine(path + "thumb", fileName);
 
             using (var stream = new FileStream(imagePath, FileMode.Create))
             {
@@ -44,8 +49,8 @@ namespace Infrastructure.Repositories
         public ImagePathViewModel GetFileFullPath(string fullPath)
         {
             ImagePathViewModel path = new ImagePathViewModel();
-            path.ThumbPath= Path.Combine("/", "Files\\Images\\thumb", fullPath).Replace("\\","/");
-            path.ImagePath= Path.Combine("/", "Files\\Images\\image", fullPath).Replace("\\", "/");
+            path.ThumbPath = Path.Combine("/", "Files\\Images\\thumb", fullPath).Replace("\\", "/");
+            path.ImagePath = Path.Combine("/", "Files\\Images\\image", fullPath).Replace("\\", "/");
             return path;
         }
 

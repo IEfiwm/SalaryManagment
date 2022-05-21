@@ -1,4 +1,5 @@
 ﻿using Common.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -59,6 +60,10 @@ namespace Web.Areas.Admin.Models
         public string DisplayPostalCode { get; set; }
 
         public string DisplayAddress { get; set; }
+
+        public string LogoPath { get; set; }
+
+        public IFormFile Logo { get; set; }
 
         public List<long> BankAccounts { get; set; }
         public List<ProjectBankAccountViewModel>  projectBanks { get; set; }
