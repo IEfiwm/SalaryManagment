@@ -23,7 +23,7 @@ namespace Infrastructure.Repositories
         {
             if (path == "")
             {
-                path = Path.Combine(_hostingEnvironmen.WebRootPath,@"Files\Images");
+                path = Path.Combine(_hostingEnvironmen.WebRootPath, @"Files\Images");
             }
 
             var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(image.FileName);
@@ -46,11 +46,16 @@ namespace Infrastructure.Repositories
             string filePath = Path.Combine(_hostingEnvironmen.WebRootPath, "Files\\Images\\image", fileName);
             return File.Exists(filePath);
         }
-        public ImagePathViewModel GetFileFullPath(string fullPath)
+        public ImagePathViewModel GetFileFullPath(string fullPath, string basePath = "")
         {
+            if (basePath == "")
+            {
+                basePath = Path.Combine("/", "Files\\Images");
+            }
+
             ImagePathViewModel path = new ImagePathViewModel();
-            path.ThumbPath = Path.Combine("/", "Files\\Images\\thumb", fullPath).Replace("\\", "/");
-            path.ImagePath = Path.Combine("/", "Files\\Images\\image", fullPath).Replace("\\", "/");
+            path.ThumbPath = Path.Combine(basePath + "thumb", fullPath).Replace("\\", "/");
+            path.ImagePath = Path.Combine(basePath + "image", fullPath).Replace("\\", "/");
             return path;
         }
 

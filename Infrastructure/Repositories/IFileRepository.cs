@@ -12,6 +12,6 @@ namespace Infrastructure.Repositories
     {
         Task<string> SaveImageAsync(IFormFile image, string path = "");
         bool CheckImageExists(string fileName);
-        ImagePathViewModel GetFileFullPath(string fullPath);
+        ImagePathViewModel GetFileFullPath(string fullPath, string basePath = "");
     }
 }

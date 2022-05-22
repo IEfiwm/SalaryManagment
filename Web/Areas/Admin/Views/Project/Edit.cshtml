@@ -1,6 +1,8 @@
-﻿@using Web.Areas.Admin.Models
+﻿@using Microsoft.Extensions.Configuration
+@using Web.Areas.Admin.Models
 @using Common.Enums
 @inject Infrastructure.Repositories.IFileRepository _fileRepository;
+@inject IConfiguration _configuration;
 @model ProjectViewModel
 @{
     ViewBag.Title = "ویرایش پروژه";
@@ -9,7 +11,7 @@
     var index = 0;
     var logoPath = "";
     if (Model.LogoPath is not null)
-        logoPath = _fileRepository.GetFileFullPath(Model.LogoPath).ThumbPath;
+        logoPath = _fileRepository.GetFileFullPath(Model.LogoPath,_configuration["Base:KoshaCore:FilePath"].ToString()).ImagePath;
 
 }
 
