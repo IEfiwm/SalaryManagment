@@ -226,5 +226,14 @@ namespace Web.Areas.Admin.Controllers
             return Json(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetThumbImage(string path)
+        {
+            var model = _fileRepository.GetFileFullPath(path, _configuration["Base:KoshaCore:FilePath"].ToString());
+
+            var image = System.IO.File.OpenRead(model.ThumbPath);
+
+            return File(image, "image/jpeg");
+        }
     }
 }

@@ -84,7 +84,7 @@
                         <div class="col-4 mt-3 mb-5">
                             <label class="form-label" for="Address">لوگو</label>
                             <input type="file" class="ml-2 mr-0" asp-for="Logo" accept="image/*" onchange="SetFileData(this)" />
-                            <img class="form-control mr-3 w-25" id="LogoPic" src="@logoPath" />
+                            <img class="form-control mr-3 w-25" id="LogoPic" src="/admin/project/GetThumbImage?path=@logoPath" />
                         </div>
                     </div>
                 </div>

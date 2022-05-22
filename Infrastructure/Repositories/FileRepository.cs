@@ -19,6 +19,7 @@ namespace Infrastructure.Repositories
         {
             _hostingEnvironmen = hostingEnvironmen;
         }
+
         public async Task<string> SaveImageAsync(IFormFile image, string path = "")
         {
             if (path == "")
@@ -41,11 +42,13 @@ namespace Infrastructure.Repositories
 
             return fileName;
         }
+
         public bool CheckImageExists(string fileName)
         {
             string filePath = Path.Combine(_hostingEnvironmen.WebRootPath, "Files\\Images\\image", fileName);
             return File.Exists(filePath);
         }
+
         public ImagePathViewModel GetFileFullPath(string fullPath, string basePath = "")
         {
             if (basePath == "")
@@ -58,6 +61,5 @@ namespace Infrastructure.Repositories
             path.ImagePath = Path.Combine(basePath + "image", fullPath).Replace("\\", "/");
             return path;
         }
-
     }
 }
