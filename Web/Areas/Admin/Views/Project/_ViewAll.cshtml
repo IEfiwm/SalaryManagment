@@ -1,5 +1,4 @@
-﻿@using MD.PersianDateTime
-@using Web.Areas.Admin.Models
+﻿@using Web.Areas.Admin.Models
 @using Application.Extensions
 @using Common.Enums
 @model IEnumerable<ProjectViewModel>
@@ -73,10 +72,10 @@
                             <a>
                                 @(EnumHelper<ProjectStatus>.GetDisplayValue(project.ProjectStatus))
                             </a>
-                            <br>
+@*                            <br>
                             <small>
                                 @(new PersianDateTime(project?.EndDate).Year + "/" + new PersianDateTime(project?.EndDate).Month)
-                            </small>
+                            </small>*@
                         </div>
                     </div>
                 </td>
