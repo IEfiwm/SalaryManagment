@@ -97,46 +97,56 @@ namespace Infrastructure.Repositories.Application.Idenitity
 
         public async Task<DataTableDTO<IEnumerable<ApplicationUser>>> GetUserListByProjectIdDataTableAsync(List<long> projectIds, string key, int pageSize, int pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
         {
-            var result = new DataTableDTO<IEnumerable<ApplicationUser>>();
+            try
+            {
 
-            var data = await _identityContext.Users
-                .Include(e => e.Project)
-                .Include(e => e.Bank)
-                .Where(x => string.IsNullOrEmpty(key)
-                || EF.Functions.Like(x.PhoneNumber, $"%{key}%")
-                || EF.Functions.Like(x.LastName, $"%{key}%")
-                || EF.Functions.Like(x.FirstName, $"%{key}%")
-                || EF.Functions.Like(x.FatherName, $"%{key}%")
-                || EF.Functions.Like(x.PersonnelCode, $"%{key}%")
-                || EF.Functions.Like(x.NationalCode, $"%{key}%")
-                || EF.Functions.Like(x.InsuranceCode, $"%{key}%")
-                || EF.Functions.Like(x.JobTitle, $"%{key}%"))
-                .Where(m => gender == null || m.Gender == gender.Value)
-                .Where(m => employeeStatus == null || m.EmployeeStatus == employeeStatus.Value)
-                .Where(m => militaryService == null || m.MilitaryService == militaryService.Value)
-                .Where(m => maritalStatus == null || m.MaritalStatus == maritalStatus.Value)
-                .Where(x => x.ProjectRef != null && projectIds.Contains(x.ProjectRef.Value)
-                //.Where(x => (projectId == 0 || x.ProjectRef == projectId)
-                && (string.IsNullOrEmpty(key) || x.PhoneNumber.Contains(key) || x.FullName.Contains(key) || x.PersonnelCode.Contains(key) || x.NationalCode.Contains(key))
-                && x.UserType == Common.Enums.UserType.PublicUser
-                && !x.IsDeleted)
-                .OrderByDescending(m => m.PersonnelCode)
-                .ToListAsync();
 
-            result.DataCount = data.Count;
+                var result = new DataTableDTO<IEnumerable<ApplicationUser>>();
 
-            result.PageSize = pageSize;
+                var data = await _identityContext.Users
+                    .Include(e => e.Project)
+                    .Include(e => e.Bank)
+                    .Where(x => string.IsNullOrEmpty(key)
+                    || EF.Functions.Like(x.PhoneNumber, $"%{key}%")
+                    || EF.Functions.Like(x.LastName, $"%{key}%")
+                    || EF.Functions.Like(x.FirstName, $"%{key}%")
+                    || EF.Functions.Like(x.FatherName, $"%{key}%")
+                    || EF.Functions.Like(x.PersonnelCode, $"%{key}%")
+                    || EF.Functions.Like(x.NationalCode, $"%{key}%")
+                    || EF.Functions.Like(x.InsuranceCode, $"%{key}%")
+                    || EF.Functions.Like(x.JobTitle, $"%{key}%"))
+                    .Where(m => gender == null || m.Gender == gender.Value)
+                    .Where(m => employeeStatus == null || m.EmployeeStatus == employeeStatus.Value)
+                    .Where(m => militaryService == null || m.MilitaryService == militaryService.Value)
+                    .Where(m => maritalStatus == null || m.MaritalStatus == maritalStatus.Value)
+                    .Where(x => x.ProjectRef != null && projectIds.Contains(x.ProjectRef.Value)
+                    //.Where(x => (projectId == 0 || x.ProjectRef == projectId)
+                    && (string.IsNullOrEmpty(key) || x.FirstName.Contains(key)|| x.LastName.Contains(key) || x.PhoneNumber.Contains(key) || x.PersonnelCode.Contains(key) || x.NationalCode.Contains(key))
+                    && x.UserType == Common.Enums.UserType.PublicUser
+                    && !x.IsDeleted)
+                    .OrderByDescending(m => m.PersonnelCode)
+                    .ToListAsync();
 
-            result.PageNumber = pageNumber;
+                result.DataCount = data.Count;
 
-            result.PageCount = data.Count / pageSize;
+                result.PageSize = pageSize;
 
-            result.Model = data
-                .Skip(pageSize * pageNumber)
-                .Take(pageSize)
-                .ToList();
+                result.PageNumber = pageNumber;
 
-            return result;
+                result.PageCount = data.Count / pageSize;
+
+                result.Model = data
+                    .Skip(pageSize * pageNumber)
+                    .Take(pageSize)
+                    .ToList();
+
+                return result;
+            }
+            catch (Exception x)
+            {
+
+                throw;
+            }
         }
 
         public async Task<int> SaveChangesAsync()
