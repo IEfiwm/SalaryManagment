@@ -1313,7 +1313,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 if (!DataConversion.Convert<decimal>(row?.GetCell(72)?.ToString(), out decimal continuousBaseSalaryAndBaseYears))
                                 {
-                                    _notify.Error("قالب داده صحیح نیست : معوقه حقوق پایه و پایه سنوات ردیف: " + j);
+                                    _notify.Error("قالب داده صحیح نیست : مستمر - حقوق پایه و پایه سنوات ردیف: " + j);
                                     return false;
                                 }
                                 model.ContinuousBaseSalaryAndBaseYears = row?.GetCell(72)?.ToString();

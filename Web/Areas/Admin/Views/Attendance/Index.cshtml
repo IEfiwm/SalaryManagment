@@ -21,8 +21,9 @@
             <div class="col-3 mt-1">
                 <input class="form-control" name="key" id="key" placeholder="جستجو" />
             </div>
-            <div class="mt-1 col-3">
-                <button onclick="loadData($('#year').val(),$('#month').val(),$('#key').val(),$('#project').val());page=0" class="btn btn-primary">نمایش نتیجه</button>
+            <div class="mt-1 col-6 row">
+                <button onclick="loadData($('#year').val(),$('#month').val(),$('#key').val(),$('#project').val());page=0" class="btn btn-primary mr-2">نمایش نتیجه</button>
+                <button onclick="Excel($('#year').val(),$('#month').val(),$('#key').val(),$('#project').val());page=0" class="btn btn-info mr-2">خروجی اکسل</button>
             </div>
             @*<div class="mt-1 col-1">
                 </div>*@
@@ -55,7 +56,27 @@
     function loadData(year,month,key,projectId) {
         $('#CustomSpinner').css('display','block')
         $('#data-card').load('/admin/attendance/loadall?year=' + year + '&month=' + month + '&key=' + key+ "&projectId=" + projectId + "&pageSize=10&pageNumber=" + page);
-
     }
+
+
+    function Excel(year,month,key,projectId) {
+        $('#CustomSpinner').css('display','block');
+        fetch('/admin/attendance/ExportExcel?year=' + year + '&month=' + month + '&key=' + key+ "&projectId=" + projectId + "&pageSize=10&pageNumber=1")
+          .then(resp => resp.blob())
+          .then(blob => {
+            $('#CustomSpinner').css('display','none');
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            // the filename you want
+            a.download = 'Attendances.xlsx';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+          })
+          .catch(() => $('#CustomSpinner').css('display','none'));
+    }
+    
 </script>
 }

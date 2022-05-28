@@ -161,7 +161,35 @@ namespace Web.Areas.Admin.Models
 
         public string Insurance30Percent { get; set; }
 
+        public string NonContinuousIncluded { get; set; }
 
+        public string NonContinuousIncludedNotIncluded { get; set; }
+
+        public string ContinuousBaseSalaryAndBaseYears { get; set; }
+
+        public string ContinuousBasicRightsToHousingAndChildrenRights { get; set; }
+
+        public string OvertimePay { get; set; }
+
+        public string WorkerRight { get; set; }
+
+        public string SeveranceDaily { get; set; }
+
+        public string Salary { get; set; }
+
+        public string DegreeOfEducation { get; set; }
+
+        public string FoodAndHousingRight { get; set; }
+        public string PreviousReceipt { get; set; }
+        public string Monthly { get; set; }
+        public string Daily { get; set; }
+        public string Debt { get; set; }
+        public string Absence { get; set; }
+        public string HelpPay { get; set; }
+        public string TaxationPay { get; set; }
+        public string Disparity { get; set; }
+        public string Other02 { get; set; }
+        public string Other01 { get; set; }
     }
 
 }
