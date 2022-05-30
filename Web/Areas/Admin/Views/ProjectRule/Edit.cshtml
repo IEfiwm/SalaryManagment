@@ -147,7 +147,7 @@
                                                                 <h5 class="pt-2">@prop</h5>
                                                             </div>
                                                             <div class="col-md-3 pl-0">
-                                                                <input type="hidden" value="@prop" name="RuleList">
+                                                                <input type="hidden" value="@prop?.Trim()" name="RuleList">
                                                                 <button type="button" title="حذف" class="btn btn-default btn-xs remove" onclick="Delete(this)">
                                                                     <small class="fa fa-times text-danger"></small>
                                                                 </button>
