@@ -188,7 +188,7 @@ namespace Infrastructure.Base.Permission
             /// 
             /// add 4 permission with role to project
             /// 
-            foreach (var item in new List<string> { "Show", "Create", "Update", "Delete" })
+            foreach (var item in new List<string> { "Show", "Create", "EditProject", "DeleteProject" })
             {
                 var permission = await GetOrCreateByName(item);
 
