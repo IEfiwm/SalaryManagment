@@ -457,7 +457,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(9)?.ToString(), out int numberChildren))
                                 {
-                                    _notify.Error("قالب داده صحیح نیست : تعداد فرزندان ردیف: " + j);
+                                    _notify.Error("قالب داده صحیح نیست : تعداد اولاد ردیف: " + j);
                                     return false;
                                 }
                                 model.NumberChildren = row?.GetCell(9)?.ToString();
@@ -472,7 +472,7 @@ namespace Web.Areas.Attendance.Controllers
 
                                 if (!DataConversion.Convert<decimal>(row?.GetCell(10)?.ToString(), out decimal salary))
                                 {
-                                    _notify.Error("قالب داده صحیح نیست : دستمزد ردیف: " + j);
+                                    _notify.Error("قالب داده صحیح نیست : حقوق پایه ردیف: " + j);
                                     return false;
                                 }
                                 model.Salary = row?.GetCell(10)?.ToString();
@@ -542,7 +542,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 if (!DataConversion.Convert<decimal>(row?.GetCell(15)?.ToString(), out decimal overtimePay))
                                 {
-                                    _notify.Error("قالب داده صحیح نیست : اضافه کاری ثابت ردیف: " + j);
+                                    _notify.Error("قالب داده صحیح نیست : مبلغ ساعت اضافه کاری ردیف: " + j);
                                     return false;
                                 }
                                 model.OvertimePay = row?.GetCell(15)?.ToString();
@@ -556,7 +556,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 if (!DataConversion.Convert<decimal>(row?.GetCell(16)?.ToString(), out decimal monthlyPay))
                                 {
-                                    _notify.Error("قالب داده صحیح نیست : سنوات ردیف: " + j);
+                                    _notify.Error("قالب داده صحیح نیست : دستمزد ماهیانه ردیف: " + j);
                                     return false;
                                 }
                                 model.MonthlyPay = row?.GetCell(16)?.ToString();
@@ -570,7 +570,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 if (!DataConversion.Convert<decimal>(row?.GetCell(17)?.ToString(), out decimal overtimeworkingPay))
                                 {
-                                    _notify.Error("قالب داده صحیح نیست : اضافه کاری ردیف: " + j);
+                                    _notify.Error("قالب داده صحیح نیست : مبلغ اضافه کاری ردیف: " + j);
                                     return false;
                                 }
                                 model.OvertimeworkingPay = row?.GetCell(17)?.ToString();
@@ -612,7 +612,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 if (!DataConversion.Convert<decimal>(row?.GetCell(20)?.ToString(), out decimal workerRightPay))
                                 {
-                                    _notify.Error("قالب داده صحیح نیست : بن کارگری ردیف: " + j);
+                                    _notify.Error("قالب داده صحیح نیست : حق بن کارگری ردیف: " + j);
                                     return false;
                                 }
                                 model.WorkerRightPay = row?.GetCell(20)?.ToString();

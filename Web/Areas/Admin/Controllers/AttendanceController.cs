@@ -107,12 +107,12 @@ namespace Web.Areas.Admin.Controllers
                     x.FoodTime,
                     x.NumberChildren,
                     x.Salary,
-                    x.SeveranceDaily,
+                    x.SeveranceDaily,//سنوات پایه روزانه 
                     x.DailyPay,
                     x.FoodAndHousingRight,
                     x.WorkerRight,
                     x.OvertimePay,
-                    x.MonthlyPay,
+                    x.MonthlyPay,// سنوات
                     x.OvertimeworkingPay,
                     x.ChildrenRightPay,
                     x.HouseRightPay,
@@ -138,13 +138,13 @@ namespace Web.Areas.Admin.Controllers
                     x.PureIncome,
                     x.Year,
                     x.Month,
-                    x.SeveranceMonthly,
+                    x.SeveranceMonthly,//پایه سنوات مزایا
                     x.ShiftWorkTime,
                     x.ShiftWorkPay,
                     x.SupplementaryInsuranceDeduction,
                     x.RewardTime,
+                    x.YearsPay,//سنوات-مزایا 
                     x.RewardPay,
-                    x.YearsPay,
                     x.FestalPay,
                     x.BasicOverTimePay,
                     x.SupplementaryInsuranceSupervisor,
@@ -189,18 +189,18 @@ namespace Web.Areas.Admin.Controllers
                 worksheet.Cells["N1"].Value = "کارکرد تعطیل کاری";
                 worksheet.Cells["O1"].Value = "کارکرد ماموریت ";
                 worksheet.Cells["P1"].Value = "كاركرد حق غذا ";
-                worksheet.Cells["Q1"].Value = "تعداد فرزندان";
-                worksheet.Cells["R1"].Value = "دستمزد";
-                worksheet.Cells["S1"].Value = "پایه سنوات";
+                worksheet.Cells["Q1"].Value = "تعداد اولاد";
+                worksheet.Cells["R1"].Value = "حقوق پایه";
+                worksheet.Cells["S1"].Value = "پایه سنوات روزانه";// SeveranceDaily
                 worksheet.Cells["T1"].Value = "مزد روزانه";
                 worksheet.Cells["U1"].Value = _localizer["FoodAndHouseRight"].Value;
                 worksheet.Cells["V1"].Value = "بن کارگر";
-                worksheet.Cells["W1"].Value = "اضافه کاری ثابت";
-                worksheet.Cells["X1"].Value = "سنوات";
-                worksheet.Cells["Y1"].Value = "اضافه کاری";
+                worksheet.Cells["W1"].Value = "مبلغ ساعت اضافه کاری";
+                worksheet.Cells["X1"].Value = "دستمزد ماهیانه"; //MonthlyPay
+                worksheet.Cells["Y1"].Value = "مبلغ اضافه کاری";
                 worksheet.Cells["Z1"].Value = "حق اولاد";
                 worksheet.Cells["AA1"].Value = "حق مسکن" ;
-                worksheet.Cells["AB1"].Value = "بن کارگری";
+                worksheet.Cells["AB1"].Value = "حق بن کارگری";
                 worksheet.Cells["AC1"].Value = "شب کاری";
                 worksheet.Cells["AD1"].Value = "تعطیل کاری";
                 worksheet.Cells["AE1"].Value = "ماموریت";
@@ -222,7 +222,7 @@ namespace Web.Areas.Admin.Controllers
                 worksheet.Cells["AU1"].Value = "خالص دریافتی";
                 worksheet.Cells["AV1"].Value = "سال";
                 worksheet.Cells["AW1"].Value = "ماه";
-                worksheet.Cells["AX1"].Value = "پایه سنوات مزایا";
+                worksheet.Cells["AX1"].Value = "پایه سنوات مزایا";//SeveranceMonthly 
                 worksheet.Cells["AY1"].Value = "نوبت کاری-کارکرد";
                 worksheet.Cells["AZ1"].Value = "نوبتکاری -مزایا";
                 worksheet.Cells["BA1"].Value = "کسر بیمه تکمیلی - کسورات";
