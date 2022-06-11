@@ -139,25 +139,30 @@
                     <label for="NotIncludedNumberOfChildren" class="form-label col-lg-12">@localizer["NotIncludedNumberOfChildren"]</label>
                     <input type="text" asp-for="NotIncludedNumberOfChildren" name="NotIncludedNumberOfChildren" class="form-control col-lg-12 intTextBox" placeholder="@localizer["NotIncludedNumberOfChildren"]">
                 </div>
-@*                <div class="form-group col-md-4">
+                <div class="form-group col-md-4">
                     <label for="MonthlyBaseYear" class="form-label col-lg-12">@localizer["MonthlyBaseYear"]</label>
                     <input type="text" asp-for="MonthlyBaseYear" name="MonthlyBaseYear" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["MonthlyBaseYear"]">
-                </div>*@
-@*                <div class="form-group col-md-4">
+                    <p>* این آیتم فقط در قرارداد نمایش داده می شود</p>
+                </div>
+                <div class="form-group col-md-4">
                     <label for="MonthlySalary" class="form-label col-lg-12">@localizer["MonthlySalary"]</label>
                     <input type="text" asp-for="MonthlySalary" name="MonthlySalary" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["MonthlySalary"]">
-                </div>*@
-@*                <div class="form-group col-md-4">
+                    <p>* این آیتم فقط در قرارداد نمایش داده می شود</p>
+                </div>
+                <div class="form-group col-md-4">
                     <label for="ChildrenRight" class="form-label col-lg-12">@localizer["ChildrenRight"]</label>
                     <input type="text" asp-for="ChildrenRight" name="ChildrenRight" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["ChildrenRight"]">
-                </div>*@
-@*                <div class="form-group col-md-4">
+                    <p>* این آیتم فقط در قرارداد نمایش داده می شود</p>
+                </div>
+                <div class="form-group col-md-4">
                     <label for="WorkerRight" class="form-label col-lg-12">@localizer["WorkerRight"]</label>
                     <input type="text" asp-for="WorkerRight" name="WorkerRight" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["WorkerRight"]">
-                </div>*@
+                    <p>* این آیتم فقط در قرارداد نمایش داده می شود</p>
+                </div>
                 <div class="form-group col-md-4">
                     <label for="FoodAndHouseRight" class="form-label col-lg-12">@localizer["FoodAndHouseRight"]</label>
                     <input type="text" asp-for="FoodAndHouseRight" name="FoodAndHouseRight" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["FoodAndHouseRight"]">
+                    <p>* این آیتم فقط در قرارداد نمایش داده می شود</p>
                 </div>
                 <div class="form-group col-md-3">
                     <label for="DailyBaseYear" class="form-label col-lg-12">@localizer["DailyBaseYear"]</label>
@@ -381,19 +386,19 @@
 </form>
 
 @section Scripts{
-<script src="~/js/Users/Edit/EditUser.js" type="text/javascript"></script>
-<script type="text/javascript" language=javascript>
+    <script src="~/js/Users/Edit/EditUser.js" type="text/javascript"></script>
+    <script type="text/javascript" language=javascript>
         $.validator.unobtrusive.parse(document);
 
-            $.ajax({
+        $.ajax({
             url: "/admin/project/getlist?permissionName=EditPersonnel",
             method: "GET",
-            success: function (model){
-                $.map( model, function( val, i ) {
-                    if(val.id == @Model?.ProjectRef){
+            success: function(model) {
+                $.map(model, function(val, i) {
+                    if (val.id == @Model?.ProjectRef) {
                         $("#project").append('<option value="' + val.id + '" selected>' + val.title + ' ( ' + val.workshopName + ' ) ' + '</option>');
                     }
-                    else{
+                    else {
                         $("#project").append('<option value="' + val.id + '">' + val.title + ' ( ' + val.workshopName + ' ) ' + '</option>');
                     }
                 });
@@ -403,12 +408,12 @@
         $('#alert-editmode').attr('style', 'display: none !important');
 
 
-        $(document).ready(function(){
-        $(".form-control").each(function(i) {
-            if( $(this).data("val-required") !== undefined && $(this).siblings('label').length >0 )
-            $($(this).siblings('label')[0]).html($($(this).siblings('label')[0]).html()+'<span class="requiredSpan">*</span>');
-        });
+        $(document).ready(function() {
+            $(".form-control").each(function(i) {
+                if ($(this).data("val-required") !== undefined && $(this).siblings('label').length > 0)
+                    $($(this).siblings('label')[0]).html($($(this).siblings('label')[0]).html() + '<span class="requiredSpan">*</span>');
+            });
 
-    });
-</script>
+        });
+    </script>
 }
