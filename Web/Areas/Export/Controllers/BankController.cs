@@ -8,7 +8,7 @@ using Web.Abstractions;
 namespace Web.Areas.Export.Controllers
 {
     [Area("Export")]
-    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+    [Authorize]
     public class BankController : BaseController<BankController>
     {
         public IActionResult Index()

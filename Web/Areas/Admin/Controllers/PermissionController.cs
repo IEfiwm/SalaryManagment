@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+    [Authorize]
     public class PermissionController : BaseController<PermissionController>
     {
         private readonly UserManager<ApplicationUser> _userManager;

@@ -15,7 +15,7 @@ using Web.Areas.Admin.Models;
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+    [Authorize]
     public class AttendanceController : BaseController<AttendanceController>
     {
         private readonly IimportedRepository _importedRepository;

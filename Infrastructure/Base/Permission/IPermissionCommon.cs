@@ -21,5 +21,8 @@ namespace Infrastructure.Base.Permission
 
         Task<List<Menu>> GetMenuOfUser(ApplicationUser user);
 
+        void RefreshPermission(ApplicationUser user);
+        void RefreshPermission();
+
     }
 }

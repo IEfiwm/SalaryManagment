@@ -11,7 +11,7 @@ using Web.Controllers;
 namespace Web.Areas.Export.Controllers
 {
     [Area("Export")]
-    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+    [Authorize]
     public class TaxController : BaseController<TaxController>
     {
         public IActionResult Index()
