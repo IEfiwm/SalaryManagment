@@ -106,22 +106,27 @@
                 <div class="form-group col-md-4">
                     <label for="MonthlyBaseYear" class="form-label col-lg-12">@localizer["MonthlyBaseYear"]</label>
                     <input type="text" asp-for="MonthlyBaseYear" name="MonthlyBaseYear" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["MonthlyBaseYear"]">
+                    <p>* این آیتم فقط در قرارداد نمایش داده می شود</p>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="MonthlySalary" class="form-label col-lg-12">@localizer["MonthlySalary"]</label>
                     <input type="text" asp-for="MonthlySalary" name="MonthlySalary" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["MonthlySalary"]">
+                    <p>* این آیتم فقط در قرارداد نمایش داده می شود</p>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="ChildrenRight" class="form-label col-lg-12">@localizer["ChildrenRight"]</label>
                     <input type="text" asp-for="ChildrenRight" name="ChildrenRight" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["ChildrenRight"]">
+                    <p>* این آیتم فقط در قرارداد نمایش داده می شود</p>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="WorkerRight" class="form-label col-lg-12">@localizer["WorkerRight"]</label>
                     <input type="text" asp-for="WorkerRight" name="WorkerRight" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["WorkerRight"]">
+                    <p>* این آیتم فقط در قرارداد نمایش داده می شود</p>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="FoodAndHouseRight" class="form-label col-lg-12">@localizer["FoodAndHouseRight"]</label>
                     <input type="text" asp-for="FoodAndHouseRight" name="FoodAndHouseRight" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["FoodAndHouseRight"]">
+                    <p>* این آیتم فقط در قرارداد نمایش داده می شود</p>
                 </div>
                 <div class="form-group col-md-3">
                     <label for="DailyBaseYear" class="form-label col-lg-12">@localizer["DailyBaseYear"]</label>
@@ -224,43 +229,43 @@
 </form>
 
 @section Scripts{
-<script src="~/js/Users/Edit/EditUser.js" type="text/javascript"></script>
-<script type="text/javascript" language=javascript>
+    <script src="~/js/Users/Edit/EditUser.js" type="text/javascript"></script>
+    <script type="text/javascript" language=javascript>
         $.validator.unobtrusive.parse(document);
 
-            $.ajax({
+        $.ajax({
             url: "/admin/project/getlist?permissionName=CreatePersonnel",
             method: "GET",
-            success: function (model){
-                $.map( model, function( val, i ) {
-                    if(val.id == "@Model?.ProjectRef"){
+            success: function(model) {
+                $.map(model, function(val, i) {
+                    if (val.id == "@Model?.ProjectRef") {
                         $("#project").append('<option value="' + val.id + '" selected>' + val.title + ' ( ' + val.workshopName + ' ) ' + '</option>');
                     }
-                    else{
+                    else {
                         $("#project").append('<option value="' + val.id + '">' + val.title + ' ( ' + val.workshopName + ' ) ' + '</option>');
                     }
                 });
             }
         });
-    $(document).ready(function(){
-        $(".form-control").each(function(i) {
-            if( $(this).data("val-required") !== undefined && $(this).siblings('label').length >0 )
-            $($(this).siblings('label')[0]).html($($(this).siblings('label')[0]).html()+'<span class="requiredSpan">*</span>');
-        });
+        $(document).ready(function() {
+            $(".form-control").each(function(i) {
+                if ($(this).data("val-required") !== undefined && $(this).siblings('label').length > 0)
+                    $($(this).siblings('label')[0]).html($($(this).siblings('label')[0]).html() + '<span class="requiredSpan">*</span>');
+            });
 
-    });
-    function getPerosnnelCode(){
-        let projectId = $("#project").val() > 0 ? $("#project").val() : 0;
+        });
+        function getPerosnnelCode() {
+            let projectId = $("#project").val() > 0 ? $("#project").val() : 0;
             $.ajax({
-                url:"/admin/user/GetPersonnelCode?projectId=" + projectId,
+                url: "/admin/user/GetPersonnelCode?projectId=" + projectId,
                 method: "GET",
-                success: function (response){
-                    if(projectId == 0)
+                success: function(response) {
+                    if (projectId == 0)
                         notyf.error("پروژه انتخاب نشده است.");
                     $("#PersonnelCode").val(parseInt(response) + 1);
                     notyf.success("کد پرسنلی به صورت اتوماتیک پر شد.");
                 }
             })
-    }
-</script>
+        }
+    </script>
 }

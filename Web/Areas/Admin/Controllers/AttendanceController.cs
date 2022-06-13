@@ -48,6 +48,7 @@ namespace Web.Areas.Admin.Controllers
         public async Task<IActionResult> LoadAll(int year, int month, long projectId, string key, byte pageSize, byte pageNumber)
         {
             var permission = await _permissionCommon.CheckProjectPermissionByProjectId("ShowAttendance", User, projectId);
+
             if (!permission)
             {
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
@@ -64,9 +65,11 @@ namespace Web.Areas.Admin.Controllers
         public async Task<IActionResult> ExportExcel(int year, int month, long projectId, string key, byte pageSize, byte pageNumber)
         {
             var permission = await _permissionCommon.CheckProjectPermissionByProjectId("ShowAttendance", User, projectId);
+
             if (!permission)
             {
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
+
                 return Ok();
             }
 
@@ -79,8 +82,8 @@ namespace Web.Areas.Admin.Controllers
             result.Position = 0;
 
             return File(result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Attendances.xlsx");
-
         }
+
         private object ExportToExcel(IEnumerable<AttendanceViewModel> model)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
