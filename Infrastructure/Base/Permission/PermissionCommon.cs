@@ -5,11 +5,13 @@ using Infrastructure.Repositories.Application.Basic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Base.Permission
@@ -24,6 +26,7 @@ namespace Infrastructure.Base.Permission
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMemoryCache _memoryCache;
+        private static CancellationTokenSource _resetCacheToken = new CancellationTokenSource();
 
         public PermissionCommon(IPermissionRepository permissionRepository,
             IRole_Project_PermissionRepository role_Project_PermissionRepository,
@@ -76,13 +79,30 @@ namespace Infrastructure.Base.Permission
             }
         }
 
+        public void RefreshPermission()
+        {
+            if (_resetCacheToken != null && !_resetCacheToken.IsCancellationRequested && _resetCacheToken.Token.CanBeCanceled)
+            {
+                _resetCacheToken.Cancel();
+                _resetCacheToken.Dispose();
+            }
+
+            _resetCacheToken = new CancellationTokenSource();
+        }
+        public void RefreshPermission(ApplicationUser user)
+        {
+            var key = string.Format("menu_{0}", user.UserName);
+
+            _memoryCache.Remove(key);
+
+        }
         public async Task<List<Menu>> GetMenuOfUser(ApplicationUser user)
         {
             var key = string.Format("menu_{0}", user.UserName);
 
             var menu = _memoryCache.Get<List<Menu>>(key);
 
-            if (menu is not null)
+            if (menu is not null && menu.Count > 0)
             {
                 return menu;
             }
@@ -108,7 +128,10 @@ namespace Infrastructure.Base.Permission
 
             if (menuHeader != null)
             {
-                _memoryCache.Set<List<Menu>>(key, menuHeader);
+                var options = new MemoryCacheEntryOptions().SetPriority(CacheItemPriority.Normal);
+                options.AddExpirationToken(new CancellationChangeToken(_resetCacheToken.Token));
+
+                _memoryCache.Set<List<Menu>>(key, menuHeader, options);
 
             }
 

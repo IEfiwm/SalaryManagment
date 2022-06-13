@@ -9,7 +9,7 @@ using Web.Controllers;
 namespace Web.Areas.Export.Controllers
 {
     [Area("Export")]
-    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+    [Authorize]
     public class InsuranceController : BaseController<InsuranceController>
     {
         public IActionResult Index()

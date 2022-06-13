@@ -15,7 +15,7 @@ using Web.Areas.Admin.Models;
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+    [Authorize]
     public class RoleController : BaseController<RoleController>
     {
         private readonly RoleManager<ApplicationRole> _roleManager;
@@ -172,6 +172,8 @@ namespace Web.Areas.Admin.Controllers
                             MenuId = menuId,
                             RoleId = model.Id
                         });
+
+                       _permissionCommon.RefreshPermission();
 
                         if (resMenu == 0)
                         {

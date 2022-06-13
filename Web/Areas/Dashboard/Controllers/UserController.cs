@@ -15,7 +15,7 @@ using Web.Areas.Dashboard.Models;
 namespace Web.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
-    [Authorize("User")]
+    [Authorize]
     public class UserController : BaseController<UserController>
     {
         private readonly UserManager<ApplicationUser> _userManager;

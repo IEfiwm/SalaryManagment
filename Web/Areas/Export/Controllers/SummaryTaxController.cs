@@ -16,7 +16,7 @@ using Web.Areas.Admin.Models;
 namespace Web.Areas.Export.Controllers
 {
     [Area("Export")]
-    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+    [Authorize]
     public class SummaryTaxController : BaseController<SummaryTaxController>
     {
         public IActionResult Index()

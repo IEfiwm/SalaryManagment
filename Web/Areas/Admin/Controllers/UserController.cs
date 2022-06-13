@@ -32,7 +32,7 @@ using Application.Extensions;
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+    [Authorize]
     public class UserController : BaseController<UserController>
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -254,6 +254,8 @@ namespace Web.Areas.Admin.Controllers
                     //delete by userId
                     var user_role = await _user_RoleRepository.GetByUserId(userModel.Id);
 
+                    _permissionCommon.RefreshPermission(ouser);
+
                     if (user_role != null && user_role.Count > 0)
                     {
                         foreach (var roleMenu in user_role)
@@ -269,6 +271,7 @@ namespace Web.Areas.Admin.Controllers
                             UserId = userModel.Id,
                             RoleId = roleId
                         });
+
 
                         if (resRole == 0)
                         {

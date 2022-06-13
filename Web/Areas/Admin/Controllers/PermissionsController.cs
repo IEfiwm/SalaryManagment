@@ -10,7 +10,7 @@ using System.Linq;
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+    [Authorize]
     public class PermissionsController : BaseController<PermissionsController>
     {
         private readonly IPermissionRepository _permissionRepository;

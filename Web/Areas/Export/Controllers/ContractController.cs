@@ -9,7 +9,7 @@ using Web.Models;
 namespace Web.Areas.Export.Controllers
 {
     [Area("Export")]
-    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+    [Authorize]
     public class ContractController : BaseController<ContractController>
     {
         [HttpGet("Export/Contract/Download/{nationalCode}/{projectId}/{startDate}/{endDate}")]

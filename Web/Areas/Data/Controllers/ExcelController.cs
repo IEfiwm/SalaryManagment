@@ -29,7 +29,7 @@ using Web.Controllers;
 namespace Web.Areas.Attendance.Controllers
 {
     [Area("Data")]
-    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+    [Authorize]
     public class ExcelController : BaseController<Imported>
     {
         private readonly IHostingEnvironment _hostingEnvironment;

@@ -9,7 +9,7 @@ using Web.Models;
 namespace Web.Areas.Export.Controllers
 {
     [Area("Export")]
-    [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+    [Authorize]
     public class PayRollController : BaseController<PayRollController>
     {
         [HttpGet("Export/PayRoll/Download/{nationalCode}/{bankAccNumber}/{year}/{month}/{projectId}")]
