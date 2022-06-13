@@ -238,7 +238,14 @@ namespace Web.Areas.Admin.Controllers
                 //string userName = address.User;
                 var ouser = await _userManager.FindByIdAsync(userModel.Id);
 
-                ouser = _mapper.Map<UserViewModel, ApplicationUser>(userModel, ouser);
+                ouser.LastName = userModel.LastName;
+                ouser.FirstName = userModel.FirstName;
+                ouser.UserName = userModel.UserName;
+                ouser.Email = userModel.Email;
+                ouser.EmailConfirmed = true;
+                ouser.UserType = UserType.SystemUser;
+
+                //ouser = _mapper.Map<UserViewModel, ApplicationUser>(userModel, ouser);
                 ouser.ProjectRef = null;
                 var result = await _userManager.UpdateAsync(ouser);
 
@@ -590,7 +597,7 @@ namespace Web.Areas.Admin.Controllers
 
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-                using (var response = await httpClient.PostAsync($@"{ _configuration["Base:KoshaCore:APIAddress"].ToString()}/Contract/GetAll", data))
+                using (var response = await httpClient.PostAsync($@"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Contract/GetAll", data))
                 {
                     var test = await response.Content.ReadAsByteArrayAsync();
 
@@ -663,7 +670,7 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GeneratePayRoll(int year, int month, long projectId)
         {
-            var client = new RestClient($@"{ _configuration["Base:KoshaCore:APIAddress"].ToString()}/Calculation/GenerateSalary/{projectId}/{year}/{month}");
+            var client = new RestClient($@"{_configuration["Base:KoshaCore:APIAddress"].ToString()}/Calculation/GenerateSalary/{projectId}/{year}/{month}");
 
             client.Timeout = -1;
 
@@ -821,18 +828,26 @@ namespace Web.Areas.Admin.Controllers
             {
                 var ouser = await _userManager.FindByIdAsync(passwordViewModel.Id);
 
-                //var validPass = await _userManager.PasswordValidators(ouser, passwordViewModel.Password);
-                var passwordValidator = new PasswordValidator<ApplicationUser>();
-                var validPass = await passwordValidator.ValidateAsync(_userManager, ouser, "your password here");
+                //var passwordValidator = new PasswordValidator<ApplicationUser>();
 
-                if (validPass.Succeeded && passwordViewModel.Password == passwordViewModel.ConfirmPassword)
+                //var validPass = await passwordValidator.ValidateAsync(_userManager, ouser, "your password here");
+
+                if (passwordViewModel.Password == passwordViewModel.ConfirmPassword)
                 {
-                    ouser.PasswordHash = _userManager.PasswordHasher.HashPassword(ouser, passwordViewModel.Password);
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(ouser);
 
-                    var result = await _userManager.UpdateAsync(ouser);
+                    var result = await _userManager.ResetPasswordAsync(ouser, token, passwordViewModel.ConfirmPassword);
 
-                    if (!result.Succeeded)
-                        _notify.Error("عملیات ویرایش رمز عبور با خطا مواجعه شد.");
+                    // await _userManager.RemovePasswordAsync(ouser);
+
+                    //await  _userManager.AddPasswordAsync(ouser, passwordViewModel.ConfirmPassword);
+
+                    //ouser.PasswordHash = _userManager.PasswordHasher.HashPassword(ouser, passwordViewModel.Password);
+
+                    //var result = await _userManager.UpdateAsync(ouser);
+
+                    //if (!result.Succeeded)
+                    //    _notify.Error("عملیات ویرایش رمز عبور با خطا مواجعه شد.");
 
                     _notify.Success($"رمز عبور با موفقیت ویرایش شد.");
                 }
