@@ -387,29 +387,6 @@ namespace Web.Areas.Admin.Controllers
             return RedirectToAction("Personnel");
         }
 
-        private async Task<IActionResult> EditGroupPersonnel(GroupEditViewModel dataModel, IEnumerable<UserViewModel> users)
-        {
-            foreach (var user in users)
-            {
-                var ouser = await _userRepository.GetUserByIdAsync(user.Id);
-
-                if (ouser is null)
-                    continue;
-
-                ouser.DailySalary = dataModel.DailySalary;
-                ouser.MonthlySalary = dataModel.MonthlySalary;
-                ouser.ChildrenRight = dataModel.ChildrenRight;
-                ouser.DailyBaseYear = dataModel.DailyBaseYear;
-                ouser.WorkerRight = dataModel.WorkerRight;
-                ouser.MonthlyBaseYear = dataModel.MonthlyBaseYear;
-                ouser.FoodAndHouseRight = dataModel.FoodAndHouseRight;
-
-                await _userRepository.SaveChangesAsync();
-            }
-
-            return Ok();
-        }
-
         [HttpGet]
         public async Task<IActionResult> CreatePersonnel()
         {
@@ -721,6 +698,50 @@ namespace Web.Areas.Admin.Controllers
             return await _userRepository.GetLastPersonnelCode(projectId);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> EditPassword(PasswordViewModel passwordViewModel)
+        {
+            if (ModelState.IsValid && !string.IsNullOrEmpty(passwordViewModel.Password))
+            {
+                var ouser = await _userManager.FindByIdAsync(passwordViewModel.Id);
+
+                //var passwordValidator = new PasswordValidator<ApplicationUser>();
+
+                //var validPass = await passwordValidator.ValidateAsync(_userManager, ouser, "your password here");
+
+                if (passwordViewModel.Password == passwordViewModel.ConfirmPassword)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(ouser);
+
+                    var result = await _userManager.ResetPasswordAsync(ouser, token, passwordViewModel.ConfirmPassword);
+
+                    // await _userManager.RemovePasswordAsync(ouser);
+
+                    //await  _userManager.AddPasswordAsync(ouser, passwordViewModel.ConfirmPassword);
+
+                    //ouser.PasswordHash = _userManager.PasswordHasher.HashPassword(ouser, passwordViewModel.Password);
+
+                    //var result = await _userManager.UpdateAsync(ouser);
+
+                    //if (!result.Succeeded)
+                    //    _notify.Error("عملیات ویرایش رمز عبور با خطا مواجعه شد.");
+
+                    _notify.Success($"رمز عبور با موفقیت ویرایش شد.");
+                }
+                else
+                {
+                    _notify.Error("رمز عبور معتبر نیست.");
+
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                _notify.Error("درخواست معتبر نیست.");
+            }
+            return default;
+        }
+
         private object ExportToExcel(IEnumerable<UserViewModel> model)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -844,49 +865,27 @@ namespace Web.Areas.Admin.Controllers
             }
         }
 
-
-        [HttpPost]
-        public async Task<IActionResult> EditPassword(PasswordViewModel passwordViewModel)
+        private async Task<IActionResult> EditGroupPersonnel(GroupEditViewModel dataModel, IEnumerable<UserViewModel> users)
         {
-            if (ModelState.IsValid && !string.IsNullOrEmpty(passwordViewModel.Password))
+            foreach (var user in users)
             {
-                var ouser = await _userManager.FindByIdAsync(passwordViewModel.Id);
+                var ouser = await _userRepository.GetUserByIdAsync(user.Id);
 
-                //var passwordValidator = new PasswordValidator<ApplicationUser>();
+                if (ouser is null)
+                    continue;
 
-                //var validPass = await passwordValidator.ValidateAsync(_userManager, ouser, "your password here");
+                ouser.DailySalary = dataModel.DailySalary;
+                ouser.MonthlySalary = dataModel.MonthlySalary;
+                ouser.ChildrenRight = dataModel.ChildrenRight;
+                ouser.DailyBaseYear = dataModel.DailyBaseYear;
+                ouser.WorkerRight = dataModel.WorkerRight;
+                ouser.MonthlyBaseYear = dataModel.MonthlyBaseYear;
+                ouser.FoodAndHouseRight = dataModel.FoodAndHouseRight;
 
-                if (passwordViewModel.Password == passwordViewModel.ConfirmPassword)
-                {
-                    var token = await _userManager.GeneratePasswordResetTokenAsync(ouser);
-
-                    var result = await _userManager.ResetPasswordAsync(ouser, token, passwordViewModel.ConfirmPassword);
-
-                    // await _userManager.RemovePasswordAsync(ouser);
-
-                    //await  _userManager.AddPasswordAsync(ouser, passwordViewModel.ConfirmPassword);
-
-                    //ouser.PasswordHash = _userManager.PasswordHasher.HashPassword(ouser, passwordViewModel.Password);
-
-                    //var result = await _userManager.UpdateAsync(ouser);
-
-                    //if (!result.Succeeded)
-                    //    _notify.Error("عملیات ویرایش رمز عبور با خطا مواجعه شد.");
-
-                    _notify.Success($"رمز عبور با موفقیت ویرایش شد.");
-                }
-                else
-                {
-                    _notify.Error("رمز عبور معتبر نیست.");
-
-                }
-                return RedirectToAction("Index");
+                await _userRepository.SaveChangesAsync();
             }
-            else
-            {
-                _notify.Error("درخواست معتبر نیست.");
-            }
-            return default;
+
+            return Ok();
         }
 
         private async Task<DataTableViewModel<IEnumerable<UserViewModel>>> FilterUsers(long projectId, string key, int pageSize, byte pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)
