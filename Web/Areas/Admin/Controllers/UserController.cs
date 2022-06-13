@@ -400,9 +400,11 @@ namespace Web.Areas.Admin.Controllers
         public async Task<IActionResult> CreatePersonnel(UserViewModel user)
         {
             var permission = await _permissionCommon.CheckProjectPermissionByProjectId("CreatePersonnel", User, user.ProjectRef);
+            
             if (!permission)
             {
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
+
                 return RedirectToAction("Personnel");
             }
 
@@ -433,7 +435,7 @@ namespace Web.Areas.Admin.Controllers
 
                 _notify.Error("کاربر با این مشخصات در سیستم موجود می باشد.");
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Personnel");
             }
 
             ApplicationUser model = _mapper.Map<ApplicationUser>(user);
@@ -470,7 +472,7 @@ namespace Web.Areas.Admin.Controllers
 
                 _notify.Error("افزودن کاربر انجام نشد.");
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Personnel");
             }
 
             //save files
@@ -503,13 +505,13 @@ namespace Web.Areas.Admin.Controllers
 
                 if (user.Id is null)
                 {
-                    RedirectToAction("Index");
+                    RedirectToAction("Personnel");
                 }
 
-                return Redirect("/admin/user/edit?userId=" + user.Id);
+                return Redirect("/admin/user/editPersonnel?userId=" + user.Id);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Personnel");
         }
 
         public async Task<IActionResult> Delete(string userId)
