@@ -447,7 +447,7 @@ namespace Web.Areas.Admin.Controllers
             user.UserName = user.PersonnelCode ?? user.NationalCode;
 
             if (_userRepository
-                .Users.Where(m => m.UserName == user.UserName || m.PersonnelCode == user.PersonnelCode || m.NationalCode == user.NationalCode || m.PhoneNumber == user.PhoneNumber).FirstOrDefault() != null)
+                .Users.Where(m => !m.IsDeleted && (m.UserName == user.UserName || m.PersonnelCode == user.PersonnelCode || m.NationalCode == user.NationalCode || m.PhoneNumber == user.PhoneNumber)).FirstOrDefault() != null)
             {
                 _notify.Error("افزودن کاربر انجام نشد.");
 
@@ -466,9 +466,32 @@ namespace Web.Areas.Admin.Controllers
 
             model.IsProfileCompleted = true;
 
+            model.EmailConfirmed = true;
+
+            model.PhoneNumberConfirmed = true;
+
             model.UserType = Common.Enums.UserType.PublicUser;
 
             var res = await _userManager.CreateAsync(model, model.PersonnelCode);
+
+            if (!res.Succeeded && res.Errors.Any(m => m.Code == "DuplicateUserName"))
+            {
+                model.UserName = model.PhoneNumber;
+
+                res = await _userManager.CreateAsync(model, model.PersonnelCode);
+            }
+
+            if (!res.Succeeded)
+            {
+                foreach (var error in res.Errors)
+                {
+                    _notify.Error(error.Description);
+                }
+
+                _notify.Error("افزودن کاربر انجام نشد.");
+
+                return RedirectToAction("Index");
+            }
 
             //save files
             foreach (var data in user.AdditionalUserData)
@@ -487,8 +510,6 @@ namespace Web.Areas.Admin.Controllers
             var additionaluserModel = _mapper.Map<List<AdditionalUserData>>(user.AdditionalUserData);
 
             await _additionalUserDateRepository.CreateByUserId(additionaluserModel, user.Id);
-
-
 
             if (res.Succeeded)
             {

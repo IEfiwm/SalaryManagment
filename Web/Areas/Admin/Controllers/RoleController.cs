@@ -53,7 +53,7 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> LoadAll()
         {
-            var roles = await _roleManager.Roles.Where(x => x.Active && x.Public).ToListAsync();
+            var roles = await _roleManager.Roles.Where(x => x.Active && x.Public && !x.SystemRole).ToListAsync();
 
             var model = _mapper.Map<IEnumerable<RoleViewModel>>(roles);
 
