@@ -108,6 +108,9 @@ namespace Web.Areas.Admin.Controllers
         {
             var permission = await _permissionCommon.CheckProjectPermissionByProjectId("PersonnelList", User, projectId);
 
+            //if (User.IsInRole("SuperAdmin"))
+            //    permission = true;
+
             if (!permission)
             {
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
