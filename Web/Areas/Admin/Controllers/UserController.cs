@@ -400,7 +400,7 @@ namespace Web.Areas.Admin.Controllers
         public async Task<IActionResult> CreatePersonnel(UserViewModel user)
         {
             var permission = await _permissionCommon.CheckProjectPermissionByProjectId("CreatePersonnel", User, user.ProjectRef);
-            
+
             if (!permission)
             {
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
@@ -429,7 +429,8 @@ namespace Web.Areas.Admin.Controllers
             user.UserName = user.PersonnelCode ?? user.NationalCode;
 
             if (_userRepository
-                .Users.Where(m => !m.IsDeleted && (m.UserName == user.UserName || m.PersonnelCode == user.PersonnelCode || m.NationalCode == user.NationalCode || m.PhoneNumber == user.PhoneNumber)).FirstOrDefault() != null)
+                .Users.Where(m => !m.IsDeleted &&
+                (m.UserName == user.UserName || m.PersonnelCode == user.PersonnelCode || m.NationalCode == user.NationalCode || m.PhoneNumber == user.PhoneNumber || m.InsuranceCode == user.InsuranceCode)).FirstOrDefault() != null)
             {
                 _notify.Error("افزودن کاربر انجام نشد.");
 
@@ -459,6 +460,13 @@ namespace Web.Areas.Admin.Controllers
             if (!res.Succeeded && res.Errors.Any(m => m.Code == "DuplicateUserName"))
             {
                 model.UserName = model.PhoneNumber;
+
+                res = await _userManager.CreateAsync(model, model.PersonnelCode);
+            }
+
+            if (!res.Succeeded && res.Errors.Any(m => m.Code == "DuplicateUserName"))
+            {
+                model.UserName = Guid.NewGuid().ToString("N");
 
                 res = await _userManager.CreateAsync(model, model.PersonnelCode);
             }
