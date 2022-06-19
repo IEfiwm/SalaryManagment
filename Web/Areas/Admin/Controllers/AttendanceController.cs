@@ -246,7 +246,7 @@ namespace Web.Areas.Admin.Controllers
                 worksheet.Cells["BP1"].Value = "کسر بیمه تکمیلی ماه معوقه";
                 worksheet.Cells["BQ1"].Value = "کمک هزینه رفاهی";
                 worksheet.Cells["BR1"].Value = "کارایی";
-                worksheet.Cells["BS1"].Value = "مزایای ماهانه";
+                worksheet.Cells["BS1"].Value = "مزایای مشمول";
                 worksheet.Cells["BT1"].Value = "دستمزد و مزایای مشمول ماهانه";
                 worksheet.Cells["BU1"].Value = "مشمول و غیر مشمول";
                 worksheet.Cells["BV1"].Value = "بیمه بیکاری";
