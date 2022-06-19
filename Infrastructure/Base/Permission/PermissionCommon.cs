@@ -89,6 +89,7 @@ namespace Infrastructure.Base.Permission
 
             _resetCacheToken = new CancellationTokenSource();
         }
+
         public void RefreshPermission(ApplicationUser user)
         {
             var key = string.Format("menu_{0}", user.UserName);
@@ -96,6 +97,7 @@ namespace Infrastructure.Base.Permission
             _memoryCache.Remove(key);
 
         }
+
         public async Task<List<Menu>> GetMenuOfUser(ApplicationUser user)
         {
             var key = string.Format("menu_{0}", user.UserName);
@@ -211,7 +213,8 @@ namespace Infrastructure.Base.Permission
             /// 
             /// add 4 permission with role to project
             /// 
-            foreach (var item in new List<string> { "Show", "Create", "EditProject", "DeleteProject" })
+
+            foreach (var item in new List<string> { "Show", "ExportBank" , "ExportInsuranceList" , "CreateProjectRule", "ShowDoshboard", "PersonnelList" , "CreatePersonnel" , "ShowProjectRule" , "ImportAttendance" , "DeleteAttendance" , "ShowMonthlyAttendance", "DeleteMonthlyAttendance", "ShowContractList", "ShowAttendance", "ShowPayRollList", "ExportInsuranceSummary" , "ExportTaxList" , "ExportTaxSummary" , "EditProjectRule", "EditPersonnel" , "EditProject" , "Create" , "Update" , "Delete" , "DeleteProject" })
             {
                 var permission = await GetOrCreateByName(item);
 
@@ -228,8 +231,6 @@ namespace Infrastructure.Base.Permission
             }
             /// 
             return true;
-
-
         }
     }
 }

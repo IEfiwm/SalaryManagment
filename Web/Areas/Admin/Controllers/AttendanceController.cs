@@ -277,8 +277,5 @@ namespace Web.Areas.Admin.Controllers
                 return result;
             }
         }
-
-
-
     }
 }

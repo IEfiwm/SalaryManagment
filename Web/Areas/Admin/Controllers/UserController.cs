@@ -108,6 +108,9 @@ namespace Web.Areas.Admin.Controllers
         {
             var permission = await _permissionCommon.CheckProjectPermissionByProjectId("PersonnelList", User, projectId);
 
+            //if (User.IsInRole("SuperAdmin"))
+            //    permission = true;
+
             if (!permission)
             {
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
@@ -387,29 +390,6 @@ namespace Web.Areas.Admin.Controllers
             return RedirectToAction("Personnel");
         }
 
-        private async Task<IActionResult> EditGroupPersonnel(GroupEditViewModel dataModel, IEnumerable<UserViewModel> users)
-        {
-            foreach (var user in users)
-            {
-                var ouser = await _userRepository.GetUserByIdAsync(user.Id);
-
-                if (ouser is null)
-                    continue;
-
-                ouser.DailySalary = dataModel.DailySalary;
-                ouser.MonthlySalary = dataModel.MonthlySalary;
-                ouser.ChildrenRight = dataModel.ChildrenRight;
-                ouser.DailyBaseYear = dataModel.DailyBaseYear;
-                ouser.WorkerRight = dataModel.WorkerRight;
-                ouser.MonthlyBaseYear = dataModel.MonthlyBaseYear;
-                ouser.FoodAndHouseRight = dataModel.FoodAndHouseRight;
-
-                await _userRepository.SaveChangesAsync();
-            }
-
-            return Ok();
-        }
-
         [HttpGet]
         public async Task<IActionResult> CreatePersonnel()
         {
@@ -423,9 +403,11 @@ namespace Web.Areas.Admin.Controllers
         public async Task<IActionResult> CreatePersonnel(UserViewModel user)
         {
             var permission = await _permissionCommon.CheckProjectPermissionByProjectId("CreatePersonnel", User, user.ProjectRef);
+
             if (!permission)
             {
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
+
                 return RedirectToAction("Personnel");
             }
 
@@ -450,13 +432,14 @@ namespace Web.Areas.Admin.Controllers
             user.UserName = user.PersonnelCode ?? user.NationalCode;
 
             if (_userRepository
-                .Users.Where(m => m.UserName == user.UserName || m.PersonnelCode == user.PersonnelCode || m.NationalCode == user.NationalCode || m.PhoneNumber == user.PhoneNumber).FirstOrDefault() != null)
+                .Users.Where(m => !m.IsDeleted &&
+                (m.UserName == user.UserName || m.PersonnelCode == user.PersonnelCode || m.NationalCode == user.NationalCode || m.PhoneNumber == user.PhoneNumber || m.InsuranceCode == user.InsuranceCode)).FirstOrDefault() != null)
             {
                 _notify.Error("افزودن کاربر انجام نشد.");
 
                 _notify.Error("کاربر با این مشخصات در سیستم موجود می باشد.");
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Personnel");
             }
 
             ApplicationUser model = _mapper.Map<ApplicationUser>(user);
@@ -469,9 +452,39 @@ namespace Web.Areas.Admin.Controllers
 
             model.IsProfileCompleted = true;
 
+            model.EmailConfirmed = true;
+
+            model.PhoneNumberConfirmed = true;
+
             model.UserType = Common.Enums.UserType.PublicUser;
 
             var res = await _userManager.CreateAsync(model, model.PersonnelCode);
+
+            if (!res.Succeeded && res.Errors.Any(m => m.Code == "DuplicateUserName"))
+            {
+                model.UserName = model.PhoneNumber;
+
+                res = await _userManager.CreateAsync(model, model.PersonnelCode);
+            }
+
+            if (!res.Succeeded && res.Errors.Any(m => m.Code == "DuplicateUserName"))
+            {
+                model.UserName = Guid.NewGuid().ToString("N");
+
+                res = await _userManager.CreateAsync(model, model.PersonnelCode);
+            }
+
+            if (!res.Succeeded)
+            {
+                foreach (var error in res.Errors)
+                {
+                    _notify.Error(error.Description);
+                }
+
+                _notify.Error("افزودن کاربر انجام نشد.");
+
+                return RedirectToAction("Personnel");
+            }
 
             //save files
             foreach (var data in user.AdditionalUserData)
@@ -491,8 +504,6 @@ namespace Web.Areas.Admin.Controllers
 
             await _additionalUserDateRepository.CreateByUserId(additionaluserModel, user.Id);
 
-
-
             if (res.Succeeded)
             {
                 await _userManager.AddToRoleAsync(model, Roles.User.ToString());
@@ -505,13 +516,13 @@ namespace Web.Areas.Admin.Controllers
 
                 if (user.Id is null)
                 {
-                    RedirectToAction("Index");
+                    RedirectToAction("Personnel");
                 }
 
-                return Redirect("/admin/user/edit?userId=" + user.Id);
+                return Redirect("/admin/user/editPersonnel?userId=" + user.Id);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Personnel");
         }
 
         public async Task<IActionResult> Delete(string userId)
@@ -700,6 +711,50 @@ namespace Web.Areas.Admin.Controllers
             return await _userRepository.GetLastPersonnelCode(projectId);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> EditPassword(PasswordViewModel passwordViewModel)
+        {
+            if (ModelState.IsValid && !string.IsNullOrEmpty(passwordViewModel.Password))
+            {
+                var ouser = await _userManager.FindByIdAsync(passwordViewModel.Id);
+
+                //var passwordValidator = new PasswordValidator<ApplicationUser>();
+
+                //var validPass = await passwordValidator.ValidateAsync(_userManager, ouser, "your password here");
+
+                if (passwordViewModel.Password == passwordViewModel.ConfirmPassword)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(ouser);
+
+                    var result = await _userManager.ResetPasswordAsync(ouser, token, passwordViewModel.ConfirmPassword);
+
+                    // await _userManager.RemovePasswordAsync(ouser);
+
+                    //await  _userManager.AddPasswordAsync(ouser, passwordViewModel.ConfirmPassword);
+
+                    //ouser.PasswordHash = _userManager.PasswordHasher.HashPassword(ouser, passwordViewModel.Password);
+
+                    //var result = await _userManager.UpdateAsync(ouser);
+
+                    //if (!result.Succeeded)
+                    //    _notify.Error("عملیات ویرایش رمز عبور با خطا مواجعه شد.");
+
+                    _notify.Success($"رمز عبور با موفقیت ویرایش شد.");
+                }
+                else
+                {
+                    _notify.Error("رمز عبور معتبر نیست.");
+
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                _notify.Error("درخواست معتبر نیست.");
+            }
+            return default;
+        }
+
         private object ExportToExcel(IEnumerable<UserViewModel> model)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -823,49 +878,27 @@ namespace Web.Areas.Admin.Controllers
             }
         }
 
-
-        [HttpPost]
-        public async Task<IActionResult> EditPassword(PasswordViewModel passwordViewModel)
+        private async Task<IActionResult> EditGroupPersonnel(GroupEditViewModel dataModel, IEnumerable<UserViewModel> users)
         {
-            if (ModelState.IsValid && !string.IsNullOrEmpty(passwordViewModel.Password))
+            foreach (var user in users)
             {
-                var ouser = await _userManager.FindByIdAsync(passwordViewModel.Id);
+                var ouser = await _userRepository.GetUserByIdAsync(user.Id);
 
-                //var passwordValidator = new PasswordValidator<ApplicationUser>();
+                if (ouser is null)
+                    continue;
 
-                //var validPass = await passwordValidator.ValidateAsync(_userManager, ouser, "your password here");
+                ouser.DailySalary = dataModel.DailySalary;
+                ouser.MonthlySalary = dataModel.MonthlySalary;
+                ouser.ChildrenRight = dataModel.ChildrenRight;
+                ouser.DailyBaseYear = dataModel.DailyBaseYear;
+                ouser.WorkerRight = dataModel.WorkerRight;
+                ouser.MonthlyBaseYear = dataModel.MonthlyBaseYear;
+                ouser.FoodAndHouseRight = dataModel.FoodAndHouseRight;
 
-                if (passwordViewModel.Password == passwordViewModel.ConfirmPassword)
-                {
-                    var token = await _userManager.GeneratePasswordResetTokenAsync(ouser);
-
-                    var result = await _userManager.ResetPasswordAsync(ouser, token, passwordViewModel.ConfirmPassword);
-
-                    // await _userManager.RemovePasswordAsync(ouser);
-
-                    //await  _userManager.AddPasswordAsync(ouser, passwordViewModel.ConfirmPassword);
-
-                    //ouser.PasswordHash = _userManager.PasswordHasher.HashPassword(ouser, passwordViewModel.Password);
-
-                    //var result = await _userManager.UpdateAsync(ouser);
-
-                    //if (!result.Succeeded)
-                    //    _notify.Error("عملیات ویرایش رمز عبور با خطا مواجعه شد.");
-
-                    _notify.Success($"رمز عبور با موفقیت ویرایش شد.");
-                }
-                else
-                {
-                    _notify.Error("رمز عبور معتبر نیست.");
-
-                }
-                return RedirectToAction("Index");
+                await _userRepository.SaveChangesAsync();
             }
-            else
-            {
-                _notify.Error("درخواست معتبر نیست.");
-            }
-            return default;
+
+            return Ok();
         }
 
         private async Task<DataTableViewModel<IEnumerable<UserViewModel>>> FilterUsers(long projectId, string key, int pageSize, byte pageNumber, EmployeeStatus? employeeStatus, Gender? gender, MilitaryService? militaryService, MaritalStatus? maritalStatus)

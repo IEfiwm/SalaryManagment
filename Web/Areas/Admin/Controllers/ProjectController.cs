@@ -17,7 +17,6 @@ namespace Web.Areas.Admin.Controllers
     [Authorize]
     public class ProjectController : BaseController<UserController>
     {
-
         private readonly IProjectRepository _projectRepository;
         private readonly IBankRepository _bankRepository;
         private readonly IBank_AccountRepository _bank_AccountRepository;
@@ -153,9 +152,7 @@ namespace Web.Areas.Admin.Controllers
                             }
                         }
                     }
-
                 }
-
 
                 var res = await _projectRepository.SaveChangesAsync();
 
@@ -179,12 +176,9 @@ namespace Web.Areas.Admin.Controllers
                 {
                     _notify.Success("عملیات با موفقیت انجام شد.");
                 }
-
-
             }
             catch (Exception x)
             {
-
                 _notify.Error("عملیات با خطا مواجعه شد.");
             }
 

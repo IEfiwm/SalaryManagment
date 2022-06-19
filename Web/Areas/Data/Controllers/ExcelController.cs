@@ -183,8 +183,8 @@ namespace Web.Areas.Attendance.Controllers
                                 JobTitle = row?.GetCell(12)?.ToString(),
                                 BankAccountRef = bankaccount,
                                 IncludedNumberOfChildren = Convert.ToByte(row?.GetCell(15)?.ToString()),
-                                DailySalary = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(17)?.ToString()))),
                                 NotIncludedNumberOfChildern = Convert.ToByte(row?.GetCell(16)?.ToString()),
+                                DailySalary = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(17)?.ToString()))),
                                 DailyBaseYear = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(18)?.ToString()))),
                                 FoodAndHouseRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(19)?.ToString()))),
                                 WorkerRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(20)?.ToString()))),
@@ -1733,7 +1733,7 @@ namespace Web.Areas.Attendance.Controllers
             if (stream == null)
                 return NotFound();
 
-            return File(stream, "application/octet-stream", "Karkard_temp.xlsx");
+            return File(stream, "application/octet-stream", "Karkard_Template.xlsx");
         }
 
         public IActionResult GetPersonnelTemplate()
@@ -1747,7 +1747,7 @@ namespace Web.Areas.Attendance.Controllers
             if (stream == null)
                 return NotFound();
 
-            return File(stream, "application/octet-stream", "Karkard_temp.xlsx");
+            return File(stream, "application/octet-stream", "Personnel_Template.xlsx");
         }
     }
 }
