@@ -96,6 +96,7 @@
                 <th>هزینه رفاهی</th>
                 <th>ایاب و ذهاب</th>
                 <th>کارکرد معوقه</th>
+                <th> هزینه لباس</th>
                 <th>وام موسسه</th>
                 <th>وام سامان</th>
                 <th>معوقه ایاب و ذهاب</th>
@@ -576,6 +577,13 @@
                         <div class="row">
                             <div class="col-sm">
                                 @String.Format("{0:n0}", Convert.ToInt32(attendance.DelayedTime.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance.ClothesPay.Split('.')[0]))
                             </div>
                         </div>
                     </td>

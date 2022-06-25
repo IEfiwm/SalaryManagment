@@ -156,6 +156,7 @@ namespace Web.Areas.Admin.Controllers
                     x.WelfareCostPay,
                     x.TransportationPay,
                     x.DelayedTime,
+                    x.ClothesPay,
                     x.InstitutionaLoan,
                     x.SamanLoan,
                     x.DelayedTransportationPay,
@@ -240,22 +241,23 @@ namespace Web.Areas.Admin.Controllers
                 worksheet.Cells["BJ1"].Value = "هزینه رفاهی";
                 worksheet.Cells["BK1"].Value = "ایاب و ذهاب";
                 worksheet.Cells["BL1"].Value = "کارکرد معوقه";
-                worksheet.Cells["BM1"].Value = "وام موسسه";
-                worksheet.Cells["BN1"].Value = "وام سامان";
-                worksheet.Cells["BO1"].Value = "معوقه ایاب و ذهاب";
-                worksheet.Cells["BP1"].Value = "کسر بیمه تکمیلی ماه معوقه";
-                worksheet.Cells["BQ1"].Value = "کمک هزینه رفاهی";
-                worksheet.Cells["BR1"].Value = "کارایی";
-                worksheet.Cells["BS1"].Value = "مزایای مشمول";
-                worksheet.Cells["BT1"].Value = "دستمزد و مزایای مشمول ماهانه";
-                worksheet.Cells["BU1"].Value = "مشمول و غیر مشمول";
-                worksheet.Cells["BV1"].Value = "بیمه بیکاری";
-                worksheet.Cells["BW1"].Value = "بیمه 30%";
-                worksheet.Cells["BX1"].Value = "بیمه سهم کارفرما";
-                worksheet.Cells["BY1"].Value = "مستمر - حقوق پایه بن و مسکن و حق اولاد";
-                worksheet.Cells["BZ1"].Value = "مستمر - حقوق پایه و پایه سنوات";
-                worksheet.Cells["CA1"].Value = "غیر مستمر - مشمول و غیر مشمول";
-                worksheet.Cells["CB1"].Value = "غیر مستمر - مشمول";
+                worksheet.Cells["BM1"].Value = "هزینه لباس";
+                worksheet.Cells["BN1"].Value = "وام موسسه";
+                worksheet.Cells["BO1"].Value = "وام سامان";
+                worksheet.Cells["BP1"].Value = "معوقه ایاب و ذهاب";
+                worksheet.Cells["BQ1"].Value = "کسر بیمه تکمیلی ماه معوقه";
+                worksheet.Cells["BR1"].Value = "کمک هزینه رفاهی";
+                worksheet.Cells["BS1"].Value = "کارایی";
+                worksheet.Cells["BT1"].Value = "مزایای مشمول";
+                worksheet.Cells["BU1"].Value = "دستمزد و مزایای مشمول ماهانه";
+                worksheet.Cells["BV1"].Value = "مشمول و غیر مشمول";
+                worksheet.Cells["BW1"].Value = "بیمه بیکاری";
+                worksheet.Cells["BX1"].Value = "بیمه 30%";
+                worksheet.Cells["BY1"].Value = "بیمه سهم کارفرما";
+                worksheet.Cells["BZ1"].Value = "مستمر - حقوق پایه بن و مسکن و حق اولاد";
+                worksheet.Cells["CA1"].Value = "مستمر - حقوق پایه و پایه سنوات";
+                worksheet.Cells["CB1"].Value = "غیر مستمر - مشمول و غیر مشمول";
+                worksheet.Cells["CC1"].Value = "غیر مستمر - مشمول";
 
 
                 worksheet.Cells["A2"].LoadFromCollection(Collection: NewModel, PrintHeaders: false, OfficeOpenXml.Table.TableStyles.Light13);

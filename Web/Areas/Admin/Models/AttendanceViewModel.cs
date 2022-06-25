@@ -190,6 +190,7 @@ namespace Web.Areas.Admin.Models
         public string Disparity { get; set; }
         public string Other02 { get; set; }
         public string Other01 { get; set; }
+        public string ClothesPay { get; set; }
     }
 
 }

@@ -191,6 +191,7 @@ namespace Domain.Entities.Porc
         public string Disparity { get; set; }
         public string Other02 { get; set; }
         public string Other01 { get; set; }
+        public string ClothesPay { get; set; }
 
     }
 }
