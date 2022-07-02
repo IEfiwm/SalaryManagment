@@ -18,13 +18,156 @@
                         </div>
                         <div class="col-12 mt-1">
                             <label class="form-label" for="inputPassword">پروژه</label>
-                            <select id="project" class="js-data-example-ajax form-control"  name="projectId" required>
+                            <select id="project" class="js-data-example-ajax form-control" name="projectId" required>
                                 <option selected>یک مورد را انتخاب کنید</option>
                             </select>
                         </div>
                         <div class="mt-3 col-12">
                             <button onclick="SubmitExcelForm()" class="btn btn-primary">صورت وضعیت</button>
                             <button onclick="SubmitPDFForm()" class="btn btn-primary">خلاصه وضعیت</button>
+                            <a href="#" class="btn btn-info rounded-circle mr-2" id="helpBtn"><span class="text-bold">i</span></a>
+                        </div>
+                        <div id="helptxt">
+                            <ul class="nav nav-tabs mt-3" role="tablist">
+                                <li class="nav-item active">
+                                    <a class="nav-link" data-toggle="tab" role="tab" href="#1">1</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" role="tab" href="#2">2</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" role="tab" href="#3">3 </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" role="tab" href="#4">4</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" role="tab" href="#5">5</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="1" role="tabpanel" aria-expanded="true">
+                                    <ul>
+                                        <li><b>فیلد های اجباری صورت وضعیت: </b></li>
+                                        <li>	تعداد اولاد	</li>
+                                        <li>	بیمه تامین اجتماعی	</li>
+                                        <li>	حق بن	</li>
+                                        <li>	جمع كسورات	</li>
+                                        <li>	كل حقوق و مزايا	</li>
+                                        <li>	اضافه کاری	</li>
+                                        <li>	بن کارگری	</li>
+                                        <li>	پایه سنوات	</li>
+                                        <li>	تعطیل کاری	</li>
+                                        <li>	حق اولاد	</li>
+                                        <li>	1حق ناهار	</li>
+                                        <li>	حق مسکن	</li>
+                                        <li>	حقوق پایه	</li>
+                                        <li>	خالص پرداختی	</li>
+                                        <li>	سایر کسور	</li>
+                                        <li>	شبکاری	</li>
+                                        <li>	کارکرد اضافه کاری	</li>
+                                        <li>	کارکرد تعطیل کاری	</li>
+                                        <li>	كاركرد حق غذا	</li>
+                                        <li>	کارکرد مدت کارکرد	</li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane" id="2" role="tabpanel" aria-expanded="false">
+                                    <ul>
+                                        <li><b>فیلد های اجباری صورت وضعیت: </b></li>
+                                        <li>	کارکرد شبکاری	</li>
+                                        <li>	ماليات	</li>
+                                        <li>	کارکرد ماموریت	</li>
+                                        <li>	ماموریت	</li>
+                                        <li>	کارکرد نوبت کاری	</li>
+                                        <li>	نوبت کاری	</li>
+                                        <li>	کسر بیمه تکمیلی	</li>
+                                        <li>	کارکرد پاداش	</li>
+                                        <li>	پاداش	</li>
+                                        <li>	سنوات	</li>
+                                        <li>	عیدی	</li>
+                                        <li>	اضافه کاری ثابت	</li>
+                                        <li>	کسر بیمه تکمیلی سرپرست	</li>
+                                        <li>	کسر بیمه تکمیلی افراد تحت تکفل	</li>
+                                        <li>	کسر بیمه تکمیلی افرادغیر تحت تکفل	</li>
+                                        <li>	هزینه رفاهی	</li>
+                                        <li>	ایاب و ذهاب	</li>
+                                        <li>	معوقه ایاب و ذهاب	</li>
+                                        <li>	کسر بیمه تکمیلی ماه معوقه	</li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane" id="3" role="tabpanel" aria-expanded="false">
+                                    <ul>
+                                        <li><b>فیلد های اجباری صورت وضعیت: </b></li>
+                                        <li>	کمک هزینه رفاهی	</li>
+                                        <li>	کارایی	</li>
+                                        <li>	رند حقوق	</li>
+                                        <li>	حق شیر	</li>
+                                        <li>	حق خواربار	</li>
+                                        <li>	مانده مرخصی	</li>
+                                        <li>	جمع مزایا	</li>
+                                        <li>	شماره بیمه	</li>
+                                        <li>	مزد روزانه	</li>
+                                        <li>	مزد ماهانه	</li>
+                                        <li>	ماخذ بیمه	</li>
+                                        <li>	مزایای مشمول	</li>
+                                        <li>	تاریخ شروع کار	</li>
+                                        <li>	تاریخ ترک کار	</li>
+                                        <li>	دستمزد و مزایای مشمول ماهانه	</li>
+                                        <li>	مشمول و غیر مشمول	</li>
+                                        <li>	حق بیمه سهم کارفرما	</li>
+                                        <li>	حق بیمه بیکاری	</li>
+                                        <li>	محل تولد	</li>
+                                        <li>	عیدی و پاداش	</li>
+                                        <li>	سنوات 	</li>
+                                        <li>	مرخصی	</li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane" id="4" role="tabpanel" aria-expanded="false">
+                                    <ul>
+                                        <li><b>فیلد های اجباری صورت وضعیت: </b></li>
+                                        <li>	بالاسری	</li>
+                                        <li>	عمر و حوادث	</li>
+                                        <li>	جمع	</li>
+                                        <li>	مشمول بیمه	</li>
+                                        <li>	بیمه 23%	</li>
+                                        <li>	جمع با بیمه	</li>
+                                        <li>	مالیات بر ارزش افزوده	</li>
+                                        <li>	جمع با ارزش افزوده	</li>
+                                        <li>	بیمه تکمیلی	</li>
+                                        <li>	ارزش افزوده بیمه	</li>
+                                        <li>	جمع کل	</li>
+                                        <li>	توضیحات	</li>
+                                        <li>	حسن انجام 10%	</li>
+                                        <li>	سپرده 5%	</li>
+                                        <li>	خالص	</li>
+                                        <li>	مجموع عیدی و سنوات و مرخصی	</li>
+                                        <li>	خالص پرداختی بدون عیدی و سنوات و مرخصی	</li>
+                                    </ul>
+                                </div>
+
+                                <div class="tab-pane" id="5" role="tabpanel" aria-expanded="false">
+                                    <ul>
+                                        <li><b>فیلد های اجباری خلاصه وضعیت: </b></li>
+                                        <li>	جمع حکم و عیدی و سنوات و مرخصی و بالاسری	</li>
+                                        <li>	کارکرد	</li>
+                                        <li>	بیمه 23 	</li>
+                                        <li>	ارزش افزوده	</li>
+                                        <li>	ناخالص كاركرد	</li>
+                                        <li>	حسن انجام 10 	</li>
+                                        <li>	استرداد حسن انجام	</li>
+                                        <li>	مانده حسن انجام	</li>
+                                        <li>	سپرده 5 	</li>
+                                        <li>	استرداد بیمه	</li>
+                                        <li>	مانده بیمه	</li>
+                                        <li>	جمع كسور	</li>
+                                        <li>	خالص	</li>
+                                        <li>	علي الحساب دریافتی	</li>
+                                        <li>	مجموع عیدی و سنوات و مرخصی	</li>
+                                        <li>	دریافتی مانده ماه قبل در ماه جاری	</li>
+                                    </ul>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -32,6 +175,9 @@
         </div>
     </div>
 </form>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.0.8/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 <script>
     function SubmitExcelForm(){
         $('#form').attr('action', "/Export/ProjectStatus/Excel").submit();
@@ -39,6 +185,17 @@
     function SubmitPDFForm(){
         $('#form').attr('action', "/Export/ProjectStatus/PDF").submit();
     }
+    $("#helpBtn").click(function ()
+     {
+        $("#helptxt").slideToggle(100);
+    });
+
+    $(document).ready(function(){
+        $("#helptxt").slideUp();
+    });
+
+
+
     //$.ajax({
     //    url: "/admin/project/getlist",
     //    method: "GET",

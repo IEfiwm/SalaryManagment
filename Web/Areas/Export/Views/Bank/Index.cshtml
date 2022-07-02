@@ -25,6 +25,16 @@
                         <div class="mt-3 col-12">
                             <button onclick="SubmitTXTForm()" class="btn btn-primary">تولید فایل TXT</button>
                             <button onclick="SubmitPDFForm()" class="btn btn-primary">تولید فایل PDF</button>
+                            <a href="#" class="btn btn-info rounded-circle mr-2" id="helpBtn"><span class="text-bold">i</span></a>
+                        </div>
+                        <div id="helptxt">
+                            <p>
+                                <ul>
+                                    <li><b>فیلد های اجباری: </b></li>
+                                    <li>	پرداختی	</li>
+                                    <li>	شماره حساب	</li>
+                                </ul>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -32,6 +42,7 @@
         </div>
     </div>
 </form>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
     function SubmitTXTForm(){
         $('#form').attr('action', "/Export/Bank/TXT").submit();
@@ -40,7 +51,14 @@
         $('#form').attr('action', "/Export/Bank/PDF").submit();
     }
     
+    $("#helpBtn").click(function ()
+     {
+        $("#helptxt").slideToggle(100);
+    });
 
+    $(document).ready(function(){
+        $("#helptxt").slideUp();
+    });
 </script>
 @section Scripts{
 <script>

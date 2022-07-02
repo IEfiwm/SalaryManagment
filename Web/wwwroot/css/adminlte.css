@@ -32422,3 +32422,13 @@ a.text-muted:hover {
         transform: rotate(0deg);
     }
 }
+
+#helpBtn,
+#helpBtn1
+{
+    width:40px;
+}
+#helptxt, helptxt1
+{
+    width:100%;
+}

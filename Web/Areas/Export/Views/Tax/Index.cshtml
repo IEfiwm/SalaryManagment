@@ -32,6 +32,25 @@
                             <button onclick="SubmitTXTWPForm()" class="btn btn-primary">تولید فایل TXT (WP)</button>
                             <button onclick="SubmitTXTWHForm()" class="btn btn-primary">تولید فایل TXT (WH)</button>
                             <button onclick="SubmitPDFForm()" class="btn btn-primary">تولید فایل PDF</button>
+                            <a href="#" class="btn btn-info rounded-circle mr-2" id="helpBtn"><span class="text-bold">i</span></a>
+                        </div>
+                        <div id="helptxt">
+                            <p>
+                                <ul>
+                                    <li><b>فیلد های اجباری: </b></li>
+                                    <li>	جمع مزایا	</li>
+                                    <li>	مزایای مشمول	</li>
+                                    <li>	ماليات	</li>
+                                    <li>	مستمر - حقوق پایه بن و مسکن و حق اولاد	</li>
+                                    <li>	مستمر - حقوق پایه و پایه سنوات	</li>
+                                    <li>	غیر مستمر - مشمول و غیر مشمول	</li>
+                                    <li>	غیر مستمر - مشمول	</li>
+                                    <li>	جمع مزایا سال جاری	</li>
+                                    <li>	مالیات سال جاری	</li>
+                                    <li>	مزایای مشمول سال جاری	</li>
+                                </ul>
+                            </p>
+
                         </div>
                     </div>
                 </div>
@@ -39,6 +58,7 @@
         </div>
     </div>
 </form>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
     function SubmitTXTWPForm() {
         $('#form').attr('action', "/Export/tax/TXTWP").submit();
@@ -49,20 +69,27 @@
     function SubmitPDFForm() {
         $('#form').attr('action', "/Export/tax/PDF").submit();
     }
+    $("#helpBtn").click(function ()
+     {
+        $("#helptxt").slideToggle(100);
+    });
 
+    $(document).ready(function(){
+        $("#helptxt").slideUp();
+    });
 </script>
 @section Scripts{
-    <script>
+<script>
 
-        $.ajax({
-            url: "/admin/project/getlist?permissionName=ExportTaxSummary",
-            method: "GET",
-            success: function (model) {
-                $.map(model, function (val, i) {
-                    console.log(val);
-                    $("#project").append('<option value="' + val.id + '">' + val.title + ' ( ' + val.workshopName + ' ) ' + '</option>');
-                });
-            }
-        })
-    </script>
+    $.ajax({
+        url: "/admin/project/getlist?permissionName=ExportTaxSummary",
+        method: "GET",
+        success: function (model) {
+            $.map(model, function (val, i) {
+                console.log(val);
+                $("#project").append('<option value="' + val.id + '">' + val.title + ' ( ' + val.workshopName + ' ) ' + '</option>');
+            });
+        }
+    })
+</script>
 }
