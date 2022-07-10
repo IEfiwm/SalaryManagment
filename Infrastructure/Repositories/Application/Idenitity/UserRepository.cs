@@ -158,5 +158,9 @@ namespace Infrastructure.Repositories.Application.Idenitity
         {
             return (await _userManager.Users.Where(m => projecId == default(long) || m.ProjectRef == projecId).OrderByDescending(m => m.CreateDate).FirstOrDefaultAsync()).PersonnelCode;
         }
+        public async Task<ApplicationUser> GetUserByNationalCode(string nationalCode)
+        {
+            return  await _userManager.Users.FirstOrDefaultAsync(m => m.NationalCode == nationalCode);
+        }
     }
 }

@@ -28,6 +28,12 @@ using Web.Abstractions;
 using Web.Areas.Admin.Models;
 using Web.Areas.Dashboard.Models;
 using Application.Extensions;
+using Application.Extensions.DataConversion;
+using NPOI.HSSF.UserModel;
+using NPOI.XSSF.UserModel;
+using NPOI.SS.UserModel;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Web.Areas.Admin.Controllers
 {
@@ -45,6 +51,7 @@ namespace Web.Areas.Admin.Controllers
         private readonly IFileRepository _fileRepository;
         private readonly IBankRepository _bankRepository;
         private readonly IUser_RoleRepository _user_RoleRepository;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
         public UserController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -55,7 +62,8 @@ namespace Web.Areas.Admin.Controllers
             IDocumentRepository documentRepository,
             IFileRepository fileRepository,
             IBankRepository bankRepository,
-            IUser_RoleRepository user_RoleRepository)
+            IUser_RoleRepository user_RoleRepository,
+            IWebHostEnvironment hostingEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -67,6 +75,7 @@ namespace Web.Areas.Admin.Controllers
             _fileRepository = fileRepository;
             _bankRepository = bankRepository;
             _user_RoleRepository = user_RoleRepository;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public IActionResult Index()
@@ -755,6 +764,199 @@ namespace Web.Areas.Admin.Controllers
             return default;
         }
 
+
+        [HttpPost]
+        public async Task<bool> ImportEditPersonnel(long projectId)
+        {
+            try
+            {
+                var permission = await _permissionCommon.CheckProjectPermissionByProjectId("EditGroupPersonnel", User, projectId);
+                if (!permission)
+                {
+                    _notify.Error(_localizer["AccessDeniedProject"].Value);
+                    return false;
+                }
+
+                IFormFile file = Request.Form.Files[0];
+
+                string folderName = "UploadExcel";
+
+                string webRootPath = _hostingEnvironment.WebRootPath;
+
+                string newPath = Path.Combine(webRootPath, folderName);
+
+                if (!Directory.Exists(newPath))
+                {
+                    Directory.CreateDirectory(newPath);
+                }
+
+                if (file.Length > 0)
+                {
+                    string sFileExtension = Path.GetExtension(file.FileName).ToLower();
+
+                    ISheet sheet;
+
+                    string fullPath = Path.Combine(newPath, file.FileName);
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+
+                        stream.Position = 0;
+
+                        if (sFileExtension == ".xls")
+                        {
+                            HSSFWorkbook hssfwb = new HSSFWorkbook(stream); //This will read the Excel 97-2000 formats  
+
+                            sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook  
+                        }
+
+                        else
+                        {
+                            XSSFWorkbook hssfwb = new XSSFWorkbook(stream); //This will read 2007 Excel format  
+
+                            sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook   
+                        }
+
+                        var list = new List<GroupEditViewModel>();
+
+
+                        for (int j = 1; j < sheet.LastRowNum + 1; j++)
+                        {
+                            var row = sheet.GetRow(j);
+
+                            var model = new GroupEditViewModel();
+
+
+                            if (string.IsNullOrEmpty(row?.GetCell(0)?.ToString()))
+                                continue;
+
+
+                            if (!DataConversion.Convert<decimal>(row?.GetCell(0)?.ToString(), out decimal nationalCode))
+                            {
+                                _notify.Error("قالب داده صحیح نیست : کد ملی ردیف: " + j);
+                                return false;
+                            }
+
+                            model.NationalCode = row?.GetCell(0)?.ToString();
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(1)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(1)?.ToString(), out int monthlyBaseYear))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : پایه سنوات ردیف: " + j);
+                                    return false;
+                                }
+                                model.MonthlyBaseYear = monthlyBaseYear;
+                            }
+                            else
+                            {
+                                model.MonthlyBaseYear = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(2)?.ToString()))
+                            {
+
+                                if (!DataConversion.Convert<int>(row?.GetCell(2)?.ToString(), out int monthlySalary))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : حقوق ماهانه ردیف: " + j);
+                                    return false;
+                                }
+                                model.MonthlySalary = monthlySalary;
+                            }
+                            else
+                            {
+                                model.MonthlySalary = 0;
+                            }
+
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(3)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(3)?.ToString(), out int childrenRight))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : حق اولاد ردیف: " + j);
+                                    return false;
+                                }
+                                model.ChildrenRight = childrenRight;
+                            }
+                            else
+                            {
+                                model.ChildrenRight = 0;
+                            }
+
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(4)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(4)?.ToString(), out int workerRight))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : بن کارگر ردیف: " + j);
+                                    return false;
+                                }
+                                model.WorkerRight = workerRight;
+                            }
+                            else
+                            {
+                                model.WorkerRight = 0;
+                            }
+
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(5)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(5)?.ToString(), out int foodAndHouseRight))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : بن غذا و مسکن ردیف: " + j);
+                                    return false;
+                                }
+                                model.FoodAndHouseRight = foodAndHouseRight;
+                            }
+                            else
+                            {
+                                model.FoodAndHouseRight = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(6)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(6)?.ToString(), out int dailyBaseYear))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : پایه سنوات روزانه ردیف: " + j);
+                                    return false;
+                                }
+                                model.DailyBaseYear = dailyBaseYear;
+                            }
+                            else
+                            {
+                                model.DailyBaseYear = 0;
+                            }
+
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(7)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(7)?.ToString(), out int dailySalary))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : حقوق روزانه ردیف: " + j);
+                                    return false;
+                                }
+                                model.DailySalary = dailySalary;
+                            }
+                            else
+                            {
+                                model.DailySalary = 0;
+                            }
+                            list.Add(model);
+
+                        }
+                        if (list.Count > 0)
+                            await EditGroupPersonnel(list);
+                    }
+                }
+                return true;
+            }
+            catch (Exception x)
+            {
+                return false;
+            }
+        }
+
         private object ExportToExcel(IEnumerable<UserViewModel> model)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -883,6 +1085,29 @@ namespace Web.Areas.Admin.Controllers
             foreach (var user in users)
             {
                 var ouser = await _userRepository.GetUserByIdAsync(user.Id);
+
+                if (ouser is null)
+                    continue;
+
+                ouser.DailySalary = dataModel.DailySalary;
+                ouser.MonthlySalary = dataModel.MonthlySalary;
+                ouser.ChildrenRight = dataModel.ChildrenRight;
+                ouser.DailyBaseYear = dataModel.DailyBaseYear;
+                ouser.WorkerRight = dataModel.WorkerRight;
+                ouser.MonthlyBaseYear = dataModel.MonthlyBaseYear;
+                ouser.FoodAndHouseRight = dataModel.FoodAndHouseRight;
+
+                await _userRepository.SaveChangesAsync();
+            }
+
+            return Ok();
+        }
+
+        private async Task<IActionResult> EditGroupPersonnel(List<GroupEditViewModel> dataModels)
+        {
+            foreach (var dataModel in dataModels)
+            {
+                var ouser = await _userRepository.GetUserByNationalCode(dataModel.NationalCode);
 
                 if (ouser is null)
                     continue;

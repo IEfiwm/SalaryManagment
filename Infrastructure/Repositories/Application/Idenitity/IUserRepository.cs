@@ -36,5 +36,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
         Task<int> SaveChangesAsync();
 
         Task<string> GetLastPersonnelCode(long projecId);
+
+        Task<ApplicationUser> GetUserByNationalCode(string nationalCode);
     }
 }

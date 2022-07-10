@@ -32,7 +32,7 @@ namespace Web.Areas.Attendance.Controllers
     [Authorize]
     public class ExcelController : BaseController<Imported>
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
         private readonly IimportedRepository _repository;
 
@@ -46,7 +46,7 @@ namespace Web.Areas.Attendance.Controllers
 
         private readonly IAttendanceRepository _attendanceRepository;
 
-        public ExcelController(IHostingEnvironment hostingEnvironment,
+        public ExcelController(IWebHostEnvironment hostingEnvironment,
             IimportedRepository repository,
             UserManager<ApplicationUser> userManager,
             IBankAccountRepository bankAccountRepository,
@@ -77,6 +77,12 @@ namespace Web.Areas.Attendance.Controllers
 
         [HttpGet]
         public IActionResult Personnel()
+        {
+            return View();
+        }  
+        
+        [HttpGet]
+        public IActionResult EditPersonnel()
         {
             return View();
         }
@@ -1748,6 +1754,19 @@ namespace Web.Areas.Attendance.Controllers
                 return NotFound();
 
             return File(stream, "application/octet-stream", "Personnel_Template.xlsx");
+        }
+        public IActionResult GetEditPersonnelTemplate()
+        {
+            string webRootPath = _hostingEnvironment.WebRootPath;
+
+            string path = Path.Combine(webRootPath, "Files/Template/EditPersonnel_Template.xlsx");
+
+            var stream = new FileStream(path, FileMode.Open);
+
+            if (stream == null)
+                return NotFound();
+
+            return File(stream, "application/octet-stream", "EditPersonnel_Template.xlsx");
         }
     }
 }
