@@ -192,5 +192,4 @@ namespace Web.Areas.Admin.Models
         public string Other01 { get; set; }
         public string ClothesPay { get; set; }
     }
-
 }

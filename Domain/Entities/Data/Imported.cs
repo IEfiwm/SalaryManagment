@@ -215,6 +215,7 @@ namespace Domain.Entities.Data
 
         public string RecievedRemainedPastMonth { get; set; }
 
+        public bool IsPublic { get; set; } = false;
 
         public long? ProjectRef { get; set; }
 
