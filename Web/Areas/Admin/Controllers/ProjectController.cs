@@ -1,6 +1,7 @@
 ﻿using Domain.Entities.Basic;
 using Infrastructure.Base.Permission;
 using Infrastructure.Repositories;
+using Infrastructure.Repositories.Application;
 using Infrastructure.Repositories.Application.Basic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ namespace Web.Areas.Admin.Controllers
         private readonly IProjectBankAccountRepository _projectBankAccountRepository;
         private readonly IPermissionCommon _permissionCommon;
         private readonly IFileRepository _fileRepository;
+        private readonly IimportedRepository _iimportedRepository;
 
         public ProjectController(
             IProjectRepository projectRepository,
@@ -30,7 +32,8 @@ namespace Web.Areas.Admin.Controllers
             IBank_AccountRepository bank_AccountRepository,
             IProjectBankAccountRepository projectBankAccountRepository,
             IPermissionCommon permissionCommon,
-            IFileRepository fileRepository)
+            IFileRepository fileRepository,
+            IimportedRepository iimportedRepository)
         {
             _projectRepository = projectRepository;
             _bankRepository = bankRepository;
@@ -38,6 +41,7 @@ namespace Web.Areas.Admin.Controllers
             _projectBankAccountRepository = projectBankAccountRepository;
             _permissionCommon = permissionCommon;
             _fileRepository = fileRepository;
+            _iimportedRepository = iimportedRepository;
         }
 
         public IActionResult Index()
@@ -228,6 +232,22 @@ namespace Web.Areas.Admin.Controllers
             var image = System.IO.File.OpenRead(model.ThumbPath);
 
             return File(image, "image/jpeg");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SetPayrollAccess()
+        {
+            return View("SetAccess");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetAccess(SetAccessViewModel model)
+        {
+            await _iimportedRepository.SetPayrollAccessAsync(model.ProjectId, model.Year, model.Month);
+
+            _notify.Success("دسترسی ثبت شد.");
+
+            return RedirectToAction("Index");
         }
     }
 }

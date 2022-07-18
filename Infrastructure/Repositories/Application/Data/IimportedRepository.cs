@@ -17,5 +17,7 @@ namespace Infrastructure.Repositories.Application
         Task<DataTableDTO<IEnumerable<Domain.Entities.Porc.Attendance>>> GetUserAttendanceListAsync(int year, int month, long projectId, string key, int pageSize, int pageNumber);
 
         Task<bool> DeleteByIdAsync(long importedId);
+
+        Task SetPayrollAccessAsync(int projectId, int year, int month);
     }
 }

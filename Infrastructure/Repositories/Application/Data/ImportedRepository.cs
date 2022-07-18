@@ -83,5 +83,18 @@ namespace Infrastructure.Repositories.Application
         {
             return Model.Where(x => x.Year == year && x.Month == month && userlist.Contains(x.NationalCode)).ToList();
         }
+
+        public async Task SetPayrollAccessAsync(int projectId, int year, int month)
+        {
+            var model = await Model
+                .Where(m => !m.IsDeleted && m.Year == year.ToString() && m.Month == month.ToString() && m.ProjectRef == projectId).ToListAsync();
+
+            model.ForEach(m =>
+            {
+                m.IsPublic = true;
+            });
+
+            await SaveChangesAsync();
+        }
     }
 }
