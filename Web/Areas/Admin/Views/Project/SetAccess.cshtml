@@ -1,5 +1,69 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Web.Areas.Admin.Models
+@using Common.Enums
+@model ProjectRuleViewModel
 @{
+    ViewBag.Title = "تعیین دسترسی";
+}
+<link href="~/css/DraggerProjectRule.css" rel="stylesheet" />
+
+<form id="form" method="POST" action="SetAccess">
+    <div class="row justify-content-center">
+        <div class="col-12 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mt-3">
+                            <label class="form-label" for="ProjectId">پروژه</label>
+                            <select id="project" class="js-data-example-ajax form-control" name="ProjectId" required>
+                            </select>
+                        </div>
+                        <div class="col-2 mt-3">
+                            <label class="form-label" for="Year">سال</label>
+                             <input type="text" name="Year" id="Year" maxlength="10" class="form-control floatTextBox w-100" />
+                        </div>
+                        <div class="col-2 mt-3">
+                            <label class="form-label" for="Month">ماه</label>
+                             <input type="text" name="Month" id="Month" maxlength="10" class="form-control floatTextBox w-100" />
+                        </div>
+                        <div class="col-2 mt-3">
+                            <label class="form-label" for="AccessType">دسترسی</label>
+                            <select id="AccessType" class="js-data-example-ajax form-control" name="AccessType" required>
+                                <option value="true">مجاز</option>
+                                <option value="false">مسدود</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-3 mb-5">
+                <div class="mt-6 col-12 text-right">
+                    <button type="submit" class="btn btn-primary">ذخیره</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts
+    {
+    <script src="~/js/site.js"></script>
+    <script src="~/lib/jquery/jquery-ui.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/js/ProjectRule/ProjectRule.js"></script>
+    <script>
+
+        $.ajax({
+        url: "/admin/project/getlist",
+        method: "GET",
+        success: function (model){
+            //console.log(parseJSON(model));
+            $.map( model, function( val, i ) {
+                console.log(val);
+                $("#project").append('<option value="' + val.id + '">' + val.title + ' ( ' + val.workshopName + ' ) ' + '</option>');
+            });
+            //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');
+            //$("#project").select2();
+        }
+    })
+</script>
 }

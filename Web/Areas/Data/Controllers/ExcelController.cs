@@ -40,6 +40,8 @@ namespace Web.Areas.Attendance.Controllers
 
         private readonly IBankAccountRepository _bankAccountRepository;
 
+        private readonly IBankRepository _bankRepository;
+
         private readonly IProjectRepository _projectRepository;
 
         private readonly IUserRepository _userRepository;
@@ -52,7 +54,8 @@ namespace Web.Areas.Attendance.Controllers
             IBankAccountRepository bankAccountRepository,
             IProjectRepository projectRepository,
             IUserRepository userRepository,
-            IAttendanceRepository attendanceRepository)
+            IAttendanceRepository attendanceRepository,
+            IBankRepository bankRepository)
         {
             _hostingEnvironment = hostingEnvironment;
             _repository = repository;
@@ -61,6 +64,7 @@ namespace Web.Areas.Attendance.Controllers
             _projectRepository = projectRepository;
             _userRepository = userRepository;
             _attendanceRepository = attendanceRepository;
+            _bankRepository = bankRepository;
         }
 
         [HttpGet]
@@ -79,8 +83,8 @@ namespace Web.Areas.Attendance.Controllers
         public IActionResult Personnel()
         {
             return View();
-        }  
-        
+        }
+
         [HttpGet]
         public IActionResult EditPersonnel()
         {
@@ -158,17 +162,26 @@ namespace Web.Areas.Attendance.Controllers
 
                             var birth = row?.GetCell(6)?.ToString().Split("/");
 
+                            string bankName = row?.GetCell(16)?.ToString().Trim();
+
+                            if (string.IsNullOrEmpty(bankName))
+                            {
+                                _notify.Error($@"نام بانک در {personnelCode} نا مشخص است یا در سیستم موجود نیست.");
+                                return false;
+                            }
+
+                            var bank = await _bankRepository.Model.Where(m => m.Title == bankName).FirstOrDefaultAsync();
+
                             var bankaccount = await _bankAccountRepository.InsertAndSaveAsync(new BankAccount
                             {
                                 AccountNumber = row?.GetCell(13)?.ToString(),
-                                Title = row?.GetCell(14)?.ToString(),
+                                Title = row?.GetCell(16)?.ToString(),
+                                iBan = row?.GetCell(14)?.ToString(),
                                 IsDeleted = false,
+                                BankId = bank.Id,
                                 CreatedByRef = _userManager.Users.Where(m => m.UserName == "user").FirstOrDefault().Id,
                                 CreatedDate = DateTime.Now,
                             });
-
-                            //if (personnelCode == "120110")
-                            //    personnelCode = "120110";
 
                             var user = new ApplicationUser
                             {
@@ -188,28 +201,28 @@ namespace Web.Areas.Attendance.Controllers
                                 DegreeOfEducation = row?.GetCell(11)?.ToString(),
                                 JobTitle = row?.GetCell(12)?.ToString(),
                                 BankAccountRef = bankaccount,
-                                IncludedNumberOfChildren = Convert.ToByte(row?.GetCell(15)?.ToString()),
-                                NotIncludedNumberOfChildern = Convert.ToByte(row?.GetCell(16)?.ToString()),
-                                DailySalary = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(17)?.ToString()))),
-                                DailyBaseYear = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(18)?.ToString()))),
-                                FoodAndHouseRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(19)?.ToString()))),
-                                WorkerRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(20)?.ToString()))),
-                                ChildrenRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(21)?.ToString()))),
-                                MonthlySalary = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(22)?.ToString()))),
-                                MonthlyBaseYear = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(23)?.ToString()))),
-                                Address = row?.GetCell(24)?.ToString(),
-                                ZipCode = row?.GetCell(25)?.ToString(),
-                                PhoneNumber = row?.GetCell(26)?.ToString(),
-                                InsuranceHistory = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(27)?.ToString()))),
-                                WorkExperience = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(28)?.ToString()))),
-                                MaritalStatus = EnumHelper<MaritalStatus>.Parse(row?.GetCell(29)?.ToString()),
-                                MilitaryService = EnumHelper<MilitaryService>.Parse(row?.GetCell(30)?.ToString()),
-                                EmployeeStatus = EnumHelper<EmployeeStatus>.Parse(row?.GetCell(31)?.ToString()),
-                                JobCode = row?.GetCell(32)?.ToString(),
-                                Gender = EnumHelper<Gender>.Parse(row?.GetCell(33)?.ToString()),
-                                HireDate = row?.GetCell(34)?.ToString() == null || row?.GetCell(34)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(34)?.ToString()),
-                                StartWorkingDate = row?.GetCell(35)?.ToString() == null || row?.GetCell(35)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(35)?.ToString()),
-                                EndWorkingDate = row?.GetCell(36)?.ToString() == null || row?.GetCell(36)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(36)?.ToString()),
+                                IncludedNumberOfChildren = Convert.ToByte(row?.GetCell(16)?.ToString()),
+                                NotIncludedNumberOfChildern = Convert.ToByte(row?.GetCell(17)?.ToString()),
+                                DailySalary = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(18)?.ToString()))),
+                                DailyBaseYear = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(19)?.ToString()))),
+                                FoodAndHouseRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(20)?.ToString()))),
+                                WorkerRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(21)?.ToString()))),
+                                ChildrenRight = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(22)?.ToString()))),
+                                MonthlySalary = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(23)?.ToString()))),
+                                MonthlyBaseYear = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(24)?.ToString()))),
+                                Address = row?.GetCell(25)?.ToString(),
+                                ZipCode = row?.GetCell(26)?.ToString(),
+                                PhoneNumber = row?.GetCell(27)?.ToString(),
+                                InsuranceHistory = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(28)?.ToString()))),
+                                WorkExperience = Convert.ToInt32(Math.Round(Convert.ToDouble(row?.GetCell(29)?.ToString()))),
+                                MaritalStatus = EnumHelper<MaritalStatus>.Parse(row?.GetCell(30)?.ToString()),
+                                MilitaryService = EnumHelper<MilitaryService>.Parse(row?.GetCell(31)?.ToString()),
+                                EmployeeStatus = EnumHelper<EmployeeStatus>.Parse(row?.GetCell(32)?.ToString()),
+                                JobCode = row?.GetCell(33)?.ToString(),
+                                Gender = EnumHelper<Gender>.Parse(row?.GetCell(34)?.ToString()),
+                                HireDate = row?.GetCell(35)?.ToString() == null || row?.GetCell(35)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(35)?.ToString()),
+                                StartWorkingDate = row?.GetCell(36)?.ToString() == null || row?.GetCell(36)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(36)?.ToString()),
+                                EndWorkingDate = row?.GetCell(37)?.ToString() == null || row?.GetCell(37)?.ToString() == "" ? null : Convert.ToDateTime(row?.GetCell(37)?.ToString()),
                                 IsDeleted = false,
                                 IsActive = true,
                                 IsProfileCompleted = true,
@@ -1456,14 +1469,14 @@ namespace Web.Areas.Attendance.Controllers
 
                             if (!string.IsNullOrEmpty(row?.GetCell(4)?.ToString()))
                             {
-                                model.ServiceLocation =row?.GetCell(4)?.ToString();
+                                model.ServiceLocation = row?.GetCell(4)?.ToString();
                             }
- 
+
                             if (!string.IsNullOrEmpty(row?.GetCell(5)?.ToString()))
                             {
-                                model.ServiceProvince =row?.GetCell(5)?.ToString();
+                                model.ServiceProvince = row?.GetCell(5)?.ToString();
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(6)?.ToString()))
                             {
 
@@ -1478,7 +1491,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.WorkingDays = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(7)?.ToString()))
                             {
 
@@ -1493,7 +1506,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.ShiftWorkPercentage = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(8)?.ToString()))
                             {
 
@@ -1596,7 +1609,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.MissionTime = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(15)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(15)?.ToString(), out int missionTime))
@@ -1625,7 +1638,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.FridayWorkDays = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(17)?.ToString()))
                             {
 
@@ -1641,7 +1654,7 @@ namespace Web.Areas.Attendance.Controllers
                                 model.TransferWorkDays = 0;
                             }
 
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(18)?.ToString()))
                             {
 
@@ -1714,7 +1727,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.AbsenceTime = 0;
                             }
-                                                       
+
                             if (!string.IsNullOrEmpty(row?.GetCell(23)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(23)?.ToString(), out int outV))
@@ -1742,7 +1755,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.FixedHolidayPay = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(25)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(25)?.ToString(), out int outV))
@@ -1757,7 +1770,7 @@ namespace Web.Areas.Attendance.Controllers
                                 model.Performance = 0;
                             }
 
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(26)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(26)?.ToString(), out int outV))
@@ -1771,7 +1784,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.FoodPay = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(27)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(27)?.ToString(), out int outV))
@@ -1785,7 +1798,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.FixedTransferPay = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(28)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(28)?.ToString(), out int outV))
@@ -1800,7 +1813,7 @@ namespace Web.Areas.Attendance.Controllers
                                 model.FixedAmenitiesPay = 0;
                             }
 
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(29)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(29)?.ToString(), out int outV))
@@ -1814,7 +1827,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherIncludeInsuranceAndTax = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(30)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(30)?.ToString(), out int outV))
@@ -1828,7 +1841,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherIncludeInsuranceAndNotIncludeTax = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(31)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(31)?.ToString(), out int outV))
@@ -1842,7 +1855,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherNotIncludeInsuranceAndIncludeTax = 0;
                             }
-                                                        
+
                             if (!string.IsNullOrEmpty(row?.GetCell(32)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(32)?.ToString(), out int outV))
@@ -1856,7 +1869,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherNotIncludeInsuranceAndTax = 0;
                             }
-                                                      
+
                             if (!string.IsNullOrEmpty(row?.GetCell(33)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(33)?.ToString(), out int outV))
@@ -1870,7 +1883,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.Reward = 0;
                             }
-                                                      
+
                             if (!string.IsNullOrEmpty(row?.GetCell(34)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(34)?.ToString(), out int outV))
@@ -2065,7 +2078,7 @@ namespace Web.Areas.Attendance.Controllers
                             else
                             {
                                 model.Loan = 0;
-                            } 
+                            }
 
                             if (!string.IsNullOrEmpty(row?.GetCell(48)?.ToString()))
                             {
@@ -2080,7 +2093,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.SupplementaryInsurance = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(49)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(49)?.ToString(), out int outV))
@@ -2095,7 +2108,7 @@ namespace Web.Areas.Attendance.Controllers
                                 model.SupplementaryInsuranceChildren = 0;
                             }
 
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(50)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(50)?.ToString(), out int outV))
@@ -2109,7 +2122,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.CourtOrderDeductions = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(51)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(51)?.ToString(), out int outV))
@@ -2123,7 +2136,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.ViolationsDeductions = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(52)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(52)?.ToString(), out int outV))
@@ -2137,7 +2150,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherDeductions = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(53)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(53)?.ToString(), out int outV))
@@ -2151,7 +2164,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherDeductions1 = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(54)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(54)?.ToString(), out int outV))
@@ -2165,7 +2178,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherDeductions2 = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(55)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(55)?.ToString(), out int outV))
@@ -2179,7 +2192,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherDeductions3 = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(56)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(56)?.ToString(), out int outV))
@@ -2193,7 +2206,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherDeductions4 = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(57)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(57)?.ToString(), out int outV))
@@ -2207,7 +2220,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherDeductions5 = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(58)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(58)?.ToString(), out int outV))
@@ -2221,7 +2234,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherDeductions6 = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(59)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(59)?.ToString(), out int outV))
@@ -2235,7 +2248,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherDeductions7 = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(60)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(60)?.ToString(), out int outV))
@@ -2249,7 +2262,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherDeductions8 = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(61)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(61)?.ToString(), out int outV))
@@ -2263,7 +2276,7 @@ namespace Web.Areas.Attendance.Controllers
                             {
                                 model.OtherDeductions9 = 0;
                             }
-                            
+
                             if (!string.IsNullOrEmpty(row?.GetCell(62)?.ToString()))
                             {
                                 if (!DataConversion.Convert<int>(row?.GetCell(62)?.ToString(), out int outV))

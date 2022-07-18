@@ -243,7 +243,7 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> SetAccess(SetAccessViewModel model)
         {
-            await _iimportedRepository.SetPayrollAccessAsync(model.ProjectId, model.Year, model.Month);
+            await _iimportedRepository.SetPayrollAccessAsync(model.ProjectId, model.Year, model.Month, model.AccessType);
 
             _notify.Success("دسترسی ثبت شد.");
 

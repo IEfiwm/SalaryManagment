@@ -7,5 +7,7 @@
         public int Year { get; set; }
 
         public int Month { get; set; }
+
+        public bool AccessType { get; set; }
     }
 }

@@ -18,6 +18,6 @@ namespace Infrastructure.Repositories.Application
 
         Task<bool> DeleteByIdAsync(long importedId);
 
-        Task SetPayrollAccessAsync(int projectId, int year, int month);
+        Task SetPayrollAccessAsync(int projectId, int year, int month, bool accessType);
     }
 }
