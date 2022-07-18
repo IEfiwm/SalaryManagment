@@ -1456,103 +1456,216 @@ namespace Web.Areas.Attendance.Controllers
 
                             if (!string.IsNullOrEmpty(row?.GetCell(4)?.ToString()))
                             {
+                                model.ServiceLocation =row?.GetCell(4)?.ToString();
+                            }
+ 
+                            if (!string.IsNullOrEmpty(row?.GetCell(5)?.ToString()))
+                            {
+                                model.ServiceProvince =row?.GetCell(5)?.ToString();
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(6)?.ToString()))
+                            {
 
-                                if (!DataConversion.Convert<int>(row?.GetCell(4)?.ToString(), out int workingDays))
+                                if (!DataConversion.Convert<int>(row?.GetCell(6)?.ToString(), out int workingDays))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : کارکرد ردیف: " + j);
                                     return false;
                                 }
-                                model.WorkingDays = Convert.ToInt32(row?.GetCell(4)?.ToString());
+                                model.WorkingDays = Convert.ToInt32(row?.GetCell(6)?.ToString());
                             }
                             else
                             {
                                 model.WorkingDays = 0;
                             }
-
-                            if (!string.IsNullOrEmpty(row?.GetCell(5)?.ToString()))
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(7)?.ToString()))
                             {
 
-                                if (!DataConversion.Convert<int>(row?.GetCell(5)?.ToString(), out int overtimeworkingTime))
+                                if (!DataConversion.Convert<int>(row?.GetCell(7)?.ToString(), out int workingDays))
                                 {
-                                    _notify.Error("قالب داده صحیح نیست : اضافه کاری ردیف: " + j);
+                                    _notify.Error("قالب داده صحیح نیست : درصد نوبتکاری ردیف: " + j);
                                     return false;
                                 }
-                                model.OvertimeWorkingTime = Convert.ToInt32(row?.GetCell(5)?.ToString());
+                                model.ShiftWorkPercentage = Convert.ToInt32(row?.GetCell(7)?.ToString());
+                            }
+                            else
+                            {
+                                model.ShiftWorkPercentage = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(8)?.ToString()))
+                            {
+
+                                if (!DataConversion.Convert<int>(row?.GetCell(8)?.ToString(), out int workingDays))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : اضافه کاری عادی ردیف: " + j);
+                                    return false;
+                                }
+                                model.OvertimeWorking = Convert.ToInt32(row?.GetCell(8)?.ToString());
+                            }
+                            else
+                            {
+                                model.OvertimeWorking = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(9)?.ToString()))
+                            {
+
+                                if (!DataConversion.Convert<int>(row?.GetCell(9)?.ToString(), out int overtimeworkingTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : اضافه کاری ثابت ردیف: " + j);
+                                    return false;
+                                }
+                                model.OvertimeWorkingTime = Convert.ToInt32(row?.GetCell(9)?.ToString());
                             }
                             else
                             {
                                 model.OvertimeWorkingTime = 0;
                             }
 
-                            if (!string.IsNullOrEmpty(row?.GetCell(6)?.ToString()))
+                            if (!string.IsNullOrEmpty(row?.GetCell(10)?.ToString()))
                             {
 
-                                if (!DataConversion.Convert<int>(row?.GetCell(6)?.ToString(), out int holidayworkingTime))
+                                if (!DataConversion.Convert<int>(row?.GetCell(10)?.ToString(), out int holidayworkingTime))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : تعطیل کاری ردیف: " + j);
                                     return false;
                                 }
-                                model.HolidayWorkingTime = Convert.ToInt32(row?.GetCell(6)?.ToString());
+                                model.HolidayWorkingTime = Convert.ToInt32(row?.GetCell(10)?.ToString());
                             }
                             else
                             {
                                 model.HolidayWorkingTime = 0;
                             }
 
-                            if (!string.IsNullOrEmpty(row?.GetCell(7)?.ToString()))
+                            if (!string.IsNullOrEmpty(row?.GetCell(11)?.ToString()))
                             {
 
-                                if (!DataConversion.Convert<int>(row?.GetCell(7)?.ToString(), out int nightworkingTime))
+                                if (!DataConversion.Convert<int>(row?.GetCell(11)?.ToString(), out int nightworkingTime))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : کارکرد شبکاری ردیف: " + j);
                                     return false;
                                 }
-                                model.NightWorkingTime = Convert.ToInt32(row?.GetCell(7)?.ToString());
+                                model.NightWorkingTime = Convert.ToInt32(row?.GetCell(11)?.ToString());
                             }
                             else
                             {
                                 model.NightWorkingTime = 0;
                             }
 
-                            if (!string.IsNullOrEmpty(row?.GetCell(8)?.ToString()))
+                            if (!string.IsNullOrEmpty(row?.GetCell(12)?.ToString()))
                             {
 
-                                if (!DataConversion.Convert<decimal>(row?.GetCell(8)?.ToString(), out decimal nightworkingTime))
+                                if (!DataConversion.Convert<decimal>(row?.GetCell(12)?.ToString(), out decimal nightworkingTime))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : کارکرد نوبت کاری ردیف: " + j);
                                     return false;
                                 }
-                                model.ShiftWork = Convert.ToDecimal(row?.GetCell(8)?.ToString()?.Replace("%", ""));
+                                model.ShiftWork = Convert.ToDecimal(row?.GetCell(12)?.ToString()?.Replace("%", ""));
                             }
                             else
                             {
                                 model.ShiftWork = 0;
                             }
 
-
-                            if (!string.IsNullOrEmpty(row?.GetCell(9)?.ToString()))
+                            if (!string.IsNullOrEmpty(row?.GetCell(13)?.ToString()))
                             {
-                                if (!DataConversion.Convert<int>(row?.GetCell(9)?.ToString(), out int missionTime))
+                                if (!DataConversion.Convert<int>(row?.GetCell(13)?.ToString(), out int missionTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : کارکرد شیفت ردیف: " + j);
+                                    return false;
+                                }
+                                model.ShiftWorking = Convert.ToInt32(row?.GetCell(13)?.ToString());
+                            }
+                            else
+                            {
+                                model.ShiftWorking = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(14)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(14)?.ToString(), out int missionTime))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : کارکرد ماموریت ردیف: " + j);
                                     return false;
                                 }
-                                model.MissionTime = Convert.ToInt32(row?.GetCell(9)?.ToString());
+                                model.MissionTime = Convert.ToInt32(row?.GetCell(14)?.ToString());
                             }
                             else
                             {
                                 model.MissionTime = 0;
                             }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(15)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(15)?.ToString(), out int missionTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : کشیک ردیف: " + j);
+                                    return false;
+                                }
+                                model.Guard = Convert.ToInt32(row?.GetCell(15)?.ToString());
+                            }
+                            else
+                            {
+                                model.Guard = 0;
+                            }
 
-                            if (!string.IsNullOrEmpty(row?.GetCell(10)?.ToString()))
+                            if (!string.IsNullOrEmpty(row?.GetCell(16)?.ToString()))
                             {
 
-                                if (!DataConversion.Convert<int>(row?.GetCell(10)?.ToString(), out int foodTime))
+                                if (!DataConversion.Convert<int>(row?.GetCell(16)?.ToString(), out int foodTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : جمعه کاری ردیف: " + j);
+                                    return false;
+                                }
+                                model.FridayWorkDays = Convert.ToInt32(row?.GetCell(16)?.ToString());
+                            }
+                            else
+                            {
+                                model.FridayWorkDays = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(17)?.ToString()))
+                            {
+
+                                if (!DataConversion.Convert<int>(row?.GetCell(17)?.ToString(), out int foodTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : کارکرد ایاب و ذهاب ردیف: " + j);
+                                    return false;
+                                }
+                                model.TransferWorkDays = Convert.ToInt32(row?.GetCell(17)?.ToString());
+                            }
+                            else
+                            {
+                                model.TransferWorkDays = 0;
+                            }
+
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(18)?.ToString()))
+                            {
+
+                                if (!DataConversion.Convert<int>(row?.GetCell(18)?.ToString(), out int foodTime))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : هزینه ایاب و ذهاب روزانه ردیف: " + j);
+                                    return false;
+                                }
+                                model.TransferByProvinceWorkDays = Convert.ToInt32(row?.GetCell(18)?.ToString());
+                            }
+                            else
+                            {
+                                model.TransferByProvinceWorkDays = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(19)?.ToString()))
+                            {
+
+                                if (!DataConversion.Convert<int>(row?.GetCell(19)?.ToString(), out int foodTime))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : كاركرد غذا ردیف: " + j);
                                     return false;
                                 }
-                                model.FoodTime = Convert.ToInt32(row?.GetCell(10)?.ToString());
+                                model.FoodTime = Convert.ToInt32(row?.GetCell(19)?.ToString());
                             }
                             else
                             {
@@ -1560,48 +1673,610 @@ namespace Web.Areas.Attendance.Controllers
                             }
 
 
-                            if (!string.IsNullOrEmpty(row?.GetCell(11)?.ToString()))
+                            if (!string.IsNullOrEmpty(row?.GetCell(20)?.ToString()))
                             {
-                                if (!DataConversion.Convert<decimal>(row?.GetCell(11)?.ToString(), out decimal workerRightPay))
+                                if (!DataConversion.Convert<decimal>(row?.GetCell(20)?.ToString(), out decimal workerRightPay))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : مرخصی استحقاقی ردیف: " + j);
                                     return false;
                                 }
-                                model.RightLeaveTime = Convert.ToInt32(row?.GetCell(11)?.ToString());
+                                model.RightLeaveTime = Convert.ToInt32(row?.GetCell(20)?.ToString());
                             }
                             else
                             {
                                 model.RightLeaveTime = 0;
                             }
 
-                            if (!string.IsNullOrEmpty(row?.GetCell(12)?.ToString()))
+                            if (!string.IsNullOrEmpty(row?.GetCell(21)?.ToString()))
                             {
-                                if (!DataConversion.Convert<decimal>(row?.GetCell(12)?.ToString(), out decimal nightworkingPay))
+                                if (!DataConversion.Convert<decimal>(row?.GetCell(21)?.ToString(), out decimal nightworkingPay))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : مرخصی استعلاجی ردیف: " + j);
                                     return false;
                                 }
-                                model.SickLeaveTime = Convert.ToInt32(row?.GetCell(12)?.ToString());
+                                model.SickLeaveTime = Convert.ToInt32(row?.GetCell(21)?.ToString());
                             }
                             else
                             {
                                 model.SickLeaveTime = 0;
                             }
 
-                            if (!string.IsNullOrEmpty(row?.GetCell(13)?.ToString()))
+                            if (!string.IsNullOrEmpty(row?.GetCell(22)?.ToString()))
                             {
-                                if (!DataConversion.Convert<decimal>(row?.GetCell(13)?.ToString(), out decimal nightworkingPay))
+                                if (!DataConversion.Convert<decimal>(row?.GetCell(22)?.ToString(), out decimal nightworkingPay))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : غیبت ردیف: " + j);
                                     return false;
                                 }
-                                model.AbsenceTime = Convert.ToInt32(row?.GetCell(13)?.ToString());
+                                model.AbsenceTime = Convert.ToInt32(row?.GetCell(22)?.ToString());
                             }
                             else
                             {
                                 model.AbsenceTime = 0;
                             }
+                                                       
+                            if (!string.IsNullOrEmpty(row?.GetCell(23)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(23)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : اضافه کاری ثابت ردیف: " + j);
+                                    return false;
+                                }
+                                model.FixedOvertimePay = Convert.ToInt32(row?.GetCell(23)?.ToString());
+                            }
+                            else
+                            {
+                                model.FixedOvertimePay = 0;
+                            }
 
+                            if (!string.IsNullOrEmpty(row?.GetCell(24)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(24)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : تعطیل کاری ثابت ردیف: " + j);
+                                    return false;
+                                }
+                                model.FixedHolidayPay = Convert.ToInt32(row?.GetCell(24)?.ToString());
+                            }
+                            else
+                            {
+                                model.FixedHolidayPay = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(25)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(25)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : کارایی ردیف: " + j);
+                                    return false;
+                                }
+                                model.Performance = Convert.ToInt32(row?.GetCell(25)?.ToString());
+                            }
+                            else
+                            {
+                                model.Performance = 0;
+                            }
+
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(26)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(26)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : هزینه غذا  ردیف: " + j);
+                                    return false;
+                                }
+                                model.FoodPay = Convert.ToInt32(row?.GetCell(26)?.ToString());
+                            }
+                            else
+                            {
+                                model.FoodPay = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(27)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(27)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : هزینه ایاب و ذهاب ردیف: " + j);
+                                    return false;
+                                }
+                                model.FixedTransferPay = Convert.ToInt32(row?.GetCell(27)?.ToString());
+                            }
+                            else
+                            {
+                                model.FixedTransferPay = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(28)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(28)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : هزینه رفاهیات ردیف: " + j);
+                                    return false;
+                                }
+                                model.FixedAmenitiesPay = Convert.ToInt32(row?.GetCell(28)?.ToString());
+                            }
+                            else
+                            {
+                                model.FixedAmenitiesPay = 0;
+                            }
+
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(29)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(29)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر(مشمول بیمه و مالیات) ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherIncludeInsuranceAndTax = Convert.ToInt32(row?.GetCell(29)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherIncludeInsuranceAndTax = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(30)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(30)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر(مشمول بیمه و غیر مشمول مالیات) ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherIncludeInsuranceAndNotIncludeTax = Convert.ToInt32(row?.GetCell(30)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherIncludeInsuranceAndNotIncludeTax = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(31)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(31)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر(مشمول مالیات و غیر مشمول بیمه) ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherNotIncludeInsuranceAndIncludeTax = Convert.ToInt32(row?.GetCell(31)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherNotIncludeInsuranceAndIncludeTax = 0;
+                            }
+                                                        
+                            if (!string.IsNullOrEmpty(row?.GetCell(32)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(32)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر(غیر مشمول بیمه و مالیات) ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherNotIncludeInsuranceAndTax = Convert.ToInt32(row?.GetCell(32)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherNotIncludeInsuranceAndTax = 0;
+                            }
+                                                      
+                            if (!string.IsNullOrEmpty(row?.GetCell(33)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(33)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : پاداش ردیف: " + j);
+                                    return false;
+                                }
+                                model.Reward = Convert.ToInt32(row?.GetCell(33)?.ToString());
+                            }
+                            else
+                            {
+                                model.Reward = 0;
+                            }
+                                                      
+                            if (!string.IsNullOrEmpty(row?.GetCell(34)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(34)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : هزینه لباس ردیف: " + j);
+                                    return false;
+                                }
+                                model.ClothesPay = Convert.ToInt32(row?.GetCell(34)?.ToString());
+                            }
+                            else
+                            {
+                                model.ClothesPay = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(35)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(35)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر مزایا 1 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherAdvantages1 = Convert.ToInt32(row?.GetCell(35)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherAdvantages1 = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(36)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(36)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر مزایا 2 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherAdvantages2 = Convert.ToInt32(row?.GetCell(36)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherAdvantages2 = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(37)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(37)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر مزایا 3 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherAdvantages3 = Convert.ToInt32(row?.GetCell(37)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherAdvantages3 = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(38)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(38)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر مزایا 4 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherAdvantages4 = Convert.ToInt32(row?.GetCell(38)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherAdvantages4 = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(39)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(39)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر مزایا 5 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherAdvantages5 = Convert.ToInt32(row?.GetCell(39)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherAdvantages5 = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(40)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(40)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر مزایا 6 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherAdvantages6 = Convert.ToInt32(row?.GetCell(40)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherAdvantages6 = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(41)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(41)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر مزایا 7 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherAdvantages7 = Convert.ToInt32(row?.GetCell(41)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherAdvantages7 = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(42)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(42)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر مزایا 8 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherAdvantages8 = Convert.ToInt32(row?.GetCell(42)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherAdvantages8 = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(43)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(43)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر مزایا 9 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherAdvantages9 = Convert.ToInt32(row?.GetCell(43)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherAdvantages9 = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(44)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(44)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر مزایا 10 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherAdvantages10 = Convert.ToInt32(row?.GetCell(44)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherAdvantages10 = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(45)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(45)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : مساعده ردیف: " + j);
+                                    return false;
+                                }
+                                model.Help = Convert.ToInt32(row?.GetCell(45)?.ToString());
+                            }
+                            else
+                            {
+                                model.Help = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(46)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(46)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : علی الحساب ردیف: " + j);
+                                    return false;
+                                }
+                                model.TemporaryPay = Convert.ToInt32(row?.GetCell(46)?.ToString());
+                            }
+                            else
+                            {
+                                model.TemporaryPay = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(47)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(47)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : وام ردیف: " + j);
+                                    return false;
+                                }
+                                model.Loan = Convert.ToInt32(row?.GetCell(47)?.ToString());
+                            }
+                            else
+                            {
+                                model.Loan = 0;
+                            } 
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(48)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(48)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : بیمه تکمیلی سرپرست ردیف: " + j);
+                                    return false;
+                                }
+                                model.SupplementaryInsurance = Convert.ToInt32(row?.GetCell(48)?.ToString());
+                            }
+                            else
+                            {
+                                model.SupplementaryInsurance = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(49)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(49)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : بیمه تکمیلی تکفل ردیف: " + j);
+                                    return false;
+                                }
+                                model.SupplementaryInsuranceChildren = Convert.ToInt32(row?.GetCell(49)?.ToString());
+                            }
+                            else
+                            {
+                                model.SupplementaryInsuranceChildren = 0;
+                            }
+
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(50)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(50)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : کسورات حکم قضایی ردیف: " + j);
+                                    return false;
+                                }
+                                model.CourtOrderDeductions = Convert.ToInt32(row?.GetCell(50)?.ToString());
+                            }
+                            else
+                            {
+                                model.CourtOrderDeductions = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(51)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(51)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : کسورات تخلفات ردیف: " + j);
+                                    return false;
+                                }
+                                model.ViolationsDeductions = Convert.ToInt32(row?.GetCell(51)?.ToString());
+                            }
+                            else
+                            {
+                                model.ViolationsDeductions = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(52)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(52)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر کسورات ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherDeductions = Convert.ToInt32(row?.GetCell(52)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherDeductions = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(53)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(53)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر کسورات 1 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherDeductions1 = Convert.ToInt32(row?.GetCell(53)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherDeductions1 = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(54)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(54)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر کسورات 2 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherDeductions2 = Convert.ToInt32(row?.GetCell(54)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherDeductions2 = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(55)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(55)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر کسورات 3 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherDeductions3 = Convert.ToInt32(row?.GetCell(55)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherDeductions3 = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(56)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(56)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر کسورات 4 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherDeductions4 = Convert.ToInt32(row?.GetCell(56)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherDeductions4 = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(57)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(57)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر کسورات 5 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherDeductions5 = Convert.ToInt32(row?.GetCell(57)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherDeductions5 = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(58)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(58)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر کسورات 6 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherDeductions6 = Convert.ToInt32(row?.GetCell(58)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherDeductions6 = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(59)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(59)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر کسورات 7 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherDeductions7 = Convert.ToInt32(row?.GetCell(59)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherDeductions7 = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(60)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(60)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر کسورات 8 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherDeductions8 = Convert.ToInt32(row?.GetCell(60)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherDeductions8 = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(61)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(61)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر کسورات 9 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherDeductions9 = Convert.ToInt32(row?.GetCell(61)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherDeductions9 = 0;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(row?.GetCell(62)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(62)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : سایر کسورات 10 ردیف: " + j);
+                                    return false;
+                                }
+                                model.OtherDeductions10 = Convert.ToInt32(row?.GetCell(62)?.ToString());
+                            }
+                            else
+                            {
+                                model.OtherDeductions10 = 0;
+                            }
 
                             #endregion
 
