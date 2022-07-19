@@ -121,7 +121,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
                     .Where(m => maritalStatus == null || m.MaritalStatus == maritalStatus.Value)
                     .Where(x => x.ProjectRef != null && projectIds.Contains(x.ProjectRef.Value)
                     //.Where(x => (projectId == 0 || x.ProjectRef == projectId)
-                    && (string.IsNullOrEmpty(key) || x.FirstName.Contains(key)|| x.LastName.Contains(key) || x.PhoneNumber.Contains(key) || x.PersonnelCode.Contains(key) || x.NationalCode.Contains(key))
+                    && (string.IsNullOrEmpty(key) || x.FirstName.Contains(key) || x.LastName.Contains(key) || x.PhoneNumber.Contains(key) || x.PersonnelCode.Contains(key) || x.NationalCode.Contains(key))
                     && x.UserType == Common.Enums.UserType.PublicUser
                     && !x.IsDeleted)
                     .OrderByDescending(m => m.PersonnelCode)
@@ -156,11 +156,17 @@ namespace Infrastructure.Repositories.Application.Idenitity
 
         public async Task<string> GetLastPersonnelCode(long projecId)
         {
-            return (await _userManager.Users.Where(m => projecId == default(long) || m.ProjectRef == projecId).OrderByDescending(m => m.CreateDate).FirstOrDefaultAsync()).PersonnelCode;
+            return (await _userManager
+                .Users
+                .Where(m => !m.IsDeleted && (projecId == default(long) || m.ProjectRef == projecId))
+                .OrderByDescending(m => m.CreateDate)
+                .FirstOrDefaultAsync())
+                .PersonnelCode;
         }
+
         public async Task<ApplicationUser> GetUserByNationalCode(string nationalCode)
         {
-            return  await _userManager.Users.FirstOrDefaultAsync(m => m.NationalCode == nationalCode);
+            return await _userManager.Users.FirstOrDefaultAsync(m => m.NationalCode == nationalCode);
         }
     }
 }

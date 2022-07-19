@@ -162,7 +162,7 @@ namespace Web.Areas.Attendance.Controllers
 
                             var birth = row?.GetCell(6)?.ToString().Split("/");
 
-                            string bankName = row?.GetCell(16)?.ToString().Trim();
+                            string bankName = row?.GetCell(15)?.ToString();
 
                             if (string.IsNullOrEmpty(bankName))
                             {
