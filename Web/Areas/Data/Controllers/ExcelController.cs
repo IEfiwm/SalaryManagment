@@ -382,6 +382,7 @@ namespace Web.Areas.Attendance.Controllers
                             }
 
                             var dup = await _repository.CheckDuplicateAttendance(model.NationalCode, model.Year, model.Month);
+
                             if (dup)
                             {
                                 _notify.Error("اطلاعات کارمند تکراری است ردیف: " + j);
