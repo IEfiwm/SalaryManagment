@@ -771,6 +771,7 @@ namespace Web.Areas.Admin.Controllers
             try
             {
                 var permission = await _permissionCommon.CheckProjectPermissionByProjectId("EditGroupPersonnel", User, projectId);
+
                 if (!permission)
                 {
                     _notify.Error(_localizer["AccessDeniedProject"].Value);
@@ -819,7 +820,6 @@ namespace Web.Areas.Admin.Controllers
                         }
 
                         var list = new List<GroupEditViewModel>();
-
 
                         for (int j = 1; j < sheet.LastRowNum + 1; j++)
                         {
@@ -942,8 +942,102 @@ namespace Web.Areas.Admin.Controllers
                             {
                                 model.DailySalary = 0;
                             }
-                            list.Add(model);
 
+                            if (!string.IsNullOrEmpty(row?.GetCell(8)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<string>(row?.GetCell(8)?.ToString(), out string insuranceCode))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : کد بیمه ردیف: " + j);
+                                    return false;
+                                }
+                                model.InsuranceCode = insuranceCode;
+                            }
+                            else
+                            {
+                                model.InsuranceCode = "";
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(9)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<string>(row?.GetCell(9)?.ToString(), out string phoneNumber))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : موبایل ردیف: " + j);
+
+                                    return false;
+                                }
+
+                                model.PhoneNumber = phoneNumber;
+                            }
+                            else
+                            {
+                                model.PhoneNumber = "";
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(10)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<string>(row?.GetCell(10)?.ToString(), out string bankAccount))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : شماره حساب ردیف: " + j);
+
+                                    return false;
+                                }
+
+                                model.BankAccount = bankAccount;
+                            }
+                            else
+                            {
+                                model.BankAccount = "";
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(11)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<string>(row?.GetCell(11)?.ToString(), out string iBan))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : شماره شبا ردیف: " + j);
+
+                                    return false;
+                                }
+
+                                model.iBanNumber = iBan;
+                            }
+                            else
+                            {
+                                model.iBanNumber = "";
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(12)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(12)?.ToString(), out int notChildren))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : تعداد اولاد ردیف: " + j);
+
+                                    return false;
+                                }
+
+                                model.NotIncludedChildren = notChildren;
+                            }
+                            else
+                            {
+                                model.NotIncludedChildren = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(13)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(13)?.ToString(), out int children))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : تعداد اولاد مشمول ردیف: " + j);
+
+                                    return false;
+                                }
+
+                                model.IncludedChildren = children;
+                            }
+                            else
+                            {
+                                model.IncludedChildren = 0;
+                            }
+
+                            list.Add(model);
                         }
                         if (list.Count > 0)
                             await EditGroupPersonnel(list);
