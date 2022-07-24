@@ -221,6 +221,7 @@ namespace Web.Areas.Admin.Controllers
             var projectList = await _permissionCommon.GetProjectsByPermission(permissionName, HttpContext.User);
 
             var model = _mapper.Map<IEnumerable<ProjectViewModel>>(projectList);
+
             return Json(model);
         }
 

@@ -167,6 +167,7 @@ namespace Infrastructure.Base.Permission
                 var user = await _userManager.GetUserAsync(userClaim);
 
                 var roleNames = await _userManager.GetRolesAsync(user);
+
                 var roles = _roleManager.Roles.Where(r => roleNames.Contains(r.Name)).ToList();
 
                 var permission = await GetOrCreateByName(permissionName);
@@ -174,7 +175,10 @@ namespace Infrastructure.Base.Permission
                 var role_Project_Permission = await _role_Project_PermissionRepository.GetByRoleListAndPermissionId(roles.Select(x => x.Id), permission.Id);
 
                 var model = role_Project_Permission.Select(x => x.Project).ToList();
-                return model;
+
+                return model
+                    .Where(m => m.ProjectStatus == Common.Enums.ProjectStatus.Started)
+                    .ToList();
             }
             else
             {
@@ -214,7 +218,7 @@ namespace Infrastructure.Base.Permission
             /// add 4 permission with role to project
             /// 
 
-            foreach (var item in new List<string> { "Show", "ExportBank" , "ExportInsuranceList" , "CreateProjectRule", "ShowDoshboard", "PersonnelList" , "CreatePersonnel" , "ShowProjectRule" , "ImportAttendance" , "DeleteAttendance" , "ShowMonthlyAttendance", "DeleteMonthlyAttendance", "ShowContractList", "ShowAttendance", "ShowPayRollList", "ExportInsuranceSummary" , "ExportTaxList" , "ExportTaxSummary" , "EditProjectRule", "EditPersonnel" , "EditProject" , "Create" , "Update" , "Delete" , "DeleteProject" })
+            foreach (var item in new List<string> { "Show", "ExportBank", "ExportInsuranceList", "CreateProjectRule", "ShowDoshboard", "PersonnelList", "CreatePersonnel", "ShowProjectRule", "ImportAttendance", "DeleteAttendance", "ShowMonthlyAttendance", "DeleteMonthlyAttendance", "ShowContractList", "ShowAttendance", "ShowPayRollList", "ExportInsuranceSummary", "ExportTaxList", "ExportTaxSummary", "EditProjectRule", "EditPersonnel", "EditProject", "Create", "Update", "Delete", "DeleteProject" })
             {
                 var permission = await GetOrCreateByName(item);
 

@@ -2328,25 +2328,32 @@ namespace Web.Areas.Attendance.Controllers
         public async Task<IActionResult> DeleteAttendances(int year, int month, long projectId)
         {
             var permission = await _permissionCommon.CheckProjectPermissionByProjectId("DeleteAttendance", User, projectId);
+
             if (!permission)
             {
                 _notify.Error(_localizer["AccessDeniedProject"].Value);
+
                 return RedirectToAction("DeleteAttendances");
             }
-            var userList = await _userRepository.GetUserListByProjectIdAsync(projectId);
+            //var userList = await _userRepository.GetUserListByProjectIdAsync(projectId);
 
-            var userNationalCodeList = userList.Where(x => x.NationalCode != null).Select(x => x.NationalCode).ToList();
+            //var userNationalCodeList = userList.Where(x => x.NationalCode != null).Select(x => x.NationalCode).ToList();
 
-            var listOfAttendances = _repository.GetUserAttendanceListByUserList(year.ToString(), month.ToString(), userNationalCodeList);
+            //var listOfAttendances = _repository.GetUserAttendanceListByUserList(year.ToString(), month.ToString(), userNationalCodeList);
 
-            if (listOfAttendances.Count == 0)
+            var model = await _repository
+                   .Model
+                   .Where(m => !m.IsDeleted && m.Year == year.ToString() && m.Month == month.ToString() && m.ProjectRef == projectId)
+                   .ToListAsync();
+
+            if (model.Count == 0)
             {
                 _notify.Error("کارکردی در این تاریخ یافت نشد .");
 
                 return Redirect("~/dashboard/managment");
             }
 
-            listOfAttendances.ForEach(m =>
+            model.ForEach(m =>
             {
                 m.IsDeleted = true;
             });
@@ -2444,6 +2451,7 @@ namespace Web.Areas.Attendance.Controllers
 
             return File(stream, "application/octet-stream", "Personnel_Template.xlsx");
         }
+
         public IActionResult GetEditPersonnelTemplate()
         {
             string webRootPath = _hostingEnvironment.WebRootPath;
