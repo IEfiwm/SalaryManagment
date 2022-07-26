@@ -1014,7 +1014,7 @@ namespace Web.Areas.Admin.Controllers
                                     return false;
                                 }
 
-                                model.NotIncludedChildren = notChildren;
+                                model.NotIncludedChildren = Convert.ToByte(notChildren);
                             }
                             else
                             {
@@ -1030,7 +1030,7 @@ namespace Web.Areas.Admin.Controllers
                                     return false;
                                 }
 
-                                model.IncludedChildren = children;
+                                model.IncludedChildren = Convert.ToByte(children);
                             }
                             else
                             {
@@ -1040,7 +1040,7 @@ namespace Web.Areas.Admin.Controllers
                             list.Add(model);
                         }
                         if (list.Count > 0)
-                            await EditGroupPersonnel(list);
+                            await EditGroupPersonnel(list); //
                     }
                 }
                 return true;
@@ -1213,6 +1213,12 @@ namespace Web.Areas.Admin.Controllers
                 ouser.WorkerRight = dataModel.WorkerRight;
                 ouser.MonthlyBaseYear = dataModel.MonthlyBaseYear;
                 ouser.FoodAndHouseRight = dataModel.FoodAndHouseRight;
+                ouser.InsuranceCode = dataModel.InsuranceCode;
+                ouser.PhoneNumber = dataModel.PhoneNumber;
+                ouser.Bank.AccountNumber = dataModel.BankAccount;
+                ouser.Bank.iBan = dataModel.iBanNumber;
+                ouser.NotIncludedNumberOfChildern = dataModel.NotIncludedChildren;
+                ouser.IncludedNumberOfChildren = dataModel.IncludedChildren;
 
                 await _userRepository.SaveChangesAsync();
             }

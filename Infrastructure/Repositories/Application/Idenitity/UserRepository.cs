@@ -166,7 +166,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
 
         public async Task<ApplicationUser> GetUserByNationalCode(string nationalCode)
         {
-            return await _userManager.Users.FirstOrDefaultAsync(m => m.NationalCode == nationalCode);
+            return await _userManager.Users.Include(m => m.Bank).FirstOrDefaultAsync(m => m.NationalCode == nationalCode);
         }
     }
 }

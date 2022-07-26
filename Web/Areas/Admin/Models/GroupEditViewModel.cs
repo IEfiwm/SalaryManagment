@@ -40,9 +40,9 @@ namespace Web.Areas.Admin.Models
         public string iBanNumber { get; set; }
 
         [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
-        public int NotIncludedChildren { get; set; }
+        public byte NotIncludedChildren { get; set; }
 
         [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
-        public int IncludedChildren { get; set; }
+        public byte IncludedChildren { get; set; }
     }
 }
