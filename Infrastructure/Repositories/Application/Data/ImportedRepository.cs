@@ -91,7 +91,21 @@ namespace Infrastructure.Repositories.Application
 
             model.ForEach(m =>
             {
-                m.IsPublic = true;
+                m.IsPublic = accessType;
+            });
+
+            await SaveChangesAsync();
+        }
+
+        public async Task TransferPersonnel(int oldProjectRef, int newProjectRef)
+        {
+            var model = await Model
+                .Where(m => !m.IsDeleted && m.ProjectRef == oldProjectRef)
+                .ToListAsync();
+
+            model.ForEach(m =>
+            {
+                m.ProjectRef = newProjectRef;
             });
 
             await SaveChangesAsync();

@@ -248,7 +248,43 @@ namespace Web.Areas.Admin.Controllers
 
             _notify.Success("دسترسی ثبت شد.");
 
-            return RedirectToAction("Index");
+            return RedirectToAction("SetPayrollAccess");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> TransferPersonnel()
+        {
+            return View("TransferPersonnel");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TransferPersonnel(TransferPersonnelViewModel model)
+        {
+            if(model.OldProjectId == model.NewProjectId)
+            {
+                _notify.Error("هر دو پروژه نمی تواند یکی باشد.");
+
+                return RedirectToAction("TransferPersonnel");
+            }
+
+            await _iimportedRepository.TransferPersonnel(model.OldProjectId, model.NewProjectId);
+
+            if (model.DisableOldProject)
+            {
+                var oldProject = await _projectRepository.GetByIdAsync(model.OldProjectId);
+
+                oldProject.EndDate = DateTime.Now;
+
+                oldProject.ProjectStatus = Common.Enums.ProjectStatus.Ended;
+
+                await _projectRepository.UpdateAsync(oldProject);
+
+                await _projectRepository.SaveChangesAsync();
+            }
+
+            _notify.Success("انتقال انجام شد.");
+
+            return RedirectToAction("TransferPersonnel");
         }
     }
 }

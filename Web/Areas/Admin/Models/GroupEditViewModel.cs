@@ -27,6 +27,22 @@ namespace Web.Areas.Admin.Models
         [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
         public int DailySalary { get; set; }
 
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
+        public string InsuranceCode { get; set; }
 
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
+        public string PhoneNumber { get; set; }
+
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
+        public string BankAccount { get; set; }
+
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
+        public string iBanNumber { get; set; }
+
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
+        public byte NotIncludedChildren { get; set; }
+
+        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
+        public byte IncludedChildren { get; set; }
     }
 }
