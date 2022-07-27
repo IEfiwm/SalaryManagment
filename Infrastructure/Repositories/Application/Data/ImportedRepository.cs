@@ -91,7 +91,7 @@ namespace Infrastructure.Repositories.Application
 
             model.ForEach(m =>
             {
-                m.IsPublic = true;
+                m.IsPublic = accessType;
             });
 
             await SaveChangesAsync();
