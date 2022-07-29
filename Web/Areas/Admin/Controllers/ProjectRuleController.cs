@@ -44,20 +44,20 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Create(long? projectId = null)
         {
-            JsonSerializer serializer = new JsonSerializer();
-
-
             var calculatedByfile = await _fieldRepository.GetCalculatedByFields();
+
             ViewData["CalculatedByProps"] = _mapper.Map<List<FieldViewModel>>(calculatedByfile);
 
             var calculatedfile = await _fieldRepository.GetCalculateFields();
+
             ViewData["CalculatedProps"] = _mapper.Map<List<FieldViewModel>>(calculatedfile);
 
             var projects = await _permissionCommon.GetProjectsByPermission("CreateProjectRule", HttpContext.User);
+
             ViewData["projects"] = _mapper.Map<List<ProjectViewModel>>(projects);
 
-
             var model = new ProjectRuleViewModel();
+
             if (projectId != null)
                 model.ProjectId = projectId.Value;
 

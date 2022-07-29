@@ -1,7 +1,5 @@
 ﻿using Domain.Base.Entity;
-using Domain.Entities.Basic;
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Data
 {
@@ -158,7 +156,7 @@ namespace Domain.Entities.Data
         public string NonContinuousIncludedNotIncluded { get; set; }
 
         public string NonContinuousIncluded { get; set; }
-       
+
         public string Bonuses { get; set; }
 
         public string Leave { get; set; }
@@ -200,7 +198,7 @@ namespace Domain.Entities.Data
         public string TotalWithoutBonusesAndLeave { get; set; }
 
         public string TotalBonusesAndSanavatAndLeaveAndOverHead { get; set; }
-        
+
         public string ImpurePerformance { get; set; }
 
         public string ReturnGoodPerformance { get; set; }
@@ -221,7 +219,6 @@ namespace Domain.Entities.Data
 
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-
         public int ShiftWorkPercentageF { get; set; }
 
         public int FixedOvertimeF { get; set; }
@@ -230,7 +227,7 @@ namespace Domain.Entities.Data
 
         public int GuardF { get; set; }
 
-        public int TransferPayF { get; set; }
+        //public int TransferPayF { get; set; }
 
         public int RightLeaveF { get; set; }
 
@@ -238,27 +235,26 @@ namespace Domain.Entities.Data
 
         public int AbsenceF { get; set; }
 
-        public int PerformanceF { get; set; }
+        //public int PerformanceF { get; set; }
 
-        public int AmenitiesF { get; set; }
+        //public int AmenitiesF { get; set; }
 
-        public int RewardF { get; set; }
+        //public int RewardF { get; set; }
 
-        public int OtherIncludeInsuranceAndNotIncludeTaxF { get; set; }
+        //public int OtherIncludeInsuranceAndNotIncludeTaxF { get; set; }
 
-        public int OtherNotIncludeInsuranceAndIncludeTaxF { get; set; }
+        //public int OtherNotIncludeInsuranceAndIncludeTaxF { get; set; }
 
-        public int OtherNotIncludeInsuranceAndTaxF { get; set; }
+        //public int OtherNotIncludeInsuranceAndTaxF { get; set; }
 
-        public int TemporaryF { get; set; }
+        // public int TemporaryF { get; set; }
 
-        public int LoanF { get; set; }
+        //public int LoanF { get; set; }
 
         public int SupplementaryInsuranceChildrenF { get; set; }
 
         public int CourtOrderDeductionsF { get; set; }
 
         public int ViolationsDeductionsF { get; set; }
-
     }
 }
