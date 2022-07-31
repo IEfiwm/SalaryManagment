@@ -38,5 +38,7 @@ namespace Infrastructure.Repositories.Application.Idenitity
         Task<string> GetLastPersonnelCode(long projecId);
 
         Task<ApplicationUser> GetUserByNationalCode(string nationalCode);
+
+        Task TransferPersonnel(int oldProjectRef, int newProjectRef);
     }
 }

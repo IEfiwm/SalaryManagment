@@ -23,7 +23,7 @@
                             </select>
                         </div>
                         <div class="col-2 mt-3">
-                            <label class="form-label" for="DisableOldProject">تغییر وضعیت پروژ]ه مبدا</label>
+                            <label class="form-label" for="DisableOldProject">تغییر وضعیت پروژه مبدا</label>
                             <select id="DisableOldProject" class="js-data-example-ajax form-control" name="DisableOldProject" required>
                                 <option value="true">اتمام پروژه</option>
                                 <option value="false">بدون تغییر</option>
@@ -56,8 +56,8 @@
                 //console.log(parseJSON(model));
                 $.map(model, function(val, i) {
                     console.log(val);
-                    $("#project1").append('<option value="' + val.id + '">' + val.title + ' ( ' + val.workshopName + ' ) ' + '</option>');
-                    $("#project2").append('<option value="' + val.id + '">' + val.title + ' ( ' + val.workshopName + ' ) ' + '</option>');
+                    $("#project1").append('<option value="' + val.id + '">' + val.title + ' ( ' + val.code + ' ) ' + '</option>');
+                    $("#project2").append('<option value="' + val.id + '">' + val.title + ' ( ' + val.code + ' ) ' + '</option>');
                 });
                 //$("#project").append('<option value="' + model.id + '">' + model.title + '</option>');
                 //$("#project").select2();

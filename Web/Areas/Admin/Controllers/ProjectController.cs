@@ -3,6 +3,7 @@ using Infrastructure.Base.Permission;
 using Infrastructure.Repositories;
 using Infrastructure.Repositories.Application;
 using Infrastructure.Repositories.Application.Basic;
+using Infrastructure.Repositories.Application.Idenitity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,6 +26,7 @@ namespace Web.Areas.Admin.Controllers
         private readonly IPermissionCommon _permissionCommon;
         private readonly IFileRepository _fileRepository;
         private readonly IimportedRepository _iimportedRepository;
+        private readonly IUserRepository _userRepository;
 
         public ProjectController(
             IProjectRepository projectRepository,
@@ -33,7 +35,8 @@ namespace Web.Areas.Admin.Controllers
             IProjectBankAccountRepository projectBankAccountRepository,
             IPermissionCommon permissionCommon,
             IFileRepository fileRepository,
-            IimportedRepository iimportedRepository)
+            IimportedRepository iimportedRepository,
+             IUserRepository userRepository)
         {
             _projectRepository = projectRepository;
             _bankRepository = bankRepository;
@@ -42,6 +45,7 @@ namespace Web.Areas.Admin.Controllers
             _permissionCommon = permissionCommon;
             _fileRepository = fileRepository;
             _iimportedRepository = iimportedRepository;
+            _userRepository = userRepository;
         }
 
         public IActionResult Index()
@@ -267,7 +271,7 @@ namespace Web.Areas.Admin.Controllers
                 return RedirectToAction("TransferPersonnel");
             }
 
-            await _iimportedRepository.TransferPersonnel(model.OldProjectId, model.NewProjectId);
+            await _userRepository.TransferPersonnel(model.OldProjectId, model.NewProjectId);
 
             if (model.DisableOldProject)
             {

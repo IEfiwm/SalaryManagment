@@ -168,5 +168,19 @@ namespace Infrastructure.Repositories.Application.Idenitity
         {
             return await _userManager.Users.Include(m => m.Bank).FirstOrDefaultAsync(m => m.NationalCode == nationalCode);
         }
+
+        public async Task TransferPersonnel(int oldProjectRef, int newProjectRef)
+        {
+            var model = await Model
+                .Where(m => m.ProjectRef == newProjectRef)
+                .ToListAsync();
+
+            model.ForEach(m =>
+            {
+                m.ProjectRef = newProjectRef;
+            });
+
+            await SaveChangesAsync();
+        }
     }
 }
