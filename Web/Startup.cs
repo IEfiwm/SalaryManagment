@@ -1,11 +1,11 @@
-﻿using Alachisoft.NCache.Caching.Distributed;
-using Application.Extensions;
+﻿using Application.Extensions;
 using Application.Providers;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using Infrastructure.Extensions;
+using Infrastructure.Repositories.Application.Basic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -87,6 +87,10 @@ namespace Web
             //services.AddNCacheDistributedCache(_configuration.GetSection("NCacheSettings"));
 
             ConfigurationStorage.Configuration = _configuration;
+
+            var projectRepo = services.BuildServiceProvider().GetRequiredService<IProjectRepository>();
+
+            projectRepo.ChangeStatus();
 
             //services.AddTransient<IBankAccountRepository, BankAccountRepository>();
         }

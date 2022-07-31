@@ -22,8 +22,25 @@ namespace Infrastructure.Repositories.Application.Basic
         public async Task<Project> GetWithBankAccountsById(int projectId)
         {
             return await Model
-                .Include(x=>x.ProjectBankAccounts).ThenInclude(x=>x.Bank_Account)
+                .Include(x => x.ProjectBankAccounts).ThenInclude(x => x.Bank_Account)
                 .FirstOrDefaultAsync(m => m.Id == projectId);
+        }
+
+        public void ChangeStatus()
+        {
+            var model = Model
+                .Where(m => (m.ProjectStatus == Common.Enums.ProjectStatus.NotStarted || m.ProjectStatus == Common.Enums.ProjectStatus.Started) && m.EndDate.HasValue && m.EndDate.Value.Date <= System.DateTime.Now)
+                .ToList();
+
+            model.ForEach(m =>
+            {
+                m.ProjectStatus = Common.Enums.ProjectStatus.Ended;
+            });
+
+            if (model.Count > 0)
+            {
+                SaveChanges();
+            }
         }
     }
 }

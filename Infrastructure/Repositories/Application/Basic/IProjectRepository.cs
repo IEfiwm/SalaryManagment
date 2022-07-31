@@ -10,5 +10,7 @@ namespace Infrastructure.Repositories.Application.Basic
         Task<Project> GetProjectByName(string name);
 
         Task<Project> GetWithBankAccountsById(int projectId);
+
+        void ChangeStatus();
     }
 }
