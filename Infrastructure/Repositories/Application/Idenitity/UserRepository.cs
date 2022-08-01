@@ -169,15 +169,19 @@ namespace Infrastructure.Repositories.Application.Idenitity
             return await _userManager.Users.Include(m => m.Bank).FirstOrDefaultAsync(m => m.NationalCode == nationalCode);
         }
 
-        public async Task TransferPersonnel(int oldProjectRef, int newProjectRef)
+        public async Task TransferPersonnel(int oldProjectRef, int newProjectRef, DateTime startDate, DateTime? endDate)
         {
             var model = await Model
-                .Where(m => m.ProjectRef == newProjectRef)
+                .Where(m => m.ProjectRef == oldProjectRef)
                 .ToListAsync();
 
             model.ForEach(m =>
             {
                 m.ProjectRef = newProjectRef;
+
+                m.StartWorkingDate = startDate;
+
+                m.EndWorkingDate = endDate;
             });
 
             await SaveChangesAsync();

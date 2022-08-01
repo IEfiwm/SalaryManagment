@@ -39,6 +39,6 @@ namespace Infrastructure.Repositories.Application.Idenitity
 
         Task<ApplicationUser> GetUserByNationalCode(string nationalCode);
 
-        Task TransferPersonnel(int oldProjectRef, int newProjectRef);
+        Task TransferPersonnel(int oldProjectRef, int newProjectRef, DateTime startDate, DateTime? endDate);
     }
 }

@@ -264,14 +264,16 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> TransferPersonnel(TransferPersonnelViewModel model)
         {
-            if(model.OldProjectId == model.NewProjectId)
+            if (model.OldProjectId == model.NewProjectId)
             {
                 _notify.Error("هر دو پروژه نمی تواند یکی باشد.");
 
                 return RedirectToAction("TransferPersonnel");
             }
 
-            await _userRepository.TransferPersonnel(model.OldProjectId, model.NewProjectId);
+            var newProject = await _projectRepository.GetByIdAsync(model.NewProjectId);
+
+            await _userRepository.TransferPersonnel(model.OldProjectId, model.NewProjectId, newProject.StartDate, newProject.EndDate);
 
             if (model.DisableOldProject)
             {
