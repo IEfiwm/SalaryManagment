@@ -132,5 +132,8 @@ namespace Domain.Entities.Data
 
         public int OtherDeductions10 { get; set; }
 
+        public int LifeInsurance { get; set; }
+
+        public int DelayedSupplementaryInsuranceDeduction { get; set; }
     }
-}
+}   

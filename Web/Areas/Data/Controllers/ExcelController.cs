@@ -2292,6 +2292,34 @@ namespace Web.Areas.Attendance.Controllers
                                 model.OtherDeductions10 = 0;
                             }
 
+                            if (!string.IsNullOrEmpty(row?.GetCell(63)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(63)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : بیمه عمر و حوادث ردیف: " + j);
+                                    return false;
+                                }
+                                model.LifeInsurance = Convert.ToInt32(row?.GetCell(63)?.ToString());
+                            }
+                            else
+                            {
+                                model.LifeInsurance = 0;
+                            }
+
+                            if (!string.IsNullOrEmpty(row?.GetCell(64)?.ToString()))
+                            {
+                                if (!DataConversion.Convert<int>(row?.GetCell(64)?.ToString(), out int outV))
+                                {
+                                    _notify.Error("قالب داده صحیح نیست : بیمه تکمیلی ماه معوقه ردیف: " + j);
+                                    return false;
+                                }
+                                model.DelayedSupplementaryInsuranceDeduction = Convert.ToInt32(row?.GetCell(64)?.ToString());
+                            }
+                            else
+                            {
+                                model.DelayedSupplementaryInsuranceDeduction = 0;
+                            }
+
                             #endregion
 
                             await _attendanceRepository.InsertAsync(model);
