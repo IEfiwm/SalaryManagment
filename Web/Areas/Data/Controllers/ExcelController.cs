@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 using Web.Abstractions;
 using Web.Controllers;
 
-namespace Web.Areas.Attendance.Controllers
+namespace Web.Areas.attendance.Controllers
 {
     [Area("Data")]
     [Authorize]
