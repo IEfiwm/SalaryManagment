@@ -58,7 +58,7 @@
                 <th>دستمزد ماهیانه</th> 
                 <th>مبلغ اضافه کاری</th>
                 <th>حق اولاد</th>
-                <th>حق مسکن" ;
+                <th>حق مسکن</th>
                 <th>حق بن کارگری</th>
                 <th>شب کاری</th>
                 <th>تعطیل کاری</th>
@@ -82,8 +82,8 @@
                 <th>سال</th>
                 <th>ماه</th>
                 <th>پایه سنوات مزایا</th> 
-                <th>نوبت کاری-کارکرد</th>
-                <th>نوبتکاری -مزایا</th>
+@*                <th>نوبت کاری-کارکرد</th>
+                <th>نوبتکاری -مزایا</th>*@
                 <th>کسر بیمه تکمیلی - کسورات</th>
                 <th>پاداش - کارکرد</th>
                 <th>سنوات-مزایا </th>
@@ -92,16 +92,16 @@
                 <th>اضافه کاری ثابت-مزایا</th>
                 <th>کسر بیمه تکمیلی سرپرست</th>
                 <th>کسر بیمه تکمیلی افراد تحت تکفل</th>
-                <th>کسر بیمه تکمیلی افرادغیر تحت تکفل</th>
-                <th>هزینه رفاهی</th>
+@*                <th>کسر بیمه تکمیلی افرادغیر تحت تکفل</th>*@
+@*                <th>هزینه رفاهی</th>
                 <th>ایاب و ذهاب</th>
-                <th>کارکرد معوقه</th>
+                <th>کارکرد معوقه</th>*@
                 <th> هزینه لباس</th>
-                <th>وام موسسه</th>
+@*                <th>وام موسسه</th>
                 <th>وام سامان</th>
-                <th>معوقه ایاب و ذهاب</th>
-                <th>کسر بیمه تکمیلی ماه معوقه</th>
-                <th>کمک هزینه رفاهی</th>
+                <th>معوقه ایاب و ذهاب</th>*@
+                <th>بیمه تکمیلی ماه معوقه</th>
+@*                <th>کمک هزینه رفاهی</th>*@
                 <th>کارایی</th>
                 <th>مزایای مشمول</th>
                 <th>دستمزد و مزایای مشمول ماهانه</th>
@@ -198,7 +198,7 @@
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DurationOperation.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DurationOperation?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
@@ -247,210 +247,210 @@
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Salary.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Salary?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SeveranceDaily.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SeveranceDaily?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DailyPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DailyPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.FoodAndHousingRight.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.FoodAndHousingRight?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.WorkerRight.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.WorkerRight?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.OvertimePay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.OvertimePay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.MonthlyPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.MonthlyPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.OvertimeworkingPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.OvertimeworkingPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ChildrenRightPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ChildrenRightPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.HouseRightPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.HouseRightPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.WorkerRightPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.WorkerRightPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.NightworkingPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.NightworkingPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.HolidayworkingPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.HolidayworkingPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.MissionPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.MissionPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.FoodPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.FoodPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Other01.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Other01?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Other02.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Other02?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Disparity.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Disparity?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.PreviousReceipt.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.PreviousReceipt?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SumSalaryAndBenefit.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SumSalaryAndBenefit?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.TaxationPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.TaxationPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.InsurancePay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.InsurancePay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Insurance7Percent.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Insurance7Percent?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Taxation.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Taxation?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.HelpPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.HelpPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Absence.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Absence?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Debt.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Debt?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.OtherDeductions.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.OtherDeductions?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SumDeductions.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SumDeductions?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.PureIncome.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.PureIncome?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
@@ -471,101 +471,101 @@
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SeveranceMonthly.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SeveranceMonthly?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+@*                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ShiftWorkTime?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ShiftWorkTime.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ShiftWorkPay?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>*@
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SupplementaryInsuranceDeduction?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ShiftWorkPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.RewardTime?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SupplementaryInsuranceDeduction.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.YearsPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.RewardTime.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.RewardPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.YearsPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.FestalPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.RewardPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.BasicOverTimePay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.FestalPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SupplementaryInsuranceSupervisor?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.BasicOverTimePay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SupplementaryInsuranceForDependents?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+@*                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.NonDependentSupplementaryInsurance?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SupplementaryInsuranceSupervisor.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.WelfareCostPay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SupplementaryInsuranceForDependents.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.TransportationPay?.Split('.')[0]))
                             </div>
                         </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.NonDependentSupplementaryInsurance.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.WelfareCostPay.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.TransportationPay.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>
+                    </td>*@
 @*                    <td>
                         <div class="row">
                             <div class="col-sm">
@@ -573,34 +573,34 @@
                             </div>
                         </div>
                     </td>*@
+@*                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DelayedTime?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>*@
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DelayedTime.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ClothesPay?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+@*                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.InstitutionaLoan?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ClothesPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SamanLoan?.Split('.')[0]))
                             </div>
                         </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.InstitutionaLoan.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SamanLoan.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>
+                    </td>*@
 @*                    <td>
                         <div class="row">
                             <div class="col-sm">
@@ -608,101 +608,101 @@
                             </div>
                         </div>
                     </td>*@
+@*                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DelayedTransportationPay?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>*@
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DelayedTransportationPay.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DelayedSupplementaryInsuranceDeduction?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+@*                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.WelfareAllowancePay?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>*@
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.PerformancePay?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DelayedSupplementaryInsuranceDeduction.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.MonthlyBenefits?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.WelfareAllowancePay.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.PerformancePay.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.MonthlyBenefits.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.MonthlyWagesAndBenefitsIncluded.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.MonthlyWagesAndBenefitsIncluded?.Split('.')[0]))
                             </div>
                         </div>
                     </td>  
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.IncludedAndNotIncluded.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.IncludedAndNotIncluded?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.UnemploymentInsurance.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.UnemploymentInsurance?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @(String.Format("{0:N10}", attendance?.Insurance30Percent).Split('.')[0])
+                                @(String.Format("{0:N10}", attendance?.Insurance30Percent)?.Split('.')[0])
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.EmployerShareInsurance.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.EmployerShareInsurance?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ContinuousBasicRightsToHousingAndChildrenRights.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ContinuousBasicRightsToHousingAndChildrenRights?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ContinuousBaseSalaryAndBaseYears.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ContinuousBaseSalaryAndBaseYears?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.NonContinuousIncludedNotIncluded.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.NonContinuousIncludedNotIncluded?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.NonContinuousIncluded.Split('.')[0]))
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.NonContinuousIncluded?.Split('.')[0]))
                             </div>
                         </div>
                     </td>
