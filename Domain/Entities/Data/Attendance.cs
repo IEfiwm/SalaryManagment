@@ -40,7 +40,7 @@ namespace Domain.Entities.Data
 
         public int OvertimeWorking { get; set; }
 
-        public int ShiftWorking { get; set; }
+        public int ShiftWorkTime { get; set; }
 
         public int Guard { get; set; }
 
@@ -135,5 +135,7 @@ namespace Domain.Entities.Data
         public int LifeInsurance { get; set; }
 
         public int DelayedSupplementaryInsuranceDeduction { get; set; }
+
+        public int ShiftTime { get; set; }
     }
 }   

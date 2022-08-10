@@ -1571,7 +1571,7 @@ namespace Web.Areas.attendance.Controllers
                             if (!string.IsNullOrEmpty(row?.GetCell(12)?.ToString()))
                             {
 
-                                if (!DataConversion.Convert<decimal>(row?.GetCell(12)?.ToString(), out decimal nightworkingTime))
+                                if (!DataConversion.Convert<decimal>(row?.GetCell(12)?.ToString(), out decimal shiftwok))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : کارکرد نوبت کاری ردیف: " + j);
                                     return false;
@@ -1585,16 +1585,16 @@ namespace Web.Areas.attendance.Controllers
 
                             if (!string.IsNullOrEmpty(row?.GetCell(13)?.ToString()))
                             {
-                                if (!DataConversion.Convert<int>(row?.GetCell(13)?.ToString(), out int missionTime))
+                                if (!DataConversion.Convert<int>(row?.GetCell(13)?.ToString(), out int shiftwokTime))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : کارکرد شیفت ردیف: " + j);
                                     return false;
                                 }
-                                model.ShiftWorking = Convert.ToInt32(row?.GetCell(13)?.ToString());
+                                model.ShiftWorkTime = Convert.ToInt32(row?.GetCell(13)?.ToString());
                             }
                             else
                             {
-                                model.ShiftWorking = 0;
+                                model.ShiftWorkTime = 0;
                             }
 
                             if (!string.IsNullOrEmpty(row?.GetCell(14)?.ToString()))

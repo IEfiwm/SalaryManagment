@@ -219,42 +219,14 @@ namespace Domain.Entities.Data
 
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-        public int ShiftWorkPercentageF { get; set; }
+        public int Guard { get; set; }
 
-        public int FixedOvertimeF { get; set; }
+        public int SickLeave { get; set; }
 
-        public int ShiftWorkingF { get; set; }
+        public int FridayWorking { get; set; }
 
-        public int GuardF { get; set; }
+        public int TransferWork { get; set; }
 
-        //public int TransferPayF { get; set; }
-
-        public int RightLeaveF { get; set; }
-
-        public int SickLeaveF { get; set; }
-
-        public int AbsenceF { get; set; }
-
-        //public int PerformanceF { get; set; }
-
-        //public int AmenitiesF { get; set; }
-
-        //public int RewardF { get; set; }
-
-        //public int OtherIncludeInsuranceAndNotIncludeTaxF { get; set; }
-
-        //public int OtherNotIncludeInsuranceAndIncludeTaxF { get; set; }
-
-        //public int OtherNotIncludeInsuranceAndTaxF { get; set; }
-
-        // public int TemporaryF { get; set; }
-
-        //public int LoanF { get; set; }
-
-        public int SupplementaryInsuranceChildrenF { get; set; }
-
-        public int CourtOrderDeductionsF { get; set; }
-
-        public int ViolationsDeductionsF { get; set; }
+        public int Shift { get; set; }
     }
 }
