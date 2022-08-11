@@ -1613,7 +1613,7 @@ namespace Web.Areas.attendance.Controllers
 
                             if (!string.IsNullOrEmpty(row?.GetCell(15)?.ToString()))
                             {
-                                if (!DataConversion.Convert<int>(row?.GetCell(15)?.ToString(), out int missionTime))
+                                if (!DataConversion.Convert<int>(row?.GetCell(15)?.ToString(), out int guard))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : کشیک ردیف: " + j);
                                     return false;

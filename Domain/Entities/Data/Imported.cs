@@ -219,7 +219,7 @@ namespace Domain.Entities.Data
 
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-        public int Guard { get; set; }
+        public int GuardPay { get; set; }
 
         public int SickLeave { get; set; }
 
