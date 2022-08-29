@@ -75,7 +75,6 @@ namespace Infrastructure.Repositories.Application
 
             result.PageCount = count / pageSize;
 
-
             return result;
         }
 

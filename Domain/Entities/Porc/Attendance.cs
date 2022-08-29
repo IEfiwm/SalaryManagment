@@ -145,7 +145,6 @@ namespace Domain.Entities.Porc
 
         public string MonthlyBenefits { get; set; }
 
-
         public DateTime? StartWorkingDate { get; set; }
 
         public DateTime? EndWorkingDate { get; set; }
@@ -181,17 +180,45 @@ namespace Domain.Entities.Porc
         public string DegreeOfEducation { get; set; }
 
         public string FoodAndHousingRight { get; set; }
+
         public string PreviousReceipt { get; set; }
+
         public string Monthly { get; set; }
+
         public string Daily { get; set; }
+
         public string Debt { get; set; }
+
         public string Absence { get; set; }
+
         public string HelpPay { get; set; }
+
         public string TaxationPay { get; set; }
+
         public string Disparity { get; set; }
+
         public string Other02 { get; set; }
+
         public string Other01 { get; set; }
+
         public string ClothesPay { get; set; }
 
+        public string ShiftWorkPayPercentage { get; set; }
+
+        public string ShiftWork { get; set; }
+
+        public string Guard { get; set; }
+
+        public string Transportation { get; set; }
+
+        public string PayTransportation { get; set; }
+
+        public string RightLeaveTime { get; set; }
+        
+        public string SickLeaveTime { get; set; }
+
+        public string TakafulSupplementaryInsurance { get; set; }
+
+        public string LifeAndAccidentInsurance { get; set; }
     }
 }

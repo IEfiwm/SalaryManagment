@@ -55,7 +55,7 @@
                 <th> @localizer["FoodAndHouseRight"].Value</th>
                 <th>بن کارگر</th>
                 <th>مبلغ ساعت اضافه کاری</th>
-                <th>دستمزد ماهیانه</th> 
+                <th>دستمزد ماهیانه</th>
                 <th>مبلغ اضافه کاری</th>
                 <th>حق اولاد</th>
                 <th>حق مسکن</th>
@@ -81,8 +81,8 @@
                 <th>خالص دریافتی</th>
                 <th>سال</th>
                 <th>ماه</th>
-                <th>پایه سنوات مزایا</th> 
-@*                <th>نوبت کاری-کارکرد</th>
+                <th>پایه سنوات مزایا</th>
+                @*                <th>نوبت کاری-کارکرد</th>
                 <th>نوبتکاری -مزایا</th>*@
                 <th>کسر بیمه تکمیلی - کسورات</th>
                 <th>پاداش - کارکرد</th>
@@ -92,16 +92,16 @@
                 <th>اضافه کاری ثابت-مزایا</th>
                 <th>کسر بیمه تکمیلی سرپرست</th>
                 <th>کسر بیمه تکمیلی افراد تحت تکفل</th>
-@*                <th>کسر بیمه تکمیلی افرادغیر تحت تکفل</th>*@
-@*                <th>هزینه رفاهی</th>
+                @*                <th>کسر بیمه تکمیلی افرادغیر تحت تکفل</th>*@
+                @*                <th>هزینه رفاهی</th>
                 <th>ایاب و ذهاب</th>
                 <th>کارکرد معوقه</th>*@
                 <th> هزینه لباس</th>
-@*                <th>وام موسسه</th>
+                @*                <th>وام موسسه</th>
                 <th>وام سامان</th>
                 <th>معوقه ایاب و ذهاب</th>*@
                 <th>بیمه تکمیلی ماه معوقه</th>
-@*                <th>کمک هزینه رفاهی</th>*@
+                @*                <th>کمک هزینه رفاهی</th>*@
                 <th>کارایی</th>
                 <th>مزایای مشمول</th>
                 <th>دستمزد و مزایای مشمول ماهانه</th>
@@ -113,6 +113,15 @@
                 <th>مستمر - حقوق پایه و پایه سنوات</th>
                 <th>غیر مستمر - مشمول و غیر مشمول</th>
                 <th>غیر مستمر - مشمول</th>
+                <th>درصد نوبت کاری</th>
+                <th>کارکرد شیفت</th>
+                <th>کارکرد کشیک</th>
+                <th>کارکرد ایاب و ذهاب</th>
+                <th>هزینه ایاب و ذهاب</th>
+                <th>مرخصی استحقاقی</th>
+                <th>مرخصی استعلاجی</th>
+                <th>بیمه تکمیلی تکفل</th>
+                <th>بیمه عمر و حوادث</th>
                 <th style="width:10%">
                     #
                 </th>
@@ -475,20 +484,20 @@
                             </div>
                         </div>
                     </td>
-@*                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ShiftWorkTime?.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ShiftWorkPay?.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>*@
+                    @*                    <td>
+                <div class="row">
+                <div class="col-sm">
+                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ShiftWorkTime?.Split('.')[0]))
+                </div>
+                </div>
+                </td>
+                <td>
+                <div class="row">
+                <div class="col-sm">
+                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ShiftWorkPay?.Split('.')[0]))
+                </div>
+                </div>
+                </td>*@
                     <td>
                         <div class="row">
                             <div class="col-sm">
@@ -545,41 +554,41 @@
                             </div>
                         </div>
                     </td>
-@*                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.NonDependentSupplementaryInsurance?.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.WelfareCostPay?.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.TransportationPay?.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>*@
-@*                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @Common.Extentions.CommonExtention.GetEnumDisplayName(attendance?.Gender)
-                            </div>
-                        </div>
-                    </td>*@
-@*                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DelayedTime?.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>*@
+                    @*                    <td>
+                <div class="row">
+                <div class="col-sm">
+                @String.Format("{0:n0}", Convert.ToInt32(attendance?.NonDependentSupplementaryInsurance?.Split('.')[0]))
+                </div>
+                </div>
+                </td>
+                <td>
+                <div class="row">
+                <div class="col-sm">
+                @String.Format("{0:n0}", Convert.ToInt32(attendance?.WelfareCostPay?.Split('.')[0]))
+                </div>
+                </div>
+                </td>
+                <td>
+                <div class="row">
+                <div class="col-sm">
+                @String.Format("{0:n0}", Convert.ToInt32(attendance?.TransportationPay?.Split('.')[0]))
+                </div>
+                </div>
+                </td>*@
+                    @*                    <td>
+                <div class="row">
+                <div class="col-sm">
+                @Common.Extentions.CommonExtention.GetEnumDisplayName(attendance?.Gender)
+                </div>
+                </div>
+                </td>*@
+                    @*                    <td>
+                <div class="row">
+                <div class="col-sm">
+                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DelayedTime?.Split('.')[0]))
+                </div>
+                </div>
+                </td>*@
                     <td>
                         <div class="row">
                             <div class="col-sm">
@@ -587,34 +596,34 @@
                             </div>
                         </div>
                     </td>
-@*                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.InstitutionaLoan?.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SamanLoan?.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>*@
-@*                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @attendance?.StartWorkingDate?.ToString("yyyy/MM/dd")
-                            </div>
-                        </div>
-                    </td>*@
-@*                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DelayedTransportationPay?.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>*@
+                    @*                    <td>
+                <div class="row">
+                <div class="col-sm">
+                @String.Format("{0:n0}", Convert.ToInt32(attendance?.InstitutionaLoan?.Split('.')[0]))
+                </div>
+                </div>
+                </td>
+                <td>
+                <div class="row">
+                <div class="col-sm">
+                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SamanLoan?.Split('.')[0]))
+                </div>
+                </div>
+                </td>*@
+                    @*                    <td>
+                <div class="row">
+                <div class="col-sm">
+                @attendance?.StartWorkingDate?.ToString("yyyy/MM/dd")
+                </div>
+                </div>
+                </td>*@
+                    @*                    <td>
+                <div class="row">
+                <div class="col-sm">
+                @String.Format("{0:n0}", Convert.ToInt32(attendance?.DelayedTransportationPay?.Split('.')[0]))
+                </div>
+                </div>
+                </td>*@
                     <td>
                         <div class="row">
                             <div class="col-sm">
@@ -622,13 +631,13 @@
                             </div>
                         </div>
                     </td>
-@*                    <td>
-                        <div class="row">
-                            <div class="col-sm">
-                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.WelfareAllowancePay?.Split('.')[0]))
-                            </div>
-                        </div>
-                    </td>*@
+                    @*                    <td>
+                <div class="row">
+                <div class="col-sm">
+                @String.Format("{0:n0}", Convert.ToInt32(attendance?.WelfareAllowancePay?.Split('.')[0]))
+                </div>
+                </div>
+                </td>*@
                     <td>
                         <div class="row">
                             <div class="col-sm">
@@ -649,7 +658,7 @@
                                 @String.Format("{0:n0}", Convert.ToInt32(attendance?.MonthlyWagesAndBenefitsIncluded?.Split('.')[0]))
                             </div>
                         </div>
-                    </td>  
+                    </td>
                     <td>
                         <div class="row">
                             <div class="col-sm">
@@ -708,6 +717,78 @@
                     </td>
 
                     <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @attendance?.ShiftWorkPayPercentage
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.ShiftWork?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Guard?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.Transportation?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.PayTransportation?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.RightLeaveTime?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.SickLeaveTime?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.TakafulSupplementaryInsurance?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                @String.Format("{0:n0}", Convert.ToInt32(attendance?.LifeAndAccidentInsurance?.Split('.')[0]))
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @localizer["Actions"]
@@ -731,29 +812,29 @@
 
 </div>
 <script>
-    $('#CustomSpinner').css('display','none')
+    $('#CustomSpinner').css('display', 'none')
     //$("#attendanceTable").DataTable();
-      $("#attendanceTable").DataTable({
+    $("#attendanceTable").DataTable({
         searching: false,
-        ordering:  true,
+        ordering: true,
         processing: true,
         select: true,
         responsive: true,
         bPaginate: false,
-        aaSorting: [[ 0, "desc" ]],
-        oLanguage : {
+        aaSorting: [[0, "desc"]],
+        oLanguage: {
             sSearch: "جستجو: ",
             sInfo: "نمایش _START_ تا _END_ از @Model.DataCount رکورد |  @(Model.PageNumber + 1) از @(Model.PageCount + 1) صفحه",
             sLengthMenu: "نمایش _MENU_ رکورد",
             sInfoFiltered: "فیلتر شده از _MAX_ رکورد",
-            sInfoEmpty  : "هیچ داده ای یافت نشد",
+            sInfoEmpty: "هیچ داده ای یافت نشد",
             sZeroRecords: "رکوردی یافت نشد",
-            oPaginate:{
+            oPaginate: {
                 sPrevious: "قبلی",
                 sNext: "بعدی",
             }
         },
-         columnDefs: [
+        columnDefs: [
             { width: 200, targets: 0 }
         ],
         columns: [

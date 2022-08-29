@@ -202,5 +202,23 @@ namespace Web.Areas.Admin.Models
         public string Other01 { get; set; }
 
         public string ClothesPay { get; set; }
+
+        public string ShiftWorkPayPercentage { get; set; }
+
+        public string ShiftWork { get; set; }
+
+        public string Guard { get; set; }
+
+        public string Transportation { get; set; }
+
+        public string PayTransportation { get; set; }
+
+        public string RightLeaveTime { get; set; }
+
+        public string SickLeaveTime { get; set; }
+
+        public string TakafulSupplementaryInsurance { get; set; }
+
+        public string LifeAndAccidentInsurance { get; set; }
     }
 }
