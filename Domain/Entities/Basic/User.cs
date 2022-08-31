@@ -30,23 +30,23 @@ namespace Domain.Entities.Base.Identity
 
         public byte NotIncludedNumberOfChildern { get; set; }
 
-        public int MonthlyBaseYear { get; set; }
+        public long MonthlyBaseYear { get; set; }
 
-        public int MonthlySalary { get; set; }
+        public long MonthlySalary { get; set; }
 
-        public int ChildrenRight { get; set; }
+        public long ChildrenRight { get; set; }
 
-        public int WorkerRight { get; set; }
+        public long WorkerRight { get; set; }
 
-        public int FoodAndHouseRight { get; set; }
+        public long FoodAndHouseRight { get; set; }
 
-        public int DailyBaseYear { get; set; }
+        public long DailyBaseYear { get; set; }
 
-        public int DailySalary { get; set; }
+        public long DailySalary { get; set; }
 
-        public int InsuranceHistory { get; set; }
+        public long InsuranceHistory { get; set; }
 
-        public int WorkExperience { get; set; }
+        public long WorkExperience { get; set; }
 
         public MaritalStatus MaritalStatus { get; set; }
 
@@ -61,6 +61,24 @@ namespace Domain.Entities.Base.Identity
         public DateTime? StartWorkingDate { get; set; }
 
         public DateTime? EndWorkingDate { get; set; }
+
+        public long VeteranInsuranceExemption { get; set; }
+
+        public long VeteranTaxExemption { get; set; }
+
+        public long IshargarhInsuranceExemption { get; set; }
+
+        public long IshargarhTaxExemption { get; set; }
+
+        public long DisabledChildInsuranceExemption { get; set; }
+
+        public long DisabledChildTaxExemption { get; set; }
+
+        public long RetiredTaxExemptionAndSecondJob { get; set; }
+
+        public long InsuranceExemptionForDeprivedAreas { get; set; }
+
+        public long TaxExemptionForDeprivedAreas { get; set; }
 
         //[ForeignKey("Bank")]
         public long? BankAccountRef { get; set; }

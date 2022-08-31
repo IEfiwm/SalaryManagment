@@ -99,7 +99,8 @@ namespace Infrastructure.Repositories.Application.Idenitity
         {
             try
             {
-
+                if (pageSize == 0)
+                    pageSize = 10;
 
                 var result = new DataTableDTO<IEnumerable<ApplicationUser>>();
 
