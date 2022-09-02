@@ -62,23 +62,13 @@ namespace Domain.Entities.Base.Identity
 
         public DateTime? EndWorkingDate { get; set; }
 
-        public long VeteranInsuranceExemption { get; set; }
+        public long InsuranceExemption { get; set; }
 
-        public long VeteranTaxExemption { get; set; }
+        public ExemptionReasons InsuranceExemptionType { get; set; }
 
-        public long IshargarhInsuranceExemption { get; set; }
+        public long TaxExemption { get; set; }
 
-        public long IshargarhTaxExemption { get; set; }
-
-        public long DisabledChildInsuranceExemption { get; set; }
-
-        public long DisabledChildTaxExemption { get; set; }
-
-        public long RetiredTaxExemptionAndSecondJob { get; set; }
-
-        public long InsuranceExemptionForDeprivedAreas { get; set; }
-
-        public long TaxExemptionForDeprivedAreas { get; set; }
+        public ExemptionReasons TaxExemptionType { get; set; }
 
         //[ForeignKey("Bank")]
         public long? BankAccountRef { get; set; }

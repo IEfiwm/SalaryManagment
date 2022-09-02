@@ -153,30 +153,13 @@ namespace Web.Areas.Admin.Models
         public List<string> RoleIds { get; set; }
 
         [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
-        public long VeteranInsuranceExemption { get; set; }
+        public long InsuranceExemption { get; set; }
+
+        public ExemptionReasons InsuranceExemptionType { get; set; }
 
         [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
-        public long VeteranTaxExemption { get; set; }
+        public long TaxExemption { get; set; }
 
-        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
-        public long IshargarhInsuranceExemption { get; set; }
-
-        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
-        public long IshargarhTaxExemption { get; set; }
-
-        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
-        public long DisabledChildInsuranceExemption { get; set; }
-
-        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
-        public long DisabledChildTaxExemption { get; set; }
-
-        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
-        public long RetiredTaxExemptionAndSecondJob { get; set; }
-
-        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
-        public long InsuranceExemptionForDeprivedAreas { get; set; }
-
-        [RegularExpression(@"^[0-9]+(\.{0,1}[0-9]{0,3})$", ErrorMessage = "لطفا فیلد را با عدد وارد کنید. (حداکثر سه رقم اعشار).")]
-        public long TaxExemptionForDeprivedAreas { get; set; }
+        public ExemptionReasons TaxExemptionType { get; set; }
     }
 }

@@ -133,49 +133,28 @@
                     <input type="text" asp-for="DailyBaseYear" name="DailyBaseYear" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["DailyBaseYear"]">
                 </div>
 
-                <div class="form-group col-md-3">
-                    <label for="VeteranInsuranceExemption" class="form-label col-lg-12">معافیت بیمه جانباز</label>
-                    <input type="text" asp-for="VeteranInsuranceExemption" name="VeteranInsuranceExemption" class="form-control col-lg-12 floatTextBox" placeholder="معافیت بیمه جانباز">
+                <div class="col-3">
+                    <label class="form-label" for="InsuranceExemptionType">علت معافیت بیمه</label>
+                    <select asp-for="InsuranceExemptionType"
+                            class="form-control"
+                            asp-items="Html.GetEnumSelectList<ExemptionReasons>()"></select>
                 </div>
 
                 <div class="form-group col-md-3">
-                    <label for="VeteranTaxExemption" class="form-label col-lg-12">معافیت مالیات جانباز</label>
-                    <input type="text" asp-for="VeteranTaxExemption" name="VeteranTaxExemption" class="form-control col-lg-12 floatTextBox" placeholder="معافیت مالیات جانباز">
+                    <label for="InsuranceExemption" class="form-label col-lg-12">معافیت بیمه</label>
+                    <input type="text" asp-for="InsuranceExemption" name="InsuranceExemption" class="form-control col-lg-12 floatTextBox" placeholder="معافیت بیمه">
+                </div>
+
+                <div class="col-3">
+                    <label class="form-label" for="TaxExemptionType">علت معافیت مالیات</label>
+                    <select asp-for="TaxExemptionType"
+                            class="form-control"
+                            asp-items="Html.GetEnumSelectList<ExemptionReasons>()"></select>
                 </div>
 
                 <div class="form-group col-md-3">
-                    <label for="IshargarhInsuranceExemption" class="form-label col-lg-12">معافیت بیمه ایثارگر</label>
-                    <input type="text" asp-for="IshargarhInsuranceExemption" name="IshargarhInsuranceExemption" class="form-control col-lg-12 floatTextBox" placeholder="معافیت بیمه ایثارگر">
-                </div>
-
-                <div class="form-group col-md-3">
-                    <label for="IshargarhTaxExemption" class="form-label col-lg-12">معافیت مالیات ایثارگر</label>
-                    <input type="text" asp-for="IshargarhTaxExemption" name="IshargarhTaxExemption" class="form-control col-lg-12 floatTextBox" placeholder="معافیت مالیات ایثارگر">
-                </div>
-
-                <div class="form-group col-md-3">
-                    <label for="DisabledChildInsuranceExemption" class="form-label col-lg-12">معافیت بیمه فرزند معلول</label>
-                    <input type="text" asp-for="DisabledChildInsuranceExemption" name="DisabledChildInsuranceExemption" class="form-control col-lg-12 floatTextBox" placeholder="معافیت بیمه فرزند معلول">
-                </div>
-
-                <div class="form-group col-md-3">
-                    <label for="DisabledChildTaxExemption" class="form-label col-lg-12">معافیت مالیات فرزند معلول</label>
-                    <input type="text" asp-for="DisabledChildTaxExemption" name="DisabledChildTaxExemption" class="form-control col-lg-12 floatTextBox" placeholder="معافیت مالیات فرزند معلول">
-                </div>
-
-                <div class="form-group col-md-3">
-                    <label for="RetiredTaxExemptionAndSecondJob" class="form-label col-lg-12">معافیت مالیات بازنشسته و شغل دوم</label>
-                    <input type="text" asp-for="RetiredTaxExemptionAndSecondJob" name="RetiredTaxExemptionAndSecondJob" class="form-control col-lg-12 floatTextBox" placeholder="معافیت مالیات بازنشسته و شغل دوم">
-                </div>
-
-                <div class="form-group col-md-3">
-                    <label for="InsuranceExemptionForDeprivedAreas" class="form-label col-lg-12">معافیت بیمه مناطق محروم</label>
-                    <input type="text" asp-for="InsuranceExemptionForDeprivedAreas" name="InsuranceExemptionForDeprivedAreas" class="form-control col-lg-12 floatTextBox" placeholder="معافیت بیمه مناطق محروم">
-                </div>
-
-                <div class="form-group col-md-3">
-                    <label for="TaxExemptionForDeprivedAreas" class="form-label col-lg-12">معافیت مالیات مناطق محروم</label>
-                    <input type="text" asp-for="TaxExemptionForDeprivedAreas" name="TaxExemptionForDeprivedAreas" class="form-control col-lg-12 floatTextBox" placeholder="معافیت مالیات مناطق محروم">
+                    <label for="TaxExemption" class="form-label col-lg-12">معافیت مالیات</label>
+                    <input type="text" asp-for="TaxExemption" name="TaxExemption" class="form-control col-lg-12 floatTextBox" placeholder="معافیت مالیات">
                 </div>
 
                 <div class="form-group col-md-3">
