@@ -36,7 +36,7 @@ namespace Domain.Entities.Data
 
         public string ServiceProvince { get; set; }
 
-        public int ShiftWorkPercentage  { get; set; }
+        public decimal ShiftWorkPercentage  { get; set; }
 
         public int OvertimeWorking { get; set; }
 

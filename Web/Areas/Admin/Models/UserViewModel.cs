@@ -161,5 +161,7 @@ namespace Web.Areas.Admin.Models
         public long TaxExemption { get; set; }
 
         public ExemptionReasons TaxExemptionType { get; set; }
+
+        public PersonnelType PersonnelType { get; set; }
     }
 }

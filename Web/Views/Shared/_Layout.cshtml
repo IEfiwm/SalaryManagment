@@ -42,40 +42,69 @@
         @(await Component.InvokeAsync<FormModalViewComponent>())
         @(await Component.InvokeAsync<ImageModalViewComponent>())
         @*<partial name="AdminLTE/_LogoutModal" />
-            <partial name="AdminLTE/Modals/_FormModal" />
-            <partial name="AdminLTE/_ImageModal" />*@
+        <partial name="AdminLTE/Modals/_FormModal" />
+        <partial name="AdminLTE/_ImageModal" />*@
     </div>
     <partial name="_Scripts" />
     @await Component.InvokeAsync("Notyf")
     @RenderSection("Scripts", required: false)
     <script>
-            var current = location.pathname.toLowerCase();
-            if(!current.endsWith("/")){
-                current += "/";
-            }
-        $('.nav-link').each(function(){
+        var current = location.pathname.toLowerCase();
+
+        if (!current.endsWith("/")) {
+            current += "/";
+        }
+
+        $('.nav-link').each(function() {
 
             var $this = $(this);
 
-            if($this && $this.attr('href')){
+            if ($this && $this.attr('href')) {
                 let href = $this.attr('href').toLowerCase();
 
-                            if(!href.endsWith("/")){
-                href += "/";
-            }
-                if(href == current && href != '/identity/account/manage' && href != '/identity/account/manage/changepassword/'){
+                if (!href.endsWith("/")) {
+                    href += "/";
+                }
+                if (href == current && href != '/identity/account/manage' && href != '/identity/account/manage/changepassword/') {
                     console.log("true")
-                   var parent = $this.parent().parent().parent();
+                    var parent = $this.parent().parent().parent();
 
-                   if(parent){
-                       parent.addClass("menu-open");
+                    if (parent) {
+                        parent.addClass("menu-open");
 
-                       $(parent.find("a.nav-link").get(0)).addClass("active");
-                   }
+                        $(parent.find("a.nav-link").get(0)).addClass("active");
+                    }
                     $this.addClass('active');
                 }
             }
         })
+
+        function matchCustom(params, data) {
+            // If there are no search terms, return all of the data
+            if ($.trim(params.term) === '') {
+                return data;
+            }
+
+            // Do not display the item if there is no 'text' property
+            if (typeof data.text === 'undefined') {
+                return null;
+            }
+
+            // `params.term` should be the term that is used for searching
+            // `data.text` is the text that is displayed for the data object
+            if (data.text.indexOf(params.term) > -1) {
+                var modifiedData = $.extend({}, data, true);
+                modifiedData.text += ' (matched)';
+
+                // You can return modified objects from here
+                // This includes matching the `children` how you want in nested data sets
+                return modifiedData;
+            }
+
+            // Return `null` if the term should not be displayed
+            return null;
+        }
+
     </script>
 </body>
 </html>

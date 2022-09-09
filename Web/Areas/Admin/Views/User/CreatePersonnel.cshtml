@@ -157,6 +157,13 @@
                     <input type="text" asp-for="TaxExemption" name="TaxExemption" class="form-control col-lg-12 floatTextBox" placeholder="معافیت مالیات">
                 </div>
 
+                <div class="col-3">
+                    <label class="form-label" for="PersonnelType">نوع پرسنل</label>
+                    <select asp-for="PersonnelType"
+                            class="form-control"
+                            asp-items="Html.GetEnumSelectList<PersonnelType>()"></select>
+                </div>
+
                 <div class="form-group col-md-3">
                     <label for="DailySalary" class="form-label col-lg-12">@localizer["DailySalary"]</label>
                     <input type="text" asp-for="DailySalary" name="DailySalary" class="form-control col-lg-12 floatTextBox" placeholder="@localizer["DailySalary"]">

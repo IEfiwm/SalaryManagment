@@ -33,11 +33,11 @@
                                 {
                                     if (Model?.ProjectId == project.Id)
                                     {
-                                        <option value="@project.Id" selected> @project.Title</option>
+                                        <option value="@project.Id" selected> @project.Title (@project.WorkshopCode)</option>
                                     }
                                     else
                                     {
-                                        <option value="@project.Id">@project.Title</option>
+                                        <option value="@project.Id">@project.Title (@project.WorkshopCode)</option>
                                     }
                                 }
                             </select>

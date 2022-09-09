@@ -70,6 +70,8 @@ namespace Domain.Entities.Base.Identity
 
         public ExemptionReasons TaxExemptionType { get; set; }
 
+        public PersonnelType PersonnelType { get; set; }
+
         //[ForeignKey("Bank")]
         public long? BankAccountRef { get; set; }
 

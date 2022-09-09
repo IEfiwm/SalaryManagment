@@ -1496,12 +1496,13 @@ namespace Web.Areas.attendance.Controllers
                             if (!string.IsNullOrEmpty(row?.GetCell(7)?.ToString()))
                             {
 
-                                if (!DataConversion.Convert<int>(row?.GetCell(7)?.ToString(), out int workingDays))
+                                if (!DataConversion.Convert<decimal>(row?.GetCell(7)?.ToString(), out decimal workingDays))
                                 {
                                     _notify.Error("قالب داده صحیح نیست : درصد نوبتکاری ردیف: " + j);
+
                                     return false;
                                 }
-                                model.ShiftWorkPercentage = Convert.ToInt32(row?.GetCell(7)?.ToString());
+                                model.ShiftWorkPercentage = Convert.ToDecimal(row?.GetCell(7)?.ToString());
                             }
                             else
                             {
