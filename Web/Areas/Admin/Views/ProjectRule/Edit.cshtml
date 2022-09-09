@@ -43,14 +43,14 @@
                             <label class="form-label" for="BankId">پروژه</label>
                             <select id="ProjectId" class="js-data-example-ajax form-control" name="ProjectId" required>
                                 @foreach (var project in projects)
-                                {
-                                    if (Model.ProjectId == project.Id)
+                               {
+                                    if (Model?.ProjectId == project.Id)
                                     {
-                                        <option value="@project.Id" selected>@project.Title</option>
+                                        <option value="@project.Id" selected> @project.Title (@project.WorkshopName)</option>
                                     }
                                     else
                                     {
-                                        <option value="@project.Id">@project.Title</option>
+                                        <option value="@project.Id">@project.Title (@project.WorkshopName)</option>
                                     }
                                 }
                             </select>
