@@ -1493,13 +1493,24 @@ namespace Web.Areas.attendance.Controllers
                                 model.WorkingDays = 0;
                             }
 
-                            if (!string.IsNullOrEmpty(row?.GetCell(7)?.ToString()))
+                            try
                             {
-                                model.ShiftWorkPercentage = double.Parse(row?.GetCell(7)?.ToString().Replace(".", "٫"));
+                                //_notify.Success(double.Parse(row?.GetCell(7)?.ToString().Replace(",", ".").Replace(".", ".").Replace("/", "."), System.Globalization.CultureInfo.InvariantCulture).ToString());
+
+                                if (!string.IsNullOrEmpty(row?.GetCell(7)?.ToString()))
+                                {
+                                    model.ShiftWorkPercentage = double.Parse(row?.GetCell(7)?.ToString().Replace(",", ".").Replace(".", ".").Replace("/", "."), System.Globalization.CultureInfo.InvariantCulture);
+                                }
+                                else
+                                {
+                                    model.ShiftWorkPercentage = 0;
+                                }
                             }
-                            else
+                            catch (Exception e)
                             {
                                 model.ShiftWorkPercentage = 0;
+
+                                _notify.Error(e.Message + Environment.NewLine + j);
                             }
 
                             if (!string.IsNullOrEmpty(row?.GetCell(8)?.ToString()))
