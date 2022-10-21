@@ -220,5 +220,47 @@ namespace Domain.Entities.Porc
         public string TakafulSupplementaryInsurance { get; set; }
 
         public string LifeAndAccidentInsurance { get; set; }
+
+        public string BasicOverTime { get; set; }
+
+        public string ShiftWorkAtt { get; set; }
+
+        public string FridayWorkAtt { get; set; }
+
+        public string DailyTransportationFee { get; set; }
+
+        public string FixedHolidayAtt { get; set; }
+
+        public string CostAmenities { get; set; }
+
+        public string Otherbenefits1 { get; set; }
+
+        public string Otherbenefits2 { get; set; }
+
+        public string Otherbenefits3 { get; set; }
+
+        public string InterimInterest { get; set; }
+
+        public string Loan { get; set; }
+
+        public string CourtOrderDeductions { get; set; }
+
+        public string DeductionsForViolations { get; set; }
+
+        public string OtherDeductions1 { get; set; }
+
+        public string OtherDeductions2 { get; set; }
+
+        public string OtherDeductions3 { get; set; }
+
+        public string Shift { get; set; }
+
+        public string FridayworkPay { get; set; }
+
+        public string ShiftPayNew { get; set; }
+
+        public string MonthlyYears { get; set; }
+
+        public string GuardPay { get; set; }
     }
 }

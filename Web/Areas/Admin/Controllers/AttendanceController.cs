@@ -173,6 +173,36 @@ namespace Web.Areas.Admin.Controllers
                     x.ContinuousBaseSalaryAndBaseYears,
                     x.NonContinuousIncludedNotIncluded,
                     x.NonContinuousIncluded,
+                    x.ShiftWorkPayPercentage,
+                    x.ShiftWork,
+                    x.Guard,
+                    x.Transportation,
+                    x.PayTransportation,
+                    x.RightLeaveTime,
+                    x.SickLeaveTime,
+                    x.TakafulSupplementaryInsurance,
+                    x.LifeAndAccidentInsurance,
+                    x.BasicOverTime,
+                    x.ShiftWorkAtt,
+                    x.FridayWorkAtt,
+                    x.DailyTransportationFee,
+                    x.FixedHolidayAtt,
+                    x.CostAmenities,
+                    x.Otherbenefits1,
+                    x.Otherbenefits2,
+                    x.Otherbenefits3,
+                    x.InterimInterest,
+                    x.Loan,
+                    x.CourtOrderDeductions,
+                    x.DeductionsForViolations,
+                    x.OtherDeductions1,
+                    x.OtherDeductions2,
+                    x.OtherDeductions3,
+                    x.Shift,
+                    x.FridayworkPay,
+                    x.ShiftPayNew,
+                    x.MonthlyYears,
+                    x.GuardPay
                 });
 
                 var worksheet = excelFile.Workbook.Worksheets.Add("Personnel");
@@ -258,6 +288,36 @@ namespace Web.Areas.Admin.Controllers
                 worksheet.Cells["CA1"].Value = "مستمر - حقوق پایه و پایه سنوات";
                 worksheet.Cells["CB1"].Value = "غیر مستمر - مشمول و غیر مشمول";
                 worksheet.Cells["CC1"].Value = "غیر مستمر - مشمول";
+                worksheet.Cells["CD1"].Value = "درصد نوبت کاری";
+                worksheet.Cells["CE1"].Value = "کارکرد شیفت";
+                worksheet.Cells["CF1"].Value = "کارکرد کشیک";
+                worksheet.Cells["CG1"].Value = "کارکرد ایاب و ذهاب";
+                worksheet.Cells["CH1"].Value = "هزینه ایاب و ذهاب";
+                worksheet.Cells["CI1"].Value = "مرخصی استحقاقی";
+                worksheet.Cells["CJ1"].Value = "مرخصی استعلاجی";
+                worksheet.Cells["CK1"].Value = "بیمه تکمیلی تکفل";
+                worksheet.Cells["CL1"].Value = "بیمه عمر و حوادث";
+                worksheet.Cells["CM1"].Value = "اضافه کاری ثابت (ساعت )";
+                worksheet.Cells["CN1"].Value = "نوبتکاری";
+                worksheet.Cells["CO1"].Value = "جمعه کاری (روز)";
+                worksheet.Cells["CP1"].Value = "هزینه ایاب و ذهاب روزانه";
+                worksheet.Cells["CQ1"].Value = "تعطیل کاری ثابت (مبلغ)";
+                worksheet.Cells["CR1"].Value = "هزینه رفاهیات (ثابت)";
+                worksheet.Cells["CS1"].Value = "سایر مزایا 1";
+                worksheet.Cells["CT1"].Value = "سایر مزایا 2";
+                worksheet.Cells["CU1"].Value = "سایر مزایا 3";
+                worksheet.Cells["CV1"].Value = "علی الحساب";
+                worksheet.Cells["CW1"].Value = "وام";
+                worksheet.Cells["CX1"].Value = "کسورات حکم قضایی";
+                worksheet.Cells["CY1"].Value = "کسورات تخلفات";
+                worksheet.Cells["CZ1"].Value = "سایر کسورات 1";
+                worksheet.Cells["DA1"].Value = "سایر کسورات 2";
+                worksheet.Cells["DB1"].Value = "سایر کسورات 3";
+                worksheet.Cells["DC1"].Value = "کشیک";
+                worksheet.Cells["DD1"].Value = "شیفت";
+                worksheet.Cells["DE1"].Value = "جمعه کاری";
+                worksheet.Cells["DF1"].Value = "نوبتکاری";
+                worksheet.Cells["DG1"].Value = "سنوات ماهانه";
 
 
                 worksheet.Cells["A2"].LoadFromCollection(Collection: NewModel, PrintHeaders: false, OfficeOpenXml.Table.TableStyles.Light13);
